@@ -1,5 +1,8 @@
 # Iter8: Kubernetes Release Optimizer
 
+[![Slack channel](https://img.shields.io/badge/Slack-Join-purple)](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw)
+[![Community meetups](https://img.shields.io/badge/meet-Iter8%20community%20meetups-brightgreen)](https://iter8.tools/0.8/getting-started/help/)
+
 >   - Safely rollout apps
 >   - Maximize business value
 >   - Use with any app/serverless/ML framework
@@ -7,8 +10,6 @@
 
 ![Iter8 intro](docs/images/iter8-intro-dark.png)
 
-[![Slack channel](https://img.shields.io/badge/Slack-Join-purple)](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw)
-[![Community meetups](https://img.shields.io/badge/meet-Iter8%20community%20meetups-brightgreen)](https://iter8.tools/0.8/getting-started/help/)
 
 ## To start using Iter8
 
