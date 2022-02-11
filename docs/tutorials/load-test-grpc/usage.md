@@ -169,8 +169,7 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
               --set binaryDataURL="https://location.of/data.bin"
     ```
 
-### data vs dataURL vs binaryDataURL
-If the call data is shallow and has only a few fields, setting the `data` value directly is the easiest of the three approaches. If it is deeply nested, or contains many fields, storing the data as a JSON or binary file, and providing the `dataURL` or `binaryDataURL` value might be the easier approach. When more than one of these options are specified, the `data` field takes precedence over the `dataURL` field which in turn takes precedence over the `binaryDataURL` field.
+The `data` parameter takes precedence over the `dataURL` parameter which in turn takes precedence over the `binaryDataURL` parameter.
 
 ***
 
@@ -207,5 +206,4 @@ gRPC calls may include [metadata](https://grpc.io/docs/what-is-grpc/core-concept
               --set metadataURL="https://location.of/metadata.json"
     ```
 
-### metadata vs metadataURL
-If the call metadata is shallow and has only a few fields, setting the `metadata` value directly is the easier approach. If it is deeply nested, or contains many fields, storing the data as a JSON binary file, and providing the `metadataURL` value might be the easier approach. When both these options are specified, the `metadata` field takes precedence over the `metadataURL` field.
+The `metadata` parameter takes precedence over the `metadataURL` parameter.
