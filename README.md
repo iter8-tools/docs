@@ -30,8 +30,6 @@ See [here](CONTRIBUTING.md) for information about ways to contribute, Iter8 comm
 This repo is the source for [Iter8 documentation](https://iter8.tools) and uses [Mkdocs](https://www.mkdocs.org/user-guide/writing-your-docs/), and [Material for Mkdocs](https://squidfunk.github.io/mkdocs-material/).
 
 #### Locally serve Iter8 docs
-**Pre-requisite:** Python 3+. 
-
 Use a Python 3 virtual environment to locally serve Iter8 docs. Clone this repo, and run the following commands from the root of the repo.
 
 ```shell
