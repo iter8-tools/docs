@@ -8,9 +8,6 @@
 >   - Use with any app/serverless/ML framework
 >   - Setup in seconds
 
-![Iter8 intro](docs/images/iter8-intro-dark.png)
-
-
 ## To start using Iter8
 
 Iter8 documentation is available [here](https://iter8.tools). You can get started with Iter8 experiments in seconds using the following links.
