@@ -54,7 +54,7 @@ template: main.html
 
 ***
 
-## Unary gRPC
+## Basic example
 Load test the [unary gRPC](https://grpc.io/docs/what-is-grpc/core-concepts/#unary-rpc) sample service with `host` value `127.0.0.1:50051`, fully-qualified method name (`call`) `helloworld.Greeter.SayHello`, and defined by the Protocol Buffer file located at the `protoURL`.
 
 ```shell
@@ -65,6 +65,41 @@ iter8 launch -c load-test-grpc \
 ```
 
 View a report of this experiment as described in [your first experiment](../../getting-started/your-first-experiment.md).
+
+***
+
+## Metrics and SLOs
+By default, the following metrics are collected by `load-test-http`: 
+
+- `request-count`: total number of requests sent
+- `error-count`: number of error responses
+- `error-rate`: fraction of error responses
+- `latency-mean`: mean of observed latency values
+- `latency-stddev`: standard deviation of observed latency values
+- `latency-min`: min of observed latency values
+- `latency-max`: max of observed latency values
+- `latency-pX`: X^th^ percentile of observed latency values, for `X` in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
+
+In addition, any other latency percentiles that are specified as part of SLOs are also collected. 
+
+***
+
+```shell
+iter8 launch -c load-test-http \
+          --set url=http://127.0.0.1/get \
+          --set SLOs.error-rate=0 \
+          --set SLOs.latency-mean=50 \
+          --set SLOs.latency-p90=100 \
+          --set SLOs.latency-p'97\.5'=200
+```
+
+1.  In the above experiment, the following latency percentiles are collected and reported.
+    - `[25.0, 50.0, 75.0, 90.0, 95.0, 97.5, 99.0, 99.9]`
+2.  The following SLOs are validated.
+    - error rate is 0
+    - mean latency is under 50 msec
+    - 90th percentile latency is under 100 msec
+    - 97.5th percentile latency is under 200 msec
 
 ***
 
@@ -170,40 +205,52 @@ The `data` parameter takes precedence over the `dataURL` parameter which in turn
 
 ***
 
-## Metrics and SLOs
-By default, the following metrics are collected by `load-test-http`: 
+## Call metadata
+gRPC calls may include [metadata](https://grpc.io/docs/what-is-grpc/core-concepts/#metadata) which is information about a particular call. Supply them as values, or by pointing to a JSON file containing the metadata.
 
-- `request-count`: total number of requests sent
-- `error-count`: number of error responses
-- `error-rate`: fraction of error responses
-- `latency-mean`: mean of observed latency values
-- `latency-stddev`: standard deviation of observed latency values
-- `latency-min`: min of observed latency values
-- `latency-max`: max of observed latency values
-- `latency-pX`: X^th^ percentile of observed latency values, for `X` in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
+=== "Metadata"
+    You can supply metadata of type `map[string]string` (i.e., a map whose keys and values are strings) in the `gRPC` load test. Suppose you want to use the following metadata.
+    ```yaml
+    darth: vader
+    lord: sauron
+    volde: mort
+    ```
 
-In addition, any other latency percentiles that are specified as part of SLOs are also collected. 
+    To do so, run the Iter8 experiment as follows.
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set-string host="127.0.0.1:50051" \
+              --set-string call="helloworld.Greeter.SayHello" \
+              --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
+              --set metadata.darth="vader" \
+              --set metadata.lord="sauron" \
+              --set metadata.volde="mort"
+    ```
+
+=== "Metadata URL"
+    Suppose the call metadata you want to send is contained in a JSON file and hosted at the url https://location.of/metadata.json. Iter8 can fetch this JSON file and use its contents as the metadata during the gRPC load test. To do so, run the experiment as follows.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set-string host="127.0.0.1:50051" \
+              --set-string call="helloworld.Greeter.SayHello" \
+              --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
+              --set metadataURL="https://location.of/metadata.json"
+    ```
+
+The `metadata` parameter takes precedence over the `metadataURL` parameter.
 
 ***
 
-```shell
-iter8 launch -c load-test-http \
-          --set url=http://127.0.0.1/get \
-          --set SLOs.error-rate=0 \
-          --set SLOs.latency-mean=50 \
-          --set SLOs.latency-p90=100 \
-          --set SLOs.latency-p'97\.5'=200
-```
-
-1.  In the above experiment, the following latency percentiles are collected and reported.
-    - `[25.0, 50.0, 75.0, 90.0, 95.0, 97.5, 99.0, 99.9]`
-2.  The following SLOs are validated.
-    - error rate is 0
-    - mean latency is under 50 msec
-    - 90th percentile latency is under 100 msec
-    - 97.5th percentile latency is under 200 msec
+## Proto and reflection
 
 ***
+
+## Streaming gRPC
+
+***
+
+## Report
 
 The Iter8 experiment report contains metric values, and SLO validation results.
 
@@ -266,7 +313,7 @@ The Iter8 experiment report contains metric values, and SLO validation results.
 
 ***
 
-## Assertions
+## Assert
 The `iter8 assert` subcommand asserts if experiment result satisfies the specified conditions. If assert conditions are satisfied, it exits with code `0`; else, it exits with code `1`. Assertions are especially useful within CI/CD/GitOps pipelines.
 
 Assert that the experiment completed without failures, and all SLOs are satisfied.
@@ -274,53 +321,10 @@ Assert that the experiment completed without failures, and all SLOs are satisfie
 iter8 assert -c completed -c nofailure -c slos
 ```
 
-??? note "Sample output from Iter8 assert"
+??? note "Sample output from assert"
     ```shell
     INFO[2021-11-10 09:33:12] experiment completed
     INFO[2021-11-10 09:33:12] experiment has no failure                    
     INFO[2021-11-10 09:33:12] SLOs are satisfied                           
     INFO[2021-11-10 09:33:12] all conditions were satisfied
     ```
-
-***
-
-## Call metadata
-gRPC calls may include [metadata](https://grpc.io/docs/what-is-grpc/core-concepts/#metadata) which is information about a particular call. Supply them as values, or by pointing to a JSON file containing the metadata.
-
-=== "Metadata"
-    You can supply metadata of type `map[string]string` (i.e., a map whose keys and values are strings) in the `gRPC` load test. Suppose you want to use the following metadata.
-    ```yaml
-    darth: vader
-    lord: sauron
-    volde: mort
-    ```
-
-    To do so, run the Iter8 experiment as follows.
-    ```shell
-    iter8 launch -c load-test-grpc \
-              --set-string host="127.0.0.1:50051" \
-              --set-string call="helloworld.Greeter.SayHello" \
-              --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
-              --set metadata.darth="vader" \
-              --set metadata.lord="sauron" \
-              --set metadata.volde="mort"
-    ```
-
-=== "Metadata URL"
-    Suppose the call metadata you want to send is contained in a JSON file and hosted at the url https://location.of/metadata.json. Iter8 can fetch this JSON file and use its contents as the metadata during the gRPC load test. To do so, run the experiment as follows.
-
-    ```shell
-    iter8 launch -c load-test-grpc \
-              --set-string host="127.0.0.1:50051" \
-              --set-string call="helloworld.Greeter.SayHello" \
-              --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
-              --set metadataURL="https://location.of/metadata.json"
-    ```
-
-The `metadata` parameter takes precedence over the `metadataURL` parameter.
-
-***
-
-## Proto and reflection
-
-## Streaming gRPC

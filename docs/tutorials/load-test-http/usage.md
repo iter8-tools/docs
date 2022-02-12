@@ -200,7 +200,7 @@ Assert that the experiment completed without failures, and all SLOs are satisfie
 iter8 assert -c completed -c nofailure -c slos
 ```
 
-??? note "Sample output from Iter8 assert"
+??? note "Sample output from assert"
     ```shell
     INFO[2021-11-10 09:33:12] experiment completed
     INFO[2021-11-10 09:33:12] experiment has no failure                    
