@@ -6,7 +6,7 @@ As you get started, you are in the best position to give us feedback on areas of
 our project that we need help with including:
 
 * Problems found during setup of Iter8
-* Gaps in our quick start tutorial and other documentation
+* Gaps in the "your first experiment" tutorial and other documentation
 * Bugs in our test and automation scripts
 
 If anything doesn't make sense, or doesn't work when you run it, please open a

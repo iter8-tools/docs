@@ -15,9 +15,7 @@ template: main.html
 
 ***
 
-[Your first experiment](../../getting-started/your-first-experiment.md) provides a basic example of using the `load-test-http` experiment chart. This tutorial provides additional examples.
-
-???+ warning "Before you try these examples"
+???+ warning "Before you begin"
     1. [Install Iter8](../../getting-started/install.md).
     2. Run the [httpbin](https://httpbin.org) sample app from a separate terminal. We will load test this app in the examples.
     ```shell
@@ -26,6 +24,9 @@ template: main.html
     You can also use [Podman](https://podman.io) or other alternatives to Docker in the above command.
 
 ***
+
+## Basic example
+[Your first experiment](../../getting-started/your-first-experiment.md) provides a basic example of using the `load-test-http` experiment chart. This tutorial describes various ways to customize `load-test-http`.
 
 ## Load profile
     
@@ -111,8 +112,6 @@ In addition, any other latency percentiles that are specified as part of SLOs ar
 
 ***
 
-### Example 
-
 ```shell
 iter8 launch -c load-test-http \
           --set url=http://127.0.0.1/get \
@@ -191,13 +190,12 @@ The Iter8 experiment report contains metric values, and SLO validation results.
           built-in/http-request-count         |100.00
         ```
 
-
 ***
 
 ## Assertions
 The `iter8 assert` subcommand asserts if experiment result satisfies the specified conditions. If assert conditions are satisfied, it exits with code `0`; else, it exits with code `1`. Assertions are especially useful within CI/CD/GitOps pipelines.
 
-Assert that the [sample experiment](#example) completed without failures, and all SLOs are satisfied.
+Assert that the experiment completed without failures, and all SLOs are satisfied.
 ```shell
 iter8 assert -c completed -c nofailure -c slos
 ```
