@@ -2,8 +2,7 @@ site_name: Iter8
 site_url: https://iter8.tools/latest
 site_author: Srinivasan Parthasarathy
 site_description: >-
-  Safely rollout new versions of apps and ML models. Maximize business value.
-  Setup in seconds.
+  Safely rollout apps. Maximize business value. Use with any app/serverless/ML framework. Simplify CI/CD/GitOps. Get started in seconds.
 # Repository
 repo_name: iter8-tools/iter8
 repo_url: https://github.com/iter8-tools/iter8
@@ -137,6 +136,7 @@ nav:
     - App/serverless/ML: tutorials/load-test-http/appserverlessml.md
   - Load test gRPC:
     - Usage examples: tutorials/load-test-grpc/usage.md
+    - Streaming examples: tutorials/load-test-grpc/streaming.md
     - App/serverless/ML: tutorials/load-test-grpc/appserverlessml.md
   - Other Experiment Types:
     - SLOs with Prometheus: tutorials/slos-with-prometheus.md

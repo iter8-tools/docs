@@ -11,7 +11,7 @@ Kubernetes Release Optimizer
 
 ### Synopsis
 
-Safely rollout new versions of apps and ML models. Maximize business value.
+  Safely rollout apps. Maximize business value. Use with any app/serverless/ML framework. Simplify CI/CD/GitOps. Get started in seconds.
 
 Environment variables:
 

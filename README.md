@@ -6,7 +6,8 @@
 >   - Safely rollout apps
 >   - Maximize business value
 >   - Use with any app/serverless/ML framework
->   - Setup in seconds
+>   - Simplify CI/CD/GitOps
+>   - Get started in seconds
 
 ## To start using Iter8
 

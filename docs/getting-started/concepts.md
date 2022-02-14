@@ -7,7 +7,7 @@ template: main.html
 Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams.
 
 ## Iter8 experiment
-Iter8 experiments make it simple to collect performance and business metrics for apps and ML models, assess, compare and validate multiple app/ML model versions, safely rollout winning version, and maximize business value in each release.
+Iter8 experiments make it simple to collect performance and business metrics for apps and ML models, assess, compare and validate multiple app/ML model versions, safely rollout winning version, maximize business value in each release, and simplify CI/CD/GitOps pipelines in the process.
 
 <p align='center'>
   <img alt-text="load-test-http" src="../../images/iter8-intro-dark.png" width="70%" />

@@ -5,19 +5,31 @@ template: main.html
 # Load Test gRPC Services with SLOs
 
 !!! tip "Overview"
-    Iter8's `load-test-grpc` experiment chart can be used to generate call requests for gRPC services, collect built-in latency and error-related metrics, and validate service-level objectives (SLOs).
+    Use Iter8's `load-test-grpc` experiment chart to generate call requests for gRPC services, collect Iter8's built-in latency and error-related metrics, and validate service-level objectives (SLOs).
+
+    ***
+
+    **Use-cases:** 
+    
+    - Benchmarking
+    - Validation of service level objectives (SLOs)
+    - Safe rollouts
+    - Continuous delivery (CD)
+    
+    If the gRPC service satisfies SLOs, it may be safely rolled out, for example, from a test environment to production.  
+
+    ***
 
     <p align='center'>
       <img alt-text="load-test-http" src="../images/grpc-overview.png" width="90%" />
     </p>
 
-    **Use-cases:** Rapid testing, validation, safe rollouts, and continuous delivery (CD) of gRPC services are the motivating use-cases for this experiment type. If the gRPC service satisfies the SLOs, it may be safely rolled out, for example, from a test environment to a production environment.  
 
 ***
 
 ???+ warning "Before you begin"
     1. [Install Iter8](../../getting-started/install.md).
-    2. Choose a language, and follow the linked instructions to run the gRPC service. The instructions also show how to update the app, which is not needed for this tutorial. Running the basic service is sufficient.
+    2. To run the gRPC service, choose any language and follow the linked instructions. The instructions also show how to update the service. This step is not required for this tutorial. Running the basic service is sufficient.
 
         === "C#"
             [Run the C# gRPC app](https://grpc.io/docs/languages/csharp/quickstart/#run-a-grpc-application).
@@ -55,7 +67,7 @@ template: main.html
 ***
 
 ## Basic example
-Load test the [unary gRPC](https://grpc.io/docs/what-is-grpc/core-concepts/#unary-rpc) sample service with `host` value `127.0.0.1:50051`, fully-qualified method name (`call`) `helloworld.Greeter.SayHello`, and defined by the Protocol Buffer file located at the `protoURL`.
+Load test a [unary gRPC](https://grpc.io/docs/what-is-grpc/core-concepts/#unary-rpc) service as follows by specifying its `host`, its fully-qualified method name (`call`), and the URL of Protocol Buffer file (`protoURL`) defining the service.
 
 ```shell
 iter8 launch -c load-test-grpc \
@@ -64,29 +76,29 @@ iter8 launch -c load-test-grpc \
           --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
 ```
 
-View a report of this experiment as described in [your first experiment](../../getting-started/your-first-experiment.md).
-
 ***
 
 ## Metrics and SLOs
-By default, the following metrics are collected by `load-test-http`: 
+By default, the following metrics are collected by `load-test-grpc`: 
 
 - `request-count`: total number of requests sent
 - `error-count`: number of error responses
 - `error-rate`: fraction of error responses
-- `latency-mean`: mean of observed latency values
-- `latency-stddev`: standard deviation of observed latency values
-- `latency-min`: min of observed latency values
-- `latency-max`: max of observed latency values
-- `latency-pX`: X^th^ percentile of observed latency values, for `X` in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
+- `latency/mean`: mean of observed latency values
+- `latency/stddev`: standard deviation of observed latency values
+- `latency/min`: min of observed latency values
+- `latency/max`: max of observed latency values
+- `latency/pX`: X^th^ percentile of observed latency values, for `X` in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
 
 In addition, any other latency percentiles that are specified as part of SLOs are also collected. 
 
 ***
 
 ```shell
-iter8 launch -c load-test-http \
-          --set url=http://127.0.0.1/get \
+iter8 launch -c load-test-grpc \
+          --set-string host="127.0.0.1:50051" \
+          --set-string call="helloworld.Greeter.SayHello" \
+          --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \ 
           --set SLOs.error-rate=0 \
           --set SLOs.latency-mean=50 \
           --set SLOs.latency-p90=100 \
@@ -100,6 +112,86 @@ iter8 launch -c load-test-http \
     - mean latency is under 50 msec
     - 90th percentile latency is under 100 msec
     - 97.5th percentile latency is under 200 msec
+
+***
+
+### Report
+
+The Iter8 experiment report contains metric values, and SLO validation results. View it as follows.
+
+=== "HTML"
+    ```shell
+    iter8 report -o html > report.html
+    # open report.html with a browser. In MacOS, you can use the command:
+    # open report.html
+    ```
+
+    ??? note "The HTML report looks like this"
+        ![HTML report](images/report.html.png)
+
+=== "Text"
+    ```shell
+    iter8 report
+    ```
+
+    ??? note "The text report looks like this"
+        ```shell
+        Experiment summary:
+        *******************
+
+          Experiment completed: true
+          No task failures: true
+          Total number of tasks: 2
+          Number of completed tasks: 2
+
+        Whether or not service level objectives (SLOs) are satisfied:
+        *************************************************************
+
+          SLO Conditions                            |Satisfied
+          --------------                            |---------
+          built-in/http-error-rate <= 0             |true
+          built-in/http-latency-mean (msec) <= 50   |true
+          built-in/http-latency-p90 (msec) <= 100   |true
+          built-in/http-latency-p97.5 (msec) <= 200 |true
+          
+
+        Latest observed values for metrics:
+        ***********************************
+
+          Metric                              |value
+          -------                             |-----
+          built-in/http-error-count           |0.00
+          built-in/http-error-rate            |0.00
+          built-in/http-latency-max (msec)    |10.95
+          built-in/http-latency-mean (msec)   |5.72
+          built-in/http-latency-min (msec)    |2.63
+          built-in/http-latency-p50 (msec)    |5.75
+          built-in/http-latency-p75 (msec)    |6.95
+          built-in/http-latency-p90 (msec)    |7.88
+          built-in/http-latency-p95 (msec)    |8.50
+          built-in/http-latency-p97.5 (msec)  |8.92
+          built-in/http-latency-p99 (msec)    |10.00
+          built-in/http-latency-p99.9 (msec)  |10.85
+          built-in/http-latency-stddev (msec) |1.70
+          built-in/http-request-count         |100.00
+        ```
+
+***
+
+### Assert
+Use the `iter8 assert` subcommand to check if the experiment completed without failures, and if all the SLOs are satisfied. This command will exit with code `0` if the assert conditions are satisfied, and with code `1` otherwise. Assertions are especially useful within CI/CD/GitOps pipelines.
+
+```shell
+iter8 assert -c completed -c nofailure -c slos
+```
+
+??? note "Sample output from assert"
+    ```shell
+    INFO[2021-11-10 09:33:12] experiment completed
+    INFO[2021-11-10 09:33:12] experiment has no failure                    
+    INFO[2021-11-10 09:33:12] SLOs are satisfied                           
+    INFO[2021-11-10 09:33:12] all conditions were satisfied
+    ```
 
 ***
 
@@ -244,87 +336,3 @@ The `metadata` parameter takes precedence over the `metadataURL` parameter.
 
 ## Proto and reflection
 
-***
-
-## Streaming gRPC
-
-***
-
-## Report
-
-The Iter8 experiment report contains metric values, and SLO validation results.
-
-=== "HTML"
-    ```shell
-    iter8 report -o html > report.html
-    # open report.html with a browser. In MacOS, you can use the command:
-    # open report.html
-    ```
-
-    ??? note "The HTML report looks like this"
-        ![HTML report](images/report.html.png)
-
-=== "Text"
-    ```shell
-    iter8 report
-    ```
-
-    ??? note "The text report looks like this"
-        ```shell
-        Experiment summary:
-        *******************
-
-          Experiment completed: true
-          No task failures: true
-          Total number of tasks: 2
-          Number of completed tasks: 2
-
-        Whether or not service level objectives (SLOs) are satisfied:
-        *************************************************************
-
-          SLO Conditions                            |Satisfied
-          --------------                            |---------
-          built-in/http-error-rate <= 0             |true
-          built-in/http-latency-mean (msec) <= 50   |true
-          built-in/http-latency-p90 (msec) <= 100   |true
-          built-in/http-latency-p97.5 (msec) <= 200 |true
-          
-
-        Latest observed values for metrics:
-        ***********************************
-
-          Metric                              |value
-          -------                             |-----
-          built-in/http-error-count           |0.00
-          built-in/http-error-rate            |0.00
-          built-in/http-latency-max (msec)    |10.95
-          built-in/http-latency-mean (msec)   |5.72
-          built-in/http-latency-min (msec)    |2.63
-          built-in/http-latency-p50 (msec)    |5.75
-          built-in/http-latency-p75 (msec)    |6.95
-          built-in/http-latency-p90 (msec)    |7.88
-          built-in/http-latency-p95 (msec)    |8.50
-          built-in/http-latency-p97.5 (msec)  |8.92
-          built-in/http-latency-p99 (msec)    |10.00
-          built-in/http-latency-p99.9 (msec)  |10.85
-          built-in/http-latency-stddev (msec) |1.70
-          built-in/http-request-count         |100.00
-        ```
-
-***
-
-## Assert
-The `iter8 assert` subcommand asserts if experiment result satisfies the specified conditions. If assert conditions are satisfied, it exits with code `0`; else, it exits with code `1`. Assertions are especially useful within CI/CD/GitOps pipelines.
-
-Assert that the experiment completed without failures, and all SLOs are satisfied.
-```shell
-iter8 assert -c completed -c nofailure -c slos
-```
-
-??? note "Sample output from assert"
-    ```shell
-    INFO[2021-11-10 09:33:12] experiment completed
-    INFO[2021-11-10 09:33:12] experiment has no failure                    
-    INFO[2021-11-10 09:33:12] SLOs are satisfied                           
-    INFO[2021-11-10 09:33:12] all conditions were satisfied
-    ```
