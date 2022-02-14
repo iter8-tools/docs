@@ -33,9 +33,9 @@ This tutorial provides examples of using the `load-test-grpc` experiment chart w
 ### 1. Launch experiment
 ```shell
 iter8 launch -c load-test-grpc \
-          --set-string host="hello.default.127.0.0.1.sslip.io:50051" \
-          --set-string call="helloworld.Greeter.SayHello" \
-          --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-java/master/examples/example-hostname/src/main/proto/helloworld/helloworld.proto"
+          --set host="hello.default.127.0.0.1.sslip.io:50051" \
+          --set call="helloworld.Greeter.SayHello" \
+          --set protoURL="https://raw.githubusercontent.com/grpc/grpc-java/master/examples/example-hostname/src/main/proto/helloworld/helloworld.proto"
           --set data.name="frodo" \
           --set SLOs.error-rate=0 \
           --set SLOs.latency/mean=400 \
