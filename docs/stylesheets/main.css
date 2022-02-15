@@ -43,17 +43,22 @@
 .mdx-hero .md-button {
   margin-top: 1rem;
   margin-right: 0.5rem;
-  color: var(--md-primary-bg-color);
+  color: inherit;
 }
 .mdx-hero .md-button:focus, .mdx-hero .md-button:hover {
   color: var(--md-accent-bg-color);
   background-color: var(--md-accent-fg-color);
   border-color: var(--md-accent-fg-color);
 }
-.mdx-hero .md-button--primary {
-  color: #894da8;
-  background-color: var(--md-primary-bg-color);
-  border-color: var(--md-primary-bg-color);
+.mdx-hero .md-button--reverse {
+  color: var(--md-accent-bg-color);
+  background-color: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+}
+.mdx-hero .md-button--reverse:focus, .mdx-hero .md-button--reverse:hover {
+  color: inherit;
+  background-color: inherit;
+  border-color: inherit;
 }
 .mdx-hero .text-large {
   font-size: 1rem;

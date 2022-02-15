@@ -61,7 +61,7 @@
   .md-button {
     margin-top: px2rem(20px);
     margin-right: px2rem(10px);
-    color: var(--md-primary-bg-color);
+    color: inherit;
 
     // Button on focus/hover
     &:focus,
@@ -71,11 +71,18 @@
       border-color: var(--md-accent-fg-color);
     }
 
-    // Primary button
-    &--primary {
-      color: hsla(280deg, 37%, 48%, 1);
-      background-color: var(--md-primary-bg-color);
-      border-color: var(--md-primary-bg-color);
+    // reverse button
+    &--reverse {
+      color: var(--md-accent-bg-color);
+      background-color: var(--md-accent-fg-color);
+      border-color: var(--md-accent-fg-color);
+
+      &:focus,
+      &:hover {
+        color: inherit;
+        background-color: inherit;
+        border-color: inherit;
+        }
     }
   }
 

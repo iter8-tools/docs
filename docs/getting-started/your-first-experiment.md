@@ -4,8 +4,8 @@ template: main.html
 
 # Your First Experiment
 
-!!! tip "Load Test an HTTP Service"
-    Get started with your first [Iter8 experiment](concepts.md#what-is-an-iter8-experiment) by load testing an HTTP service. 
+!!! tip "Benchmark an HTTP Service"
+    Get started with your first [Iter8 experiment](concepts.md#what-is-an-iter8-experiment) by benchmarking an HTTP service. 
     
 ***
 
@@ -19,12 +19,40 @@ template: main.html
     ```
     
 === "Binaries"
-    Pre-compiled Iter8 binaries for many platforms are available [here](https://github.com/iter8-tools/iter8/releases). Uncompress the iter8-X-Y.tar.gz archive for your platform, and move the `iter8` binary to any folder in your PATH.
+    Replace `${TAG}` below with the [latest or any desired Iter8 release tag](https://github.com/iter8-tools/iter8/releases). For example,
+    ```shell
+    export TAG=v0.9.0
+    ```
+
+    === "darwin-amd64 (MacOS)"
+        ```shell
+        wget -qO- https://github.com/iter8-tools/iter8/releases/download/${TAG}/iter8-darwin-amd64.tar.gz | tar xvz -
+        ```
+        Move `darwin-amd64/iter8` to any directory in your `PATH`.
+
+    === "linux-amd64"
+        ```shell
+        wget -qO- https://github.com/iter8-tools/iter8/releases/download/${TAG}/iter8-linux-amd64.tar.gz | tar xvz -
+        ```
+        Move `linux-amd64/iter8` to any directory in your `PATH`.
+
+    === "linux-386"
+        ```shell
+        wget -qO- https://github.com/iter8-tools/iter8/releases/download/${TAG}/iter8-linux-386.tar.gz | tar xvz -
+        ```
+        Move `linux-386/iter8` to any directory in your `PATH`.
+
+    === "windows-amd64"
+        ```shell
+        wget -qO- https://github.com/iter8-tools/iter8/releases/download/${TAG}/iter8-windows-amd64.tar.gz | tar xvz -
+        ```
+        Move `windows-amd64/iter8.exe` to any directory in your `PATH`.
+
 
 === "Source"
     Build Iter8 from source as follows. Go `1.17+` is a pre-requisite.
     ```shell
-    # you can replace master with a specific tag such as v0.8.29
+    # you can replace master with a specific tag, for example, v0.9.0
     export REF=master
     https://github.com/iter8-tools/iter8.git?ref=$REF
     cd iter8
@@ -40,9 +68,9 @@ template: main.html
     You can now run `iter8` (from your gopath bin/ directory)
 
 ## 2. Launch experiment
-We will load test the HTTP service whose URL (`url`) is https://httpbin.org/get. 
+We will benchmark the HTTP service whose URL (`url`) is https://httpbin.org/get. 
 
-The `iter8 launch` command downloads an [experiment chart](concepts.md#experiment-chart) from [Iter8 hub](concepts.md#iter8-hub), combines the chart with values to generate the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file. Launch the load test experiment as follows.
+The `iter8 launch` command downloads an [experiment chart](concepts.md#experiment-chart) from [Iter8 hub](concepts.md#iter8-hub), combines the chart with values to generate the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file. Launch the benchmarking experiment as follows.
 
 ```shell
 iter8 launch -c load-test-http --set url=https://httpbin.org/get
@@ -97,3 +125,7 @@ View a report containing the metrics collected during this experiment in HTML or
         ```
 
 Congratulations! :tada: You completed your first Iter8 experiment.
+
+???+ tip "Next steps"
+    1. Learn more about [benchmarking and validating HTTP services with service-level objectives (SLOs)](../tutorials/load-test-http/usage.md).
+    2. Learn more about [benchmarking and validating gRPC services with service-level objectives (SLOs)](../tutorials/load-test-grpc/usage.md).
