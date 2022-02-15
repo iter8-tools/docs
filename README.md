@@ -24,6 +24,8 @@ Contributions are welcome!
 
 See [here](CONTRIBUTING.md) for information about ways to contribute, Iter8 community meetings, finding an issue, asking for help, pull-request lifecycle, and more.
 
+***
+
 This repo is the source for [Iter8 documentation](https://iter8.tools) and uses [Mkdocs](https://www.mkdocs.org/user-guide/writing-your-docs/), and [Material for Mkdocs](https://squidfunk.github.io/mkdocs-material/).
 
 #### Locally serve Iter8 docs
