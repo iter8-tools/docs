@@ -7,11 +7,10 @@
 >   - Maximize business value
 >   - Use with any app/serverless/ML framework
 >   - Simplify CI/CD/GitOps
->   - Get started in seconds
 
 ## To start using Iter8
 
-Iter8 documentation is available [here](https://iter8.tools). You can get started with Iter8 experiments in seconds using the following links.
+Iter8 documentation is available [here](https://iter8.tools). Get started with Iter8 experiments in seconds using the following links.
 
 1.  [Install Iter8](https://iter8.tools/0.8/getting-started/install/)
 2.  [Your first Iter8 experiment](https://iter8.tools/0.8/getting-started/your-first-experiment/)
