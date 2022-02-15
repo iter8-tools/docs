@@ -25,7 +25,7 @@ See [here](CONTRIBUTING.md) for information about ways to contribute, Iter8 comm
 
 ***
 
-This repo is the source for [Iter8 documentation](https://iter8.tools) which uses [Material for Mkdocs](https://squidfunk.github.io/mkdocs-material/).
+This repo is the source for [Iter8 documentation](https://iter8.tools) which uses [Material for Mkdocs](https://squidfunk.github.io/mkdocs-material/). [This repo] The source for Iter8 experiment charts is [here](https://github.com/iter8-tools/hub). The source for the Iter8 CLI is [here](https://github.com/iter8-tools/iter8).
 
 #### Locally serve Iter8 docs
 From the root of this repo:
