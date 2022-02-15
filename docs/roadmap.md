@@ -9,7 +9,7 @@ hide:
 
 1. Iter8 GitHub Action
 2. Iter8 Tekton task
-3. Examples of load testing with streaming gRPC
+3. Readiness checks for K8s resources
 4. Examples for experimenting inside K8s
 5. A/B(/n) testing example
 6. AutoX service for auto launching Iter8 experiments, app version tracking, and business telemetry
