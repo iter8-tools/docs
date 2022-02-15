@@ -38,8 +38,5 @@ pip install -r requirements.txt
 mkdocs serve -s
 ```
 
-You can now see your local docs at [http://localhost:8000](http://localhost:8000).
-
-#### View live changes
-You will see live updates to [http://localhost:8000](http://localhost:8000) as you update the markdown files under the `docs` folder.
+You can now see your local docs at [http://localhost:8000](http://localhost:8000). You will also see live updates to [http://localhost:8000](http://localhost:8000) as you update the contents of the `docs` folder.
 
