@@ -2,18 +2,10 @@
 template: main.html
 ---
 
-# App/serverless/ML Frameworks
-
-This tutorial provides examples of using the `load-test-grpc` experiment chart with various Kubernetes app/serverless/ML frameworks. Refer to [`load-test-grpc` usage](usage.md) to learn more about this chart.
-
-!!! tip "Dear Iter8 community" 
-
-    These examples are maintained by members of the Iter8 community, and may become outdated. If you find that something is not working, lend a helping hand and fix it in a PR. More examples are always welcome.
-
-## Knative
+# Benchmark and Validate a Knative gRPC service
 
 ???+ note "Before you begin"
-    1. [Install Iter8](../../getting-started/install.md).
+    1. [Install Iter8](../../../getting-started/install.md).
     2. [Install Knative and deploy your first Knative Service](https://knative.dev/docs/getting-started/first-service/). As noted at the end of the Knative tutorial, when you curl the Knative service,
     ```shell
     curl http://hello.default.127.0.0.1.sslip.io
@@ -31,17 +23,25 @@ This tutorial provides examples of using the `load-test-grpc` experiment chart w
     ```
 
 ### 1. Launch experiment
+We will benchmark and validate SLOs for the Knative gRPC service by launching an Iter8 experiment.
+
 ```shell
-iter8 launch -c load-test-grpc \
-          --set host="hello.default.127.0.0.1.sslip.io:50051" \
-          --set call="helloworld.Greeter.SayHello" \
-          --set protoURL="https://raw.githubusercontent.com/grpc/grpc-java/master/examples/example-hostname/src/main/proto/helloworld/helloworld.proto"
+iter8 launch load-test-grpc \
+          --set-string host="hello.default.127.0.0.1.sslip.io:50051" \
+          --set-string call="helloworld.Greeter.SayHello" \
+          --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-java/master/examples/example-hostname/src/main/proto/helloworld/helloworld.proto"
           --set data.name="frodo" \
           --set SLOs.error-rate=0 \
           --set SLOs.latency/mean=400 \
           --set SLOs.latency/p90=500 \
           --set SLOs.latency/p'97\.5'=600
 ```
+
+In the above experiment, the following SLOs are validated for the Knative service.
+- error rate is 0
+- mean latency is under 400 msec
+- 90th percentile latency is under 500 msec
+- 97.5th percentile latency is under 600 msec
 
 ### 2. Assert outcomes
 Assert that the experiment completed without any failures and SLOs are satisfied.

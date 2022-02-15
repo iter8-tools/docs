@@ -51,10 +51,10 @@ plugins:
       'tutorials/load-test-http/loadcharacteristics.md': 'tutorials/load-test-http/usage.md'
       'tutorials/load-test-http/payload.md': 'tutorials/load-test-http/usage.md'
       'tutorials/load-test-http/metricsandslos.md': 'tutorials/load-test-http/usage.md'
-      'tutorials/load-test/community/knative/loadtest.md': 'tutorials/load-test-http/appserverlessml.md'
+      'tutorials/load-test/community/knative/loadtest.md': 'tutorials/integrations/knative/load-test-http.md'
       'tutorials/load-test-grpc/overview.md': 'tutorials/load-test-grpc/usage.md'
       'tutorials/load-test-grpc/unary.md': 'tutorials/load-test-grpc/usage.md'
-      'tutorials/load-test-grpc/community/knative/loadtest.md': 'tutorials/load-test-grpc/appserverlessml.md'
+      'tutorials/load-test-grpc/community/knative/loadtest.md': 'tutorials/integrations/knative/load-test-grpc.md'
 
 # Customization
 extra:
@@ -131,21 +131,28 @@ nav:
   - Install Iter8: getting-started/install.md
   - Get help: getting-started/help.md
 - Tutorials:
-  - Load test HTTP:
-    - Usage examples: tutorials/load-test-http/usage.md
-    - App/serverless/ML: tutorials/load-test-http/appserverlessml.md
-  - Load test gRPC:
-    - Usage examples: tutorials/load-test-grpc/usage.md
-    - Streaming examples: tutorials/load-test-grpc/streaming.md
-    - App/serverless/ML: tutorials/load-test-grpc/appserverlessml.md
-  - Other Experiment Types:
-    - SLOs with Prometheus: tutorials/slos-with-prometheus.md
-    - A/B(/n) testing: tutorials/abn.md
-    - Chaos testing with SLOs: tutorials/chaos.md
-    - Mirroring: tutorials/mirroring.md
-    - Percentage traffic-split: tutorials/traffic-percent.md
-    - Session affinity: tutorials/session-affinity.md
-    - Gradual traffic shifting: tutorials/gradual-traffic-shifting.md
+  - Benchmark and validate HTTP:
+    - Basic usage: tutorials/load-test-http/usage.md
+  - Benchmark and validate gRPC:
+    - Basic usage: tutorials/load-test-grpc/usage.md
+    - Streaming gRPC: tutorials/load-test-grpc/streaming.md
+  - Integrations:
+    - Overview: tutorials/integrations/overview.md
+    - Knative:
+      - Benchmark and validate HTTP: tutorials/integrations/knative/load-test-http.md
+      - Benchmark and validate gRPC: tutorials/integrations/knative/load-test-grpc.md
+    - Kserve: tutorials/integrations/kserve.md
+    - Seldon: tutorials/integrations/seldon.md
+    - Litmus: tutorials/integrations/litmus.md
+    - Istio: tutorials/integrations/istio.md
+  # - Other Experiment Types:
+  #   - SLOs with Prometheus: tutorials/slos-with-prometheus.md
+  #   - A/B(/n) testing: tutorials/abn.md
+  #   - Chaos testing with SLOs: tutorials/chaos.md
+  #   - Mirroring: tutorials/mirroring.md
+  #   - Percentage traffic-split: tutorials/traffic-percent.md
+  #   - Session affinity: tutorials/session-affinity.md
+  #   - Gradual traffic shifting: tutorials/gradual-traffic-shifting.md
 - User guide:
   - Commands:
     - iter8: user-guide/commands/iter8.md
