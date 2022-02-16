@@ -26,7 +26,7 @@ template: main.html
 We will benchmark and validate SLOs for the Knative gRPC service by launching an Iter8 experiment.
 
 ```shell
-iter8 launch load-test-grpc \
+iter8 launch -c load-test-grpc \
           --set-string host="hello.default.127.0.0.1.sslip.io:50051" \
           --set-string call="helloworld.Greeter.SayHello" \
           --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-java/master/examples/example-hostname/src/main/proto/helloworld/helloworld.proto"

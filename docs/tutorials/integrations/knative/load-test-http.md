@@ -19,7 +19,7 @@ template: main.html
 We will benchmark and validate SLOs for the Knative HTTP service by launching an Iter8 experiment.
 
 ```shell
-iter8 launch load-test-http \
+iter8 launch -c load-test-http \
           --set url=http://hello.default.127.0.0.1.sslip.io \
           --set SLOs.error-rate=0 \
           --set SLOs.latency-mean=50 \

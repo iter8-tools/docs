@@ -86,7 +86,7 @@ View a report containing the metrics collected during this experiment in HTML or
     # open report.html
     ```
 
-    ??? note "The HTML report looks like this"
+    ???+ note "The HTML report looks like this"
         ![HTML report](images/report.html.png)
 
 === "Text"
@@ -94,7 +94,7 @@ View a report containing the metrics collected during this experiment in HTML or
     iter8 report
     ```
 
-    ??? note "The text report looks like this"
+    ???+ note "The text report looks like this"
         ```shell
         Experiment summary:
         *******************

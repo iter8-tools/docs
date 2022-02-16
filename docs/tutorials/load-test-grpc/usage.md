@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Load Test gRPC Services with SLOs
+# Benchmark and Validate gRPC Services
 
 !!! tip "Overview"
     Use Iter8's `load-test-grpc` experiment chart to generate call requests for gRPC services, collect Iter8's built-in latency and error-related metrics, and validate service-level objectives (SLOs).
@@ -29,7 +29,7 @@ template: main.html
 
 ???+ warning "Before you begin"
     1. [Install Iter8](../../getting-started/install.md).
-    2. To run the gRPC service, choose any language and follow the linked instructions. The instructions also show how to update the service. This step is not required for this tutorial. Running the basic service is sufficient.
+    2. Run the Greeter service in a separate terminal. Choose any language and follow the linked instructions. The instructions also show how to update the service. This update step is not required for this tutorial.
 
         === "C#"
             [Run the C# gRPC app](https://grpc.io/docs/languages/csharp/quickstart/#run-a-grpc-application).
@@ -105,13 +105,12 @@ iter8 launch -c load-test-grpc \
           --set SLOs.latency-p'97\.5'=200
 ```
 
-1.  In the above experiment, the following latency percentiles are collected and reported.
-    - `[25.0, 50.0, 75.0, 90.0, 95.0, 97.5, 99.0, 99.9]`
-2.  The following SLOs are validated.
-    - error rate is 0
-    - mean latency is under 50 msec
-    - 90th percentile latency is under 100 msec
-    - 97.5th percentile latency is under 200 msec
+In the above example, The following SLOs are validated.
+
+- error rate is 0
+- mean latency is under 50 msec
+- 90th percentile latency is under 100 msec
+- 97.5th percentile latency is under 200 msec
 
 ***
 
@@ -126,55 +125,10 @@ The Iter8 experiment report contains metric values, and SLO validation results. 
     # open report.html
     ```
 
-    ??? note "The HTML report looks like this"
-        ![HTML report](images/report.html.png)
-
 === "Text"
     ```shell
     iter8 report
     ```
-
-    ??? note "The text report looks like this"
-        ```shell
-        Experiment summary:
-        *******************
-
-          Experiment completed: true
-          No task failures: true
-          Total number of tasks: 2
-          Number of completed tasks: 2
-
-        Whether or not service level objectives (SLOs) are satisfied:
-        *************************************************************
-
-          SLO Conditions                            |Satisfied
-          --------------                            |---------
-          built-in/http-error-rate <= 0             |true
-          built-in/http-latency-mean (msec) <= 50   |true
-          built-in/http-latency-p90 (msec) <= 100   |true
-          built-in/http-latency-p97.5 (msec) <= 200 |true
-          
-
-        Latest observed values for metrics:
-        ***********************************
-
-          Metric                              |value
-          -------                             |-----
-          built-in/http-error-count           |0.00
-          built-in/http-error-rate            |0.00
-          built-in/http-latency-max (msec)    |10.95
-          built-in/http-latency-mean (msec)   |5.72
-          built-in/http-latency-min (msec)    |2.63
-          built-in/http-latency-p50 (msec)    |5.75
-          built-in/http-latency-p75 (msec)    |6.95
-          built-in/http-latency-p90 (msec)    |7.88
-          built-in/http-latency-p95 (msec)    |8.50
-          built-in/http-latency-p97.5 (msec)  |8.92
-          built-in/http-latency-p99 (msec)    |10.00
-          built-in/http-latency-p99.9 (msec)  |10.85
-          built-in/http-latency-stddev (msec) |1.70
-          built-in/http-request-count         |100.00
-        ```
 
 ***
 
@@ -184,14 +138,6 @@ Use the `iter8 assert` subcommand to check if the experiment completed without f
 ```shell
 iter8 assert -c completed -c nofailure -c slos
 ```
-
-??? note "Sample output from assert"
-    ```shell
-    INFO[2021-11-10 09:33:12] experiment completed
-    INFO[2021-11-10 09:33:12] experiment has no failure                    
-    INFO[2021-11-10 09:33:12] SLOs are satisfied                           
-    INFO[2021-11-10 09:33:12] all conditions were satisfied
-    ```
 
 ***
 
