@@ -145,6 +145,7 @@ nav:
     - Seldon: tutorials/integrations/seldon.md
     - Litmus: tutorials/integrations/litmus.md
     - Istio: tutorials/integrations/istio.md
+    - Linkerd: tutorials/integrations/linkerd.md
   # - Other Experiment Types:
   #   - SLOs with Prometheus: tutorials/slos-with-prometheus.md
   #   - A/B(/n) testing: tutorials/abn.md

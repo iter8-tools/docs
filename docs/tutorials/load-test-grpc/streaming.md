@@ -2,15 +2,15 @@
 template: main.html
 ---
 
-# Streaming Examples
+# Benchmarking and Validating Streaming gRPC
 
 !!! tip "Overview"
-    Use Iter8's `load-test-grpc` experiment chart to generate call requests for gRPC services, collect Iter8's built-in latency and error-related metrics, and validate service-level objectives (SLOs).
+    This tutorial describes additional parameters enabled by `load-test-grpc` experiment while using streaming gRPC.
 
 ***
 
 ???+ warning "Before you begin"
-    1. [Install Iter8](../../getting-started/install.md).
+    1. [Install Iter8 CLI](../../getting-started/install.md).
     2. To run the gRPC service, choose any language and follow the linked instructions. The instructions also show how to update the service. This step is not required for this tutorial. Running the basic service is sufficient.
 
         === "C#"
@@ -45,6 +45,7 @@ template: main.html
 
         === "Ruby"
             [Run the Ruby gRPC app](https://grpc.io/docs/languages/ruby/quickstart/#run-a-grpc-application).
+    3. Get familiar with the [basic usage examples](usage.md).
 
 ***
 

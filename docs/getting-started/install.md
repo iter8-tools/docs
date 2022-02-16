@@ -72,7 +72,7 @@ hide:
     You can now run `iter8` (from your gopath bin/ directory)
 
     ???+ note "Install a specific version"
-        You can also install Iter8 CLI with a specific tag. For example, the following command installs version `0.9.0` of the Iter8 CLI.
+        You can also install the Iter8 CLI with a specific tag. For example, the following command installs version `0.9.0` of the Iter8 CLI.
         ```shell
         go install github.com/iter8-tools/iter8@v0.9.0
         ```

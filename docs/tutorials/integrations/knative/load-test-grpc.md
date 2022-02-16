@@ -5,7 +5,7 @@ template: main.html
 # Benchmark and Validate a Knative gRPC service
 
 ???+ note "Before you begin"
-    1. [Install Iter8](../../../getting-started/install.md).
+    1. [Install Iter8 CLI](../../../getting-started/install.md).
     2. [Install Knative and deploy your first Knative Service](https://knative.dev/docs/getting-started/first-service/). As noted at the end of the Knative tutorial, when you curl the Knative service,
     ```shell
     curl http://hello.default.127.0.0.1.sslip.io

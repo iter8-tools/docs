@@ -28,7 +28,7 @@ template: main.html
 ***
 
 ???+ warning "Before you begin"
-    1. [Install Iter8](../../getting-started/install.md).
+    1. [Install Iter8 CLI](../../getting-started/install.md).
     2. Run the Greeter service in a separate terminal. Choose any language and follow the linked instructions. The instructions also show how to update the service. This update step is not required for this tutorial.
 
         === "C#"
@@ -217,6 +217,17 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
         --set data.realm.location="middle" 
         ```
 
+=== "Data file"
+    Suppose the call data you want to send is contained in a local JSON file. Iter8 can use the data contained in it during the gRPC load test. To do so, run the experiment as follows.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set host="127.0.0.1:50051" \
+              --set call="helloworld.Greeter.SayHello" \
+              --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
+              --set dataFile="/the/path/to/data.json" # "./data.json" also works
+    ```
+
 === "Data URL"
     Suppose the call data you want to send is contained in a JSON file and hosted at the url https://location.of/data.json. Iter8 can fetch this JSON file and use the data contained in it during the gRPC load test. To do so, run the experiment as follows.
 
@@ -226,6 +237,17 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
               --set call="helloworld.Greeter.SayHello" \
               --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
               --set dataURL="https://location.of/data.json"
+    ```
+
+=== "Binary data file"
+    Suppose the call data you want to send is contained in a local binary file as a serialized binary message or multiple count-prefixed messages. Iter8 can use the data contained in it during the gRPC load test. To do so, run the experiment as follows.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set host="127.0.0.1:50051" \
+              --set call="helloworld.Greeter.SayHello" \
+              --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
+              --set binaryDataFile="/the/path/to/data.bin" # "./data.bin" also works
     ```
 
 === "Binary data URL"
@@ -239,7 +261,11 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
               --set binaryDataURL="https://location.of/data.bin"
     ```
 
-The `data` parameter takes precedence over the `dataURL` parameter which in turn takes precedence over the `binaryDataURL` parameter.
+If more than one of the above parameters are specified, the order of precedence is as follows: 
+
+```
+Data > Data file > Data URL > Binary data file > Binary data URL
+```
 
 ***
 
@@ -265,6 +291,17 @@ gRPC calls may include [metadata](https://grpc.io/docs/what-is-grpc/core-concept
               --set metadata.volde="mort"
     ```
 
+=== "Metadata file"
+    Suppose the call metadata you want to send is contained in a local JSON file. Iter8 can use the metadata contained in it during the gRPC load test. To do so, run the experiment as follows.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set host="127.0.0.1:50051" \
+              --set call="helloworld.Greeter.SayHello" \
+              --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
+              --set metadataFile="/the/path/to/metadata.json" # "./metadata.json" also works
+    ```
+
 === "Metadata URL"
     Suppose the call metadata you want to send is contained in a JSON file and hosted at the url https://location.of/metadata.json. Iter8 can fetch this JSON file and use its contents as the metadata during the gRPC load test. To do so, run the experiment as follows.
 
@@ -276,9 +313,68 @@ gRPC calls may include [metadata](https://grpc.io/docs/what-is-grpc/core-concept
               --set metadataURL="https://location.of/metadata.json"
     ```
 
-The `metadata` parameter takes precedence over the `metadataURL` parameter.
+If more than one of the above parameters are specified, the order of precedence is as follows: 
+
+```
+Metadata > Metadata file > Metadata URL
+```
 
 ***
 
 ## Proto and reflection
 
+The gRPC server method signatures and message formats are defined in a `.proto` source file or a compiled `.protoset` file. Supply them as follows.
+
+=== "Proto file"
+    Supply the name of a `.proto` source file.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set host="127.0.0.1:50051" \
+              --set call="helloworld.Greeter.SayHello" \
+              --set protoURL="/path/to/helloworld.proto" # "./helloworld.proto" also works
+    ```
+
+
+=== "Proto URL"
+    Supply a URL that hosts a `.proto` source file.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set host="127.0.0.1:50051" \
+              --set call="helloworld.Greeter.SayHello" \
+              --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
+    ```
+
+=== "Protoset file"
+    Supply the name of a `.protoset` file that is compiled from `.proto` source files.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set host="127.0.0.1:50051" \
+              --set call="helloworld.Greeter.SayHello" \
+              --set protoset="./myservice.protoset"
+    ```
+
+
+=== "Protoset URL"
+    Supply a URL that hosts a `.protoset` file.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set host="127.0.0.1:50051" \
+              --set call="helloworld.Greeter.SayHello" \
+              --set protosetURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.protoset"
+    ```
+
+
+=== "Reflection"
+    In the absence of `.proto` and `.protoset` information, the `load-test-grpc` experiment will attempt to use [server reflection](https://github.com/grpc/grpc/blob/master/doc/server-reflection.md). You can supply reflect metadata as values.
+
+    ```shell
+    iter8 launch -c load-test-grpc \
+              --set host="127.0.0.1:50051" \
+              --set call="helloworld.Greeter.SayHello" \
+              --set reflectMetadata.clientId="5hL64dd0" \
+              --set reflectMetadata.clientMood="delightful"
+    ```

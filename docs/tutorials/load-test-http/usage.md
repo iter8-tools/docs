@@ -28,7 +28,7 @@ template: main.html
 ***
 
 ???+ warning "Before you begin"
-    1. [Install Iter8](../../getting-started/install.md).
+    1. [Install Iter8 CLI](../../getting-started/install.md).
     2. Run the [httpbin](https://httpbin.org) service from a separate terminal.
     ```shell
     docker run -p 80:80 kennethreitz/httpbin

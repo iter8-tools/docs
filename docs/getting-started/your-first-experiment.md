@@ -9,7 +9,7 @@ template: main.html
     
 ***
 
-## 1. Install Iter8
+## 1. Install Iter8 CLI
 === "Brew"
     Install the latest stable release of the Iter8 CLI using `brew` as follows.
 
