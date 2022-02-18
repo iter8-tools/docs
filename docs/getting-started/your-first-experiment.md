@@ -13,17 +13,15 @@ template: main.html
 --8<-- "docs/getting-started/installiter8cli.md"
 
 ## 2. Launch experiment
-We will benchmark the HTTP service whose URL (`url`) is https://httpbin.org/get. 
+The `iter8 launch` subcommand downloads an [experiment chart](concepts.md#experiment-chart) from [Iter8 hub](concepts.md#iter8-hub), combines the chart with values to generate the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file. 
 
-The `iter8 launch` command downloads an [experiment chart](concepts.md#experiment-chart) from [Iter8 hub](concepts.md#iter8-hub), combines the chart with values to generate the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file. Launch the benchmarking experiment as follows.
+Use `iter8 launch` to benchmark the HTTP service whose URL is https://httpbin.org/get.
 
 ```shell
 iter8 launch -c load-test-http --set url=https://httpbin.org/get
 ```
 
-## 3. View report
-View a report containing the metrics collected during this experiment in HTML or text formats as follows.
-
+## 3. View experiment report
 === "HTML"
     ```shell
     iter8 report -o html > report.html

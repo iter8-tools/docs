@@ -147,6 +147,8 @@ nav:
     - Istio: tutorials/integrations/istio.md
     - Linkerd: tutorials/integrations/linkerd.md
 - User guide:
+  - Topics:
+    - Chart Documentation: user-guide/topics/chart-docs.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 hub: user-guide/commands/iter8_hub.md
