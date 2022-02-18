@@ -82,19 +82,7 @@ In the above setting, the following SLOs will be validated.
 
 ### Report
 
-The Iter8 experiment report contains metric values, and SLO validation results. View it as follows.
-
-=== "HTML"
-    ```shell
-    iter8 report -o html > report.html
-    # open report.html with a browser. In MacOS, you can use the command:
-    # open report.html
-    ```
-
-=== "Text"
-    ```shell
-    iter8 report
-    ```
+Refer to [your first experiment](../../getting-started/your-first-experiment.md#3-view-experiment-report) for examples of HTML and text `iter8 report`.
 
 ***
 

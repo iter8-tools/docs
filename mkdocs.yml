@@ -135,7 +135,6 @@ nav:
     - Basic usage: tutorials/load-test-http/usage.md
   - Benchmark and validate gRPC:
     - Basic usage: tutorials/load-test-grpc/usage.md
-    - Streaming gRPC: tutorials/load-test-grpc/streaming.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
     - Knative:
