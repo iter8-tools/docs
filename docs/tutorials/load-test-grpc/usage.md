@@ -181,9 +181,7 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
 
 ***
 
-### Streaming
-
-For client streaming or bi-directional calls, this experiment accepts an array of messages, each element representing a single message within the stream call.
+For client streaming or bi-directional calls, this experiment accepts an array of messages, each element representing a single message within the stream call. If a single object is given for data, then it is automatically converted to an array with single element.
 
 ```shell
 --set data[0].name="Joe" \
@@ -191,7 +189,7 @@ For client streaming or bi-directional calls, this experiment accepts an array o
 --set data[2].name="Sara"
 ```
     
-If a single object is given for data then it is automatically converted to an array with single element. In case of client streaming, this experiment sends all the data in the input array, and then closes and receives.
+In case of client streaming, this experiment sends all the data in the input array, and then closes and receives.
 
 
 ## Call metadata
