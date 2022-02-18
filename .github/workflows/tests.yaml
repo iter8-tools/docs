@@ -38,7 +38,7 @@ jobs:
     - name: load test GET endpoint
       run: |
         set -e
-        cd charts/load-test-http
+        cd hub/charts/load-test-http
         iter8 gen --set url=http://127.0.0.1/get
         cat experiment.yaml
         iter8 run
@@ -48,7 +48,7 @@ jobs:
     - name: load test GET endpoint
       run: |
         set -e
-        cd charts/load-test-http
+        cd hub/charts/load-test-http
         iter8 gen --set url=http://127.0.0.1/get \
                   --set SLOs.http/latency-p25=80 \
                   --set SLOs.http/latency-p50=100 \
@@ -61,7 +61,7 @@ jobs:
     - name: load test POST endpoint (image/jpeg)
       run: |
         set -e
-        cd charts/load-test-http
+        cd hub/charts/load-test-http
         iter8 gen --set url=http://127.0.0.1/post \
                   --set payloadURL=https://cdn.pixabay.com/photo/2021/09/08/17/58/poppy-6607526_1280.jpg \
                   --set contentType="image/jpeg" \
@@ -105,7 +105,7 @@ jobs:
     - name: load test grpc service method
       run: |
         set -e
-        cd charts/load-test-grpc
+        cd hub/charts/load-test-grpc
         iter8 gen --set-string host="127.0.0.1:50051" \
                   --set-string call="helloworld.Greeter.SayHello" \
                   --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
