@@ -82,10 +82,12 @@ jobs:
       with:
         go-version: 1.17
 
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    
-    - run: make install
+    - name: Install Iter8
+      run: |
+        git clone https://github.com/sriumcp/iter8.git
+        cd iter8
+        git checkout initialv0.9
+        make install    
 
     - name: run greeter
       run: |
