@@ -6,6 +6,8 @@ hide:
 ---
 
 # News and Announcements
+* **Feb 2021:**  The New Stack blog on [Simple HTTP Load Testing with SLOs](https://thenewstack.io/simple-http-load-testing-with-slos/)
+
 * **Nov 2021:** Iter8 at ACM Symposium on Cloud Computing. Full paper [here](https://github.com/sriumcp/papers/blob/main/socc2021-final106.pdf)
 
     ![SLO Validation](images/socc-thumbnail.jpg)
