@@ -38,8 +38,8 @@ jobs:
     - name: load test GET endpoint
       run: |
         set -e
-        cd hub/charts/load-test-http
-        iter8 gen --set url=http://127.0.0.1/get
+        cd hub/charts
+        iter8 gen -c load-test-http --set url=http://127.0.0.1/get
         cat experiment.yaml
         iter8 run
         iter8 report
