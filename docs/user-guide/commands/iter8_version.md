@@ -1,11 +1,10 @@
 ---
-	template: main.html
-	title: "Iter8 Version"
-	hide:
-	- toc
-	---
-	
-	## iter8 version
+template: main.html
+title: "Iter8 Version"
+hide:
+- toc
+---
+## iter8 version
 
 Print Iter8 version information
 

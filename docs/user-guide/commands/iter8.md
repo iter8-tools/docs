@@ -1,11 +1,10 @@
 ---
-	template: main.html
-	title: "Iter8"
-	hide:
-	- toc
-	---
-	
-	## iter8
+template: main.html
+title: "Iter8"
+hide:
+- toc
+---
+## iter8
 
 Kubernetes Release Optimizer
 

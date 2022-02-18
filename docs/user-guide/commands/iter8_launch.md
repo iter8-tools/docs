@@ -1,11 +1,10 @@
 ---
-	template: main.html
-	title: "Iter8 Launch"
-	hide:
-	- toc
-	---
-	
-	## iter8 launch
+template: main.html
+title: "Iter8 Launch"
+hide:
+- toc
+---
+## iter8 launch
 
 Launch an Iter8 experiment.
 

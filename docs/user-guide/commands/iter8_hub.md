@@ -1,11 +1,10 @@
 ---
-	template: main.html
-	title: "Iter8 Hub"
-	hide:
-	- toc
-	---
-	
-	## iter8 hub
+template: main.html
+title: "Iter8 Hub"
+hide:
+- toc
+---
+## iter8 hub
 
 Download an experiment chart from an Iter8 experiment chart repo
 

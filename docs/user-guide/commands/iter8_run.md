@@ -1,11 +1,10 @@
 ---
-	template: main.html
-	title: "Iter8 Run"
-	hide:
-	- toc
-	---
-	
-	## iter8 run
+template: main.html
+title: "Iter8 Run"
+hide:
+- toc
+---
+## iter8 run
 
 Run experiment specified in experiment.yaml.
 

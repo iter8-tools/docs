@@ -1,11 +1,10 @@
 ---
-	template: main.html
-	title: "Iter8 Assert"
-	hide:
-	- toc
-	---
-	
-	## iter8 assert
+template: main.html
+title: "Iter8 Assert"
+hide:
+- toc
+---
+## iter8 assert
 
 Assert if experiment result satisfies the specified conditions
 

@@ -1,11 +1,10 @@
 ---
-	template: main.html
-	title: "Iter8 Report"
-	hide:
-	- toc
-	---
-	
-	## iter8 report
+template: main.html
+title: "Iter8 Report"
+hide:
+- toc
+---
+## iter8 report
 
 View report from experiment result
 
