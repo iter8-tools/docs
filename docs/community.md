@@ -4,7 +4,9 @@ hide:
 - navigation
 ---
 
-# Community meetings
+# Community
+
+## Meetings
 
 Everyone is welcome to join our community meetings. They are on the 3rd Wednesday of each month from 11:00 AM – 12:00 PM EST/EDT. Here is the [meeting link](https://meet.google.com/vzn-viec-dbs).
 
@@ -13,3 +15,11 @@ Everyone is welcome to join our community meetings. They are on the 3rd Wednesda
 Feel free to bring discussion topics to the meeting. If you would like to present a demo, please drop us a note in the [Iter8 Slack workspace](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw).
 
 Our meetings are also recorded and publicly available on our [YouTube channel](https://www.youtube.com/channel/UCVybpnQAhr1o-QRPHBNdUgg).
+
+## Slack
+
+Iter8 slack workspace is [here](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw). Join the Iter8 slack for usage and development related discussions.
+
+## Issues
+
+Iter8 issues are managed [here](https://github.com/iter8-tools/iter8/issues).
