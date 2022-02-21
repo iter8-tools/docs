@@ -18,25 +18,29 @@
 
     === "darwin-amd64 (MacOS)"
         ```shell
-        wget -qO- https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-darwin-amd64.tar.gz | tar xvz -
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-darwin-amd64.tar.gz
+        tar -xvf iter8-darwin-amd64.tar.gz
         ```
         Move `darwin-amd64/iter8` to any directory in your `PATH`.
 
     === "linux-amd64"
         ```shell
-        wget -qO- https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-linux-amd64.tar.gz | tar xvz -
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-linux-amd64.tar.gz
+        tar -xvf iter8-linux-amd64.tar.gz
         ```
         Move `linux-amd64/iter8` to any directory in your `PATH`.
 
     === "linux-386"
         ```shell
-        wget -qO- https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-linux-386.tar.gz | tar xvz -
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-linux-386.tar.gz
+        tar -xvf iter8-linux-386.tar.gz
         ```
         Move `linux-386/iter8` to any directory in your `PATH`.
 
     === "windows-amd64"
         ```shell
-        wget -qO- https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-windows-amd64.tar.gz | tar xvz -
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-windows-amd64.tar.gz
+        tar -xvf iter8-windows-amd64.tar.gz
         ```
         Move `windows-amd64/iter8.exe` to any directory in your `PATH`.
 
