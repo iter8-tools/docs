@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/0.8/*"
+  to = "https://iter8.tools/latest"
+  status = 200
+  force = true
