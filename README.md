@@ -32,12 +32,13 @@ iter8 report
 ```
 
 ### Benchmark a gRPC service
-Run sample gRPC service in a separate terminal.
+Start a sample gRPC service in a separate terminal.
 
 ```shell
 docker run -p 50051:50051 docker.io/grpc/java-example-hostname:latest
 ```
 
+Launch Iter8 experiment.
 ```shell
 iter8 launch -c load-test-grpc \
 --set host="127.0.0.1:50051" \
