@@ -1,7 +1,9 @@
-name: End-to-end tests
+name: end-to-end tests
 
 on:
   pull_request:
+  workflow_dispatch:
+
 
 jobs:
   load-test-http:
