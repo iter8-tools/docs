@@ -1,4 +1,4 @@
-name: end-to-end tests
+name: End-to-end tests
 
 on:
   pull_request:
@@ -15,10 +15,9 @@ jobs:
 
     - name: Install Iter8
       run: |
-        git clone https://github.com/sriumcp/iter8.git
-        cd iter8
-        git checkout initialv0.9
-        make install    
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-linux-amd64.tar.gz
+        tar -xvf iter8-linux-amd64.tar.gz
+        mv linux-amd64/iter8 /usr/local/bin
 
     - name: run httpbin
       run: |
@@ -29,47 +28,35 @@ jobs:
           sleep 5; 
         done;
 
-    - name: get charts
-      run: |
-        git clone https://github.com/sriumcp/hub.git
-        cd hub
-        git checkout ci
-
     - name: load test GET endpoint
       run: |
         set -e
-        cd hub/charts
-        iter8 gen -c load-test-http --set url=http://127.0.0.1/get
+        iter8 launch -c load-test-http --set url=http://127.0.0.1/get
         cat experiment.yaml
-        iter8 run
         iter8 report
         iter8 assert -c completed -c nofailure -c slos
 
     - name: load test GET endpoint
       run: |
         set -e
-        cd hub/charts
-        iter8 gen -c load-test-http --set url=http://127.0.0.1/get \
+        iter8 launch -c load-test-http --set url=http://127.0.0.1/get \
                   --set SLOs.http/latency-p25=80 \
                   --set SLOs.http/latency-p50=100 \
                   --set SLOs.http/latency-'p95\.0'=200
         cat experiment.yaml
-        iter8 run
         iter8 report
         iter8 assert -c completed -c nofailure -c slos
 
     - name: load test POST endpoint (image/jpeg)
       run: |
         set -e
-        cd hub/charts
-        iter8 gen -c load-test-http --set url=http://127.0.0.1/post \
+        iter8 launch -c load-test-http --set url=http://127.0.0.1/post \
                   --set payloadURL=https://cdn.pixabay.com/photo/2021/09/08/17/58/poppy-6607526_1280.jpg \
                   --set contentType="image/jpeg" \
                   --set SLOs.http/latency-p25=80 \
                   --set SLOs.http/latency-p50=100 \
                   --set SLOs.http/latency-'p95\.0'=200
         cat experiment.yaml
-        iter8 run
         iter8 report
         iter8 assert -c completed -c nofailure -c slos
 
@@ -84,10 +71,9 @@ jobs:
 
     - name: Install Iter8
       run: |
-        git clone https://github.com/sriumcp/iter8.git
-        cd iter8
-        git checkout initialv0.9
-        make install    
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.9.0/iter8-linux-amd64.tar.gz
+        tar -xvf iter8-linux-amd64.tar.gz
+        mv linux-amd64/iter8 /usr/local/bin
 
     - name: run greeter
       run: |
@@ -95,18 +81,11 @@ jobs:
         cd grpc-go/examples/helloworld
         go build greeter_server/main.go
         ./main &
-
-    - name: get charts
-      run: |
-        git clone https://github.com/sriumcp/hub.git
-        cd hub
-        git checkout ci
         
     - name: load test grpc service method
       run: |
         set -e
-        cd hub/charts
-        iter8 gen -c load-test-grpc --set-string host="127.0.0.1:50051" \
+        iter8 launch -c load-test-grpc --set-string host="127.0.0.1:50051" \
                   --set-string call="helloworld.Greeter.SayHello" \
                   --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
                   --set data.name="frodo" \
@@ -115,6 +94,5 @@ jobs:
                   --set SLOs.grpc/latency/p90=100 \
                   --set SLOs.grpc/latency/p'97\.5'=200
         cat experiment.yaml
-        iter8 run
         iter8 report
         iter8 assert -c completed -c nofailure -c slos
