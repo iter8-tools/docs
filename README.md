@@ -66,11 +66,9 @@ iter8 report
   Use with any app, serverless, or ML framework. Iter8 works with Kubernetes deployments, statefulsets, Knative services, KServe/Seldon ML deployments, or other custom Kubernetes resource types.
 
 ## Usage Examples
-1.  [Load test an HTTP service and validate SLOs](https://iter8.tools/0.8/getting-started/your-first-experiment/).
-2.  [Control the load characteristics during the HTTP load test experiment](https://iter8.tools/0.8/tutorials/load-test-http/loadcharacteristics/).
-3.  [Load test an HTTP POST endpoint with request payload](https://iter8.tools/0.8/tutorials/load-test-http/payload/).
-4.  [Learn more about built-in metrics and SLOs in an HTTP load test experiment](https://iter8.tools/0.8/tutorials/load-test-http/metricsandslos/).
-5.  [Load test a Knative HTTP service](https://iter8.tools/0.8/tutorials/load-test-http/community/knative/loadtest/).
+1.  [Load test, benchmark and validate HTTP services](https://iter8.tools/0.9/tutorials/load-test-http/usage/).
+2.  [Load test, benchmark and validate gRPC services](https://iter8.tools/0.9/tutorials/load-test-grpc/usage/).
+3.  Load test, benchmark and validate Knative services: [HTTP](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-http/) and [gRPC](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-grpc/)
 
 
 ## Documentation
