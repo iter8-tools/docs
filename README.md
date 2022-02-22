@@ -3,9 +3,8 @@
 [![Iter8 release](https://img.shields.io/github/v/release/iter8-tools/iter8?sort=semver)](https://github.com/iter8-tools/iter8/releases)
 [![GoDoc](https://img.shields.io/static/v1?label=godoc&message=reference&color=blue)](https://pkg.go.dev/github.com/iter8-tools/iter8)
 [![Unit test Coverage](https://codecov.io/gh/iter8-tools/iter8/branch/master/graph/badge.svg)](https://codecov.io/gh/iter8-tools/iter8)
-![Unit tests](https://github.com/iter8-tools/iter8/workflows/tests/badge.svg)
-![Integration tests](https://github.com/iter8-tools/hub/workflows/tests/badge.svg)
-![End-to-end tests](https://github.com/iter8-tools/docs/workflows/tests/badge.svg)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/iter8/tests?label=Unit%20tests)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/hub/tests?label=Integration%20tests)
 [![Slack channel](https://img.shields.io/badge/Slack-Join-purple)](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw)
 [![Community meetups](https://img.shields.io/badge/meet-Iter8%20community%20meetups-brightgreen)](https://iter8.tools/0.8/getting-started/help/)
 
@@ -23,13 +22,28 @@ Install Iter8 CLI. [See here](https://iter8.tools/latest/getting-started/install
 
 ```shell
 brew tap iter8-tools/iter8
-brew install iter8
+brew install iter8@0.9
 ```
 
-Benchmark an HTTP service.
-
+### Benchmark an HTTP service
 ```shell
 iter8 launch -c load-test-http --set url=https://httpbin.org/get
+iter8 report
+```
+
+### Benchmark a gRPC service
+Start a sample gRPC service in a separate terminal.
+
+```shell
+docker run -p 50051:50051 docker.io/grpc/java-example-hostname:latest
+```
+
+Launch Iter8 experiment.
+```shell
+iter8 launch -c load-test-grpc \
+--set host="127.0.0.1:50051" \
+--set call="helloworld.Greeter.SayHello" \
+--set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
 iter8 report
 ```
 

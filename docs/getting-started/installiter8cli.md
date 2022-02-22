@@ -3,14 +3,14 @@
 
     ```shell
     brew tap iter8-tools/iter8
-    brew install iter8
+    brew install iter8@0.9
     ```
     
     ??? note "Install a specific version"
-        You can install the Iter8 CLI with specific major and minor version numbers. For example, the following command installs the latest stable release of the Iter8 CLI with major `0` and minor `9`.
+        You can install the Iter8 CLI with specific major and minor version numbers. For example, the following command installs the release of the Iter8 CLI with major `0` and minor `8`.
         ```shell
         brew tap iter8-tools/iter8
-        brew install iter8@0.9
+        brew install iter8@0.8
         ```
 
 === "Binaries"
@@ -46,18 +46,18 @@
 
 
 === "Source"
-    Go `1.17+` is a pre-requisite.  Replace `master` with [any desired Iter8 release tag](https://github.com/iter8-tools/iter8/releases).
+    Go `1.17+` is a pre-requisite.  Replace `v0.9.0` with [any desired Iter8 release tag](https://github.com/iter8-tools/iter8/releases).
 
     ```shell
-    export TAG=master
+    export TAG=v0.9.0
     https://github.com/iter8-tools/iter8.git?ref=${TAG}
     cd iter8
     make install
     ```
 
 === "Go 1.17+"
-    You can replace `latest` with [any desired Iter8 release tag](https://github.com/iter8-tools/iter8/releases).
+    You can replace `v0.9.0` with [any desired Iter8 release tag](https://github.com/iter8-tools/iter8/releases).
     ```shell
-    go install github.com/iter8-tools/iter8@latest
+    go install github.com/iter8-tools/iter8@v0.9.0
     ```
     You can now run `iter8` (from your gopath bin/ directory)

@@ -14,9 +14,6 @@ jobs:
     # setup pre-reqs
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 # fetch all commits for mike deploy
-        ref: refs/heads/master # checkout master branch to make pull request    
     - name: Get version
       run: |
         tarref=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
