@@ -135,7 +135,6 @@ nav:
     - Basic usage: tutorials/load-test-http/usage.md
   - Benchmark and validate gRPC:
     - Basic usage: tutorials/load-test-grpc/usage.md
-    - Streaming gRPC: tutorials/load-test-grpc/streaming.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
     - Knative:
@@ -146,19 +145,15 @@ nav:
     - Litmus: tutorials/integrations/litmus.md
     - Istio: tutorials/integrations/istio.md
     - Linkerd: tutorials/integrations/linkerd.md
-  # - Other Experiment Types:
-  #   - SLOs with Prometheus: tutorials/slos-with-prometheus.md
-  #   - A/B(/n) testing: tutorials/abn.md
-  #   - Chaos testing with SLOs: tutorials/chaos.md
-  #   - Mirroring: tutorials/mirroring.md
-  #   - Percentage traffic-split: tutorials/traffic-percent.md
-  #   - Session affinity: tutorials/session-affinity.md
-  #   - Gradual traffic shifting: tutorials/gradual-traffic-shifting.md
+  - Earlier versions:
+    - Docs for Iter8 v0.8: https://iter8-tools.github.io/iter8/0.8/
+    - Docs for Iter8 v0.7: https://iter8-tools.github.io/iter8/0.7/
 - User guide:
+  - Topics:
+    - Chart Documentation: user-guide/topics/chart-docs.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 hub: user-guide/commands/iter8_hub.md
-    - iter8 gen: user-guide/commands/iter8_gen.md
     - iter8 run: user-guide/commands/iter8_run.md
     - iter8 launch: user-guide/commands/iter8_launch.md
     - iter8 assert: user-guide/commands/iter8_assert.md
