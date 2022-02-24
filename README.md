@@ -9,7 +9,7 @@
 > - Benchmark and validate apps
 > - Maximize business value
 > - Simplify CI/CD/GitOps
-> - Start using in seconds with any app/serverless/ML framework
+> - Get started in seconds
 
 <p align='center'>
 <img alt-text="Iter8 experiment" src="https://iter8-tools.github.io/docs/0.9/images/iter8-intro-dark.png" width="70%" />
