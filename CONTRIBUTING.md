@@ -16,11 +16,11 @@ bug report and let us know!
 
 We welcome many different types of contributions including:
 
-* [Tutorials and other documentation](#iter8-docs)
-* [Experiment charts](#iter8-hub)
-* [Iter8 CLI features](#iter8-cli)
+* [Tutorials and other documentation](#iter8-toolsdocs)
+* [Experiment charts](#iter8-toolshub)
+* [CLI features, and experiment tasks](#iter8-toolsiter8)
 * CI, builds, and tests
-* [Web design](#iter8-docs)
+* [Web design](#iter8-toolsdocs)
 * Reviewing pull requests
 * Communication, social media, blog posts
 
@@ -122,7 +122,7 @@ make coverage
 make htmlcov
 ```
 
-### hub
+### iter8-tools/hub
 
 This is the source repo for Iter8 experiment charts.
 
@@ -139,7 +139,7 @@ Add integration tests for Iter8 hub in the `.github/workflows/tests.yaml` file.
 Iter8 experiment charts are Helm charts under the covers, and are semantically versioned as per [Helm chart versioning specifications](https://helm.sh/docs/topics/charts/#charts-and-versioning). Every change to the chart must be accompanied by an increment to the version number of the chart. For most changes, this would mean an increment to the patch version (for example, the `version` field in `Chart.yaml` may be incremented from `0.1.0` to `0.1.1`).
 
 
-### Iter8 docs
+### iter8-tools/docs
 
 This is the source repo for Iter8 documentation.
 
