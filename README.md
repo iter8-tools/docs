@@ -49,9 +49,9 @@ iter8 report
 ## To start using Iter8
 Get started with Iter8 using the following examples.
 
-1.  [Load test, benchmark and validate HTTP services](https://iter8.tools/0.9/tutorials/load-test-http/usage/).
-2.  [Load test, benchmark and validate gRPC services](https://iter8.tools/0.9/tutorials/load-test-grpc/usage/).
-3.  Load test, benchmark and validate Knative services: [HTTP](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-http/) and [gRPC](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-grpc/)
+1.  [Load test, benchmark and validate HTTP services with SLOs](https://iter8.tools/0.9/tutorials/load-test-http/usage/).
+2.  [Load test, benchmark and validate HTTP services with SLOs](https://iter8.tools/0.9/tutorials/load-test-grpc/usage/).
+3.  Load test, benchmark and validate Knative services with SLOs: [HTTP](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-http/) and [gRPC](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-grpc/)
 
 ### Documentation
 Complete Iter8 documentation is available at https://iter8.tools.
