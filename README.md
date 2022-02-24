@@ -5,16 +5,16 @@
 [![Unit test Coverage](https://codecov.io/gh/iter8-tools/iter8/branch/master/graph/badge.svg)](https://codecov.io/gh/iter8-tools/iter8)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/iter8/tests?label=Unit%20tests)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/hub/tests?label=Integration%20tests)
-[![Slack channel](https://img.shields.io/badge/Slack-Join-purple)](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw)
-[![Community meetups](https://img.shields.io/badge/meet-Iter8%20community%20meetups-brightgreen)](https://iter8.tools/0.8/getting-started/help/)
 
-> Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams.
+> :heavy_check_mark: Benchmark and validate apps
+> :heavy_check_mark: Maximize business value
+> :heavy_check_mark: Simplify CI/CD/GitOps
+> :heavy_check_mark: Use with any app/serverless/ML framework
+> :heavy_check_mark: Start using Iter8 in seconds
 
 <p align='center'>
 <img alt-text="Iter8 experiment" src="https://iter8-tools.github.io/docs/0.9/images/iter8-intro-dark.png" width="70%" />
 </p>
-
-> Use Iter8 experiments to safely rollout apps and ML models, and maximize business value with each release. Use with any app/serverless/ML framework.
 
 ## Quick start
 
