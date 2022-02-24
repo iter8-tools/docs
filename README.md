@@ -1,4 +1,4 @@
-# Iter8: Kubernetes Release Optimizer
+# :dart: Iter8: Kubernetes Release Optimizer
 
 [![Iter8 release](https://img.shields.io/github/v/release/iter8-tools/iter8?sort=semver)](https://github.com/iter8-tools/iter8/releases)
 [![GoDoc](https://img.shields.io/static/v1?label=godoc&message=reference&color=blue)](https://pkg.go.dev/github.com/iter8-tools/iter8)
