@@ -4,10 +4,10 @@ template: main.html
 
 # Iter8
 
-Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams.
+Kubernetes release optimizer.
 
 ## Iter8 experiment
-Iter8 experiments make it simple to collect performance and business metrics for apps and ML models, assess, compare and validate multiple app/ML model versions, promote the winning version, and maximize business value in each release.
+Iter8 experiments make it simple benchmark and validate HTTP and gRPC services with SLOs, and maximize business value with each release. Experiments can be run locally, inside Kubernetes, or inside CI/CD/GitOps pipelines.
 
 <p align='center'>
   <img alt-text="load-test-http" src="../../images/iter8-intro-dark.png" width="70%" />
@@ -18,24 +18,6 @@ Experiment charts are [Helm charts](https://helm.sh/docs/topics/charts/) with a 
 
 #### Iter8 hub
 Iter8 hub refers to the URL of a Helm repo that hosts Iter8 experiment charts. Unless stated otherwise, Iter8 hub refers to the default URL https://iter8-tools.github.io/hub/. You can host Iter8 experiment charts in any Helm repo, and use them with Iter8.
-
-## Features at a glance
-
-- **Load testing with SLOs** 
-    
-    Iter8 experiments can generate requests for HTTP and gRPC services, collect built-in latency and error-related metrics, and validate SLOs.
-
-- **A/B(/n) testing** 
-      
-    Grow your business with every release. Iter8 experiments can compare multiple versions based on business value and identify a winner.
-
-- **Simple to use** 
-      
-    Get started with Iter8 in seconds using pre-packaged experiment charts. Run Iter8 experiments locally, inside Kubernetes, or inside your CI/CD/GitOps pipelines.
-
-- **App frameworks** 
-      
-    Use with any app, serverless, or ML framework. Iter8 works with Kubernetes deployments, statefulsets, Knative services, KServe/Seldon ML deployments, or other custom Kubernetes resource types.
 
 ## Implementation
 Iter8 is written in `go` and builds on a few awesome open source projects including:

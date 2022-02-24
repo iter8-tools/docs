@@ -85,7 +85,7 @@ Refer to [your first experiment](../../getting-started/your-first-experiment.md#
 ***
 
 ### Assert
-The `iter8 assert` subcommand asserts if experiment result satisfies the specified conditions. If assert conditions are satisfied, it exits with code `0`; else, it exits with code `1`. Assertions are especially useful within CI/CD/GitOps pipelines.
+The `iter8 assert` subcommand asserts if experiment result satisfies the specified conditions. If assert conditions are satisfied, it exits with code `0`; else, it exits with code `1`. Assertions are especially useful inside CI/CD/GitOps pipelines.
 
 Assert that the experiment completed without failures, and all SLOs are satisfied.
 ```shell

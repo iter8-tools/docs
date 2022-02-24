@@ -22,22 +22,12 @@ iter8 launch -c load-test-http --set url=https://httpbin.org/get
 ```
 
 ## 3. View experiment report
-=== "HTML"
-    ```shell
-    iter8 report -o html > report.html
-    # open report.html with a browser. In MacOS, you can use the command:
-    # open report.html
-    ```
-
-    ???+ note "The HTML report looks like this"
-        ![HTML report](images/report.html.png)
-
 === "Text"
     ```shell
     iter8 report
     ```
 
-    ???+ note "The text report looks like this"
+    ??? note "The text report looks like this"
         ```shell
         Experiment summary:
         *******************
@@ -66,6 +56,14 @@ iter8 launch -c load-test-http --set url=https://httpbin.org/get
           built-in/http-latency-stddev (msec) |37.94
           built-in/http-request-count         |100.00
         ```
+
+=== "HTML"
+    ```shell
+    iter8 report -o html > report.html # view in a browser
+    ```
+
+    ??? note "The HTML report looks like this"
+        ![HTML report](images/report.html.png)
 
 Congratulations! :tada: You completed your first Iter8 experiment.
 

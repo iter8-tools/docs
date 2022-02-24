@@ -13,7 +13,7 @@ Assert if experiment result satisfies the specified conditions
 
 Assert if experiment result satisfies the specified conditions. 
 If assert conditions are satisfied, exit with code 0. Else, exit with code 1. 
-Assertions are especially useful within CI/CD/GitOps pipelines.
+Assertions are especially useful inside CI/CD/GitOps pipelines.
 
 ```
 iter8 assert [flags]
