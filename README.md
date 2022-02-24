@@ -6,7 +6,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/iter8/tests?label=Unit%20tests)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/hub/tests?label=Integration%20tests)
 
-> - Benchmark and validate apps
+> - Benchmark and validate apps with SLOs
 > - Maximize business value
 > - Simplify CI/CD/GitOps
 > - Get started in seconds
