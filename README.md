@@ -6,15 +6,15 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/iter8/tests?label=Unit%20tests)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/hub/tests?label=Integration%20tests)
 
-:heavy_check_mark: Benchmark and validate apps
+> Benchmark and validate apps
 
-:heavy_check_mark: Maximize business value
+> Maximize business value
 
-:heavy_check_mark: Simplify CI/CD/GitOps
+> Simplify CI/CD/GitOps
 
-:heavy_check_mark: Use with any app/serverless/ML framework
+> Use with any app/serverless/ML framework
 
-:heavy_check_mark: Start using Iter8 in seconds
+> Get started in seconds
 
 <p align='center'>
 <img alt-text="Iter8 experiment" src="https://iter8-tools.github.io/docs/0.9/images/iter8-intro-dark.png" width="70%" />
