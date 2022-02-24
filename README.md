@@ -6,11 +6,11 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/iter8/tests?label=Unit%20tests)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/hub/tests?label=Integration%20tests)
 
-> Iter8 is thee Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams.
-
-> Use Iter8 to benchmark and validate apps, maximize business value with each release, and simplify CI/CD/GitOps.
-
-> Start using in seconds with any app/serverless/ML framework
+> **Iter8** is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams.
+>
+> **Use Iter8** to benchmark and validate apps, maximize business value with each release, and simplify CI/CD/GitOps.
+>
+> Start using in **seconds** with any app/serverless/ML framework
 
 <p align='center'>
 <img alt-text="Iter8 experiment" src="https://iter8-tools.github.io/docs/0.9/images/iter8-intro-dark.png" width="70%" />
