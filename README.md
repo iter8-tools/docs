@@ -15,7 +15,7 @@
 <img alt-text="Iter8 experiment" src="https://iter8-tools.github.io/docs/0.9/images/iter8-intro-dark.png" width="70%" />
 </p>
 
-## :rocket" Getting started
+## :rocket: Getting started
 
 ### Install Iter8 CLI
 ```shell
