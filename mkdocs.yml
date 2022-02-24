@@ -42,6 +42,7 @@ theme:
 # Plugins
 plugins:
 - search
+- tags
 - minify:
     minify_html: true
 - mike

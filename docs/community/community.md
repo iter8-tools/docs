@@ -16,7 +16,7 @@ Our meetings are also recorded and publicly available on our [YouTube channel](h
 
 ## Slack
 
-Iter8 slack workspace is [here](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw). Join the Iter8 slack for usage and development related discussions.
+Iter8 Slack workspace is [here](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw). Join the Iter8 Slack for usage and development related discussions.
 
 ## GitHub Issues
 

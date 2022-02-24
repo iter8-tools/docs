@@ -1,5 +1,10 @@
 ---
 template: main.html
+tags:
+- load testing
+- benchmarking
+- SLOs
+- HTTP
 ---
 
 # Benchmark and Validate HTTP Services

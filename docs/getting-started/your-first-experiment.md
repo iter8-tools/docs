@@ -1,5 +1,9 @@
 ---
 template: main.html
+tags:
+- load testing
+- benchmarking
+- HTTP
 ---
 
 # Your First Experiment
