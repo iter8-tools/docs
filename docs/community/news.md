@@ -1,8 +1,5 @@
 ---
 template: main.html
-hide:
-- navigation
-- toc
 ---
 
 # News and Announcements

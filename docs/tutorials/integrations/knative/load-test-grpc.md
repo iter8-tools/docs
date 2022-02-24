@@ -1,5 +1,11 @@
 ---
 template: main.html
+tags:
+- load testing
+- benchmarking
+- SLOs
+- gRPC
+- Knative
 ---
 
 # Benchmark and Validate a Knative gRPC service
