@@ -57,6 +57,8 @@ Get started with Iter8 using the following examples.
 Complete Iter8 documentation is available at https://iter8.tools.
 
 ## To start developing Iter8
+We welcome PRs!
+
 See [here](CONTRIBUTING.md) for information about ways to contribute, Iter8 community meetings, finding an issue, asking for help, pull-request lifecycle, and more.
 
 ## Credits
