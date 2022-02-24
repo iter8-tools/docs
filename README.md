@@ -7,9 +7,13 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/hub/tests?label=Integration%20tests)
 
 > :heavy_check_mark: Benchmark and validate apps
+
 > :heavy_check_mark: Maximize business value
+
 > :heavy_check_mark: Simplify CI/CD/GitOps
+
 > :heavy_check_mark: Use with any app/serverless/ML framework
+
 > :heavy_check_mark: Start using Iter8 in seconds
 
 <p align='center'>
