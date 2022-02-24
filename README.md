@@ -52,7 +52,7 @@ iter8 report
 3.  Load test, benchmark and validate Knative services with SLOs: [HTTP](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-http/) and [gRPC](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-grpc/)
 
 ### Documentation
-Complete Iter8 documentation is available at https://iter8.tools.
+Iter8 documentation is available at https://iter8.tools.
 
 ## :wrench: Developing Iter8
 We welcome PRs!
