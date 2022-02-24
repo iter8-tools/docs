@@ -67,14 +67,14 @@
     &:focus,
     &:hover {
       color: var(--md-accent-bg-color);
-      background-color: var(--md-accent-fg-color);
+      background-color: #7c2d4e;
       border-color: var(--md-accent-fg-color);
     }
 
     // reverse button
     &--reverse {
       color: var(--md-accent-bg-color);
-      background-color: var(--md-accent-fg-color);
+      background-color: #7c2d4e;
       border-color: var(--md-accent-fg-color);
 
       &:focus,

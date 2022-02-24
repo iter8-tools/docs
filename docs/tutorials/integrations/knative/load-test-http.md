@@ -1,5 +1,11 @@
 ---
 template: main.html
+tags:
+- load testing
+- benchmarking
+- SLOs
+- HTTP
+- Knative
 ---
 
 # Benchmark and Validate a Knative HTTP service

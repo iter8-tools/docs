@@ -1,5 +1,10 @@
 ---
 template: main.html
+tags:
+- load testing
+- benchmarking
+- SLOs
+- gRPC
 ---
 
 # Benchmark and Validate gRPC Services
