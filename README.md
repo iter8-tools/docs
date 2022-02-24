@@ -15,14 +15,14 @@
 <img alt-text="Iter8 experiment" src="https://iter8-tools.github.io/docs/0.9/images/iter8-intro-dark.png" width="70%" />
 </p>
 
-## Quick start
+## Getting started
 
-Install Iter8 CLI. [See here](https://iter8.tools/latest/getting-started/install) for more ways to install.
-
+### Install Iter8 CLI
 ```shell
 brew tap iter8-tools/iter8
 brew install iter8@0.9
 ```
+[See here](https://iter8.tools/latest/getting-started/install) for more ways to install.
 
 ### Benchmark an HTTP service
 ```shell
