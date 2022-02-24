@@ -1,7 +1,5 @@
 ---
 template: main.html
-hide:
-- navigation
 ---
 
 # Community
@@ -20,6 +18,6 @@ Our meetings are also recorded and publicly available on our [YouTube channel](h
 
 Iter8 slack workspace is [here](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw). Join the Iter8 slack for usage and development related discussions.
 
-## Issues
+## GitHub Issues
 
-Iter8 issues are managed [here](https://github.com/iter8-tools/iter8/issues).
+GitHub issues for all Iter8 repos are managed [here](https://github.com/iter8-tools/iter8/issues).
