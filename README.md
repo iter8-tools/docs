@@ -46,9 +46,7 @@ iter8 launch -c load-test-grpc \
 iter8 report
 ```
 
-## :dart: To start using Iter8
-Get started with Iter8 using the following examples.
-
+## :dart: Usage examples
 1.  [Load test, benchmark and validate HTTP services with SLOs](https://iter8.tools/0.9/tutorials/load-test-http/usage/).
 2.  [Load test, benchmark and validate HTTP services with SLOs](https://iter8.tools/0.9/tutorials/load-test-grpc/usage/).
 3.  Load test, benchmark and validate Knative services with SLOs: [HTTP](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-http/) and [gRPC](https://iter8.tools/0.9/tutorials/integrations/knative/load-test-grpc/)
@@ -56,7 +54,7 @@ Get started with Iter8 using the following examples.
 ### Documentation
 Complete Iter8 documentation is available at https://iter8.tools.
 
-## :wrench: To start developing Iter8
+## :wrench: Developing Iter8
 We welcome PRs!
 
 See [here](CONTRIBUTING.md) for information about ways to contribute, Iter8 community meetings, finding an issue, asking for help, pull-request lifecycle, and more.
