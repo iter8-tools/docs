@@ -1,4 +1,4 @@
-# :dart: Iter8: Kubernetes Release Optimizer
+# :zap: Iter8: Kubernetes Release Optimizer
 
 [![Iter8 release](https://img.shields.io/github/v/release/iter8-tools/iter8?sort=semver)](https://github.com/iter8-tools/iter8/releases)
 [![GoDoc](https://img.shields.io/static/v1?label=godoc&message=reference&color=blue)](https://pkg.go.dev/github.com/iter8-tools/iter8)
@@ -46,7 +46,7 @@ iter8 launch -c load-test-grpc \
 iter8 report
 ```
 
-## To start using Iter8
+## :dart: To start using Iter8
 Get started with Iter8 using the following examples.
 
 1.  [Load test, benchmark and validate HTTP services with SLOs](https://iter8.tools/0.9/tutorials/load-test-http/usage/).
@@ -56,12 +56,12 @@ Get started with Iter8 using the following examples.
 ### Documentation
 Complete Iter8 documentation is available at https://iter8.tools.
 
-## To start developing Iter8
+## :wrench: To start developing Iter8
 We welcome PRs!
 
 See [here](CONTRIBUTING.md) for information about ways to contribute, Iter8 community meetings, finding an issue, asking for help, pull-request lifecycle, and more.
 
-## Credits
+## :hibiscus: Credits
 Iter8 is primarily written in `Go` and builds on a few awesome open source projects including:
 
 - [Helm](https://helm.sh)
