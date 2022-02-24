@@ -8,7 +8,7 @@
 
 > - Benchmark and validate apps
 > - Maximize business value
-> - Simplify CI/CD/GitOps.
+> - Simplify CI/CD/GitOps
 > - Start using in seconds with any app/serverless/ML framework
 
 <p align='center'>
