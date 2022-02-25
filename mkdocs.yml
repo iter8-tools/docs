@@ -151,6 +151,7 @@ nav:
 - User guide:
   - Topics:
     - Chart Documentation: user-guide/topics/chart-docs.md
+    - Readiness check: user-guide/topics/readiness.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 hub: user-guide/commands/iter8_hub.md

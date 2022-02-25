@@ -10,260 +10,69 @@ tags:
 
 # Benchmark and Validate Kubernetes gRPC Services
 
-!!! tip "Overview"
-    Load test, benchmark and validate a Kubernetes gRPC service with SLOs using the  [`load-test-grpc` experiment chart](basicusage.md). The Kubernetes service may be externally accessible or cluster-local.
+Load test, benchmark, and validate a gRPC service that is running within a Kubernetes cluster using the  [`load-test-grpc` experiment](basicusage.md). The gRPC service may be exposed outside the cluster or may be local.
 
-    ***
+<p align='center'>
+  <img alt-text="load-test-http" src="../images/kubernetesusage.png" width="90%" />
+</p>
 
-    **Use-cases:** 
-    
-    - Load test
-    - Benchmark
-    - Validate service level objectives (SLOs)
-    - Safe rollout
-    - Continuous delivery (CD)
-    
-    If the gRPC service satisfies SLOs, it may be safely rolled out, for example, from a test environment to production.  
+***
 
-    ***
-
-    <p align='center'>
-      <img alt-text="load-test-http" src="../images/grpc-overview.png" width="90%" />
-    </p>
+--8<-- "docs/tutorials/load-test-grpc/usecases.md"
 
 ***
 
 ???+ warning "Before you begin"
-    1. [Install Iter8 CLI](../../getting-started/install.md).
-    2. Run the Greeter service in a separate terminal. Choose any language and follow the linked instructions.
-
-        === "C#"
-            [Run the gRPC service](https://grpc.io/docs/languages/csharp/quickstart/#run-a-grpc-application).
-
-        === "C++"
-            [Run the gRPC service](https://grpc.io/docs/languages/cpp/quickstart/#try-it).
-
-        === "Dart"
-            [Run the gRPC service](https://grpc.io/docs/languages/dart/quickstart/#run-the-example).
-
-        === "Go"
-            [Run the gRPC service](https://grpc.io/docs/languages/go/quickstart/#run-the-example).
-
-        === "Java"
-            [Run the gRPC service](https://grpc.io/docs/languages/java/quickstart/#run-the-example).
-
-        === "Kotlin"
-            [Run the gRPC service](https://grpc.io/docs/languages/kotlin/quickstart/#run-the-example).
-
-        === "Node"
-            [Run the gRPC service](https://grpc.io/docs/languages/node/quickstart/#run-a-grpc-application).
-
-        === "Objective-C"
-            [Run the gRPC service](https://grpc.io/docs/languages/objective-c/quickstart/#run-the-server).
-
-        === "PHP"
-            [Run the gRPC service](https://grpc.io/docs/languages/php/quickstart/#run-the-example).
-
-        === "Python"
-            [Run the gRPC service](https://grpc.io/docs/languages/python/quickstart/#run-a-grpc-application).
-
-        === "Ruby"
-            [Run the gRPC service](https://grpc.io/docs/languages/ruby/quickstart/#run-a-grpc-application).
+    ```shell title="Deploy sample gRPC app in Kubernetes cluster"
+    kubectl create deploy hello --image=docker.io/grpc/java-example-hostname:latest --port=50051
+    kubectl expose deploy hello --port=50051      
+    ```
 
 ***
 
-## Basic example
-Benchmark a gRPC service by specifying its `host`, its fully-qualified method name (`call`), and the URL of Protocol Buffer file (`protoURL`) defining the service.
-
+## Launch experiment
 ```shell
-iter8 launch -c load-test-grpc \
-          --set host="127.0.0.1:50051" \
-          --set call="helloworld.Greeter.SayHello" \
-          --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
-```
-
-
-## Metrics and SLOs
-The following metrics are collected by default by this experiment:
-
-- `grpc/request-count`: total number of requests sent
-- `grpc/error-count`: number of error responses
-- `grpc/error-rate`: fraction of error responses
-
-In addition to default metrics mentioned above, the following latency metrics are also supported. Latency metrics have `msec` units.
-
-- `grpc/latency/mean`: Mean latency
-- `grpc/latency/stddev`: Standard deviation of latency
-- `grpc/latency/min`: Min latency
-- `grpc/latency/max`: Max latency
-- `grpc/latency/pX`: X-th percentile latency, for any X in the range 0.0 to 100.0
-
-Any metrics that are specified as part of SLOs are also collected. 
-
-***
-
-```shell
---set SLOs.grpc/error-rate=0 \
+iter8 k launch -c load-test-grpc \
+--set host="hello:50051" \
+--set call="helloworld.Greeter.SayHello" \
+--set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
 --set SLOs.grpc/latency/mean=50 \
---set SLOs.grpc/latency/p90=100 \
---set SLOs.grpc/latency/p'97\.5'=200
+--set readiness.service="hello" \
+--set readiness.deploy="hello"
 ```
 
-In the above setting, the following SLOs will be validated.
-
-- error rate is 0
-- mean latency is under 50 msec
-- 90th percentile latency is under 100 msec
-- 97.5th percentile latency is under 200 msec
+Also refer to [readiness check](../../user-guide/topics/readiness.md).
 
 ***
 
-### Report
-
-Refer to [your first experiment](../../getting-started/your-first-experiment.md#3-view-experiment-report) for examples of HTML and text `iter8 report`.
-
-***
-
-### Assert
-
-Refer to [load-test-http](../load-test-http/basicusage.md#assert) for an example of `iter8 assert`.
-
-## Load profile
-Control the characteristics of the generated load generated by setting the number of requests (`total`), the number of requests per second (`rps`), number of connections to use (`connections`), and the number of concurrent request workers to use which will be distributed across the connections (`concurrency`).
-
+## Assert outcomes
 ```shell
---set total=500 \
---set rps=25 \
---set concurrency=50 \
---set connections=10
+iter8 k assert -c completed -c nofailure -c slos --timeout=30s
 ```
 
-Refer to the [chart's `values.yaml` file](../../user-guide/topics/chart-docs.md) for additional parameters related to the load profile such as `duration`, `maxDuration`, `connectTimeout`, and `keepalive`.
+***
 
-
-## Call data
-gRPC calls may include data serialized as [Protocol Buffer messages](https://grpc.io/docs/what-is-grpc/introduction/#working-with-protocol-buffers).
-
-=== "Data"
-    Specify call data as values.
+## View report
+=== "Text"
     ```shell
-    --set data.name="frodo"
+    iter8 k report
     ```
 
-    Call data may be nested.
-
+=== "HTML"
     ```shell
-    --set data.name="frodo" \
-    --set data.realm.planet="earth" \
-    --set data.realm.location="middle" 
-    ```
-
-=== "Data file"
-    Use JSON data from a local file.
-
-    ```shell
-    --set dataFile="/the/path/to/data.json" # "./data.json" also works
-    ```
-
-=== "Data URL"
-    Supply a URL that hosts JSON data. Iter8 will download the data from this URL and use it in the requests.
-    ```shell
-    --set dataURL="https://location.of/data.json"
-    ```
-
-=== "Binary data file"
-    Use binary data from a local file serialized as a single binary message or multiple count-prefixed messages.
-
-    ```shell
-    --set binaryDataFile="/the/path/to/data.bin" # "./data.bin" also works
-    ```
-
-=== "Binary data URL"
-    Supply a URL that hosts binary data serialized as a single binary message or multiple count-prefixed messages. Iter8 will download the data from this URL and use it in the requests.
-
-    ```shell
-    --set binaryDataURL="https://location.of/data.bin"
+    iter8 k report -o html > report.html # view in a browser
     ```
 
 ***
 
-For client streaming or bi-directional calls, this experiment accepts an array of messages, each element representing a single message within the stream call. If a single object is given for data, then it is automatically converted to an array with single element.
-
+## Get experiment logs
 ```shell
---set data[0].name="Joe" \
---set data[1].name="Kate" \
---set data[2].name="Sara"
+iter8 k logs
 ```
-    
-In case of client streaming, this experiment sends all the data in the input array, and then closes and receives.
 
+Refer to the log level flag during `iter8 k launch`.
 
-## Call metadata
-gRPC calls may include [metadata](https://grpc.io/docs/what-is-grpc/core-concepts/#metadata) which is information about a particular call.
+***
 
-=== "Metadata"
-    Supply metadata as values.
-    ```shell
-    --set metadata.darth="vader" \
-    --set metadata.lord="sauron" \
-    --set metadata.volde="mort"
-    ```
-
-=== "Metadata file"
-    Use JSON metadata from a local file.
-
-    ```shell
-    --set metadataFile="/the/path/to/metadata.json" # "./metadata.json" also works
-    ```
-
-=== "Metadata URL"
-    Supply a URL that hosts JSON metadata. Iter8 will download the metadata from this URL and use it in the requests.
-
-    ```shell
-    --set metadataURL="https://location.of/metadata.json"
-    ```
-
-
-## Proto and reflection
-The gRPC server method signatures and message formats are defined in a `.proto` source file, which may also be compiled to a `.protoset` file.
-
-=== "Proto file"
-    Use a local `.proto` source file.
-
-    ```shell
-    --set protoFile="/path/to/helloworld.proto" # "./helloworld.proto" also works
-    ```
-
-=== "Proto URL"
-    Use a URL that hosts a `.proto` source file. Iter8 will download the Protocol Buffer file and use it in the experiment.
-
-    ```shell
-    --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
-    ```
-
-=== "Protoset file"
-    Supply the name of a `.protoset` file that is compiled from `.proto` source files.
-
-    ```shell
-    --set protosetFile="./myservice.protoset"
-    ```
-
-=== "Protoset URL"
-    Supply a URL that hosts a `.protoset` file.
-
-    ```shell
-    --set protosetURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.protoset"
-    ```
-
-=== "Reflection"
-    In the absence of `.proto` and `.protoset` information, the experiment will attempt to use [server reflection](https://github.com/grpc/grpc/blob/master/doc/server-reflection.md). You can supply reflect metadata.
-
-    ```shell
-    --set reflectMetadata.clientId="5hL64dd0" \
-    --set reflectMetadata.clientMood="delightful"
-    ```
-
-
-## Streaming gRPC
-
-Refer to the `values.yaml` file which documents additional parameters related to streaming gRPC such as `streamInterval`, `streamCallDuration`, and `streamCallCount`.
+## Set values
+You can set any parameter described in the [basic usage of `load-test-grpc`](basicusage.md) during `iter8 k launch` of the `load-test-grpc` experiment.

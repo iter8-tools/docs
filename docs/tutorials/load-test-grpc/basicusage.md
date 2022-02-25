@@ -9,76 +9,64 @@ tags:
 
 # Benchmark and Validate gRPC Services
 
-!!! tip "Overview"
-    The `load-test-grpc` experiment generates call requests for gRPC services, collects latency and error-related metrics, and validates service-level objectives (SLOs).
+The `load-test-grpc` experiment generates call requests for gRPC services, collects latency and error-related metrics, and validates service-level objectives (SLOs).
 
-    ***
+<p align='center'>
+  <img alt-text="load-test-http" src="../images/grpc-overview.png" width="90%" />
+</p>
 
-    **Use-cases:** 
-    
-    - Load test
-    - Benchmark
-    - Validate service level objectives (SLOs)
-    - Safe rollout
-    - Continuous delivery (CD)
-    
-    If the gRPC service satisfies SLOs, it may be safely rolled out, for example, from a test environment to production.  
+***
 
-    ***
-
-    <p align='center'>
-      <img alt-text="load-test-http" src="../images/grpc-overview.png" width="90%" />
-    </p>
+--8<-- "docs/tutorials/load-test-grpc/usecases.md"
 
 ***
 
 ???+ warning "Before you begin"
-    1. [Install Iter8 CLI](../../getting-started/install.md).
-    2. Run the Greeter service in a separate terminal. Choose any language and follow the linked instructions.
+    Run the Greeter service in a separate terminal. Choose any language and follow the linked instructions.
 
-        === "C#"
-            [Run the gRPC service](https://grpc.io/docs/languages/csharp/quickstart/#run-a-grpc-application).
+    === "C#"
+        [Run the gRPC service](https://grpc.io/docs/languages/csharp/quickstart/#run-a-grpc-application).
 
-        === "C++"
-            [Run the gRPC service](https://grpc.io/docs/languages/cpp/quickstart/#try-it).
+    === "C++"
+        [Run the gRPC service](https://grpc.io/docs/languages/cpp/quickstart/#try-it).
 
-        === "Dart"
-            [Run the gRPC service](https://grpc.io/docs/languages/dart/quickstart/#run-the-example).
+    === "Dart"
+        [Run the gRPC service](https://grpc.io/docs/languages/dart/quickstart/#run-the-example).
 
-        === "Go"
-            [Run the gRPC service](https://grpc.io/docs/languages/go/quickstart/#run-the-example).
+    === "Go"
+        [Run the gRPC service](https://grpc.io/docs/languages/go/quickstart/#run-the-example).
 
-        === "Java"
-            [Run the gRPC service](https://grpc.io/docs/languages/java/quickstart/#run-the-example).
+    === "Java"
+        [Run the gRPC service](https://grpc.io/docs/languages/java/quickstart/#run-the-example).
 
-        === "Kotlin"
-            [Run the gRPC service](https://grpc.io/docs/languages/kotlin/quickstart/#run-the-example).
+    === "Kotlin"
+        [Run the gRPC service](https://grpc.io/docs/languages/kotlin/quickstart/#run-the-example).
 
-        === "Node"
-            [Run the gRPC service](https://grpc.io/docs/languages/node/quickstart/#run-a-grpc-application).
+    === "Node"
+        [Run the gRPC service](https://grpc.io/docs/languages/node/quickstart/#run-a-grpc-application).
 
-        === "Objective-C"
-            [Run the gRPC service](https://grpc.io/docs/languages/objective-c/quickstart/#run-the-server).
+    === "Objective-C"
+        [Run the gRPC service](https://grpc.io/docs/languages/objective-c/quickstart/#run-the-server).
 
-        === "PHP"
-            [Run the gRPC service](https://grpc.io/docs/languages/php/quickstart/#run-the-example).
+    === "PHP"
+        [Run the gRPC service](https://grpc.io/docs/languages/php/quickstart/#run-the-example).
 
-        === "Python"
-            [Run the gRPC service](https://grpc.io/docs/languages/python/quickstart/#run-a-grpc-application).
+    === "Python"
+        [Run the gRPC service](https://grpc.io/docs/languages/python/quickstart/#run-a-grpc-application).
 
-        === "Ruby"
-            [Run the gRPC service](https://grpc.io/docs/languages/ruby/quickstart/#run-a-grpc-application).
+    === "Ruby"
+        [Run the gRPC service](https://grpc.io/docs/languages/ruby/quickstart/#run-a-grpc-application).
 
 ***
 
 ## Basic example
 Benchmark a gRPC service by specifying its `host`, its fully-qualified method name (`call`), and the URL of Protocol Buffer file (`protoURL`) defining the service.
 
-```shell
+```shell title="Launch load-test-grpc experiment"
 iter8 launch -c load-test-grpc \
-          --set host="127.0.0.1:50051" \
-          --set call="helloworld.Greeter.SayHello" \
-          --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
+--set host="127.0.0.1:50051" \
+--set call="helloworld.Greeter.SayHello" \
+--set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
 ```
 
 
@@ -101,14 +89,14 @@ Any metrics that are specified as part of SLOs are also collected.
 
 ***
 
-```shell
+```shell title="Sample SLO specification"
 --set SLOs.grpc/error-rate=0 \
 --set SLOs.grpc/latency/mean=50 \
 --set SLOs.grpc/latency/p90=100 \
 --set SLOs.grpc/latency/p'97\.5'=200
 ```
 
-In the above setting, the following SLOs will be validated.
+When you set SLOs as shown above, the following conditions are validated.
 
 - error rate is 0
 - mean latency is under 50 msec
@@ -117,20 +105,32 @@ In the above setting, the following SLOs will be validated.
 
 ***
 
-### Report
+## View report
+View a report of the experiment as follows which contains metrics and SLO assessments.
 
-Refer to [your first experiment](../../getting-started/your-first-experiment.md#3-view-experiment-report) for examples of HTML and text `iter8 report`.
+=== "Text"
+    ```shell
+    iter8 report
+    ```
+
+=== "HTML"
+    ```shell
+    iter8 report -o html > report.html # view in a browser
+    ```
 
 ***
 
-### Assert
+### Assert outcomes
+Assert that the experiment completed without any failures and all the SLOs are satisfied.
 
-Refer to [load-test-http](../load-test-http/basicusage.md#assert) for an example of `iter8 assert`.
+```shell
+iter8 assert -c completed -c nofailure -c slos
+```
 
 ## Load profile
 Control the characteristics of the generated load generated by setting the number of requests (`total`), the number of requests per second (`rps`), number of connections to use (`connections`), and the number of concurrent request workers to use which will be distributed across the connections (`concurrency`).
 
-```shell
+```shell title="Sample load profile"
 --set total=500 \
 --set rps=25 \
 --set concurrency=50 \
@@ -145,13 +145,12 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
 
 === "Data"
     Specify call data as values.
-    ```shell
+
+    ```shell title="Flat"
     --set data.name="frodo"
     ```
 
-    Call data may be nested.
-
-    ```shell
+    ```shell title="Nested"
     --set data.name="frodo" \
     --set data.realm.planet="earth" \
     --set data.realm.location="middle" 
