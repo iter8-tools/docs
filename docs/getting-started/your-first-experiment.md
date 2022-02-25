@@ -72,5 +72,5 @@ iter8 launch -c load-test-http --set url=https://httpbin.org/get
 Congratulations! :tada: You completed your first Iter8 experiment.
 
 ???+ tip "Next steps"
-    1. Learn more about [benchmarking and validating HTTP services with service-level objectives (SLOs)](../tutorials/load-test-http/usage.md).
-    2. Learn more about [benchmarking and validating gRPC services with service-level objectives (SLOs)](../tutorials/load-test-grpc/usage.md).
+    1. Learn more about [benchmarking and validating HTTP services with service-level objectives (SLOs)](../tutorials/load-test-http/basicusage.md).
+    2. Learn more about [benchmarking and validating gRPC services with service-level objectives (SLOs)](../tutorials/load-test-grpc/basicusage.md).
