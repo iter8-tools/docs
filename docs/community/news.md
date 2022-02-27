@@ -1,5 +1,7 @@
 ---
 template: main.html
+hide:
+- toc
 ---
 
 # News and Announcements
@@ -9,7 +11,7 @@ template: main.html
 
     ![SLO Validation](images/socc-thumbnail.jpg)
     
-??? note "Iter8 v0.7 and older"
+???+ note "Iter8 v0.7 and older"
     * **Oct 2021:**  New Stack blog article by Hai Huang: [Progressive Delivery on OpenShift](https://thenewstack.io/progressive-delivery-on-openshift/)
 
 

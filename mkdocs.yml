@@ -157,9 +157,9 @@ nav:
     - iter8 assert: user-guide/commands/iter8_assert.md
     - iter8 report: user-guide/commands/iter8_report.md
     - iter8 version: user-guide/commands/iter8_version.md
+- Contributing: contributing.md
+- Roadmap: roadmap.md
 - Community: 
   - Community: community/community.md
-  - Contributing: community/contributing.md
-  - Roadmap: community/roadmap.md
   - News: community/news.md
 
