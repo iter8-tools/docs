@@ -131,10 +131,8 @@ nav:
 - Tutorials:
   - Benchmark and validate HTTP:
     - Basic usage: tutorials/load-test-http/basicusage.md
-    - Kubernetes usage: tutorials/load-test-http/kubernetesusage.md
   - Benchmark and validate gRPC:
     - Basic usage: tutorials/load-test-grpc/basicusage.md
-    - Kubernetes usage: tutorials/load-test-grpc/kubernetesusage.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
     - Knative:
@@ -151,8 +149,6 @@ nav:
 - User guide:
   - Topics:
     - Chart Documentation: user-guide/topics/chart-docs.md
-    - Readiness check: user-guide/topics/readiness.md
-    - Experiment group: user-guide/topics/experimentgroup.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 hub: user-guide/commands/iter8_hub.md
