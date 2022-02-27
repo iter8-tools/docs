@@ -6,9 +6,10 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/iter8/tests?label=Unit%20tests)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/iter8-tools/hub/tests?label=Integration%20tests)
 
-> - Benchmark and validate HTTP and gRPC services with SLOs
-> - Maximize business value with each release
-> - Run locally, in Kubernetes, or inside CI/CD/GitOps pipelines
+> - Safely rollout apps
+> - Maximize business value
+> - Use with any app/serverless/ML framework
+> - Simplify CI/CD/GitOps
 > - Get started in seconds
 
 <p align='center'>

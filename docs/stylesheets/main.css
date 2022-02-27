@@ -47,12 +47,12 @@
 }
 .mdx-hero .md-button:focus, .mdx-hero .md-button:hover {
   color: var(--md-accent-bg-color);
-  background-color: #7c2d4e;
+  background-color: #ff0000;
   border-color: var(--md-accent-fg-color);
 }
 .mdx-hero .md-button--reverse {
   color: var(--md-accent-bg-color);
-  background-color: #7c2d4e;
+  background-color: #ff0000;
   border-color: var(--md-accent-fg-color);
 }
 .mdx-hero .md-button--reverse:focus, .mdx-hero .md-button--reverse:hover {
@@ -74,7 +74,7 @@
 }
 .heart {
   animation: heart 1000ms infinite;
-  color: #ffecf4;
+  color: #fca0c8;
 }
 
 .text-light {
