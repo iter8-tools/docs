@@ -9,33 +9,20 @@ tags:
 
 # Benchmark and Validate HTTP Services
 
-!!! tip "Overview"
-    Iter8's `load-test-http` experiment generates call requests for HTTP services, collects latency and error-related metrics, and validates service-level objectives (SLOs).
+Iter8's `load-test-http` experiment generates call requests for HTTP services, collects latency and error-related metrics, and validates service-level objectives (SLOs).
 
-    ***
+<p align='center'>
+  <img alt-text="load-test-http" src="../images/http-overview.png" width="90%" />
+</p>
 
-    **Use-cases:** 
+***
 
-    - Load test
-    - Benchmark
-    - Validate service level objectives (SLOs)
-    - Safe rollout
-    - Continuous delivery (CD)
-    
-    If the HTTP service satisfies SLOs, it may be safely rolled out, for example, from a test environment to production.  
-
-    ***
-
-
-    <p align='center'>
-      <img alt-text="load-test-http" src="../images/http-overview.png" width="90%" />
-    </p>
+--8<-- "docs/tutorials/load-test-http/usecases.md"
 
 ***
 
 ???+ warning "Before you begin"
-    1. [Install Iter8 CLI](../../getting-started/install.md).
-    2. Run the [httpbin](https://httpbin.org) service from a separate terminal.
+    Run the [httpbin](https://httpbin.org) sample service from a separate terminal.
     ```shell
     docker run -p 80:80 kennethreitz/httpbin
     ```

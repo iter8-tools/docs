@@ -24,8 +24,8 @@ Load test, benchmark, and validate an HTTP service that is running within a Kube
 
 ???+ warning "Before you begin"
     ```shell title="Deploy sample HTTP app in Kubernetes cluster"
-    kubectl create deploy hello --image=docker.io/grpc/java-example-hostname:latest --port=50051
-    kubectl expose deploy hello --port=50051      
+    kubectl create deploy hello --image=kennethreitz/httpbin --port=80
+    kubectl expose deploy hello --port=80 
     ```
 
 ***
@@ -33,6 +33,8 @@ Load test, benchmark, and validate an HTTP service that is running within a Kube
 ## Launch experiment
 ```shell
 iter8 k launch -c load-test-http \
+--set url=http://hello.default \
+--set SLOs.http/latency/mean=50 \
 --set readiness.service="hello" \
 --set readiness.deploy="hello"
 ```
@@ -72,3 +74,12 @@ Refer to the log level flag during `iter8 k launch`.
 
 ## Set values
 You can set any parameter described in the [basic usage of `load-test-http`](basicusage.md) during `iter8 k launch` of the `load-test-http` experiment.
+
+***
+
+## Cleanup
+Cleanup all Kubernetes resources created by the Iter8 experiment in the cluster.
+
+```shell
+iter8 k cleanup
+```

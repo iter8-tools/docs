@@ -76,3 +76,12 @@ Refer to the log level flag during `iter8 k launch`.
 
 ## Set values
 You can set any parameter described in the [basic usage of `load-test-grpc`](basicusage.md) during `iter8 k launch` of the `load-test-grpc` experiment.
+
+***
+
+## Cleanup
+Cleanup all Kubernetes resources created by the Iter8 experiment in the cluster.
+
+```shell
+iter8 k cleanup
+```
