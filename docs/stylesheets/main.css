@@ -1,4 +1,4 @@
-.md-typeset .admonition, .md-typeset details {
+.md-content .md-typeset .admonition, .md-content .md-typeset details {
   font-size: 0.75rem;
 }
 
@@ -46,14 +46,14 @@
   color: inherit;
 }
 .mdx-hero .md-button:focus, .mdx-hero .md-button:hover {
-  color: var(--md-accent-bg-color);
-  background-color: #7c2d4e;
-  border-color: var(--md-accent-fg-color);
+  color: #96034a;
+  background-color: #ffffff;
+  border-color: #ffffff;
 }
 .mdx-hero .md-button--reverse {
-  color: var(--md-accent-bg-color);
-  background-color: #7c2d4e;
-  border-color: var(--md-accent-fg-color);
+  color: #96034a;
+  background-color: #ffffff;
+  border-color: #ffffff;
 }
 .mdx-hero .md-button--reverse:focus, .mdx-hero .md-button--reverse:hover {
   color: inherit;
@@ -74,14 +74,17 @@
 }
 .heart {
   animation: heart 1000ms infinite;
-  color: #ffecf4;
+  color: #ff006f;
 }
 
 .text-light {
   color: var(--md-primary-bg-color);
 }
 .text-light a {
-  color: #ffd0d0;
+  color: #b5ff7d;
+}
+.text-light a:focus, .text-light a:hover {
+  color: #fff07d;
 }
 
 .text-center {
