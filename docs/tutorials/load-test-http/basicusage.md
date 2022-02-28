@@ -1,41 +1,23 @@
 ---
 template: main.html
-tags:
-- load testing
-- benchmarking
-- SLOs
-- HTTP
 ---
 
-# Benchmark and Validate HTTP Services
+# Benchmark and Validate HTTP with SLOs
 
-!!! tip "Overview"
-    Iter8's `load-test-http` experiment generates call requests for HTTP services, collects latency and error-related metrics, and validates service-level objectives (SLOs).
+The `load-test-http` experiment generates call requests for HTTP services, collects latency and error-related metrics, and validates service-level objectives (SLOs).
 
-    ***
+<p align='center'>
+  <img alt-text="load-test-http" src="../images/http-overview.png" width="90%" />
+</p>
 
-    **Use-cases:** 
+***
 
-    - Load test
-    - Benchmark
-    - Validate service level objectives (SLOs)
-    - Safe rollout
-    - Continuous delivery (CD)
-    
-    If the HTTP service satisfies SLOs, it may be safely rolled out, for example, from a test environment to production.  
-
-    ***
-
-
-    <p align='center'>
-      <img alt-text="load-test-http" src="../images/http-overview.png" width="90%" />
-    </p>
+--8<-- "docs/tutorials/load-test-http/usecases.md"
 
 ***
 
 ???+ warning "Before you begin"
-    1. [Install Iter8 CLI](../../getting-started/install.md).
-    2. Run the [httpbin](https://httpbin.org) service from a separate terminal.
+    Run the [httpbin](https://httpbin.org) sample service from a separate terminal.
     ```shell
     docker run -p 80:80 kennethreitz/httpbin
     ```
@@ -50,6 +32,11 @@ Benchmark an HTTP service with a GET endpoint by specifying the `url`.
 iter8 launch -c load-test-http --set url=http://127.0.0.1/get
 ```
 
+## View experiment report
+
+--8<-- "docs/getting-started/expreport.md"
+
+***
 
 ## Metrics and SLOs
 The following metrics are collected by default by this experiment:
@@ -63,9 +50,11 @@ The following metrics are collected by default by this experiment:
 - `http/latency-max`: max of observed latency values
 - `http/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
 
-Latency metrics have `msec` units. Any latency percentiles that are specified as part of SLOs are also collected.
+Latency metrics have `msec` units. Any latency percentile that is specified as part of SLOs is also collected.
 
 ***
+
+Consider the following example.
 
 ```shell
 --set SLOs.http/error-rate=0 \
@@ -83,27 +72,11 @@ In the above setting, the following SLOs will be validated.
 
 ***
 
-### Report
 
-Refer to [your first experiment](../../getting-started/your-first-experiment.md#3-view-experiment-report) for examples of HTML and text `iter8 report`.
+## Assertions
 
-***
+--8<-- "docs/tutorials/load-test-http/assert.md"
 
-### Assert
-The `iter8 assert` subcommand asserts if experiment result satisfies the specified conditions. If assert conditions are satisfied, it exits with code `0`; else, it exits with code `1`. Assertions are especially useful inside CI/CD/GitOps pipelines.
-
-Assert that the experiment completed without failures, and all SLOs are satisfied.
-```shell
-iter8 assert -c completed -c nofailure -c slos
-```
-
-???+ note "Sample output from assert"
-    ```shell
-    INFO[2021-11-10 09:33:12] experiment completed
-    INFO[2021-11-10 09:33:12] experiment has no failure                    
-    INFO[2021-11-10 09:33:12] SLOs are satisfied                           
-    INFO[2021-11-10 09:33:12] all conditions were satisfied
-    ```
 
 ***
 

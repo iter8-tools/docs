@@ -3,14 +3,14 @@
 
     ```shell
     brew tap iter8-tools/iter8
-    brew install iter8@0.9
+    brew install iter8
     ```
     
     ??? note "Install a specific version"
-        You can install the Iter8 CLI with specific major and minor version numbers. For example, the following command installs the release of the Iter8 CLI with major `0` and minor `8`.
+        You can install the Iter8 CLI with specific major and minor version numbers. For example, the following command installs the release of the Iter8 CLI with major `0` and minor `9`.
         ```shell
         brew tap iter8-tools/iter8
-        brew install iter8@0.8
+        brew install iter8@0.9
         ```
 
 === "Binaries"

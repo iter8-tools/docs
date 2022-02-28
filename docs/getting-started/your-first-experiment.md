@@ -1,15 +1,10 @@
 ---
 template: main.html
-tags:
-- load testing
-- benchmarking
-- HTTP
 ---
 
 # Your First Experiment
 
-!!! tip "Benchmark an HTTP Service"
-    Get started with your first [Iter8 experiment](concepts.md#what-is-an-iter8-experiment) by benchmarking an HTTP service. 
+Get started with your first [Iter8 experiment](concepts.md#what-is-an-iter8-experiment) by benchmarking an HTTP service. 
     
 ***
 
@@ -17,60 +12,20 @@ tags:
 --8<-- "docs/getting-started/installiter8cli.md"
 
 ## 2. Launch experiment
-The `iter8 launch` subcommand downloads an [experiment chart](concepts.md#experiment-chart) from [Iter8 hub](concepts.md#iter8-hub), combines the chart with values to generate the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file. 
-
 Use `iter8 launch` to benchmark the HTTP service whose URL is https://httpbin.org/get.
 
 ```shell
 iter8 launch -c load-test-http --set url=https://httpbin.org/get
 ```
 
+The `iter8 launch` subcommand downloads an [experiment chart](concepts.md#experiment-chart) from [Iter8 hub](concepts.md#iter8-hub), combines the chart with values that are set in order to generate the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file. 
+
 ## 3. View experiment report
-=== "Text"
-    ```shell
-    iter8 report
-    ```
+--8<-- "docs/getting-started/expreport.md"
 
-    ??? note "The text report looks like this"
-        ```shell
-        Experiment summary:
-        *******************
-
-          Experiment completed: true
-          No task failures: true
-          Total number of tasks: 1
-          Number of completed tasks: 1
-
-        Latest observed values for metrics:
-        ***********************************
-
-          Metric                              |value
-          -------                             |-----
-          built-in/http-error-count           |0.00
-          built-in/http-error-rate            |0.00
-          built-in/http-latency-max (msec)    |203.78
-          built-in/http-latency-mean (msec)   |17.00
-          built-in/http-latency-min (msec)    |4.20
-          built-in/http-latency-p50 (msec)    |10.67
-          built-in/http-latency-p75 (msec)    |12.33
-          built-in/http-latency-p90 (msec)    |14.00
-          built-in/http-latency-p95 (msec)    |15.67
-          built-in/http-latency-p99 (msec)    |202.84
-          built-in/http-latency-p99.9 (msec)  |203.69
-          built-in/http-latency-stddev (msec) |37.94
-          built-in/http-request-count         |100.00
-        ```
-
-=== "HTML"
-    ```shell
-    iter8 report -o html > report.html # view in a browser
-    ```
-
-    ??? note "The HTML report looks like this"
-        ![HTML report](images/report.html.png)
 
 Congratulations! :tada: You completed your first Iter8 experiment.
 
 ???+ tip "Next steps"
-    1. Learn more about [benchmarking and validating HTTP services with service-level objectives (SLOs)](../tutorials/load-test-http/usage.md).
-    2. Learn more about [benchmarking and validating gRPC services with service-level objectives (SLOs)](../tutorials/load-test-grpc/usage.md).
+    1. Learn more about [benchmarking and validating HTTP services with service-level objectives (SLOs)](../tutorials/load-test-http/basicusage.md).
+    2. Learn more about [benchmarking and validating gRPC services with service-level objectives (SLOs)](../tutorials/load-test-grpc/basicusage.md).
