@@ -73,7 +73,7 @@ You can set any parameter described in the [basic usage of `load-test-http`](bas
 ***
 
 ## Cleanup
-Cleanup all Kubernetes resources created by the Iter8 experiment in the cluster.
+Cleanup all Kubernetes resources created by Iter8 in the cluster.
 
 ```shell
 iter8 k cleanup
