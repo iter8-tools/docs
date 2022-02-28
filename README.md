@@ -26,6 +26,7 @@ brew install iter8@0.9
 [See here](https://iter8.tools/latest/getting-started/install) for more ways to install.
 
 ### Benchmark an HTTP service
+Launch Iter8 experiment and view report.
 ```shell
 iter8 launch -c load-test-http --set url=https://httpbin.org/get
 iter8 report
@@ -38,7 +39,7 @@ Start a sample gRPC service in a separate terminal.
 docker run -p 50051:50051 docker.io/grpc/java-example-hostname:latest
 ```
 
-Launch Iter8 experiment.
+Launch Iter8 experiment and view report.
 ```shell
 iter8 launch -c load-test-grpc \
 --set host="127.0.0.1:50051" \
