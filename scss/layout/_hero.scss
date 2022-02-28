@@ -66,16 +66,16 @@
     // Button on focus/hover
     &:focus,
     &:hover {
-      color: var(--md-accent-bg-color);
-      background-color: #ff0000;
-      border-color: var(--md-accent-fg-color);
+      color: #96034a;
+      background-color: #ffffff;
+      border-color: #ffffff;
     }
 
     // reverse button
     &--reverse {
-      color: var(--md-accent-bg-color);
-      background-color: #ff0000;
-      border-color: var(--md-accent-fg-color);
+      color: #96034a;
+      background-color: #ffffff;
+      border-color: #ffffff;
 
       &:focus,
       &:hover {
@@ -104,7 +104,7 @@
 }
 .heart {
   animation: heart 1000ms infinite;
-  color: #fca0c8;
+  color: #ff006f;
 }
 .text-light {
   color: var(--md-primary-bg-color);
