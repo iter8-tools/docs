@@ -4,7 +4,7 @@ template: main.html
 
 # Benchmark and Validate Kubernetes HTTP Services
 
-Load test, benchmark, and validate an HTTP service that is running within a Kubernetes cluster using the  [`load-test-http` experiment](basicusage.md). The HTTP service may be exposed outside the cluster or may be local.
+Benchmark, and validate an HTTP service inside a Kubernetes cluster using the  [`load-test-http` experiment](basicusage.md). The experiment is run inside the cluster. The HTTP service may be exposed or local to the cluster.
 
 <p align='center'>
   <img alt-text="load-test-http" src="../images/kubernetesusage.png" width="90%" />
