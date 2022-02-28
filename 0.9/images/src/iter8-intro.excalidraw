@@ -897,8 +897,8 @@
     },
     {
       "type": "arrow",
-      "version": 4415,
-      "versionNonce": 957293496,
+      "version": 4416,
+      "versionNonce": 968692017,
       "isDeleted": false,
       "id": "CioiccuBHwk_mnafU4wQq",
       "fillStyle": "hachure",
@@ -917,7 +917,7 @@
       "groupIds": [],
       "strokeSharpness": "round",
       "boundElements": [],
-      "updated": 1645724737207,
+      "updated": 1646004389779,
       "link": null,
       "startBinding": {
         "elementId": "FsJKt28fTeLnx7zCgQu3q",
@@ -986,44 +986,6 @@
           24.014105717852203
         ]
       ]
-    },
-    {
-      "type": "text",
-      "version": 2666,
-      "versionNonce": 65137848,
-      "isDeleted": false,
-      "id": "EY5GhyTdcuTNfmLRhSS9L",
-      "fillStyle": "solid",
-      "strokeWidth": 1,
-      "strokeStyle": "solid",
-      "roughness": 1,
-      "opacity": 100,
-      "angle": 0,
-      "x": 1120.3311694909105,
-      "y": 408.7982715466519,
-      "strokeColor": "#a61e4d",
-      "backgroundColor": "transparent",
-      "width": 250,
-      "height": 107,
-      "seed": 1474026057,
-      "groupIds": [],
-      "strokeSharpness": "sharp",
-      "boundElements": [
-        {
-          "id": "CioiccuBHwk_mnafU4wQq",
-          "type": "arrow"
-        }
-      ],
-      "updated": 1645724737207,
-      "link": null,
-      "fontSize": 28,
-      "fontFamily": 1,
-      "text": "Use any \napp/serverless/ML\nframework",
-      "baseline": 96,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "Use any \napp/serverless/ML\nframework"
     }
   ],
   "appState": {
