@@ -5,5 +5,3 @@ This experiment is designed for the following use-cases.
 - Validate service level objectives (SLOs)
 - Safe rollout
 - Continuous integration and delivery (CI/CD)
-
-If the HTTP service satisfies SLOs, it may be safely rolled out, for example, from a test environment to production.  
