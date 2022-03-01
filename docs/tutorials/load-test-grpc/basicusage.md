@@ -36,12 +36,6 @@ iter8 launch -c load-test-grpc \
 
 ***
 
-## View experiment report
-
---8<-- "docs/getting-started/expreport.md"
-
-***
-
 ## Metrics and SLOs
 The following metrics are collected by default by this experiment:
 
@@ -61,9 +55,9 @@ Latency metrics have `msec` units. Any latency metric that is specified as part 
 
 ***
 
-Consider the following example.
+For example, set the following parameter values in the `iter8 launch` command above.
 
-```shell title="Sample SLO specification"
+```shell
 --set SLOs.grpc/error-rate=0 \
 --set SLOs.grpc/latency/mean=50 \
 --set SLOs.grpc/latency/p90=100 \
@@ -76,6 +70,12 @@ In the above setting, the following SLOs will be validated.
 - mean latency is under 50 msec
 - 90th percentile latency is under 100 msec
 - 97.5th percentile latency is under 200 msec
+
+***
+
+## View experiment report
+
+--8<-- "docs/tutorials/load-test-grpc/expreport.md"
 
 ***
 
