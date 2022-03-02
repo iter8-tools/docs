@@ -74,6 +74,7 @@ jobs:
         cd grpc-go/examples/helloworld
         go build greeter_server/main.go
         ./main &
+        sleep 5
         
     - name: load test grpc service method
       run: | 
@@ -89,6 +90,7 @@ jobs:
             grpc/latency/p90: 100
             grpc/latency/p97.5: 200
         EOF
+        cat experiment-config.yaml
     - uses: iter8-tools/iter8-action@pull/4/head
       with:
         chart: load-test-grpc
