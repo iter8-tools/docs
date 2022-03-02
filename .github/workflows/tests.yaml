@@ -96,3 +96,4 @@ jobs:
         chart: load-test-grpc
         valuesFile: experiment-config.yaml
         logLevel: trace
+        validateSLOs: true
