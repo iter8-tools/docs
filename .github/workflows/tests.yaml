@@ -10,17 +10,6 @@ jobs:
     name: local httpbin tests
     runs-on: ubuntu-latest
     steps:
-    # - name: Install Go
-    #   uses: actions/setup-go@v2
-    #   with:
-    #     go-version: 1.17
-
-    # - name: Install Iter8
-    #   run: |
-    #     wget https://github.com/iter8-tools/iter8/releases/download/v0.9.2/iter8-linux-amd64.tar.gz
-    #     tar -xvf iter8-linux-amd64.tar.gz
-    #     mv linux-amd64/iter8 /usr/local/bin
-
     - name: run httpbin
       run: |
         set -e
@@ -39,13 +28,6 @@ jobs:
       with:
         chart: load-test-http
         valuesFile: experiment-config.yaml
-    # - name: load test GET endpoint
-    #   run: |
-    #     set -e
-    #     iter8 launch -c load-test-http --set url=http://127.0.0.1/get
-    #     cat experiment.yaml
-    #     iter8 report
-    #     iter8 assert -c completed -c nofailure -c slos
 
     - name: load test GET endpoint
       run: | 
@@ -60,16 +42,6 @@ jobs:
       with:
         chart: load-test-http
         valuesFile: experiment-config.yaml
-    # - name: load test GET endpoint
-    #   run: |
-    #     set -e
-    #     iter8 launch -c load-test-http --set url=http://127.0.0.1/get \
-    #               --set SLOs.http/latency-p25=80 \
-    #               --set SLOs.http/latency-p50=100 \
-    #               --set SLOs.http/latency-'p95\.0'=200
-    #     cat experiment.yaml
-    #     iter8 report
-    #     iter8 assert -c completed -c nofailure -c slos
 
     - name: load test POST endpoint
       run: | 
@@ -85,18 +57,6 @@ jobs:
       with:
         chart: load-test-http
         valuesFile: experiment-config.yaml
-    - name: load test POST endpoint (image/jpeg)
-      # run: |
-      #   set -e
-      #   iter8 launch -c load-test-http --set url=http://127.0.0.1/post \
-      #             --set payloadURL=https://cdn.pixabay.com/photo/2021/09/08/17/58/poppy-6607526_1280.jpg \
-      #             --set contentType="image/jpeg" \
-      #             --set SLOs.http/latency-p25=80 \
-      #             --set SLOs.http/latency-p50=100 \
-      #             --set SLOs.http/latency-'p95\.0'=200
-      #   cat experiment.yaml
-      #   iter8 report
-      #   iter8 assert -c completed -c nofailure -c slos
 
   e2e-load-test-grpc:
     name: local grpc tests
@@ -106,12 +66,6 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.17
-
-    # - name: Install Iter8
-    #   run: |
-    #     wget https://github.com/iter8-tools/iter8/releases/download/v0.9.2/iter8-linux-amd64.tar.gz
-    #     tar -xvf iter8-linux-amd64.tar.gz
-    #     mv linux-amd64/iter8 /usr/local/bin
 
     - name: run greeter
       run: |
@@ -141,17 +95,3 @@ jobs:
       with:
         chart: load-test-grpc
         valuesFile: experiment-config.yaml
-    # - name: load test grpc service method
-    #   run: |
-    #     set -e
-    #     iter8 launch -c load-test-grpc --set-string host="127.0.0.1:50051" \
-    #               --set-string call="helloworld.Greeter.SayHello" \
-    #               --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
-    #               --set data.name="frodo" \
-    #               --set SLOs.grpc/error-rate=0 \
-    #               --set SLOs.grpc/latency/mean=50 \
-    #               --set SLOs.grpc/latency/p90=100 \
-    #               --set SLOs.grpc/latency/p'97\.5'=200
-    #     cat experiment.yaml
-    #     iter8 report
-    #     iter8 assert -c completed -c nofailure -c slos
