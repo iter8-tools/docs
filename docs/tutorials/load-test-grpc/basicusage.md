@@ -64,7 +64,7 @@ For example, set the following parameter values in the `iter8 launch` command ab
 --set SLOs.grpc/latency/p'97\.5'=200
 ```
 
-In the above setting, the following SLOs will be validated.
+In the above setting, the following SLOs are validated.
 
 - error rate is 0
 - mean latency is under 50 msec
