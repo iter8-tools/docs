@@ -24,7 +24,7 @@ jobs:
         cat << EOF > experiment-config.yaml
           url: http://127.0.0.1/get
         EOF
-    - uses: iter8-tools/iter8-action@main
+    - uses: iter8-tools/iter8-action@pull/4/head
       with:
         chart: load-test-http
         valuesFile: experiment-config.yaml
