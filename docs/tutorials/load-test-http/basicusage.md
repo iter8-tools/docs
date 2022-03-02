@@ -32,10 +32,6 @@ Benchmark an HTTP service with a GET endpoint by specifying the `url`.
 iter8 launch -c load-test-http --set url=http://127.0.0.1/get
 ```
 
-## View experiment report
-
---8<-- "docs/getting-started/expreport.md"
-
 ***
 
 ## Metrics and SLOs
@@ -54,7 +50,7 @@ Latency metrics have `msec` units. Any latency percentile that is specified as p
 
 ***
 
-Consider the following example.
+For example, set the following parameter values in the `iter8 launch` command above.
 
 ```shell
 --set SLOs.http/error-rate=0 \
@@ -63,7 +59,7 @@ Consider the following example.
 --set SLOs.http/latency-p'97\.5'=200
 ```
 
-In the above setting, the following SLOs will be validated.
+In the above setting, the following SLOs are validated.
 
 - error rate is 0
 - mean latency is under 50 msec
@@ -72,6 +68,11 @@ In the above setting, the following SLOs will be validated.
 
 ***
 
+## View experiment report
+
+--8<-- "docs/tutorials/load-test-http/expreport.md"
+
+***
 
 ## Assertions
 
