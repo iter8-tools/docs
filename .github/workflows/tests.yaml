@@ -24,7 +24,7 @@ jobs:
         cat << EOF > experiment-config.yaml
           url: http://127.0.0.1/get
         EOF
-    - uses: iter8-tools/iter8-action@pull/4/head
+    - uses: iter8-tools/iter8-action@main
       with:
         chart: load-test-http
         valuesFile: experiment-config.yaml
@@ -46,6 +46,7 @@ jobs:
     - name: load test POST endpoint
       run: | 
         cat << EOF > experiment-config.yaml
+          url: http://127.0.0.1/post
           payloadURL: https://cdn.pixabay.com/photo/2021/09/08/17/58/poppy-6607526_1280.jpg
           contentType: "image/jpeg"
           SLOs:
@@ -77,14 +78,10 @@ jobs:
     - name: load test grpc service method
       run: | 
         cat << EOF > experiment-config.yaml
-          host: "127.0.0.1:50051"
-          call: "helloworld.Greeter.SayHello"
-          protoURL: "https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
-          data.name: "frodo"
-                  --set SLOs.grpc/error-rate=0
-                  --set SLOs.grpc/latency/mean=50
-                  --set SLOs.grpc/latency/p90=100
-                  --set SLOs.grpc/latency/p'97\.5'=200
+          host: 127.0.0.1:50051
+          call: helloworld.Greeter.SayHello
+          protoURL: https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
+          data.name: frodo
           SLOs:
             grpc/error-rate: 0
             grpc/latency/mean: 50
