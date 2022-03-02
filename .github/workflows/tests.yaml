@@ -88,7 +88,7 @@ jobs:
             grpc/latency/p90: 100
             grpc/latency/p97.5: 200
         EOF
-    - uses: iter8-tools/iter8-action@main
+    - uses: iter8-tools/iter8-action@pull/5/head
       with:
         chart: load-test-grpc
         valuesFile: experiment-config.yaml
