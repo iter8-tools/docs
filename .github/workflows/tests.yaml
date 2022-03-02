@@ -78,10 +78,10 @@ jobs:
     - name: load test grpc service method
       run: | 
         cat << EOF > experiment-config.yaml
-          host: 127.0.0.1:50051
-          call: helloworld.Greeter.SayHello
-          protoURL: https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
-          data.name: frodo
+          host: "127.0.0.1:50051"
+          call: "helloworld.Greeter.SayHello"
+          protoURL: "https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
+          data.name: "frodo"
           SLOs:
             grpc/error-rate: 0
             grpc/latency/mean: 50
