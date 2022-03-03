@@ -94,9 +94,9 @@ jobs:
             name: frodo
           SLOs:
             grpc/error-count: 0
-            grpc/latency/mean:  100
-            grpc/latency/p90:   200
-            grpc/latency/p97.5: 400
+            grpc/latency/mean:  1000
+            grpc/latency/p90:   1000
+            grpc/latency/p97.5: 1000
         EOF
 
     - uses: iter8-tools/iter8-action@main
