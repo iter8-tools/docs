@@ -76,53 +76,16 @@ jobs:
 
     - name: run greeter
       run: |
-        git clone -b v1.43.0 https://github.com/grpc/grpc-go
-        cd grpc-go/examples/helloworld
-        go build greeter_server/main.go
-        ./main &
-        sleep 5
+        docker pull docker.io/grpc/java-example-hostname:latest
+        docker run -p 50051:50051 docker.io/grpc/java-example-hostname:latest &
+        sleep 20
+        ip -f inet addr show docker0 | grep -Po 'inet \K[\d.]+'
+        echo "GRPC_HOST_IP=$(ip -f inet addr show docker0 | grep -Po 'inet \K[\d.]+')" >> $GITHUB_ENV
         
-    - name: load test grpc service method 1
-      run: |
-        set -e
-        iter8 launch -l trace -c load-test-grpc --set-string host="127.0.0.1:50051" \
-                  --set-string call="helloworld.Greeter.SayHello" \
-                  --set-string protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
-                  --set data.name="frodo" \
-                  --set SLOs.grpc/error-rate=0 \
-                  --set SLOs.grpc/latency/mean=50 \
-                  --set SLOs.grpc/latency/p90=100 \
-                  --set SLOs.grpc/latency/p'97\.5'=200
-        cat experiment.yaml
-        iter8 report
-        iter8 assert -c completed -c nofailure -c slos
-
-    - name: load test grpc service method 2
+    - name: load test grpc service method
       run: | 
         cat << EOF > experiment-config.yaml
-          host: 127.0.0.1:50051
-          call: helloworld.Greeter.SayHello
-          protoURL: https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
-          data:
-            name: frodo
-          SLOs:
-            grpc/error-rate: 0
-            grpc/latency/mean: 50
-            grpc/latency/p90: 100
-            grpc/latency/p97.5: 200
-        EOF
-        cat experiment-config.yaml
-    - run: |
-        set -e
-        iter8 launch -l trace -c load-test-grpc -f experiment-config.yaml
-        cat experiment.yaml
-        iter8 report
-        iter8 assert -c completed -c nofailure -c slos
-
-    - name: load test grpc service method 3
-      run: | 
-        cat << EOF > experiment-config.yaml
-          host: 127.0.0.1:50051
+          host: $GRPC_HOST_IP:50051
           call: helloworld.Greeter.SayHello
           protoURL: https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
           data:
