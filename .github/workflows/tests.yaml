@@ -98,7 +98,7 @@ jobs:
 
     - uses: iter8-tools/iter8-action@main
       with:
-        chart: load-test-http
+        chart: load-test-grpc
         valuesFile: experiment-config.yaml        
         
     # - name: load test grpc service method
