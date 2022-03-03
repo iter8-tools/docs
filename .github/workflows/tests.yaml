@@ -82,13 +82,14 @@ jobs:
         docker run -p 50051:50051 docker.io/grpc/java-example-hostname:latest &
         sleep 20
         ip -f inet addr show docker0 | grep -Po 'inet \K[\d.]+'
-
+        echo "GRPC_HOST_IP=$(ip -f inet addr show docker0 | grep -Po 'inet \K[\d.]+')" >> $GITHUB_ENV
+        
     - name: load test GET endpoint
       run: | 
         cat << EOF > experiment-config.yaml
-          host: "127.0.0.1:50051"
-          call: "helloworld.Greeter.SayHello"
-          protoURL: "https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
+          host: $GRPC_HOST_IP:50051
+          call: helloworld.Greeter.SayHello
+          protoURL: https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
           data:
             name: frodo
           SLOs:
