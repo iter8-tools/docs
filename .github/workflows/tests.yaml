@@ -81,6 +81,7 @@ jobs:
       run: |
         docker run -p 50051:50051 docker.io/grpc/java-example-hostname:latest &
         sleep 20
+        ip addr show docker0
 
     - name: load test GET endpoint
       run: | 
