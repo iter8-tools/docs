@@ -84,7 +84,7 @@ jobs:
         ip -f inet addr show docker0 | grep -Po 'inet \K[\d.]+'
         echo "GRPC_HOST_IP=$(ip -f inet addr show docker0 | grep -Po 'inet \K[\d.]+')" >> $GITHUB_ENV
         
-    - name: load test GET endpoint
+    - name: test greeter
       run: | 
         cat << EOF > experiment-config.yaml
           host: $GRPC_HOST_IP:50051
