@@ -92,9 +92,9 @@ jobs:
             name: frodo
           SLOs:
             grpc/error-rate: 0
-            grpc/latency/mean: 50
-            grpc/latency/p90: 100
-            grpc/latency/p97.5: 200
+            grpc/latency/mean: 150
+            grpc/latency/p90: 300
+            grpc/latency/p97.5: 500
         EOF
         cat experiment-config.yaml
     - uses: iter8-tools/iter8-action@pull/4/head
