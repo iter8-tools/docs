@@ -80,7 +80,6 @@ jobs:
       run: |
         docker pull docker.io/grpc/java-example-hostname:latest
         docker run -p 50051:50051 docker.io/grpc/java-example-hostname:latest &
-        sleep 20
         echo "HOST_IP=$(ip -f inet addr show docker0 | grep -Po 'inet \K[\d.]+')" >> $GITHUB_ENV
         
     - name: load test grpc service method
