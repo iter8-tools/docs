@@ -135,6 +135,7 @@ nav:
     - Basic usage: tutorials/load-test-grpc/basicusage.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
+    - Github Actions: tutorials/integrations/ghaction.md
     - Knative:
       - Benchmark and validate HTTP: tutorials/integrations/knative/load-test-http.md
       - Benchmark and validate gRPC: tutorials/integrations/knative/load-test-grpc.md
