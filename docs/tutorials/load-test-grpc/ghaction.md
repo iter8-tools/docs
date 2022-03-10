@@ -10,13 +10,15 @@ Iter8 experiments can be run as part of a Github workflow using the [Iter8 actio
 
 The Iter8 action runs an Iter8 experiment by reference to the experiment chart and, optionally, a chart repository. The experiment is configured by the definition of a `values.yaml` file.
 
-To use the action to benchmark and validate a gRPC service, use the [load-test-gprc chart](https://github.com/iter8-tools/hub/tree/main/charts/load-test-grpc). For example:
+To use the action to benchmark and validate a gRPC service, use the [load-test-gprc chart](https://github.com/iter8-tools/hub/tree/main/charts/load-test-grpc). For example, to run the [basic grpc example](../load-test-grpc/basicusage/#basic-example):
 
 ```yaml
 # Configure experiment using (Helm) values.yaml file
 - run: |
     cat << EOF > myvalues.yaml
-        url: http://localhost:8080
+        host: 127.0.0.1:50051
+        call: helloworld.Greeter.SayHello
+        protoURL: https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
     EOF
 # Run Iter8 experiment
 - uses: iter8-tools/iter8-action@v1
