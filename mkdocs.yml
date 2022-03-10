@@ -131,11 +131,12 @@ nav:
 - Tutorials:
   - Benchmark and validate HTTP:
     - Basic usage: tutorials/load-test-http/basicusage.md
+    - Github action: tutorials/load-test-http/ghaction.md
   - Benchmark and validate gRPC:
     - Basic usage: tutorials/load-test-grpc/basicusage.md
+    - Github action: tutorials/load-test-grpc/ghaction.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
-    - Github Actions: tutorials/integrations/ghaction.md
     - Knative:
       - Benchmark and validate HTTP: tutorials/integrations/knative/load-test-http.md
       - Benchmark and validate gRPC: tutorials/integrations/knative/load-test-grpc.md
