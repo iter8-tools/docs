@@ -7,6 +7,7 @@ template: main.html
 The `load-test-grpc` experiment can be invoked as part of a GitHub Actions workflow using [the Iter8 Action](https://github.com/iter8-tools/iter8-action).
 
 ## Basic example
+
 The following example demonstrates the use of the Iter8 Action to benchmark and validate a gRPC service. This is the GitHub Actions equivalent of the [CLI-driven basic gRPC example](basicusage.md#basic-example).
 
 ```yaml
@@ -35,6 +36,7 @@ cat load-test-grpc/values.yaml
 ```
 
 ## Automated SLO validation
+
 You can specify [service-level objectives (SLOs)](basicusage.md#metrics-and-slos) as part of the `load-test-grpc` experiment. If the SLOs are not satisfied, then the action will fail. You can disable this behavior by setting the `validateSLOs` input to `false`.
 
 ```yaml
@@ -46,6 +48,7 @@ You can specify [service-level objectives (SLOs)](basicusage.md#metrics-and-slos
 ```
 
 ## Logging
+
 The Iter8 Action logs contain the following.
 
 - output of `iter8 version`
