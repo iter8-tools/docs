@@ -4,7 +4,7 @@ template: main.html
 
 # Iter8 Github Action
 
-To load test, benchmark and validate HTTP services with service-level objectives (SLOs), invoke a `load-test-http` experiment in a GitHub Actions workflow using the [Iter8 Action](https://github.com/iter8-tools/iter8-action).
+The [Iter8 GitHub Action](https://github.com/marketplace/actions/run-iter8-experiment) enables you to load test, benchmark, and validate HTTP services with service-level objectives (SLOs) inside GitHub Action workflows. This tutorial shows how.
 
 ## Basic Example
 
@@ -15,13 +15,13 @@ To load test, benchmark and validate HTTP services with service-level objectives
     valuesFile: experiment-config.yaml
 ```
 
-A sample `experiment-config.yaml` is:
+A sample `experiment-config.yaml` is as follows.
 
 ```yaml
 url: http://httpbin.org/get
 ```
 
-Details of the configuration parameters that can be set are [here](https://github.com/iter8-tools/hub/blob/main/charts/load-test-http/values.yaml).
+Details of the configuration parameters that can be set are [here](basicusage.md). Default valules are [here](https://github.com/iter8-tools/hub/blob/main/charts/load-test-http/values.yaml).
 
 ## Complete example
 

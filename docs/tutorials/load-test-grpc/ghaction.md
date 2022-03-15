@@ -4,7 +4,7 @@ template: main.html
 
 # Iter8 GitHub Action
 
-To load test, benchmark and validate gRPC services with service-level objectives (SLOs), invoke a  `load-test-grpc` experiment in a GitHub Actions workflow using the [Iter8 Action](https://github.com/iter8-tools/iter8-action).
+The [Iter8 GitHub Action](https://github.com/marketplace/actions/run-iter8-experiment) enables you to load test, benchmark, and validate gRPC services with service-level objectives (SLOs) inside GitHub Action workflows. This tutorial shows how.
 
 ## Basic example
 
@@ -15,7 +15,7 @@ To load test, benchmark and validate gRPC services with service-level objectives
     valuesFile: experiment-config.yaml
 ```
 
-A sample `experiment-config.yaml` is:
+A sample `experiment-config.yaml` is as follows.
 
 ```yaml
 # An earlier step in the workflow is assumed to have started the gRPC service
@@ -24,7 +24,7 @@ call: helloworld.Greeter.SayHello
 protoURL: https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
 ```
 
-Details of the configuration parameters that can be set are [here](https://github.com/iter8-tools/hub/blob/main/charts/load-test-grpc/values.yaml).
+Details of the configuration parameters that can be set are [here](basicusage.md). Default values are [here](https://github.com/iter8-tools/hub/blob/main/charts/load-test-grpc/values.yaml).
 
 ## Complete example
 
