@@ -39,7 +39,7 @@ jobs:
         --set SLOs.http/latency-p95.0=200
 
     - name: download payload
-    - run: |
+      run: |
         curl -o image.jpg https://cdn.pixabay.com/photo/2021/09/08/17/58/poppy-6607526_1280.jpg
                 
     - name: load test POST endpoint
