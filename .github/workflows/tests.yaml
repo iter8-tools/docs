@@ -4,7 +4,6 @@ on:
   pull_request:
   workflow_dispatch:
 
-
 jobs:
   load-test-http:
     name: local httpbin tests
@@ -21,45 +20,37 @@ jobs:
           sleep 5; 
         done;
 
-    - name: load test GET endpoint
-      run: | 
-        cat << EOF > experiment-config.yaml
-          url: http://$HOST_IP/get
-        EOF
-    - uses: iter8-tools/iter8-action@v1
-      with:
-        chart: load-test-http
-        valuesFile: experiment-config.yaml
+    - name: Install Iter8
+      run: |
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.10.1/iter8-linux-amd64.tar.gz
+        tar -xvf iter8-linux-amd64.tar.gz
+        mv linux-amd64/iter8 /usr/local/bin
 
     - name: load test GET endpoint
-      run: | 
-        cat << EOF > experiment-config.yaml
-          url: http://$HOST_IP/get
-          SLOs:
-            http/latency-p25: 80
-            http/latency-p50: 100
-            http/latency-p95.0: 200
-        EOF
-    - uses: iter8-tools/iter8-action@v1
-      with:
-        chart: load-test-http
-        valuesFile: experiment-config.yaml
+      run: |
+        iter8 launch -c load-test-http --set url=http://$HOST_IP/get
 
+    - name: load test GET endpoint with SLOs
+      run: |
+        iter8 launch -c load-test-http \ 
+        --set url=http://$HOST_IP/get \
+        --set SLOs.http/latency-p25=80 \
+        --set SLOs.http/latency-p50=100 \
+        --set SLOs.http/latency-p95.0=200
+
+    - name: download payload
+    - run: |
+        curl -o image.jpg https://cdn.pixabay.com/photo/2021/09/08/17/58/poppy-6607526_1280.jpg
+                
     - name: load test POST endpoint
-      run: | 
-        cat << EOF > experiment-config.yaml
-          url: http://$HOST_IP/post
-          payloadURL: https://cdn.pixabay.com/photo/2021/09/08/17/58/poppy-6607526_1280.jpg
-          contentType: "image/jpeg"
-          SLOs:
-            http/latency-p25: 80
-            http/latency-p50: 100
-            http/latency-p95.0: 200
-        EOF
-    - uses: iter8-tools/iter8-action@v1
-      with:
-        chart: load-test-http
-        valuesFile: experiment-config.yaml
+      run: |
+        iter8 launch -c load-test-http \ 
+        --set url=http://$HOST_IP/post \
+        --set payload=image.jpg \
+        --set contentType="image/jpeg" \
+        --set SLOs.http/latency-p25=80 \
+        --set SLOs.http/latency-p50=100 \
+        --set SLOs.http/latency-p95.0=200
 
   e2e-load-test-grpc:
     name: local grpc tests
@@ -72,7 +63,7 @@ jobs:
 
     - name: Install Iter8
       run: |
-        wget https://github.com/iter8-tools/iter8/releases/download/v0.9.2/iter8-linux-amd64.tar.gz
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.10.1/iter8-linux-amd64.tar.gz
         tar -xvf iter8-linux-amd64.tar.gz
         mv linux-amd64/iter8 /usr/local/bin
 
@@ -81,24 +72,19 @@ jobs:
         docker pull docker.io/grpc/java-example-hostname:latest
         docker run -p 50051:50051 docker.io/grpc/java-example-hostname:latest &
         echo "HOST_IP=$(ip -f inet addr show docker0 | grep -Po 'inet \K[\d.]+')" >> $GITHUB_ENV
+
+    - name: download proto file
+      run: |
+        curl -o helloworld.proto https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
         
     - name: load test grpc service method
-      run: | 
-        cat << EOF > experiment-config.yaml
-          host: $HOST_IP:50051
-          call: helloworld.Greeter.SayHello
-          protoURL: https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto
-          data:
-            name: frodo
-          SLOs:
-            grpc/error-rate: 0
-            grpc/latency/mean: 150
-            grpc/latency/p90: 300
-            grpc/latency/p97.5: 500
-        EOF
-        cat experiment-config.yaml
-    - uses: iter8-tools/iter8-action@v1
-      with:
-        chart: load-test-grpc
-        valuesFile: experiment-config.yaml
-        logLevel: trace
+      run: |
+        iter8 launch -c load-test-grpc --logLevel=trace \
+        --set host=$HOST_IP:50051 \
+        --set call=helloworld.Greeter.SayHello \
+        --set proto=helloworld.proto \
+        --set data.name=frodo \
+        --set SLOs.grpc/error-rate=0 \
+        --set grpc/latency/mean=150 \
+        --set grpc/latency/p90=400 \
+        --set grpc/latency/p97.5=500
