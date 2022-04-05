@@ -22,7 +22,7 @@ jobs:
 
     - name: Install Iter8
       run: |
-        wget https://github.com/iter8-tools/iter8/releases/download/v0.10.1/iter8-linux-amd64.tar.gz
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.10.3/iter8-linux-amd64.tar.gz
         tar -xvf iter8-linux-amd64.tar.gz
         mv linux-amd64/iter8 /usr/local/bin
 
@@ -63,7 +63,7 @@ jobs:
 
     - name: Install Iter8
       run: |
-        wget https://github.com/iter8-tools/iter8/releases/download/v0.10.1/iter8-linux-amd64.tar.gz
+        wget https://github.com/iter8-tools/iter8/releases/download/v0.10.3/iter8-linux-amd64.tar.gz
         tar -xvf iter8-linux-amd64.tar.gz
         mv linux-amd64/iter8 /usr/local/bin
 
