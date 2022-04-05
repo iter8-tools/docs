@@ -44,7 +44,7 @@ jobs:
                 
     - name: load test POST endpoint
       run: |
-        iter8 launch -c load-test-http \ 
+        iter8 launch -c load-test-http \
           --set url=http://$HOST_IP/post \
           --set payload=image.jpg \
           --set contentType="image/jpeg" \
