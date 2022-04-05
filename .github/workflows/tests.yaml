@@ -79,7 +79,7 @@ jobs:
         
     - name: load test grpc service method
       run: |
-        iter8 launch -c load-test-grpc --logLevel=trace \
+        iter8 launch -c load-test-grpc --loglevel=trace \
         --set host=$HOST_IP:50051 \
         --set call=helloworld.Greeter.SayHello \
         --set proto=helloworld.proto \
