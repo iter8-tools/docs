@@ -32,11 +32,11 @@ jobs:
 
     - name: load test GET endpoint with SLOs
       run: |
-        iter8 launch -c load-test-http \ 
-        --set url=http://$HOST_IP/get \
-        --set SLOs.http/latency-p25=80 \
-        --set SLOs.http/latency-p50=100 \
-        --set SLOs.http/latency-p95.0=200
+        iter8 launch -c load-test-http \
+          --set url=http://$HOST_IP/get \
+          --set SLOs.http/latency-p25=80 \
+          --set SLOs.http/latency-p50=100 \
+          --set SLOs.http/latency-p95.0=200
 
     - name: download payload
       run: |
@@ -45,12 +45,12 @@ jobs:
     - name: load test POST endpoint
       run: |
         iter8 launch -c load-test-http \ 
-        --set url=http://$HOST_IP/post \
-        --set payload=image.jpg \
-        --set contentType="image/jpeg" \
-        --set SLOs.http/latency-p25=80 \
-        --set SLOs.http/latency-p50=100 \
-        --set SLOs.http/latency-p95.0=200
+          --set url=http://$HOST_IP/post \
+          --set payload=image.jpg \
+          --set contentType="image/jpeg" \
+          --set SLOs.http/latency-p25=80 \
+          --set SLOs.http/latency-p50=100 \
+          --set SLOs.http/latency-p95.0=200
 
   e2e-load-test-grpc:
     name: local grpc tests
@@ -80,11 +80,11 @@ jobs:
     - name: load test grpc service method
       run: |
         iter8 launch -c load-test-grpc --loglevel=trace \
-        --set host=$HOST_IP:50051 \
-        --set call=helloworld.Greeter.SayHello \
-        --set proto=helloworld.proto \
-        --set data.name=frodo \
-        --set SLOs.grpc/error-rate=0 \
-        --set grpc/latency/mean=150 \
-        --set grpc/latency/p90=400 \
-        --set grpc/latency/p97.5=500
+          --set host=$HOST_IP:50051 \
+          --set call=helloworld.Greeter.SayHello \
+          --set proto=helloworld.proto \
+          --set data.name=frodo \
+          --set SLOs.grpc/error-rate=0 \
+          --set grpc/latency/mean=150 \
+          --set grpc/latency/p90=400 \
+          --set grpc/latency/p97.5=500
