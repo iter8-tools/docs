@@ -14,13 +14,13 @@ Kubernetes release optimizer built for DevOps, MLOps, SRE, and data science team
 Iter8 experiments make it simple to collect performance and business metrics for apps and ML models, assess, compare and validate one or more app/ML model versions, promote the winning version, and maximize business value in each release.
 
 ## Experiment chart
-Experiment charts are [Helm charts](https://helm.sh/docs/topics/charts/) with a special structure that contain reusable experiment templates. Iter8 combines experiment charts with user supplied values to generate runnable `experiment.yaml` files. Iter8 experiment charts enable you to launch powerful release optimization experiments in seconds. Their usage is described in depth in various [Iter8 tutorials](../tutorials/load-test-http/basicusage.md).
+Iter8 Experiment charts are [Helm charts](https://helm.sh/docs/topics/charts/) under the covers, and enable simple, declarative, and reusable experiments. Experiment charts with user supplied values to generate runnable `experiment.yaml` files or Kubernetes experiment manifests. The former is used for running experiments on the local machine or within CI/CD pipelines, while the latter is used for running experiments inside Kubernetes. Various  types of Iter8 experiments and their usage is described in depth in [Iter8 tutorials](../tutorials/load-test-http/basicusage.md).
 
-By default, Iter8 uses experiment charts located in the [Iter8 GitHub repo](https://github.com/iter8-tools/iter8). You can create, package and host Iter8 experiment charts in any GitHub repo and use them with Iter8 CLI.
+By default, Iter8 uses experiment charts located in the [Iter8 GitHub repo](https://github.com/iter8-tools/iter8). You can create, package and host Iter8 experiment charts in any GitHub repo and use them with Iter8 CLI, and other Iter8 components.
 
 ## Features at a glance
 
-- **Load testing with SLOs** 
+- **Benchmark and validate HTTP and gRPC services** 
     
     Iter8 experiments can generate requests for HTTP and gRPC services, collect built-in latency and error-related metrics, and validate SLOs.
 
