@@ -7,7 +7,7 @@
     ```
     
 === "Binaries"
-    Replace `${TAG}` below with [any Iter8 release tag](https://github.com/iter8-tools/iter8/releases) (example, `v0.10.3`).
+    Replace `${TAG}` below with [any Iter8 release tag](https://github.com/iter8-tools/iter8/releases) (example, `v0.10.4`).
 
     === "darwin-amd64 (MacOS)"
         ```shell

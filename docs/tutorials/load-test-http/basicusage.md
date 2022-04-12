@@ -50,7 +50,7 @@ Latency metrics have `msec` units. Any latency percentile that is specified as p
 
 ***
 
-Launch the following experiment. The `--noDownload` flag reuses the Iter8 experiment `charts` folder downloaded during the previous `iter8 launch` command invocation.
+Launch the following experiment. The `--noDownload` flag reuses the Iter8 experiment `charts` folder downloaded during the previous `iter8 launch` invocation.
 
 ```shell
 iter8 launch -c load-test-http --noDownload \
@@ -94,8 +94,6 @@ iter8 launch -c load-test-http --noDownload \
 --set connections=5
 ```
 
-You can also set the `duration` of the load generation period. Refer to the [chart's default values](../../user-guide/topics/default-values.md) for details.
-
 
 ## Payload
 Send any type of content as payload and specify the HTTP Content Type header. These options switch the HTTP method to POST.
@@ -133,3 +131,7 @@ Send any type of content as payload and specify the HTTP Content Type header. Th
     --set payloadURL=https://cdn.pixabay.com/photo/2021/09/08/17/58/poppy-6607526_1280.jpg \
     --set contentType="image/jpeg"
     ```
+
+***
+
+To learn more about all the parameters of the `load-test-http` chart and their default values, please refer to the [chart's `values.yaml` file](../../user-guide/topics/values.md).

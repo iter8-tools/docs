@@ -55,7 +55,7 @@ Latency metrics have `msec` units. Any latency metric that is specified as part 
 
 ***
 
-For example, invoke `iter8 launch` as follows.
+For example, invoke `iter8 launch` as follows. The `--noDownload` flag reuses the Iter8 experiment `charts` folder downloaded during the previous `iter8 launch` invocation.
 
 ```shell
 iter8 launch -c load-test-grpc --noDownload \
@@ -103,9 +103,6 @@ iter8 launch -c load-test-grpc --noDownload \
 --set connections=10
 ```
 
-Refer to the [chart's default values](../../user-guide/topics/default-values.md) for additional parameters related to the load profile such as `duration`, `maxDuration`, `connectTimeout`, and `keepalive`.
-
-
 ## Call data
 gRPC calls may include data serialized as [Protocol Buffer messages](https://grpc.io/docs/what-is-grpc/introduction/#working-with-protocol-buffers).
 
@@ -134,11 +131,19 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
     Use JSON data from a local file.
 
     ```shell
+    cat << EOF > data.json
+    {
+      "name": "Iter8 user"
+    }
+    EOF
+    ```
+
+    ```shell
     iter8 launch -c load-test-grpc --noDownload \
     --set host="127.0.0.1:50051" \
     --set call="helloworld.Greeter.SayHello" \
     --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
-    --set data-file="/the/path/to/data.json" # "./data.json" also works
+    --set data-file="data.json"
     ```
 
 === "Data URL"
@@ -148,7 +153,7 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
     --set host="127.0.0.1:50051" \
     --set call="helloworld.Greeter.SayHello" \
     --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
-    --set dataURL="https://location.of/data.json"
+    --set dataURL="https://gist.githubusercontent.com/sriumcp/3f3178f4b698af6696c925832e51b0ba/raw/d02aa698d34aa2067f7a2f6afb4ceb616b0db822/name.json"
     ```
 
 === "Binary data file"
@@ -282,7 +287,6 @@ The gRPC server method signatures and message formats are defined in a `.proto` 
     --set reflect-metadata.clientMood="delightful"
     ```
 
+***
 
-## Other Parameters
-
-This chart accepts all the parameters that are part the [ghz runner.Config object](https://pkg.go.dev/github.com/bojand/ghz@v0.106.1/runner#Config). In particular, the parameter names used by this chart correspond to the JSON tags of the field names of this object.
+To learn more about all the parameters of the `load-test-grpc` chart and their default values, please refer to the [chart's `values.yaml` file](../../user-guide/topics/values.md).

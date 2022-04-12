@@ -25,7 +25,7 @@ iter8 hub [flags]
 ### Options
 
 ```
-      --gitFolder string   Git folder containing iter8 charts (default "github.com/iter8-tools/iter8.git?ref=v0.10.3//charts")
+      --gitFolder string   Git folder containing iter8 charts (default "github.com/iter8-tools/iter8.git?ref=v0.10.4//charts")
   -h, --help               help for hub
 ```
 
