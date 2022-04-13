@@ -46,7 +46,9 @@ The following metrics are collected by default by this experiment:
 - `http/latency-max`: max of observed latency values
 - `http/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
 
-Latency metrics have `msec` units. Any latency percentile that is specified as part of SLOs is also collected.
+All latency metrics have `msec` units.
+
+Additional latency percentile values, beyond the default ones, can be collected and used in SLO assessments by setting the `percentiles` parameter.
 
 ***
 
@@ -54,6 +56,7 @@ Launch the following experiment. The `--noDownload` flag reuses the Iter8 experi
 
 ```shell
 iter8 launch -c load-test-http --noDownload \
+--set percentiles={97.5} \
 --set url=http://127.0.0.1/get \
 --set SLOs.http/error-rate=0 \
 --set SLOs.http/latency-mean=50 \
