@@ -131,10 +131,10 @@ nav:
 - Tutorials:
   - Benchmark and validate HTTP:
     - Basic usage: tutorials/load-test-http/basicusage.md
-    - Github action: tutorials/load-test-http/ghaction.md
+    # - Github action: tutorials/load-test-http/ghaction.md
   - Benchmark and validate gRPC:
     - Basic usage: tutorials/load-test-grpc/basicusage.md
-    - Github action: tutorials/load-test-grpc/ghaction.md
+    # - Github action: tutorials/load-test-grpc/ghaction.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
     - Knative:
@@ -150,7 +150,7 @@ nav:
     - Docs for Iter8 v0.7: https://iter8-tools.github.io/iter8/0.7/
 - User guide:
   - Topics:
-    - Chart Documentation: user-guide/topics/chart-docs.md
+    - Chart values: user-guide/topics/values.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 launch: user-guide/commands/iter8_launch.md
@@ -160,6 +160,12 @@ nav:
     - iter8 hub: user-guide/commands/iter8_hub.md
     - iter8 gen: user-guide/commands/iter8_gen.md
     - iter8 run: user-guide/commands/iter8_run.md
+    - iter8 k: user-guide/commands/iter8_k.md
+    - iter8 k launch: user-guide/commands/iter8_k_launch.md
+    - iter8 k assert: user-guide/commands/iter8_k_assert.md
+    - iter8 k report: user-guide/commands/iter8_k_report.md
+    - iter8 k delete: user-guide/commands/iter8_k_delete.md
+    - iter8 k log: user-guide/commands/iter8_k_log.md
 - Contributing: contributing.md
 - Roadmap: roadmap.md
 - Community: 

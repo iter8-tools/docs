@@ -7,13 +7,13 @@ hide:
 
 # Roadmap
 
-1. Iter8 GitHub Action
-2. Iter8 Tekton task
-3. Readiness checks for K8s resources
-4. Examples for experimenting inside K8s
-5. A/B(/n) testing example
-6. AutoX service for auto launching Iter8 experiments, app version tracking, and business telemetry
-7. `read-metrics-from-db` task
-8. `adjust-traffic-split` task
-9. Ability to run multiple loops of an experiment
-10. Iter8 experiments & progressive delivery for multi-cluster and edge cloud
+1. Kubernetes experimentation
+2. Readiness checks in experiments for Kubernetes resources
+3. Iter8 GitHub Action
+4. Traffic mirroring with SLO validation experiments
+5. Iter8 Tekton task
+6. A/B(/n) testing example
+7. AutoX service for auto launching Iter8 experiments, app version tracking, and business telemetry
+8. Spike/ramp testing
+9. Notifications
+10. DevSecOps experiments
