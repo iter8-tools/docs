@@ -15,42 +15,16 @@ template: main.html
     Hello World!
     ```
 
-### 1. Launch experiment
-We will benchmark and validate SLOs for the Knative HTTP service by launching an Iter8 experiment.
+***
+
+Benchmark and validate SLOs for the Knative HTTP service by launching an Iter8 experiment.
 
 ```shell
 iter8 launch -c load-test-http \
-          --set url=http://hello.default.127.0.0.1.sslip.io \
-          --set SLOs.error-rate=0 \
-          --set SLOs.latency-mean=50 \
-          --set SLOs.latency-p90=100 \
-          --set SLOs.latency-p'97\.5'=200
+--set url=http://hello.default.127.0.0.1.sslip.io \
+--set SLOs.http/error-rate=0 \
+--set SLOs.http/latency-mean=50 \
+--set SLOs.http/latency-p90=100 
 ```
 
-In the above experiment, the following SLOs are validated for the Knative service.
-- error rate is 0
-- mean latency is under 50 msec
-- 90th percentile latency is under 100 msec
-- 97.5th percentile latency is under 200 msec
-
-### 2. Assert outcomes
-Assert that the experiment completed without any failures and SLOs are satisfied.
-
-```shell
-iter8 assert -c completed -c nofailure -c slos
-```
-
-### 3. View report
-View a report of the experiment in HTML or text formats as follows.
-
-=== "HTML"
-    ```shell
-    iter8 report -o html > report.html
-    # open report.html with a browser. In MacOS, you can use the command:
-    # open report.html
-    ```
-
-=== "Text"
-    ```shell
-    iter8 report -o text
-    ```
+Please refer to [the usage documentation for the `load-test-http` experiment chart](../../load-test-http/basicusage.md) that describes how to parameterize this experiment, assert SLOs, and view experiment reports.

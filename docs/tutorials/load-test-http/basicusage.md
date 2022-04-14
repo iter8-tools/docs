@@ -48,7 +48,7 @@ The following metrics are collected by default by this experiment:
 
 All latency metrics have `msec` units.
 
-Additional latency percentile values, beyond the default ones, can be collected and used in SLO assessments by setting the `percentiles` parameter.
+Latency percentile values beyond the default ones can be collected and used in SLO assessments by setting the `percentiles` parameter.
 
 ***
 
@@ -56,7 +56,7 @@ Launch the following experiment. The `--noDownload` flag reuses the Iter8 experi
 
 ```shell
 iter8 launch -c load-test-http --noDownload \
---set percentiles={97.5} \
+--set percentiles={45\,97.5} \
 --set url=http://127.0.0.1/get \
 --set SLOs.http/error-rate=0 \
 --set SLOs.http/latency-mean=50 \

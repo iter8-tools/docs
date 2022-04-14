@@ -51,7 +51,7 @@ The following latency metrics are also supported.
 - `grpc/latency/max`: Max latency
 - `grpc/latency/pX`: X-th percentile latency, for any X in the range 0.0 to 100.0
 
-Latency metrics have `msec` units. Any latency metric that is specified as part of SLOs is also collected.
+Latency metrics have `msec` units.
 
 ***
 
@@ -109,7 +109,7 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
 === "Data"
     Specify call data as values.
 
-    ```shell title="Flat"
+    ```shell
     iter8 launch -c load-test-grpc --noDownload \
     --set host="127.0.0.1:50051" \
     --set call="helloworld.Greeter.SayHello" \
@@ -117,18 +117,22 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
     --set data.name="frodo"
     ```
 
-    ```shell title="Nested"
-    iter8 launch -c load-test-grpc --noDownload \
-    --set host="127.0.0.1:50051" \
-    --set call="helloworld.Greeter.SayHello" \
-    --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
-    --set data.name="frodo" \
-    --set data.realm.planet="earth" \
-    --set data.realm.location="middle" 
-    ```
+    ??? note "Specifying nested data"
+
+        Nested data can also be specified. For example, assuming `data.name`, `data.realm.planet`, and `data.realm.location` are all valid fields, they can be specified as follows.
+
+        ```shell title="Nested"
+        iter8 launch -c load-test-grpc --noDownload \
+        --set host="127.0.0.1:50051" \
+        --set call="helloworld.Greeter.SayHello" \
+        --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
+        --set data.name="frodo" \
+        --set data.realm.planet="earth" \
+        --set data.realm.location="middle" 
+        ```
 
 === "Data file"
-    Use JSON data from a local file.
+    Create a local JSON file.
 
     ```shell
     cat << EOF > data.json
@@ -137,6 +141,8 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
     }
     EOF
     ```
+
+    Specify call data JSON file as value.
 
     ```shell
     iter8 launch -c load-test-grpc --noDownload \
@@ -147,7 +153,7 @@ gRPC calls may include data serialized as [Protocol Buffer messages](https://grp
     ```
 
 === "Data URL"
-    Supply a URL that hosts JSON data. Iter8 will download the data from this URL and use it in the requests.
+    Specify a URL that responds with JSON data. Iter8 will download the data and use it in the requests.
     ```shell
     iter8 launch -c load-test-grpc --noDownload \
     --set host="127.0.0.1:50051" \

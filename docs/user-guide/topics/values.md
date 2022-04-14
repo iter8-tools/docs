@@ -8,10 +8,10 @@ An Iter8 experiment chart is a Helm chart, and inherits the latter's [file struc
 
 ***
 
-For example, to view `values.yaml` file for the `load-test-grpc` chart, do as follows:
+For example, to view `values.yaml` file for the `load-test-http` chart, do as follows:
 
 ```shell
 iter8 hub
-cat charts/load-test-grpc/values.yaml
+cat charts/load-test-http/values.yaml
 ```
 

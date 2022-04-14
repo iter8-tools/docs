@@ -38,7 +38,7 @@ iter8 k launch [flags]
   -c, --chartName string         name of the experiment chart
       --chartsParentDir string   directory under which the charts folder is located (default ".")
       --dry                      simulate an experiment launch
-      --gitFolder string         Git folder containing iter8 charts (default "github.com/iter8-tools/iter8.git?ref=v0.10.4//charts")
+      --gitFolder string         Git folder containing iter8 charts (default "github.com/iter8-tools/iter8.git?ref=v0.10.5//charts")
   -g, --group string             name of the experiment group (default "default")
   -h, --help                     help for launch
       --noDownload               reuse local charts dir; do not download from Git

@@ -15,7 +15,7 @@ Get started with your first [Iter8 experiment](concepts.md) by benchmarking an H
 Use `iter8 launch` to benchmark the HTTP service whose URL is https://httpbin.org/get.
 
 ```shell
-iter8 launch -c load-test-http --set url=https://httpbin.org/get
+iter8 launch -c load-test-http --set url=https://httpbin.org/get --set numRequests=40
 ```
 
 The `iter8 launch` command downloads [Iter8 experiment charts](concepts.md#experiment-chart), combines a specified chart (`load-test-http` in the above instance) with various parameter values (`url` in the above instance), generates the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file.
