@@ -4,7 +4,7 @@ template: main.html
 
 # Your First Experiment
 
-Get started with your first [Iter8 experiment](concepts.md#what-is-an-iter8-experiment) by benchmarking an HTTP service. 
+Get started with your first [Iter8 experiment](concepts.md) by benchmarking an HTTP service. 
     
 ***
 
@@ -15,10 +15,10 @@ Get started with your first [Iter8 experiment](concepts.md#what-is-an-iter8-expe
 Use `iter8 launch` to benchmark the HTTP service whose URL is https://httpbin.org/get.
 
 ```shell
-iter8 launch -c load-test-http --set url=https://httpbin.org/get
+iter8 launch -c load-test-http --set url=https://httpbin.org/get --set numRequests=40
 ```
 
-The `iter8 launch` subcommand downloads an [experiment chart](concepts.md#experiment-chart) from [Iter8 hub](concepts.md#iter8-hub), combines the chart with values that are set in order to generate the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file. 
+The `iter8 launch` command downloads [Iter8 experiment charts](concepts.md#experiment-chart), combines a specified chart (`load-test-http` in the above instance) with various parameter values (`url` and `numRequests` in the above instance), generates the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file.
 
 ## 3. View experiment report
 --8<-- "docs/getting-started/expreport.md"

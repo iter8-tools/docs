@@ -79,7 +79,8 @@
         }
       ],
       "updated": 1645724737207,
-      "link": null
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -105,6 +106,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
       "text": "Iter8 Experiment",
@@ -150,7 +152,8 @@
         }
       ],
       "updated": 1645724737207,
-      "link": null
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -176,6 +179,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
       "text": "Promote winner",
@@ -225,7 +229,8 @@
         }
       ],
       "updated": 1645724737207,
-      "link": null
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -251,6 +256,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
       "text": "v1",
@@ -302,7 +308,8 @@
         }
       ],
       "updated": 1645724737207,
-      "link": null
+      "link": null,
+      "locked": false
     },
     {
       "type": "line",
@@ -330,6 +337,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "lastCommittedPoint": null,
       "startArrowhead": null,
       "endArrowhead": null,
@@ -370,6 +378,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "lastCommittedPoint": null,
       "startArrowhead": null,
       "endArrowhead": null,
@@ -410,6 +419,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "lastCommittedPoint": null,
       "startArrowhead": null,
       "endArrowhead": null,
@@ -450,6 +460,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "lastCommittedPoint": null,
       "startArrowhead": null,
       "endArrowhead": null,
@@ -490,6 +501,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "lastCommittedPoint": null,
       "startArrowhead": null,
       "endArrowhead": null,
@@ -548,7 +560,8 @@
         }
       ],
       "updated": 1645724737207,
-      "link": null
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -574,6 +587,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
       "text": "v2",
@@ -631,7 +645,8 @@
         }
       ],
       "updated": 1645724737207,
-      "link": null
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -657,6 +672,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
       "text": "vn",
@@ -668,8 +684,8 @@
     },
     {
       "type": "text",
-      "version": 2270,
-      "versionNonce": 505940152,
+      "version": 2330,
+      "versionNonce": 395467475,
       "isDeleted": false,
       "id": "irjaTDCcH4pbd7cYwjiIM",
       "fillStyle": "solid",
@@ -678,11 +694,11 @@
       "roughness": 1,
       "opacity": 100,
       "angle": 0,
-      "x": 1024.6628301569501,
-      "y": 307.69352389305243,
+      "x": 964.3741338678876,
+      "y": 309.7646298500837,
       "strokeColor": "#a61e4d",
       "backgroundColor": "transparent",
-      "width": 168,
+      "width": 306,
       "height": 36,
       "seed": 19564103,
       "groupIds": [],
@@ -693,16 +709,17 @@
           "type": "arrow"
         }
       ],
-      "updated": 1645724737207,
+      "updated": 1649783633741,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "App versions",
+      "text": "App/ML model versions",
       "baseline": 25,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "App versions"
+      "originalText": "App/ML model versions"
     },
     {
       "type": "rectangle",
@@ -752,7 +769,8 @@
         }
       ],
       "updated": 1645724737207,
-      "link": null
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -778,6 +796,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
       "text": "Collect metrics",
@@ -827,7 +846,8 @@
         }
       ],
       "updated": 1645724737207,
-      "link": null
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -853,6 +873,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
       "text": "Assess version(s)",
@@ -886,6 +907,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
       "text": "...",
@@ -897,8 +919,8 @@
     },
     {
       "type": "arrow",
-      "version": 4416,
-      "versionNonce": 968692017,
+      "version": 4536,
+      "versionNonce": 1623558259,
       "isDeleted": false,
       "id": "CioiccuBHwk_mnafU4wQq",
       "fillStyle": "hachure",
@@ -907,18 +929,19 @@
       "roughness": 1,
       "opacity": 100,
       "angle": 0,
-      "x": 1093.2260871225324,
-      "y": 486.5641053188275,
+      "x": 1095.1518502222607,
+      "y": 487.3021152747078,
       "strokeColor": "#a61e4d",
       "backgroundColor": "transparent",
-      "width": 17.576431949013113,
-      "height": 128.92793582248157,
+      "width": 27.195488527919224,
+      "height": 127.5948398213306,
       "seed": 337488583,
       "groupIds": [],
       "strokeSharpness": "round",
       "boundElements": [],
-      "updated": 1646004389779,
+      "updated": 1649783633741,
       "link": null,
+      "locked": false,
       "startBinding": {
         "elementId": "FsJKt28fTeLnx7zCgQu3q",
         "focus": 0.41798700000434075,
@@ -938,8 +961,8 @@
           0
         ],
         [
-          17.576431949013113,
-          -128.92793582248157
+          27.195488527919224,
+          -127.5948398213306
         ]
       ]
     },
@@ -967,6 +990,7 @@
       "boundElements": [],
       "updated": 1645724737207,
       "link": null,
+      "locked": false,
       "startBinding": null,
       "endBinding": {
         "elementId": "29oqLLYC4f8_PjV_9BwQn",
