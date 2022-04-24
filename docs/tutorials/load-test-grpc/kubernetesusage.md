@@ -16,6 +16,7 @@ Benchmark, and validate a gRPC service inside a Kubernetes cluster using the  [`
     ```shell
     kubectl create deploy hello --image=docker.io/grpc/java-example-hostname:latest --port=50051
     kubectl expose deploy hello --port=50051 
+    kubectl wait --for=condition=available --timeout=60s deploy/hello
     ```
 
 ***

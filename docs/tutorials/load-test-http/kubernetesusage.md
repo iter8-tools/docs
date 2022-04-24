@@ -18,7 +18,8 @@ Benchmark, and validate an HTTP service inside a Kubernetes cluster using the  [
     3. Deploy the sample HTTP service in the Kubernetes cluster.
     ```shell
     kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
-    kubectl expose deploy httpbin --port=80 
+    kubectl expose deploy httpbin --port=80
+    kubectl wait --for=condition=available --timeout=60s deploy/httpbin
     ```
 
 ***
