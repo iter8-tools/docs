@@ -2,7 +2,7 @@ site_name: Iter8
 site_url: https://iter8.tools/latest
 site_author: Srinivasan Parthasarathy
 site_description: >-
-  Benchmark and validate HTTP and gRPC services with SLOs. Maximize business value with each release. Run locally, inside Kubernetes, or inside CI/CD/GitOps pipelines. Get started in seconds.
+  Iter8 is the Kubernetes release optimizer built for DevSecOps, MLOps, SRE, and data science teams. Ensuring that new versions of apps and ML models perform well, are secure, and maximize business value, requires a metrics-driven approach to DevSec/MLOps. Iter8 makes this simple and easy.
 # Repository
 repo_name: iter8-tools/iter8
 repo_url: https://github.com/iter8-tools/iter8

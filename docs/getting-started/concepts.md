@@ -4,14 +4,16 @@ template: main.html
 
 # Iter8
 
-Kubernetes release optimizer built for DevOps, MLOps, SRE, and data science teams.
+Iter8 is the Kubernetes release optimizer built for DevSecOps, MLOps, SRE, and data science teams.
+
+Ensuring that new versions of apps and ML models perform well, are secure, and maximize business value, requires a metrics-driven approach to DevSec/MLOps. Iter8 makes this simple and easy.
 
 ## Iter8 experiment
 <p align='center'>
   <img alt-text="load-test-http" src="../../images/iter8-intro-dark.png" width="70%" />
 </p>
 
-Iter8 experiments make it simple to collect performance and business metrics for apps and ML models, assess, compare and validate one or more app/ML model versions, promote the winning version, and maximize business value in each release.
+Iter8 experiments make it simple to collect performance, risk, and business metrics for apps and ML models, assess, compare and validate one or more app/ML model versions, promote the winning version, and maximize business value in each release.
 
 ## Experiment chart
 Iter8 Experiment charts are [Helm charts](https://helm.sh/docs/topics/charts/) under the covers, and enable simple, declarative, and reusable metrics-driven experiments. Iter8 combines experiment charts with user supplied values to generate runnable `experiment.yaml` files or Kubernetes experiment manifests. The former is used for running experiments in the local environment, while the latter is used for running experiments inside Kubernetes.
