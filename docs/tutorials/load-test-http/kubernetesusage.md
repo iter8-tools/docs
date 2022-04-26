@@ -29,7 +29,7 @@ Launch a `load-test-http` experiment inside the Kubernetes cluster. Note that th
 ```shell
 iter8 k launch -c load-test-http \
 --set url=http://httpbin.default \
---set SLOs.http/latency/mean=50
+--set SLOs.http/latency-mean=50
 ```
 
 ??? tip "Kubernetes experiments and iter8 k"
