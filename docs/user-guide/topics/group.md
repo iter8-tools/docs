@@ -4,7 +4,7 @@ template: main.html
 
 # Experiment namespace and group
 
-Iter8 experiments like [`load-test-http`](../../tutorials/load-test-http/kubernetesusage.md) and [`load-test-grpc`](../../tutorials/load-test-grpc/kubernetesusage.md) can be run within Kubernetes. Such experiments are launched within a Kubernetes `namespace`, and associated with a unique *group* within that namespace.
+Iter8 experiments like [`load-test-http`](../../tutorials/load-test-http/kubernetesusage.md) and [`load-test-grpc`](../../tutorials/load-test-grpc/kubernetesusage.md) can be run within Kubernetes. Such experiments are launched within a Kubernetes namespace, and associated with a unique *group* within that namespace.
 
 For example, consider the following invocation:
 
