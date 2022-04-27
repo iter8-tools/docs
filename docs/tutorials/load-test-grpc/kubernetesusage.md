@@ -6,6 +6,10 @@ template: main.html
 
 Benchmark, and validate a gRPC service inside a Kubernetes cluster using the  [`load-test-grpc` experiment](basicusage.md). The experiment is run inside the cluster. The gRPC service may be externally exposed or local to the cluster.
 
+<p align='center'>
+  <img alt-text="load-test-grpc" src="../images/kubernetesusage.png" width="90%" />
+</p>
+
 ***
 
 ???+ warning "Before you begin"
