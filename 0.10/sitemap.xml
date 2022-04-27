@@ -2,212 +2,222 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://iter8.tools/latest/0.10/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/contributing/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/roadmap/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/community/community/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/community/news/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/getting-started/concepts/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/getting-started/expreport/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/getting-started/help/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/getting-started/install/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/getting-started/installiter8cli/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/getting-started/your-first-experiment/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/integrations/istio/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/integrations/kserve/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/integrations/linkerd/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/integrations/litmus/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/integrations/overview/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/integrations/seldon/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/integrations/knative/load-test-grpc/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/integrations/knative/load-test-http/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/load-test-grpc/basicusage/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/load-test-grpc/expreport/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/load-test-grpc/ghaction/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://iter8.tools/latest/0.10/tutorials/load-test-grpc/kubernetesusage/</loc>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/load-test-http/assert/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/load-test-http/basicusage/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/load-test-http/expreport/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/load-test-http/ghaction/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://iter8.tools/latest/0.10/tutorials/load-test-http/kubernetesusage/</loc>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/tutorials/load-test-http/usecases/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_assert/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_gen/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_hub/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_k/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_k_assert/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_k_delete/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_k_launch/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_k_log/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_k_report/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_launch/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_report/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_run/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/commands/iter8_version/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/topics/values/</loc>
-         <lastmod>2022-04-14</lastmod>
+         <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
