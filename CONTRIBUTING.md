@@ -29,7 +29,7 @@ The best ways to reach us with a question is to ask...
 
 * On the original GitHub issue
 * In the `#development` channel in the [Iter8 Slack workspace](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw)
-* During our [community meetings](https://iter8.tools/community/)
+* During our [community meetings](https://iter8.tools/latest/community/community/)
 
 ## Find an issue
 
