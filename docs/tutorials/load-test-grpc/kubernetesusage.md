@@ -36,4 +36,6 @@ iter8 k launch -c load-test-grpc \
 
 ***
 
-You can parameterize the launch (in particular, specify SLOs) as described in the [basic `load-test-grpc` tutorial](basicusage.md). You can assert experiment conditions, view experiment reports, view experiment logs, and cleanup the experiment as described in the [Kubernetes usage tutorial for `load-test-http`](../load-test-http/kubernetesusage.md).
+## Similarities to `load-test-http`
+
+You can configure this experiment with various parameter values (in particular, you can specify SLOs) as described in the [basic `load-test-grpc` tutorial](basicusage.md). You can assert experiment conditions, view experiment reports, view experiment logs, and cleanup the experiment as described in the [Kubernetes usage tutorial for `load-test-http`](../load-test-http/kubernetesusage.md).
