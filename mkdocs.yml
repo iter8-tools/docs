@@ -6,7 +6,7 @@ site_description: >-
 # Repository
 repo_name: iter8-tools/iter8
 repo_url: https://github.com/iter8-tools/iter8
-# edit_uri: edit/master/docs
+edit_uri: ""
 
 # Configuration
 theme:
@@ -151,6 +151,7 @@ nav:
 - User guide:
   - Topics:
     - Chart values: user-guide/topics/values.md
+    - Namespace and group: user-guide/topics/group.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 launch: user-guide/commands/iter8_launch.md
