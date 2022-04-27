@@ -216,6 +216,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://iter8.tools/latest/0.10/user-guide/topics/group/</loc>
+         <lastmod>2022-04-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://iter8.tools/latest/0.10/user-guide/topics/values/</loc>
          <lastmod>2022-04-27</lastmod>
          <changefreq>daily</changefreq>
