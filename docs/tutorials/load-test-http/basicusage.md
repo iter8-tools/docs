@@ -48,28 +48,25 @@ The following metrics are collected by default by this experiment:
 
 All latency metrics have `msec` units.
 
-Latency percentile values beyond the default ones can be collected and used in SLO assessments by setting the `percentiles` parameter.
-
 ***
 
 Launch the following experiment. The `--noDownload` flag reuses the Iter8 experiment `charts` folder downloaded during the previous `iter8 launch` invocation.
 
 ```shell
 iter8 launch -c load-test-http --noDownload \
---set percentiles={45\,97.5} \
 --set url=http://127.0.0.1/get \
 --set SLOs.http/error-rate=0 \
 --set SLOs.http/latency-mean=50 \
 --set SLOs.http/latency-p90=100 \
---set SLOs.http/latency-p'97\.5'=200
+--set SLOs.http/latency-p95=200
 ```
 
 In the experiment above, the following SLOs are validated.
 
 - error rate is 0
 - mean latency is under 50 msec
-- 90th percentile latency is under 100 msec
-- 97.5th percentile latency is under 200 msec
+- 90^th^ percentile latency is under 100 msec
+- 95^th^ percentile latency is under 200 msec
 
 ***
 
