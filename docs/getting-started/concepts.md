@@ -3,10 +3,7 @@ template: main.html
 ---
 
 # Iter8
-
-Iter8 is the Kubernetes release optimizer built for DevSecOps, MLOps, SRE, and data science teams.
-
-Ensuring that new versions of apps and ML models perform well, are secure, and maximize business value, requires a metrics-driven approach to DevSec/MLOps. Iter8 makes this simple and easy.
+Iter8 is a metrics-driven release optimizer built for DevSecOps, MLOps, SRE and data science teams. Iter8 makes it easy to ensure that new versions of apps and ML models perform well, are secure, and maximize business value.
 
 ## Iter8 experiment
 <p align='center'>
@@ -20,7 +17,7 @@ Iter8 Experiment charts are [Helm charts](https://helm.sh/docs/topics/charts/) u
 
 Iter8 uses experiment charts located in the [Iter8 GitHub repo](https://github.com/iter8-tools/iter8) by default. You can create, package and host Iter8 experiment charts in any GitHub repo and use them with Iter8 CLI, and other Iter8 components.
 
-## Features at a glance
+<!-- ## Features at a glance
 
 - **Benchmark and validate HTTP and gRPC services** 
     
@@ -36,7 +33,7 @@ Iter8 uses experiment charts located in the [Iter8 GitHub repo](https://github.c
 
 - **App frameworks** 
       
-    Use with any app, serverless, or ML framework. Iter8 works with Kubernetes deployments, statefulsets, Knative services, KServe/Seldon ML deployments, or other custom Kubernetes resource types.
+    Use with any app, serverless, or ML framework. Iter8 works with Kubernetes deployments, statefulsets, Knative services, KServe/Seldon ML deployments, or other custom Kubernetes resource types. -->
 
 ## Implementation
 Iter8 is written in `go` and builds on a few awesome open source projects including:

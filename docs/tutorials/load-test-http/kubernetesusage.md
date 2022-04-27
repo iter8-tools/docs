@@ -42,7 +42,7 @@ iter8 k launch -c load-test-http \
 
 ***
 
-## Assertions
+## Assert experiment outcomes
 Assert that the experiment completed without failures, and all SLOs are satisfied. The timeout flag below specifies a period of 120 sec for assert conditions to be satisfied.
 
 ```shell
