@@ -4,9 +4,7 @@ template: main.html
 
 # Checking readiness of Kubernetes resources
 
-When Iter8 experiment rely on Kubernetes resources, the readiness of those resources can be checked first.  
-
-For example, to check the readiness of a `Deployment` resource:
+Many Iter8 experiments, like [load-test-http](../../tutorials/load-test-http/kubernetesusage.md), and [load-test-grpc](../../tutorials/load-test-grpc/kubernetesusage.md) are intended to run inside a Kubernetes cluster and interact with Kubernetes resources. In such cases, it is useful to check the resources involved are ready at the beginning of the experiment, before other experiment tasks are executed. You can do this with various `ready.*` experiment parameters.
 
 ```shell
 iter8 k -c load-test-http \
