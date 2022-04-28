@@ -21,16 +21,13 @@ Currently, Iter8 provides native support for the following resource types:
 
 The option `ready.timeout` can be used to specify the maximum time that the experiment should wait for the readiness condition to be satisfied.
 
-## Extending to new resource kinds
+## Readiness checking other resources
 
-1. Download chart(s):
+Iter8 can be extended to support readiness checking of additional resource types beyond deployments and services. Please consider submitting a pull request with new resource types.
 
-    ```shell
-    iter8 hub -c load-test-http
-    ```
+In brief, the current implementation uses two templates [`task.ready`](https://github.com/iter8-tools/iter8/blob/master/charts/iter8lib/templates/_task.ready.tpl#L24) and [`task.ready.rbac`](https://github.com/iter8-tools/iter8/blob/master/charts/iter8lib/templates/_task-ready-rbac.tpl#L1). To support a new type:
 
-2. Add an entry for the new resource type in `charts/iter8lib/templates/_task.ready.tpl`.
-Identify the group/version/resource and identify the condition that should be checked. For example, to add a readiness check for a Knative `Service`:
+- Modify [`task.ready`](https://github.com/iter8-tools/iter8/blob/master/charts/iter8lib/templates/_task.ready.tpl#L24) to define the group/version/resource and, optionally, a condition that should be checked. For example, to add a readiness check for a Knative `Service`, the following might be added:
 
     ```yaml
     {{- if .Values.ready.ksrv }}
@@ -47,7 +44,7 @@ Identify the group/version/resource and identify the condition that should be ch
     ```
     <!-- https://github.com/knative/specs/blob/main/specs/serving/knative-api-specification-1.0.md#service-1 -->
 
-3. Add new `apiGroup` to rbac `Role` definition, `charts/iter8lib/templates/_task-ready-rbac.tpl`:
+- Add a new `apiGroup` to [`task.ready.rbac`](https://github.com/iter8-tools/iter8/blob/master/charts/iter8lib/templates/_task-ready-rbac.tpl#L1) template for `Role`. For example:
 
     ```yaml
     {{- if .Values.ready.ksrv }}
@@ -56,12 +53,4 @@ Identify the group/version/resource and identify the condition that should be ch
       resources: ["services"]
       verbs: ["get"]
     {{- end }}
-    ```
-
-4. Use the locally modified chart with the `--noDownload` option:
-
-    ```shell
-    iter8 k launch --noDownload -c load-test-http \
-    --set ready.ksrv=myservice \
-    ...
     ```

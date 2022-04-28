@@ -32,6 +32,7 @@ iter8 k launch -c load-test-http \
 --set url=http://httpbin.default \
 --set SLOs.http/latency-mean=50 \
 --set ready.deploy=httpbin \
+--set ready.service=httpbin \
 --set ready.timeout=60s 
 ```
 
@@ -40,7 +41,7 @@ iter8 k launch -c load-test-http \
 
     For example, `iter8 launch` executes local experiments and `iter8 assert` enables assertions on the results of local experiments; similarly, `iter8 k launch` executes Kubernetes experiments and `iter8 k assert` enables assertions on the results of Kubernetes experiments. 
 
-    Notice also the additional option `ready.deploy` whichs allows you to specify a Kubernetes `Deployment` resoruce that should be checked for [readiness](../../user-guide/topics/readiness.md) before proceeding with the load test. `ready.timeout` specifies how long it should wait for the resource to be ready.
+    Notice also the additional options `ready.deploy` and `ready.service` which allow you to specify Kubernetes `Deployment` and `Service` resources that should be checked for [readiness](../../user-guide/topics/readiness.md) before proceeding with the load test. `ready.timeout` specifies how long it should wait for the resource to be ready.
 <!-- Also refer to [experiment namespaces and groups](../../user-guide/topics/groups.md). -->
 
 ***

@@ -34,6 +34,7 @@ iter8 k launch -c load-test-grpc \
 --set call="helloworld.Greeter.SayHello" \
 --set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
 --set ready.deploy=hello \
+--set ready.service=hello \
 --set ready.timeout=60s 
 ```
 
