@@ -19,19 +19,22 @@ Benchmark, and validate a gRPC service inside a Kubernetes cluster using the  [`
     4. Deploy the sample gRPC service in the Kubernetes cluster.
     ```shell
     kubectl create deploy hello --image=docker.io/grpc/java-example-hostname:latest --port=50051
-    kubectl expose deploy hello --port=50051 
-    kubectl wait --for=condition=available --timeout=60s deploy/hello
+    kubectl expose deploy hello --port=50051
     ```
 
 ***
 
 ## Launch experiment
+
 Launch a `load-test-grpc` experiment inside the Kubernetes cluster. Note that the gRPC host in this experiment is `hello.default`, which refers to a hostname inside the Kubernetes cluster, specifically, the `hello` service in the `default` namespace.
+
 ```shell
 iter8 k launch -c load-test-grpc \
 --set host="hello.default:50051" \
 --set call="helloworld.Greeter.SayHello" \
---set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto"
+--set protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
+--set ready.deploy=hello \
+--set ready.timeout=60s 
 ```
 
 ***

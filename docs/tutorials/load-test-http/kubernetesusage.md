@@ -19,25 +19,28 @@ Benchmark, and validate an HTTP service inside a Kubernetes cluster using the  [
     ```shell
     kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
     kubectl expose deploy httpbin --port=80
-    kubectl wait --for=condition=available --timeout=60s deploy/httpbin
     ```
 
 ***
 
 ## Launch experiment
-Launch a `load-test-http` experiment inside the Kubernetes cluster. Note that the HTTP URL in this experiment is `http://httpbin.default`, which refers to a hostname inside the Kubernetes cluster, specifically, the `httpbin` service in the `default` namespace. 
+
+Launch a `load-test-http` experiment inside the Kubernetes cluster. Note that the HTTP URL in this experiment is `http://httpbin.default`, which refers to a hostname inside the Kubernetes cluster, specifically, the `httpbin` service in the `default` namespace.
+
 ```shell
 iter8 k launch -c load-test-http \
 --set url=http://httpbin.default \
---set SLOs.http/latency-mean=50
+--set SLOs.http/latency-mean=50 \
+--set ready.deploy=httpbin \
+--set ready.timeout=60s 
 ```
 
 ??? tip "Kubernetes experiments and iter8 k"
-    Notice the `iter8 k launch` invocation above. Many Iter8 subcommands like `launch`, `assert` and `report` come in two flavors, one suited for experiments that are run locally, and another suited for experiments run inside a Kubernetes cluster. 
-    
+    Notice the `iter8 k launch` invocation above. Many Iter8 subcommands like `launch`, `assert` and `report` come in two flavors, one suited for experiments that are run locally, and another suited for experiments run inside a Kubernetes cluster.
+
     For example, `iter8 launch` executes local experiments and `iter8 assert` enables assertions on the results of local experiments; similarly, `iter8 k launch` executes Kubernetes experiments and `iter8 k assert` enables assertions on the results of Kubernetes experiments. 
 
-<!-- Also refer to [readiness check](../../user-guide/topics/readiness.md). -->
+    Notice also the additional option `ready.deploy` whichs allows you to specify a Kubernetes `Deployment` resoruce that should be checked for [readiness](../../user-guide/topics/readiness.md) before proceeding with the load test. `ready.timeout` specifies how long it should wait for the resource to be ready.
 <!-- Also refer to [experiment namespaces and groups](../../user-guide/topics/groups.md). -->
 
 ***
