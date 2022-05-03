@@ -137,6 +137,7 @@ nav:
     - Kubernetes usage: tutorials/load-test-grpc/kubernetesusage.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
+    - GitHub Actions: tutorials/integrations/ghactions.md
     - Knative:
       - Benchmark and validate HTTP: tutorials/integrations/knative/load-test-http.md
       - Benchmark and validate gRPC: tutorials/integrations/knative/load-test-grpc.md
