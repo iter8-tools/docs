@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Use Iter8 in a GitHub workflow
+# Use Iter8 in a GitHub Actions workflow
 
 Install the latest version of Iter8 using the GitHub Action `iter8/iter8@v0.10`. Once installed, Iter8 can be used as documented (see [user guide](../../user-guide/commands/iter8.md)) in `run` actions. For example:
 
