@@ -40,8 +40,8 @@ The `slo-validation-istio` collects latency and error-related metrics and valida
 
     Run the httpbin sample service
     ```shell
-    istioctl kube-inject -f samples/httpbin-v1-deployment | kubectl apply -f -
-    istioctl kube-inject -f samples/httpbin-service | kubectl apply -f -
+    istioctl kube-inject -f https://raw.githubusercontent.com/Alan-Cha/docs/slo-validation-istio/docs/tutorials/slo-validation-istio/samples/httpbin-v1-deployment.yaml | kubectl apply -f -
+    istioctl kube-inject -f https://raw.githubusercontent.com/Alan-Cha/docs/slo-validation-istio/docs/tutorials/slo-validation-istio/samples/httpbin-service.yaml | kubectl apply -f -
     ```
 
     In a separate terminal window, run a Minikube tunnel 
@@ -58,7 +58,7 @@ The `slo-validation-istio` collects latency and error-related metrics and valida
 
     To send traffic, first run the sleep service
     ```shell
-    istioctl kube-inject -f samples/sleep-deployment.yaml | kubectl apply -f -
+    istioctl kube-inject -f https://raw.githubusercontent.com/Alan-Cha/docs/slo-validation-istio/docs/tutorials/slo-validation-istio/samples/sleep-deployment.yaml | kubectl apply -f -
     ```
 
     Then, make some requests
