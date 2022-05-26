@@ -17,33 +17,21 @@
         Whether or not service level objectives (SLOs) are satisfied:
         *************************************************************
 
-          SLO Conditions                   |Satisfied
-          --------------                   |---------
-          http/error-rate <= 0             |true
-          http/latency-mean (msec) <= 50   |true
-          http/latency-p90 (msec) <= 100   |true
-          http/latency-p97.5 (msec) <= 200 |true
+          SLO Conditions        |Satisfied
+          --------------        |---------
+          istio/error-rate <= 0 |true
           
 
         Latest observed values for metrics:
         ***********************************
 
-          Metric                     |value
-          -------                    |-----
-          http/error-count           |0.00
-          http/error-rate            |0.00
-          http/latency-max (msec)    |8.93
-          http/latency-mean (msec)   |5.49
-          http/latency-min (msec)    |2.71
-          http/latency-p50 (msec)    |5.38
-          http/latency-p75 (msec)    |6.71
-          http/latency-p90 (msec)    |7.77
-          http/latency-p95 (msec)    |8.27
-          http/latency-p97.5 (msec)  |8.60
-          http/latency-p99 (msec)    |8.80
-          http/latency-p99.9 (msec)  |8.92
-          http/latency-stddev (msec) |1.57
-          http/request-count         |100.00
+          Metric                           |value
+          -------                          |-----
+          istio/error-count                |0.00
+          istio/error-rate                 |0.00
+          istio/le500ms-latency-percentile |2.00
+          istio/mean-latency               |120.05
+          istio/request-count              |2.00
         ```
 
 === "HTML"

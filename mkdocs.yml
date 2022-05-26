@@ -135,6 +135,8 @@ nav:
   - Benchmark and validate gRPC:
     - Basic usage: tutorials/load-test-grpc/basicusage.md
     - Kubernetes usage: tutorials/load-test-grpc/kubernetesusage.md
+  - Validate Istio:
+    - Basic usage: tutorials/slo-validation-istio/basicusage.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
     - GitHub Actions: tutorials/integrations/ghactions.md
