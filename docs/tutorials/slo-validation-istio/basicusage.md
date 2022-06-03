@@ -84,9 +84,9 @@ To collect metrics from a service, following must be set:
 ```shell
 iter8 launch -c slo-validation-istio \
 --set endpoint=http://localhost:9090 \
---set destination_workload=httpbin-v1 \
---set destination_workload_namespace=default \
---set startingTime="Feb 4\, 2014 at 6:05pm (PST)"
+--set versionInfo.destination_workload=httpbin-v1 \
+--set versionInfo.destination_workload_namespace=default \
+--set versionInfo.startingTime="Feb 4\, 2014 at 6:05pm (PST)"
 ```
 
 ## Validate SLOs
@@ -110,26 +110,26 @@ To validate SLOs in addition to collecting metrics, SLOs must also be provided.
 iter8 launch -c slo-validation-istio \
 --noDownload \
 --set endpoint=http://localhost:9090 \
---set destination_workload=httpbin-v1 \
---set destination_workload_namespace=default \
---set startingTime="Feb 4\, 2014 at 6:05pm (PST)" \
+--set versionInfo.destination_workload=httpbin-v1 \
+--set versionInfo.destination_workload_namespace=default \
+--set versionInfo.startingTime="Feb 4\, 2014 at 6:05pm (PST)" \
 --set SLOs.istio/error-rate=0 \
---set SLOs.istio/latency-mean=50
+--set SLOs.istio/latency-mean=100
 ```
 
 In the experiment above, the following SLOs are validated.
 
 - error rate is 0
-- mean latency is under 50 msec
+- mean latency is under 100 msec
 
 ***
 
 ## View experiment report
 
---8<-- "docs/tutorials/load-test-http/expreport.md"
+--8<-- "docs/tutorials/slo-validation-istio/expreport.md"
 
 ***
 
 ## Assert experiment outcomes
 
---8<-- "docs/tutorials/load-test-http/assert.md"
+--8<-- "docs/tutorials/slo-validation-istio/assert.md"
