@@ -6,9 +6,9 @@ template: main.html
 
 The `slo-validation-istio` collects latency and error-related metrics and validates service-level objectives (SLOs) from an application using Istio.
 
-<!-- <p align='center'>
-  <img alt-text="load-test-http" src="../images/http-overview.png" width="90%" />
-</p> -->
+<p align='center'>
+  <img alt-text="slo-validation-istio" src="../images/istio-overview.png" width="90%" />
+</p>
 
 <!-- ***
 
