@@ -137,6 +137,7 @@ nav:
     - Kubernetes usage: tutorials/load-test-grpc/kubernetesusage.md
   - Integrations:
     - Overview: tutorials/integrations/overview.md
+    - GitHub Actions: tutorials/integrations/ghactions.md
     - Knative:
       - Benchmark and validate HTTP: tutorials/integrations/knative/load-test-http.md
       - Benchmark and validate gRPC: tutorials/integrations/knative/load-test-grpc.md
@@ -152,6 +153,7 @@ nav:
   - Topics:
     - Chart values: user-guide/topics/values.md
     - Namespace and group: user-guide/topics/group.md
+    - Readiness checks: user-guide/topics/readiness.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 launch: user-guide/commands/iter8_launch.md
