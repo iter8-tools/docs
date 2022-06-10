@@ -1,7 +1,10 @@
-Assert that the experiment completed without failures, and all SLOs are satisfied.
+Assert that the experiment encountered no failures, and all SLOs are satisfied. 
+
 ```shell
-iter8 assert -c completed -c nofailure -c slos
+iter8 k assert -c nofailure -c slos
 ```
+
+Note that because these are looping experiments without a defined end, do not use the `completed` assert condition.
 
 The `iter8 assert` command asserts if the experiment result satisfies conditions that are specified. If assert conditions are satisfied, it exits with code `0`; else, it exits with code `1`. Assertions are especially useful inside CI/CD/GitOps pipelines.
 
