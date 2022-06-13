@@ -19,12 +19,6 @@ In this tutorial, you will learn how to set up a new version and traffic mirrori
 *** -->
 
 ???+ warning "Before you begin"
-    <!-- Run the [httpbin](https://httpbin.org) sample service from a separate terminal.
-    ```shell
-    docker run -p 80:80 kennethreitz/httpbin
-    ```
-    You can also use [Podman](https://podman.io) or other alternatives to Docker in the above command. -->
-
     1. [Follow the Istio traffic mirroring tutorial](https://istio.io/latest/docs/tasks/traffic-management/mirroring/).
 
     2. [Install Prometheus plugin](https://istio.io/latest/docs/ops/integrations/prometheus/).
@@ -35,24 +29,11 @@ In this tutorial, you will learn how to set up a new version and traffic mirrori
     ```
 ***
 
-## Collect metrics from the mirrored service
-To collect metrics, following must be set:
+## Validate SLOs for the mirrored service
 
-- `cronjobSchedule`, the [cron schedule](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#cron-schedule-syntax) that determines when the metrics collection and SLO validation is run. It is currently configured to run every minute.
-- `providerURL`, the URL of the metrics provider, in this case Prometheus database endpoint
-- `destination_workload`, the name of the service
-- `destination_workload_namespace`, the namespace of the service 
+After defining the mirrored service, you can run the `slo-validation-istio` experiment on it so that you can measure how well the it performs.
 
-```shell
-iter8 k launch -c slo-validation-istio \
---set reporter=destination \
---set cronjobSchedule="*/1 * * * *" \
---set providerURL=http://prometheus.istio-system:9090/api/v1/query \
---set versionInfo.destination_workload=httpbin-v2 \
---set versionInfo.destination_workload_namespace=default
-```
-
-## Validate SLOs for the mirrored
+***
 
 The following metrics are collected by default by this experiment:
 
@@ -60,12 +41,21 @@ The following metrics are collected by default by this experiment:
 - `istio/error-count`: number of error responses
 - `istio/error-rate`: fraction of error responses
 - `istio/latency-mean`: mean of observed latency values
+- `istio/le500ms-latency-percentile`: percentile of requests with less than or equal latency of 500ms
 
 All latency metrics have `msec` units.
 
 ***
 
-To validate SLOs in addition to collecting metrics, SLOs must be provided. The `--noDownload` flag reuses the Iter8 experiment `charts` folder downloaded during the previous `iter8 launch` invocation.
+In order to run the `slo-validation-istio` experiment, the following need to be set.
+
+- `reporter`, the [reporter](https://istio.io/latest/docs/reference/config/metrics/#labels) of the request. It needs to be set to `destination` because of the traffic mirroring and only the server Istio proxy can report these requests.
+- `cronjobSchedule`, the [cron schedule](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#cron-schedule-syntax) that determines when the metrics collection and SLO validation is run. It is currently configured to run every minute.
+- `providerURL`, the URL of the metrics provider, in this case Prometheus database endpoint
+- `destination_workload`, the name of the service
+- `destination_workload_namespace`, the namespace of the service 
+
+In addition, the SLOs to be validated also need to be set. In this case, `istio/error-rate` and `istio/latency-mean` will be validated.
 
 ```shell
 iter8 k launch -c slo-validation-istio \
@@ -75,8 +65,7 @@ iter8 k launch -c slo-validation-istio \
 --set versionInfo.destination_workload=httpbin-v2 \
 --set versionInfo.destination_workload_namespace=default \
 --set SLOs.istio/error-rate=0 \
---set SLOs.istio/latency-mean=100 \
---noDownload
+--set SLOs.istio/latency-mean=100
 ```
 
 In the experiment above, the following SLOs are validated.
@@ -89,6 +78,8 @@ In the experiment above, the following SLOs are validated.
 ## View experiment report
 
 --8<-- "docs/tutorials/slo-validation-istio/expreport.md"
+
+Because the `cronjobSchedule` has been set to run every minute, the report will change periodically.
 
 ***
 
