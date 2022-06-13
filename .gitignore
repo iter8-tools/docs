@@ -128,5 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+.DS_Store
+
 # Iter8 experiment charts
 **/charts
