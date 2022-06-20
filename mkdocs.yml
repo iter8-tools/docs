@@ -157,6 +157,7 @@ nav:
     - Chart values: user-guide/topics/values.md
     - Namespace and group: user-guide/topics/group.md
     - Readiness checks: user-guide/topics/readiness.md
+    - Custom metrics: metrics/custom-metrics.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 launch: user-guide/commands/iter8_launch.md
