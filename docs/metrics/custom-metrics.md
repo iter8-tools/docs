@@ -64,7 +64,7 @@ The examples in this document focus on Prometheus, NewRelic, Sysdig, and Elastic
 > **Note:** This step is automated by **Iter8**.
 
 === "Prometheus"
-  The placeholder `elapsedTimeSeconds` is substituted based on the start of the experiment or `startingTime`, if provided in the CLI. If `startingTime` is provided, then the time should follow the format: `Feb 4, 2014 at 6:05pm (PST)`. 
+  The placeholder `elapsedTimeSeconds` is substituted based on the start of the experiment or `startingTime`, if provided in the CLI. If `startingTime` is provided, then the time should follow [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) (for example: `2020-02-01T09:44:40Z` or `2020-02-01T09:44:40.954641934Z`). 
 
 ## JSON response
 
