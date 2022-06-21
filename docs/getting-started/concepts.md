@@ -13,7 +13,7 @@ Iter8 is a metrics-driven release optimizer built for DevSecOps, MLOps, SRE and 
 Iter8 experiments make it simple to collect performance, risk, and business metrics for apps and ML models, assess, compare and validate one or more app/ML model versions, promote the winning version, and maximize business value in each release.
 
 ## Experiment chart
-Iter8 Experiment charts are [Helm charts](https://helm.sh/docs/topics/charts/) under the covers, and enable simple, declarative, and reusable metrics-driven experiments. Iter8 combines experiment charts with user supplied values to generate runnable `experiment.yaml` files or Kubernetes experiment manifests. The former is used for running experiments in the local environment, while the latter is used for running experiments inside Kubernetes.
+Iter8 experiment charts are [Helm charts](https://helm.sh/docs/topics/charts/) under the covers, and enable simple, declarative, and reusable metrics-driven experiments. Iter8 combines experiment charts with user supplied values to generate runnable `experiment.yaml` files or Kubernetes experiment manifests. The former is used for running experiments in the local environment, while the latter is used for running experiments inside Kubernetes.
 
 Iter8 uses experiment charts located in the [Iter8 GitHub repo](https://github.com/iter8-tools/iter8) by default. You can create, package and host Iter8 experiment charts in any GitHub repo and use them with Iter8 CLI, and other Iter8 components.
 

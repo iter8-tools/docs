@@ -138,13 +138,16 @@ nav:
   - Integrations:
     - Overview: tutorials/integrations/overview.md
     - GitHub Actions: tutorials/integrations/ghactions.md
+    - Istio:
+      - SLO validation: tutorials/slo-validation-istio/slousage.md
+      - SLO validation with traffic mirroring: tutorials/slo-validation-istio/slotrafficusage.md
+      - v0.7 examples: tutorials/integrations/istio.md
     - Knative:
       - Benchmark and validate HTTP: tutorials/integrations/knative/load-test-http.md
       - Benchmark and validate gRPC: tutorials/integrations/knative/load-test-grpc.md
     - Kserve: tutorials/integrations/kserve.md
     - Seldon: tutorials/integrations/seldon.md
     - Litmus: tutorials/integrations/litmus.md
-    - Istio: tutorials/integrations/istio.md
     - Linkerd: tutorials/integrations/linkerd.md
   - Earlier versions:
     - Docs for Iter8 v0.8: https://iter8-tools.github.io/iter8/0.8/
@@ -154,6 +157,7 @@ nav:
     - Chart values: user-guide/topics/values.md
     - Namespace and group: user-guide/topics/group.md
     - Readiness checks: user-guide/topics/readiness.md
+    - Custom metrics: metrics/custom-metrics.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 launch: user-guide/commands/iter8_launch.md
