@@ -13,7 +13,7 @@ Fetch logs for a Kubernetes experiment
 
 Fetch logs for a Kubernetes experiment.
 
-	$ iter8 k log
+	iter8 k log
 
 
 ```

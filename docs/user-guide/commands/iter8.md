@@ -6,12 +6,12 @@ hide:
 ---
 ## iter8
 
-Kubernetes release optimizer
+Kubernetes testing platform
 
 ### Synopsis
 
 
-Kubernetes release optimizer.
+Kubernetes testing platform built for DevSecOps, MLOps, SRE, and data science teams. Iter8 makes it easy to ensure that new versions of apps and ML models perform well, are secure, and maximize business value.
 
 
 ### Options
@@ -27,7 +27,7 @@ Kubernetes release optimizer.
 * [iter8 gen](iter8_gen.md)	 - Generate experiment.yaml file by combining an experiment chart with values
 * [iter8 hub](iter8_hub.md)	 - Download Iter8 experiment chart
 * [iter8 k](iter8_k.md)	 - Work with Kubernetes experiments
-* [iter8 launch](iter8_launch.md)	 - Launch an experiment
+* [iter8 launch](iter8_launch.md)	 - Launch an experiment in the local environment
 * [iter8 report](iter8_report.md)	 - Generate experiment report
 * [iter8 run](iter8_run.md)	 - Run an experiment
 * [iter8 version](iter8_version.md)	 - Print Iter8 CLI version

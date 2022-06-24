@@ -13,7 +13,7 @@ Delete an experiment (group) in Kubernetes
 
 Delete an experiment (group) in Kubernetes.
 
-	$ iter8 k delete
+	iter8 k delete
 
 
 ```

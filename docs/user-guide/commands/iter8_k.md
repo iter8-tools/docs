@@ -34,10 +34,10 @@ Work with Kubernetes experiments
 
 ### SEE ALSO
 
-* [iter8](iter8.md)	 - Kubernetes release optimizer
+* [iter8](iter8.md)	 - Kubernetes testing platform
 * [iter8 k assert](iter8_k_assert.md)	 - Assert if Kubernetes experiment result satisfies conditions
 * [iter8 k delete](iter8_k_delete.md)	 - Delete an experiment (group) in Kubernetes
-* [iter8 k launch](iter8_k_launch.md)	 - Launch an experiment in Kubernetes
+* [iter8 k launch](iter8_k_launch.md)	 - Launch an experiment inside a Kubernetes cluster
 * [iter8 k log](iter8_k_log.md)	 - Fetch logs for a Kubernetes experiment
 * [iter8 k report](iter8_k_report.md)	 - Generate report for Kubernetes experiment
 

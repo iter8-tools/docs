@@ -13,11 +13,13 @@ Generate report for Kubernetes experiment
 
 Generate a text or HTML report of a Kubernetes experiment.
 
-	$ iter8 k report # same as iter8 k report -o text
+	iter8 k report 
+	# same as iter8 k report -o text
 
 or
 
-	$ iter8 k report -o html > report.html # view with browser
+	iter8 k report -o html > report.html 
+	# view with browser
 
 
 ```
