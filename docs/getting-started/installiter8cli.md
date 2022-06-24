@@ -3,7 +3,7 @@
 
     ```shell
     brew tap iter8-tools/iter8
-    brew install iter8@0.10
+    brew install iter8@0.11
     ```
     
 === "Binaries"
@@ -41,5 +41,5 @@
     Install the latest stable release of the Iter8 CLI in your GitHub Actions workflow as follows.
 
     ```shell
-    - uses: iter8-tools/iter8@v0.10
+    - uses: iter8-tools/iter8@v0.11
     ```
