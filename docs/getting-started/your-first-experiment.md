@@ -4,28 +4,92 @@ template: main.html
 
 # Your First Experiment
 
-Get started with your first [Iter8 experiment](concepts.md) by benchmarking an HTTP service. 
-    
+Perform your first [Iter8 experiment](concepts.md) by load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](slos.md). 
+
+<p align='center'>
+  <img alt-text="load-test-http" src="../images/kubernetesusage.png" width="90%" />
+</p>
+
+???+ warning "Before you begin"
+    1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You may run a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
+    2. Deploy the sample HTTP service in the Kubernetes cluster.
+    ```shell
+    kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
+    kubectl expose deploy httpbin --port=80
+    ```
+
 ***
 
-## 1. Install Iter8 CLI
---8<-- "docs/getting-started/installiter8cli.md"
+## Install Iter8 CLI
+--8<-- "docs/getting-started/installbrewbins.md"
 
-## 2. Launch experiment
-Use `iter8 launch` to benchmark the HTTP service whose URL is https://httpbin.org/get.
+***
+
+## Launch experiment
+Use the [iter8 k launch]() command to launch the Iter8 experiment inside the Kubernetes cluster.
 
 ```shell
-iter8 launch -c load-test-http --set url=https://httpbin.org/get --set numRequests=40
+iter8 k launch \
+--set "tasks={ready,http,assess}" \
+--set ready.deploy=httpbin \
+--set ready.service=httpbin \
+--set ready.timeout=60s \
+--set http.url=http://httpbin.default/get \
+--set assess.SLOs.upper.http/latency-mean=50 \
+--set assess.SLOs.upper.http/error-count=0 \
+--set runner=job
 ```
 
-The `iter8 launch` command downloads [Iter8 experiment charts](concepts.md#experiment-chart), combines a specified chart (`load-test-http` in the above instance) with various parameter values (`url` and `numRequests` in the above instance), generates the `experiment.yaml` file, runs the experiment, and writes results into the `result.yaml` file.
+???+ note "About this experiment"
+    This experiment consists of three [tasks](tasks.md), namely, [ready](ready.md), [http](http.md), and [assess](assess.md). The [ready](ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. The [http](http.md) task sends HTTP requests to the cluster-local service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](built-in.md). The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service is does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. The [runner](runner.md) value specifies that the experiment should be [run using a Kubernetes job](runner.md).
 
-## 3. View experiment report
+***
+
+## Assert experiment outcomes
+Use the [iter8 k asssert]() command to assert that the experiment completed without failures, and all SLOs are satisfied. The timeout flag below specifies a period of 120 sec for assert conditions to be satisfied.
+
+```shell
+iter8 k assert -c completed -c nofailure -c slos --timeout 120s
+```
+
+If the assert conditions are satisfied, the above command exits with code 0; else, it exits with code 1. Assertions are especially useful inside CI/CD/GitOps pipelines. Depending on the exit code of the assert command, your pipeline can branch into different actions.
+
+***
+
+## View experiment report
 --8<-- "docs/getting-started/expreport.md"
 
+***
+
+## View experiment logs
+Use the [iter8 k log]() command to view experiment logs. Logs are useful when debugging an experiment.
+
+```shell
+iter8 k log
+```
+
+--8<-- "docs/getting-started/logs.md"
+
+***
+
+## Cleanup
+Remove all the Kubernetes resource objects related to this experiment.
+```shell
+iter8 k delete
+```
+
+Remove the Kubernetes application.
+```shell
+kubectl delete svc/httpbin
+kubectl delete deploy/httpbin
+```
+
+***
 
 Congratulations! :tada: You completed your first Iter8 experiment.
 
-???+ tip "Next steps"
-    1. Learn more about [benchmarking and validating HTTP services with service-level objectives (SLOs)](../tutorials/load-test-http/basicusage.md).
-    2. Learn more about [benchmarking and validating gRPC services with service-level objectives (SLOs)](../tutorials/load-test-grpc/basicusage.md).
+???+ tip "Variations"
+    1. The [http task](http.md) can be configured with [load related parameters](loadprofile.md) such as the number of requests, queries per second, or number of parallel connections.
+    2. The [http task](http.md) can be configured to [send various types of content as payload](payload.md).
+    3. The [assess task](assess.md) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](built-in.md).
+    4. This experiment can also be run in your [local environment](local.md) or run within a [GitHub Actions pipeline](githubactions.md).

@@ -36,10 +36,3 @@
         tar -xvf iter8-windows-amd64.tar.gz
         ```
         Move `windows-amd64/iter8.exe` to any directory in your `PATH`.
-
-=== "GitHub Actions"
-    Install the latest stable release of the Iter8 CLI in your GitHub Actions workflow as follows.
-
-    ```shell
-    - uses: iter8-tools/iter8@v0.11
-    ```
