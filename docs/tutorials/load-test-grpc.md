@@ -44,4 +44,4 @@ iter8 k launch \
 
 ***
 
-Assert experiment outcomes, view experiment report, view experiment logs, and cleanup as described in [your first experiment](../getting-started/your-first-experiment.md). As in the case of the HTTP load test, you can configure the load profile and SLOs in a flexible manner. Please refer to the [gRPC task](grpc.md) for more details.
+Assert experiment outcomes, view experiment report, view experiment logs, and cleanup as described in [your first experiment](../getting-started/your-first-experiment.md). As in the case of the HTTP load test, you can configure the load profile and SLOs in a flexible manner. Please refer to the [grpc task](grpc.md) for more details.

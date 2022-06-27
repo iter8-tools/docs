@@ -129,8 +129,8 @@ nav:
   - Install Iter8: getting-started/install.md
   - Get help: getting-started/help.md
 - Tutorials:
-  - Load test HTTP with SLOs: tutorials/load-test-http.md
   - Load test gRPC with SLOs: tutorials/load-test-grpc.md
+  - Load test HTTP with SLOs: tutorials/load-test-http.md
   - Custom metrics:
     - One version: tutorials/custom-metrics/one-version.md
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md
