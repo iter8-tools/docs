@@ -7,7 +7,7 @@ template: main.html
 Perform your first [Iter8 experiment](concepts.md) by load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](slos.md). 
 
 <p align='center'>
-  <img alt-text="load-test-http" src="../images/kubernetesusage.png" width="90%" />
+  <img alt-text="load-test-http" src="../images/http.png" />
 </p>
 
 ???+ warning "Before you begin"
@@ -41,7 +41,7 @@ iter8 k launch \
 ```
 
 ???+ note "About this experiment"
-    This experiment consists of three [tasks](tasks.md), namely, [ready](ready.md), [http](http.md), and [assess](assess.md). The [ready](ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. The [http](http.md) task sends HTTP requests to the cluster-local service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](built-in.md). The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service is does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. The [runner](runner.md) value specifies that the experiment should be [run using a Kubernetes job](runner.md).
+    This experiment consists of three [tasks](tasks.md), namely, [ready](ready.md), [http](http.md), and [assess](assess.md). The [ready](ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. The [http](http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](built-in.md). The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. The [runner](runner.md) value specifies that the experiment should be [run using a Kubernetes job](runner.md).
 
 ***
 
