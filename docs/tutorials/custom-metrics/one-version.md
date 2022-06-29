@@ -4,7 +4,7 @@ template: main.html
 
 # SLO validation using custom metrics
 
-Validate [SLOs](slos.md) for your application using [custom metrics](custommetrics.md) provided by a database.
+Validate [SLOs](slos.md) for an app using [custom metrics](custommetrics.md) provided by a database.
 
 <p align='center'>
   <img alt-text="custom-metrics-one-version" src="../images/one-version.png" />
@@ -47,7 +47,11 @@ iter8 k launch \
 ```
 
 ???+ note "About this experiment"
-    This experiment consists of two [tasks](tasks.md), namely, [custommetrics](custommetrics.md), and [assess](assess.md). The [custommetrics](custommetrics.md) task downloads a metrics template named `istio-prom` from a URL, [substitutes the template variables](substitution.md) with `custommetrics.values`, and uses the resulting metrics spec to [fetch metrics](fetchmetrics.md) from Prometheus. The list of metrics defined by this template includes `error-rate` and `latency-mean`; the variables in this template include `destinationWorkload` and `destinationWorkloadNamespace`; they are [documented as part of the template](https://raw.githubusercontent.com/iter8-tools/iter8/master/custommetrics/istio-prom.tpl). The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, and ii) the mean latency of the app does not exceed 100 msec. 
+    This experiment consists of two [tasks](tasks.md), namely, [custommetrics](custommetrics.md), and [assess](assess.md). 
+    
+    The [custommetrics](custommetrics.md) task downloads a metrics template named `istio-prom` from a URL, [substitutes the template variables](substitution.md) with `custommetrics.values`, and uses the resulting metrics spec to [fetch metrics](fetchmetrics.md) from Prometheus. Metrics defined by this template include `error-rate` and `latency-mean`; variables used by this template include `destinationWorkload` and `destinationWorkloadNamespace`; they are [documented as part of the template](https://raw.githubusercontent.com/iter8-tools/iter8/master/custommetrics/istio-prom.tpl). 
+    
+    The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, and ii) the mean latency of the app does not exceed 100 msec. 
     
     This is an experiment with [repeated loops](loops.md): the [runner](runner.md) specifies that the experiment should be [run using a Kubernetes cronjob](runner.md), and the `cronjobSchedule` specifies that experiment loops are repeated every minute. Both the experiment tasks are executed in each loop. This enables Iter8 to refresh the metric values and perform SLO validation using the latest metric values in each loop.
 
@@ -59,4 +63,4 @@ iter8 k launch \
 
 ***
 
-View experiment report and logs, and cleanup as described in [your first experiment](../getting-started/your-first-experiment.md).
+View experiment report and logs, and cleanup as described in [your first experiment](../../getting-started/your-first-experiment.md).
