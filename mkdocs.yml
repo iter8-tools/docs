@@ -42,17 +42,6 @@ plugins:
 - minify:
     minify_html: true
 - mike
-- redirects:
-    redirect_maps:
-      'tutorials/load-test-http/usage.md': 'tutorials/load-test-http/basicusage.md'
-      'tutorials/load-test-grpc/usage.md': 'tutorials/load-test-grpc/basicusage.md'
-      'tutorials/load-test-http/loadcharacteristics.md': 'tutorials/load-test-http/basicusage.md'
-      'tutorials/load-test-http/payload.md': 'tutorials/load-test-http/basicusage.md'
-      'tutorials/load-test-http/metricsandslos.md': 'tutorials/load-test-http/basicusage.md'
-      'tutorials/load-test/community/knative/loadtest.md': 'tutorials/integrations/knative/load-test-http.md'
-      'tutorials/load-test-grpc/overview.md': 'tutorials/load-test-grpc/basicusage.md'
-      'tutorials/load-test-grpc/unary.md': 'tutorials/load-test-grpc/basicusage.md'
-      'tutorials/load-test-grpc/community/knative/loadtest.md': 'tutorials/integrations/knative/load-test-grpc.md'
 
 # Customization
 extra:
@@ -138,9 +127,6 @@ nav:
     - Local environment: tutorials/integrations/local.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Istio: tutorials/integrations/istio.md
-    - Knative:
-      - Benchmark and validate HTTP: tutorials/integrations/knative/load-test-http.md
-      - Benchmark and validate gRPC: tutorials/integrations/knative/load-test-grpc.md
     - Kserve: tutorials/integrations/kserve.md
     - Seldon: tutorials/integrations/seldon.md
     - Litmus: tutorials/integrations/litmus.md
