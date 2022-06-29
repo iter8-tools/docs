@@ -59,7 +59,7 @@ iter8 k launch \
 
 ## Assert experiment outcomes
 
---8<-- "docs/tutorials/slo-validation-istio/assert.md"
+--8<-- "docs/tutorials/custom-metrics/assert.md"
 
 ***
 
