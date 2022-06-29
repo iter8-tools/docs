@@ -2,10 +2,15 @@
 template: main.html
 ---
 
+# SLO Validation using Istio's Prometheus Add-on
+
+1. [Benchmark and validate an HTTP Service](../custom-metrics/one-version.md)
+2. [Benchmark and validate an HTTP Service with traffic mirroring](../custom-metrics/two-or-more-versions.md)
+
 # Istio Examples based on Iter8 v0.7
 
-1.  [Hybrid (A/B + SLOs) testing](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/quick-start/)
-2.  [SLO validation](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/testing-strategies/slovalidation/)
-3.  [SLO validation (single version)](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/testing-strategies/conformance/)
-4.  [Progressive traffic shifting](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/rollout-strategies/progressive/)
-5.  [Fixed % split](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/rollout-strategies/fixed-split/)
+3.  [Hybrid (A/B + SLOs) testing](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/quick-start/)
+4.  [SLO validation](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/testing-strategies/slovalidation/)
+5.  [SLO validation (single version)](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/testing-strategies/conformance/)
+6.  [Progressive traffic shifting](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/rollout-strategies/progressive/)
+7.  [Fixed % split](https://iter8-tools.github.io/iter8/0.7/tutorials/istio/rollout-strategies/fixed-split/)
