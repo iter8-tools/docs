@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Load test gRPC with SLOs
+# Load Test gRPC with SLOs
 
 Load test a gRPC service inside Kubernetes and validate its [SLOs](slos.md).
 
