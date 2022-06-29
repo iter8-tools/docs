@@ -73,15 +73,9 @@ iter8 k log
 ***
 
 ## Cleanup
-Remove all the Kubernetes resource objects related to this experiment.
+Remove the Kubernetes resource objects created during the Iter8 experiment launch.
 ```shell
 iter8 k delete
-```
-
-Remove the Kubernetes application.
-```shell
-kubectl delete svc/httpbin
-kubectl delete deploy/httpbin
 ```
 
 ***
