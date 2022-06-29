@@ -4,7 +4,7 @@ template: main.html
 
 # Load Test gRPC with SLOs
 
-Load test a gRPC service inside Kubernetes and validate its [SLOs](slos.md).
+Load test a gRPC service inside Kubernetes and validate its [SLOs](../getting-started/concepts.md#service-level-objectives).
 
 <p align='center'>
   <img alt-text="load-test-grpc" src="../images/grpc.png" />

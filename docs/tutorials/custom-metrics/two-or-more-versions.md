@@ -4,7 +4,7 @@ template: main.html
 
 # SLO validation using custom metrics
 
-Validate [SLOs](slos.md) for multiple versions of an app using [custom metrics](custommetrics.md) provided by a database.
+Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for multiple versions of an app using [custom metrics](custommetrics.md) provided by a database.
 
 <p align='center'>
   <img alt-text="custom-metrics-two-or-more-versions" src="../images/two-or-more-versions.png" />

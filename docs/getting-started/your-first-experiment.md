@@ -4,7 +4,7 @@ template: main.html
 
 # Your First Experiment
 
-Perform your first [Iter8 experiment](concepts.md) by load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](slos.md). 
+Perform your first [Iter8 experiment](concepts.md) by load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives). 
 
 <p align='center'>
   <img alt-text="load-test-http" src="../images/http.png" />

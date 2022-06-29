@@ -4,7 +4,7 @@ template: main.html
 
 # SLO validation using custom metrics
 
-Validate [SLOs](slos.md) for an app using [custom metrics](custommetrics.md) provided by a database.
+Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for an app using [custom metrics](custommetrics.md) provided by a database.
 
 <p align='center'>
   <img alt-text="custom-metrics-one-version" src="../images/one-version.png" />
