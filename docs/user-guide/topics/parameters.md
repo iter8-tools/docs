@@ -4,7 +4,9 @@ template: main.html
 
 # Experiment Parameters
 
-Iter8 experiments can be configured with parameters using the mechanism provided by [Helm](https://helm.sh) for [setting chart values](https://helm.sh/docs/chart_template_guide/values_files/#helm). An example is as follows.
+Iter8 is built on [Helm](https://helm.sh). Iter8 experiments can be configured with parameters using the same mechanisms provided by Helm for [setting chart values](https://helm.sh/docs/chart_template_guide/values_files/#helm). 
+
+The set of configurable parameters of an experiment includes the parameters of the tasks involved in the experiment. Iter8 uses the convention that the parameters of a task are nested under the name of that task. In the following example, the `url` parameter of the `http` task is nested under the `http` object, and the `SLOs` parameter of the `assess` task is nested under the `assess` object.
 
 ```shell
 iter8 launch \
@@ -14,4 +16,5 @@ iter8 launch \
 --set assess.SLOs.upper.http/error-count=0
 ```
 
-The set of configurable parameters of an experiment includes the parameters of the tasks involved in the experiment. When configuring an experiment, Iter8 uses the convention that the parameters of a task are nested under the name of that task. In the above example, the `url` parameter of the `http` task is nested under the `http` object, and the `SLOs` parameter of the `assess` task is nested under the `assess` object.
+All the parameters of a task or an experiment are optional unless indicated otherwise.
+

@@ -4,7 +4,7 @@ template: main.html
 
 # Your First Experiment
 
-Perform your first [Iter8 experiment](concepts.md#iter8-experiment) by load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives).
+Perform your first [Iter8 experiment](concepts.md#iter8-experiment) for load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives).
 
 <p align='center'>
   <img alt-text="load-test-http" src="../images/http.png" />
@@ -41,7 +41,7 @@ iter8 k launch \
 ```
 
 ???+ note "About this experiment"
-    This experiment consists of three [tasks](../getting-started/concepts.md#tasks), namely, [ready](ready.md), [http](http.md), and [assess](assess.md). The [ready](ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. The [http](http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](built-in.md). The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. The [runner](../getting-started/concepts.md#runners) value specifies that the experiment should be [run using a Kubernetes job](../getting-started/concepts.md#runners).
+    This experiment consists of three [tasks](../getting-started/concepts.md#tasks), namely, [ready](../user-guide/tasks/ready.md), [http](http.md), and [assess](assess.md). The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. The [http](http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](built-in.md). The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. The [runner](../getting-started/concepts.md#runners) value specifies that the experiment should be [run using a Kubernetes job](../getting-started/concepts.md#runners).
 
 ***
 
@@ -73,7 +73,7 @@ iter8 k log
 ***
 
 ## Cleanup
-Remove the Kubernetes resource objects created during the Iter8 experiment launch.
+Remove the [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) created during the Iter8 experiment launch.
 ```shell
 iter8 k delete
 ```

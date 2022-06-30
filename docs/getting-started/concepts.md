@@ -12,23 +12,23 @@ Iter8 is the Kubernetes testing platform built for DevSecOps, MLOps, SRE and dat
 
 Iter8 experiments makes it simple to collect performance and business metrics for apps and ML models, assess and compare one or more app/ML model versions, validate [service-level objectives (SLOs)](#service-level-objectives), promote the winning version, and maximize business value during each release.
 
-Specifying an Iter8 experiment involves specifying the list of [tasks](#tasks) executed during the experiment, their parameter values, and the experiment [runner](#loops-and-runner).
+Specifying an Iter8 experiment involves specifying the list of [tasks](#tasks) executed during the experiment, their [parameters](../user-guide/topics/parameters.md), and the experiment [runner](#loops-and-runner).
 
 ### Tasks
-An experiment is a sequence of tasks. Iter8 provides pre-defined tasks for various functions such as generating load and collecting Iter8's built-in metrics for HTTP and gRPC services, collecting custom metrics for one or more versions of an app from databases, assessing [SLOs](#service-level-objectives), and checking if the application is ready.
+An experiment is an ordered collection of tasks that are executed sequentially. Iter8 provides pre-defined tasks for various functions such as generating load and collecting Iter8's built-in metrics for HTTP and gRPC services, collecting custom metrics for one or more versions of an app from databases, assessing [SLOs](#service-level-objectives), and checking if the application is ready.
 
 ### Loops
-Experiments have a concept of loops. When the sequence of tasks in an experiment are executed once from start to finish, a single loop of the experiment is said to have completed. An experiment can have a single loop or multiple loops.
+A single loop of an experiment involves each task in the experiment executing once. Iter8 experiments can be set up to loop once and finish (single-loop), or loop repeatedly over time (multi-loop).
 
 ### Execution Environments
 Experiments can run inside Kubernetes clusters, in the local environment, and within CI/CD/GitOps workflows including GitHub Actions workflows.
 
-### Runners
-Runner refers to the type of Kubernetes workload used to run the experiment inside a Kubernetes cluster. Experiments use either a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or a Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) as its runner. The former is used for single-loop experiments, while the latter is used for multi-loop experiments, where each loop is executed repeatedly at periodic intervals.
+#### Runners
+A single-loop experiment that is run inside a Kubernetes cluster uses the Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) workload as its runner. A multi-loop experiment that is run inside a Kubernetes cluster uses the Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) as its runner.
 
 ## Service-level Objectives
 
-Service-level objectives (SLOs) represent the range of metric values for an application that is considered acceptable. Both upper and lower limits on metric values can be specified as SLOs in Iter8 experiments.
+Service-level objectives (SLOs) specify the acceptable limits for an app's metric values. Both upper and lower limits on metric values can be specified as SLOs in Iter8 experiments.
 
 
 <!-- ## Features at a glance
