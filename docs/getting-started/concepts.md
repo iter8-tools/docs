@@ -5,21 +5,31 @@ template: main.html
 # Iter8
 Iter8 is the Kubernetes testing platform built for DevSecOps, MLOps, SRE and data science teams. Iter8 makes it easy to ensure that new versions of apps and ML models perform well and maximize business value.
 
-## Iter8 experiment
+## Iter8 Experiment
 <p align='center'>
   <img alt-text="load-test-http" src="../../images/iter8-intro-dark.png" width="70%" />
 </p>
 
 Iter8 experiments makes it simple to collect performance and business metrics for apps and ML models, assess and compare one or more app/ML model versions, validate [service-level objectives (SLOs)](#service-level-objectives), promote the winning version, and maximize business value during each release.
 
+Specifying an Iter8 experiment involves specifying the list of [tasks](#tasks) executed during the experiment, their parameter values, and the experiment [runner](#loops-and-runner).
+
+### Tasks
+An experiment is a sequence of tasks. Iter8 provides pre-defined tasks for various functions such as generating load and collecting Iter8's built-in metrics for HTTP and gRPC services, collecting custom metrics for one or more versions of an app from databases, assessing [SLOs](#service-level-objectives), and checking if the application is ready.
+
+### Loops
+Experiments have a concept of loops. When the sequence of tasks in an experiment are executed once from start to finish, a single loop of the experiment is said to have completed. An experiment can have a single loop or multiple loops.
+
+### Execution Environments
+Experiments can run inside Kubernetes clusters, in the local environment, and within CI/CD/GitOps workflows including GitHub Actions workflows.
+
+### Runners
+Runner refers to the type of Kubernetes workload used to run the experiment inside a Kubernetes cluster. Experiments use either a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) or a Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) as its runner. The former is used for single-loop experiments, while the latter is used for multi-loop experiments, where each loop is executed repeatedly at periodic intervals.
+
 ## Service-level Objectives
 
-Service-level objectives (SLOs) are the acceptable limits for application metrics. Iter8 enables specification of both upper and lower limits for metric values.
+Service-level objectives (SLOs) represent the range of metric values for an application that is considered acceptable. Both upper and lower limits on metric values can be specified as SLOs in Iter8 experiments.
 
-## Experiment chart
-Iter8 experiment charts are [Helm charts](https://helm.sh/docs/topics/charts/) under the covers, and enable simple, declarative, and reusable metrics-driven experiments. Iter8 combines experiment charts with user supplied values to generate runnable `experiment.yaml` files or Kubernetes experiment manifests. The former is used for running experiments in the local environment, while the latter is used for running experiments inside Kubernetes.
-
-Iter8 uses experiment charts located in the [Iter8 GitHub repo](https://github.com/iter8-tools/iter8) by default. You can create, package and host Iter8 experiment charts in any GitHub repo and use them with Iter8 CLI, and other Iter8 components.
 
 <!-- ## Features at a glance
 

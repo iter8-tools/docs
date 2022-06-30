@@ -4,7 +4,7 @@ template: main.html
 
 # Your First Experiment
 
-Perform your first [Iter8 experiment](concepts.md) by load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives). 
+Perform your first [Iter8 experiment](concepts.md#iter8-experiment) by load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives).
 
 <p align='center'>
   <img alt-text="load-test-http" src="../images/http.png" />
@@ -26,7 +26,7 @@ Perform your first [Iter8 experiment](concepts.md) by load testing an HTTP servi
 ***
 
 ## Launch experiment
-Use the [iter8 k launch]() command to launch the Iter8 experiment inside the Kubernetes cluster.
+Launch the Iter8 experiment inside the Kubernetes cluster.
 
 ```shell
 iter8 k launch \
@@ -41,12 +41,12 @@ iter8 k launch \
 ```
 
 ???+ note "About this experiment"
-    This experiment consists of three [tasks](tasks.md), namely, [ready](ready.md), [http](http.md), and [assess](assess.md). The [ready](ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. The [http](http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](built-in.md). The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. The [runner](runner.md) value specifies that the experiment should be [run using a Kubernetes job](runner.md).
+    This experiment consists of three [tasks](../getting-started/concepts.md#tasks), namely, [ready](ready.md), [http](http.md), and [assess](assess.md). The [ready](ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. The [http](http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](built-in.md). The [assess](assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. The [runner](../getting-started/concepts.md#runners) value specifies that the experiment should be [run using a Kubernetes job](../getting-started/concepts.md#runners).
 
 ***
 
 ## Assert experiment outcomes
-Use the [iter8 k asssert]() command to assert that the experiment completed without failures, and all SLOs are satisfied. The timeout flag below specifies a period of 120 sec for assert conditions to be satisfied.
+Assert that the experiment completed without failures, and all SLOs are satisfied. The timeout flag below specifies a period of 120 sec for assert conditions to be satisfied.
 
 ```shell
 iter8 k assert -c completed -c nofailure -c slos --timeout 120s
@@ -62,7 +62,7 @@ If the assert conditions are satisfied, the above command exits with code 0; els
 ***
 
 ## View experiment logs
-Use the [iter8 k log]() command to view experiment logs. Logs are useful when debugging an experiment.
+Logs are useful when debugging an experiment.
 
 ```shell
 iter8 k log

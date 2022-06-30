@@ -135,11 +135,16 @@ nav:
     - Docs for Iter8 v0.8: https://iter8-tools.github.io/iter8/0.8/
     - Docs for Iter8 v0.7: https://iter8-tools.github.io/iter8/0.7/
 - User guide:
+  - Tasks:
+    - assess: user-guide/tasks/assess.md
+    - custommetrics: user-guide/tasks/custommetrics.md
+    - grpc: user-guide/tasks/grpc.md
+    - http: user-guide/tasks/http.md
+    - ready: user-guide/tasks/ready.md
   - Topics:
-    - Chart values: user-guide/topics/values.md
+    - Experiment parameters: user-guide/topics/parameters.md
+    - Metrics: user-guide/topics/metrics.md
     - Namespace and group: user-guide/topics/group.md
-    - Readiness checks: user-guide/topics/readiness.md
-    - Custom metrics: metrics/custom-metrics.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 launch: user-guide/commands/iter8_launch.md
