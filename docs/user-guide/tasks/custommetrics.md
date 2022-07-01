@@ -74,7 +74,6 @@ Flow chart here ...
     --set cronjobSchedule="*/1 * * * *"
     ```
 
-
 ### Elapsed time
 
 ### Response handling
