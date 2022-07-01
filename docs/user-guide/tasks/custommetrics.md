@@ -212,13 +212,13 @@ An initial idea would be for users to supply one or more [provider specs](#provi
 
 ## How it works
 
-The `custommetrics` tasks works as illustrated in the flowchart below.
+The logic of this task is illustrated in the following flowchart.
 
 ```mermaid
 graph TD
   A([Start]) --> B([Get provider template]);
   B --> C([Compute variable values]);
-  C --> D([Create provider spec by combining provider template with values]);
+  C --> D([Create provider spec by combining template with values]);
   D --> E([Query database]);
   E --> F([Process response]);
   F --> G([Update metric value in experiment]);
@@ -229,18 +229,19 @@ graph TD
   I ---->|Yes| J([End]);
 ```
 
-In order to create provider templates, users need an understanding of the `Compute variable values` and `Process response` steps in the above flowchart. We describe these steps below.
-
+In order to create [provider templates](#provider-template) and use them in experiments, users need an understanding of how variable values are computed and how the response from the database is processed by Iter8. We describe these steps next.
 
 ### Computing variable values
 
-=== "One version"
+All variable values are configured explicitly by the user during experiment launch. The sole exception is the `elapsedTimeSeconds` variable which is computed by Iter8. Please see the tabs below to learn more about how to configure values and how Iter8 computes `elapsedTimeSeconds`.
 
-    See [usage example](#usage-example).
+=== "Configure values for one version"
 
-=== "Two or more versions"
+    When the experiment involves a single version of the app, template variable values are supplied directly as part of the `custommetrics.values` map. See [usage example](#usage-example) for an illustration.
 
-    Template variable substitution for two or more versions.
+=== "Configure values for multiple versions"
+
+    When the experiment involves two or more versions of the app, values that are shared by all versions are supplied as part of the `custommetrics.values` map, and values that are specific to versions are supplied as part of the `custommetrics.versionValues` list. The length of this list is the number of versions, and `custommetrics.versionValues[i]` is the map that holds values specific to version `i`. Iter8 merges `custommetrics.values` with `custommetrics.versionValues[i]` (latter takes precedence), and uses the resulting map for version `i` when substituting template variables. Configuring values for two versions is illustrated in the following usage example.
 
     ```shell
     iter8 k launch \
@@ -256,17 +257,62 @@ In order to create provider templates, users need an understanding of the `Compu
     --set cronjobSchedule="*/1 * * * *"
     ```
 
-=== "Elapsed time"
+=== "How Iter8 computes `elapsedTimeSeconds`"
+    A metric query often involves specifying the time window over which the metric need to be computed. In [provider templates](#provider-template), a special template variable named `elapsedTimeSeconds` holds the length of this time window. Its use within a template is illustrated in the following snippets.
+    
+    === "query"
+        ```go
+        sum(last_over_time(istio_requests_total{
+          destination_workload="httpbin",
+          destination_workload_namespace="default"      
+        }[3600s]))
+        ```
+        The metric is computed over the recent one-hour time window (that ends at the current time).
+
+    === "query template"
+        ```go
+        sum(last_over_time(istio_requests_total{
+          destination_workload="httpbin",
+          destination_workload_namespace="default"      
+        }[{{ .elapsedTimeSeconds }}s]))
+        ```
+        The metric is computed over a recent time window (that ends at the current time). The length of this window is determined by the value of the template variable `elapsedTimeSeconds`.
+
+    Iter8 computes the value of the `elapsedTimeSeconds` variable dynamically in this task. This is the desirable behavior in multi-loop experiments (see [usage example](#usage-example)), where metrics need to be fetched periodically, and the time window over which metrics are computed stretches farther back with each loop. The following sequence diagram illustrates how `elapsedTimeSeconds` changes over loops.
+
+    ```mermaid
+    sequenceDiagram
+        startingTime-)loop1: elapsedTimeSeconds=60;
+        startingTime-)loop2: elapsedTimeSeconds=120;
+        startingTime-)loop3: elapsedTimeSeconds=180;
+    ```
+
+    ***
+
+    Iter8 computes `elapsedTimeSeconds` based on another variable named `startingTime`.    The default value of `startingTime` is the time at which the experiment is launched. The user can override the default by explicitly configuring `startingTime` during experiment launch, in the [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) format (for example, `2020-02-01T09:44:40Z` or `2020-02-01T09:44:40.954641934Z`). Iter8 sets `elapsedTimeSeconds` as the difference (in seconds) between the current time and `startingTime`. This logic is illustrated in the following flowchart.
+    
+
     ```mermaid
     graph TD
       A([Start]) --> B{startingTime parameter supplied?};
-      B ---->|Yes| C([elapsedTimeSeconds := currentTime - startingTime]);
-      B ---->|No| D([startingTime := time when experiment was launched]);
+      B ---->|Yes| C([elapsedTimeSeconds = currentTime - startingTime]);
+      B ---->|No| D([startingTime = time when experiment was launched]);
       D --> C;
       C --> E([End]);
     ```
 
-    The placeholder `elapsedTimeSeconds` is substituted based on the start of the experiment or `startingTime`, if provided in the CLI. If `startingTime` is provided, then the time should follow [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) (for example: `2020-02-01T09:44:40Z` or `2020-02-01T09:44:40.954641934Z`).
+    Note that the above design enables the user to supply different `startingTime` values for different app versions (for instance, based on the creation timestamps of the versions).
+
+    === "Single `startingTime` value"
+        ```shell
+        --set custommetrics.values.startingTime="2020-02-01T09:44:40Z"
+        ```
+
+    === "Two versions with different `startingTime` values"
+        ```shell
+        --set custommetrics.versionValues[0].startingTime="2020-02-01T09:44:40Z" \
+        --set custommetrics.versionValues[1].startingTime="2020-02-05T14:22:15Z"
+        ```
 
 ### Processing response
 
@@ -307,62 +353,3 @@ The metrics provider is expected to respond to Iter8's HTTP request for a metric
     Executing the above command results yields `21.7639`, a number, as required by Iter8. 
 
     > **Note:** The shell command above is for illustration only. Iter8 uses Python bindings for `jq` to evaluate the `jqExpression`.
-
-
-# Custom Metrics
-
-Custom Iter8 metrics enable you to use data from any database for evaluating app/ML model versions within Iter8 experiments. This document describes how you can define custom Iter8 metrics and (optionally) supply authentication information that may be required by the metrics provider.
-
-Metric providers differ in the following aspects.
-
-* HTTP request authentication method: no authentication, basic auth, API keys, or bearer token
-* HTTP request method: GET or POST
-* Format of HTTP parameters and/or JSON body used while querying them
-* Format of the JSON response returned by the provider
-* The logic used by Iter8 to extract the metric value from the JSON response
-
-The examples in this document focus on Prometheus, NewRelic, Sysdig, and Elastic. However, the principles illustrated here will enable you to use metrics from any provider in experiments.
-
-## Metrics with/without auth
-
-> **Note:** Metrics are defined by you, the **Iter8 end-user**.
-
-=== "Prometheus"
-
-    Prometheus does not support any authentication mechanism *out-of-the-box*. However,
-    Prometheus can be setup in conjunction with a reverse proxy, which in turn can support HTTP request authentication, as described [here](https://prometheus.io/docs/guides/basic-auth/).
-
-    === "No Authentication"
-        The following is an example of an Iter8 metric with Prometheus as the provider. This example assumes that Prometheus can be queried by Iter8 without any authentication.
-
-        ```yaml linenums="1"
-        url: http://127.0.0.1:9090/api/v1/query
-        provider: istio
-        method: GET
-        metrics:
-        - name: request-count
-          type: counter
-          description: |
-            Number of requests
-          params:
-          - name: query
-            value: |
-              sum(last_over_time(istio_requests_total{
-                  reporter="source",    
-                {{- if .destination_workload }}
-                  destination_workload="{{.destination_workload}}",
-                {{- end }}
-                {{- if .destination_workload_namespace }}
-                  destination_workload_namespace="{{.destination_workload_namespace}}",
-                {{- end }}
-              }[{{.elapsedTimeSeconds}}s])) or on() vector(0)
-          jqExpression: .data.result[0].value[1]
-        ```
-
-    ??? hint "Brief explanation of the `request-count` metric"
-
-        1. The HTTP query used by Iter8 contains a single query parameter named `query` as [required by Prometheus](https://prometheus.io/docs/prometheus/latest/querying/api/). The value of this parameter is derived by [substituting the placeholders](#placeholder-substitution) in the value string.
-        2. The `url` field provides the URL of the Prometheus service.
-        3. The `method` field provides the HTTP method, in this case `GET`.
-        4. The `jqExpression` enables Iter8 to extract the metric value from the JSON response returned by Prometheus.
-
