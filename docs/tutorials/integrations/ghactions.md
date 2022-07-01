@@ -6,7 +6,7 @@ template: main.html
 
 Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.11`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
 
-```yaml
+```yaml linenums="1"
 # install Iter8 CLI
 - uses: iter8-tools/iter8@v0.11
 # launch a local experiment

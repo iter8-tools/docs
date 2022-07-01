@@ -11,7 +11,7 @@ template: main.html
 Fetch metrics from databases (like Prometheus).
 
 ## Usage Example
-In this example, the `custommetrics` task fetches metrics from the Prometheus database created using [Istio's Prometheus add-on](https://istio.io/latest/docs/ops/integrations/prometheus/). 
+In this example, the `custommetrics` task fetches metrics from the Prometheus database that is created by [Istio's Prometheus add-on](https://istio.io/latest/docs/ops/integrations/prometheus/). 
 
 ```shell
 iter8 k launch \
@@ -25,8 +25,7 @@ iter8 k launch \
 --set cronjobSchedule="*/1 * * * *"
 ```
 
-[This section](#concepts) describes the concepts of [provider spec](#provider-spec) and [provider template](#provider-template), [this section](#how-it-works) describes how the task works behind the scenes, and [this section](#customizing) describes how you can customize this task with your own metric providers.
-
+[This section](#concepts) describes the concepts of [provider spec](#provider-spec) and [provider template](#provider-template) that are central to this task. [This section](#how-it-works) describes how this task works under the hood.
 
 ## Parameters
 
@@ -40,17 +39,200 @@ iter8 k launch \
 
 ### Provider spec
 
-Golang struct here... and a yaml under twistie here.
+Iter8 needs the information following in order to fetch metrics from a database.
+
+1. The HTTP URL where the database can be queried.
+2. The HTTP headers and method (GET/POST) to be used while querying the database.
+3. For each metric to be fetched from the database:
+    * The specific HTTP query to be used, in particular, the HTTP query parameters and body (if any).
+    * The logic for parsing the query response and retrieving the metric value.
+
+The above information is encapsulated by `ProviderSpec`, a data structure which Iter8 associates with each provider in this task.
+
+???+ tip "Golang type definitions for ProviderSpec and Metric"
+    ```go linenums="1"
+    type ProviderSpec struct {
+      // URL is the database endpoint
+      URL string `json:"url" yaml:"url"`
+      // Method is the HTTP method that needs to be used
+      Method string `json:"method" yaml:"method"`
+      // Headers is the set of HTTP headers that need to be sent
+      Headers map[string]string `json:"headers" yaml:"headers"`
+      // Metrics is the set of metrics that can be obtained
+      Metrics []Metric `json:"metrics" yaml:"metrics"`
+    }
+
+    type Metric struct {
+      // Name is the name of the metric
+      Name string `json:"name" yaml:"name"`
+      // Description is the description of the metric
+      Description *string `json:"description,omitempty" yaml:"description,omitempty"`
+      // Type is the type of the metric, either gauge or counter
+      Type string `json:"type" yaml:"type"`
+      // Units is the unit of the metric, which can be omitted for unitless metrics
+      Units *string `json:"units,omitempty" yaml:"units,omitempty"`
+      // Params is the set of HTTP parameters that need to be sent
+      Params *[]HTTPParam `json:"params,omitempty" yaml:"params,omitempty"`
+      // Body is the HTTP request body that needs to be sent
+      Body *string `json:"body,omitempty" yaml:"body,omitempty"`
+      // JqExpression is the jq expression that can extract the value from the HTTP
+      // response
+      JqExpression string `json:"jqExpression" yaml:"jqExpression"`
+    }
+
+    type HTTPParam struct {
+      // Name is the name of the HTTP parameter
+      Name string `json:"name" yaml:"name"`
+      // Value is the value of the HTTP parameter
+      Value string `json:"value" yaml:"value"`
+    }
+    ```
 
 ### Provider template
 
-Provider template link here. Describe the variables.
+An initial idea would be for users to supply one or more [provider specs](#provider-spec), so that Iter8 can construct the metric queries. Iter8 builds on this idea by letting users supply one or more [Golang templates](https://pkg.go.dev/text/template) for provider specs. When a provider template is combined with [values](#computing-variable-values), it generates a [provider spec](#provider-spec) in YAML format that can be used by Iter8.
+
+??? tip "`istio-prom` provider template in the usage example"
+    ```yaml linenums="1"
+    # This file provides templated metric specifications that enable
+    # Iter8 to retrieve metrics from Istio's Prometheus add-on.
+    # 
+    # For a list of metrics supported out-of-the-box by the Istio Prom add-on, 
+    # please see https://istio.io/latest/docs/reference/config/metrics/
+    #
+    # Iter8 substitutes the placeholders in this file with values, 
+    # and uses the resulting metric specs to query Prometheus.
+    # The placeholders are as follows.
+    # 
+    # reporter                        string  optional
+    # destinationWorkload             string  required
+    # destinationWorkloadNamespace    string  required
+    # elapsedTimeSeconds              int     implicit
+    # startingTime                    string  optional
+    # latencyPercentiles              []int   optional
+    #
+    # For descriptions of reporter, destinationWorkload, and destinationWorkloadNamespace, 
+    # please see https://istio.io/latest/docs/reference/config/metrics/
+    #
+    # elapsedTimeSeconds: this should not be specified directly by the user. 
+    # It is implicitly computed by Iter8 according to the following formula
+    # elapsedTimeSeconds := (time.Now() - startingTime).Seconds()
+    # 
+    # startingTime: By default, this is the time at which the Iter8 experiment started.
+    # The user can explicitly specify the startingTime for each app version
+    # (for example, the user can set the startingTime to the creation time of the app version)
+    #
+    # latencyPercentiles: Each item in this slice will create a new metric spec.
+    # For example, if this is set to [50,75,90,95],
+    # then, latency-p50, latency-p75, latency-p90, latency-p95 metric specs are created.
+
+    {{- define "istio-prom-reporter"}}
+    {{- if .reporter }}
+    reporter="{{ .reporter }}",
+    {{- end }}
+    {{- end }}
+
+    {{- define "istio-prom-dest"}}
+    {{ template "istio-prom-reporter" . }}
+    destination_workload="{{ .destinationWorkload }}",
+    destination_workload_namespace="{{ .destinationWorkloadNamespace }}"
+    {{- end }}
+
+    # url is the HTTP endpoint where the Prometheus service installed by Istio's Prom add-on
+    # can be queried for metrics
+
+    url: {{ default .istioPromURL "http://prometheus.istio-system:9090/api/v1/query" }}
+    provider: istio-prom
+    method: GET
+    metrics:
+    - name: request-count
+      type: counter
+      description: |
+        Number of requests
+      params:
+      - name: query
+        value: |
+          sum(last_over_time(istio_requests_total{
+            {{ template "istio-prom-dest" . }}
+          }[{{ .elapsedTimeSeconds }}s])) or on() vector(0)
+      jqExpression: .data.result[0].value[1] | tonumber
+    - name: error-count
+      type: counter
+      description: |
+        Number of unsuccessful requests
+      params:
+      - name: query
+        value: |
+          sum(last_over_time(istio_requests_total{
+            response_code=~'5..',
+            {{ template "istio-prom-dest" . }}
+          }[{{ .elapsedTimeSeconds }}s])) or on() vector(0)
+      jqExpression: .data.result[0].value[1] | tonumber
+    - name: error-rate
+      type: gauge
+      description: |
+        Fraction of unsuccessful requests
+      params:
+      - name: query
+        value: |
+          (sum(last_over_time(istio_requests_total{
+            response_code=~'5..',
+            {{ template "istio-prom-dest" . }}
+          }[{{ .elapsedTimeSeconds }}s])) or on() vector(0))/(sum(last_over_time(istio_requests_total{
+            {{ template "istio-prom-dest" . }}
+          }[{{ .elapsedTimeSeconds }}s])) or on() vector(0))
+      jqExpression: .data.result.[0].value.[1]
+    - name: latency-mean
+      type: gauge
+      description: |
+        Mean latency
+      params:
+      - name: query
+        value: |
+          (sum(last_over_time(istio_request_duration_milliseconds_sum{
+            {{ template "istio-prom-dest" . }}
+          }[{{ .elapsedTimeSeconds }}s])) or on() vector(0))/(sum(last_over_time(istio_requests_total{
+            {{ template "istio-prom-dest" . }}
+          }[{{ .elapsedTimeSeconds }}s])) or on() vector(0))
+      jqExpression: .data.result[0].value[1] | tonumber
+    {{- range $i, $p := .latencyPercentiles }}
+    - name: latency-p{{ $p }}
+      type: gauge
+      description: |
+        {{ $p }} percentile latency
+      params:
+      - name: query
+        value: |
+          histogram_quantile(0.{{ $p }}, sum(rate(istio_request_duration_milliseconds_bucket{
+            {{ template "istio-prom-dest" $ }}
+          }[{{ .elapsedTimeSeconds }}s])) by (le))
+      jqExpression: .data.result[0].value[1] | tonumber
+    {{- end }}    
+    ```    
 
 ## How it works
 
-Flow chart here ... 
+The `custommetrics` tasks works as illustrated in the flowchart below.
 
-### Template variable values
+```mermaid
+graph TD
+  A([Start]) --> B([Get provider template]);
+  B --> C([Compute variable values]);
+  C --> D([Create provider spec by combining provider template with values]);
+  D --> E([Query database]);
+  E --> F([Process response]);
+  F --> G([Update metric value in experiment]);
+  G --> H{Done with all metrics?};
+  H ---->|No| E;
+  H ---->|Yes| I{Done with all versions?};
+  I ---->|No| C;
+  I ---->|Yes| J([End]);
+```
+
+In order to create provider templates, users need an understanding of the `Compute variable values` and `Process response` steps in the above flowchart. We describe these steps below.
+
+
+### Computing variable values
 
 === "One version"
 
@@ -74,9 +256,19 @@ Flow chart here ...
     --set cronjobSchedule="*/1 * * * *"
     ```
 
-### Elapsed time
+=== "Elapsed time"
+    ```mermaid
+    graph TD
+      A([Start]) --> B{startingTime parameter supplied?};
+      B ---->|Yes| C([elapsedTimeSeconds := currentTime - startingTime]);
+      B ---->|No| D([startingTime := time when experiment was launched]);
+      D --> C;
+      C --> E([End]);
+    ```
 
-### Response handling
+    The placeholder `elapsedTimeSeconds` is substituted based on the start of the experiment or `startingTime`, if provided in the CLI. If `startingTime` is provided, then the time should follow [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) (for example: `2020-02-01T09:44:40Z` or `2020-02-01T09:44:40.954641934Z`).
+
+### Processing response
 
 The metrics provider is expected to respond to Iter8's HTTP request for a metric with a JSON object. The format of this JSON object is provider-specific. Iter8 uses [jq](https://stedolan.github.io/jq/) to extract the metric value from the JSON response of the provider. The `jqExpression` used by Iter8 is supplied as part of the metric definition. When the `jqExpression` is applied to the JSON response, it is expected to yield a number.
 
@@ -116,10 +308,6 @@ The metrics provider is expected to respond to Iter8's HTTP request for a metric
 
     > **Note:** The shell command above is for illustration only. Iter8 uses Python bindings for `jq` to evaluate the `jqExpression`.
 
-### Error handling
-Errors may occur during Iter8's metric queries due to a number of reasons (for example, due to an invalid metrics template template, or due to the metrics database being unreachable). If errors are encountered during the attempt to retrieve metric values, Iter8 will mark the corresponding metric as unavailable.
-
-## Customizing
 
 # Custom Metrics
 
@@ -178,9 +366,3 @@ The examples in this document focus on Prometheus, NewRelic, Sysdig, and Elastic
         3. The `method` field provides the HTTP method, in this case `GET`.
         4. The `jqExpression` enables Iter8 to extract the metric value from the JSON response returned by Prometheus.
 
-## Placeholder substitution
-
-> **Note:** This step is automated by **Iter8**.
-
-=== "Prometheus"
-  The placeholder `elapsedTimeSeconds` is substituted based on the start of the experiment or `startingTime`, if provided in the CLI. If `startingTime` is provided, then the time should follow [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) (for example: `2020-02-01T09:44:40Z` or `2020-02-01T09:44:40.954641934Z`).

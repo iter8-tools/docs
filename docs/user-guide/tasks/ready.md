@@ -48,7 +48,7 @@ The following changes to the `task.ready` and `k.role` templates will accomplish
 === "task.ready"
     Define the group/version/resource (GVR) and the condition that should be checked for a Knative `Service`.
 
-    ```yaml
+    ```yaml linenums="1"
     {{- if .Values.ready.ksvc }}
     # task: determine if Knative Service exists and is ready
     - task: ready
@@ -70,7 +70,7 @@ The following changes to the `task.ready` and `k.role` templates will accomplish
 === "k.role"
     Add the Knative `apiGroup` to the role named `{{ .Release.Name }}-ready`.
 
-    ```yaml
+    ```yaml linenums="1"
     {{- if .Values.ready.ksvc }}
     - apiGroups: ["apps"]
       resourceNames: [{{ .Values.ready.ksvc | quote }}]
