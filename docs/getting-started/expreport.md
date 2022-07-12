@@ -1,6 +1,6 @@
 === "Text"
     ```shell
-    iter8 report
+    iter8 k report
     ```
 
     ??? note "The text report looks like this"
@@ -35,7 +35,7 @@
 
 === "HTML"
     ```shell
-    iter8 report -o html > report.html # view in a browser
+    iter8 k report -o html > report.html # view in a browser
     ```
 
     ??? note "The HTML report looks like this"

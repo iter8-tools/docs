@@ -8,5 +8,6 @@ hide:
 
 1. Read [Iter8 docs](https://iter8.tools).
 2. Join the [Iter8 Slack workspace](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw).
-3. File an issue or start a discussion on the [Iter8 GitHub repo](https://github.com/iter8-tools/iter8).
+3. File an [issue](https://github.com/iter8-tools/iter8/issues) or start a [discussion](https://github.com/iter8-tools/iter8/discussions) on the [Iter8 GitHub repo](https://github.com/iter8-tools/iter8).
 4. [Attend our community meetings!](../community/community.md#community-meetings)
+5. Follow [Iter8 on Twitter](https://twitter.com/Iter8Tools).

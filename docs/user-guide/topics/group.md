@@ -2,19 +2,20 @@
 template: main.html
 ---
 
-# Experiment namespace and group
+# Namespaces and groups for Kubernetes experiments
 
-Iter8 experiments like [`load-test-http`](../../tutorials/load-test-http/kubernetesusage.md) and [`load-test-grpc`](../../tutorials/load-test-grpc/kubernetesusage.md) can be run within Kubernetes. Such experiments are launched within a Kubernetes namespace, and associated with a unique *group* within that namespace.
+[Kubernetes experiments](../../getting-started/concepts.md#execution-environments) are launched within a [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/), and are associated with a unique *group* within that namespace.
 
 For example, consider the following invocation:
 
 ```shell
-iter8 k launch -c load-test-http -g hbin \
---set url=http://httpbin.default \
---set SLOs.http/latency-mean=50
+iter8 k launch -g hbin \
+--set "tasks={http,assess}" \
+--set http.url=http://httpbin.default/get \
+--set assess.SLOs.upper.http/latency-mean=50
 ```
 
-In the above invocation, the `iter8 k launch` implicitly specifies the namespace as `default`, and explicitly specifies the group as `hbin`. If the group name is not specified explicitly, then it is set to `default`.
+In the above invocation, the `iter8 k launch` command implicitly specifies the namespace as `default`, and explicitly specifies the group as `hbin`. If the group name is not specified explicitly, then it is set to `default`. The namespace can be specified explicitly using the `-n` or `--namespace` flags (see [here](../commands/iter8_k_launch.md#options-inherited-from-parent-commands)).
 
 The following example illustrates the relationship between namespaces, groups, and experiments.
 
@@ -41,8 +42,8 @@ The following example illustrates the relationship between namespaces, groups, a
 
 ## Use-cases
 
-1.  Run multiple experiments concurrently within a Kubernetes namespace. These experiments may be associated with the same app or with different apps.
-2.  Replace a currently running experiment in Kubernetes with a new one. When you invoke `iter8 k launch`, any previous experiment runs within the group are wiped out and replaced with a new run.
+1.  Run multiple experiments concurrently within a Kubernetes namespace by associating them with distinct groups. These experiments may be associated with the same app or with different apps.
+2.  Replace a currently running experiment in Kubernetes with a new one. When you invoke `iter8 k launch`, any previous experiment executions within the group is wiped out and replaced with a fresh experiment that starts to execute.
 
 ## How groups work
 
