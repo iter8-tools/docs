@@ -57,7 +57,7 @@ iter8 k launch \
 
 ??? note "Some variations and extensions of this experiment"
     1. Perform [SLO validation for multiple versions of an app using custom metrics](two-or-more-versions.md).
-    2. Create your own provider templates, serve them through URLs, and configure the custom metrics to use these templates. This enables you to use any app-specific metrics from any database as part of Iter8 experiments. Read the [documentation for the `custommetrics` task](../../user-guide/tasks/custommetrics.md) to learn more.
+    2. Define and use your own provider templates. This enables you to use any app-specific metrics from any database as part of Iter8 experiments. Read the [documentation for the `custommetrics` task](../../user-guide/tasks/custommetrics.md) to learn more.
     3. Alter the `cronjobSchedule` expression so that experiment loops are repeated at a frequency of your choice. Use use [https://crontab.guru](https://crontab.guru) to learn more about `cronjobSchedule` expressions.
 
 ***
