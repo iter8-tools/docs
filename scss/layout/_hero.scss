@@ -106,18 +106,34 @@
   animation: heart 1000ms infinite;
   color: #ff006f;
 }
+
 .text-light {
   color: var(--md-primary-bg-color);
 
   a {
-    color: #b5ff7d;
+    color: #ffffff;
 
     &:focus,
     &:hover {
       color: #fff07d;
     }
   }
+
+  .social {
+    a {
+      border: 0rem;
+      color: inherit;
+    }
+  }
 }
+
+.md-typeset {
+  h3.social {
+    letter-spacing: px2rem(10px);
+  }
+}
+
+
 .text-center {
   text-align: center;
   padding: px2rem(20px);

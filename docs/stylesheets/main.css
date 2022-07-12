@@ -81,10 +81,18 @@
   color: var(--md-primary-bg-color);
 }
 .text-light a {
-  color: #b5ff7d;
+  color: #ffffff;
 }
 .text-light a:focus, .text-light a:hover {
   color: #fff07d;
+}
+.text-light .social a {
+  border: 0rem;
+  color: inherit;
+}
+
+.md-typeset h3.social {
+  letter-spacing: 0.5rem;
 }
 
 .text-center {
