@@ -17,7 +17,7 @@ An experiment is a set of tasks that are executed in a specific sequence. Iter8 
 
 1. Generating load and collecting Iter8's built-in metrics for HTTP services.
 2. Generating load and collecting Iter8's built-in metrics for gRPC services.
-3. Fetching metrics for one or more versions of an app from databases. 
+3. Fetching metrics from databases and other REST APIs.
 4. Assessing [SLOs](#service-level-objectives) for app versions.
 5. Checking if app is ready.
 

@@ -8,7 +8,7 @@ template: main.html
 
 # custommetrics
 
-Fetch metrics from databases (like Prometheus).
+Fetch metrics from databases (like Prometheus) and other REST APIs.
 
 ## Usage Example
 In this example, the `custommetrics` task fetches metrics from the Prometheus database that is created by [Istio's Prometheus add-on](https://istio.io/latest/docs/ops/integrations/prometheus/). 
