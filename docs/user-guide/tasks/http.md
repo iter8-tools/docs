@@ -34,7 +34,7 @@ iter8 launch \
 
 ## Metrics
 
-The following metrics are collected by this task:
+This task creates a built-in [provider](../topics/metrics.md#fully-qualified-names) named `http`. The following metrics are collected by this task:
 
 - `http/request-count`: total number of requests sent
 - `http/error-count`: number of error responses
@@ -45,4 +45,4 @@ The following metrics are collected by this task:
 - `http/latency-max`: max of observed latency values
 - `http/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
 
-All latency metrics have `msec` units. Note that the name of the provider for all the metrics collected by this task is `http`.
+All latency metrics have `msec` units.

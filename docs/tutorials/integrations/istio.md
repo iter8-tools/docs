@@ -4,8 +4,8 @@ template: main.html
 
 # SLO Validation using Istio's Prometheus Add-on
 
-1. [Benchmark and validate an HTTP Service](../custom-metrics/one-version.md)
-2. [Benchmark and validate an HTTP Service with traffic mirroring](../custom-metrics/two-or-more-versions.md)
+1. [SLO validation using Istio's Prometheus add-on](../custom-metrics/one-version.md)
+2. [SLO validation using Istio's Prometheus add-on with traffic mirroring](../custom-metrics/two-or-more-versions.md)
 
 # Istio Examples based on Iter8 v0.7
 

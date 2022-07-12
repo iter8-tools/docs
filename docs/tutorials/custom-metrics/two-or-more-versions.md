@@ -2,9 +2,9 @@
 template: main.html
 ---
 
-# SLO validation using custom metrics
+# SLO validation using custom metrics (multiple versions)
 
-Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for multiple versions of an app using [custom metrics](custommetrics.md) provided by a database.
+Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for multiple versions of an app by fetching metrics foor each app version from a database (like Prometheus). This is a [multi-loop](../../getting-started/concepts.md#loops) [Kubernetes experiment](../../getting-started/concepts.md#execution-environments).
 
 <p align='center'>
   <img alt-text="custom-metrics-two-or-more-versions" src="../images/two-or-more-versions.png" />
@@ -13,11 +13,10 @@ Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for 
 ***
 
 ???+ warning "Before you begin"
-    1. Try [your first experiment](../../getting-started/your-first-experiment.md).
-    2. Try the [custom metrics experiment with one app version](one-version.md).
-    3. [Follow the Istio traffic mirroring tutorial](https://istio.io/latest/docs/tasks/traffic-management/mirroring/).
-    4. [Install Prometheus plugin](https://istio.io/latest/docs/ops/integrations/prometheus/).
-    5. Generate load.
+    1. Try [your first experiment](../../getting-started/your-first-experiment.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8 experiments. Try [an SLO validation experiment using custom metrics for a single version of an app](one-version.md).
+    2. [Complete the Istio traffic mirroring tutorial](https://istio.io/latest/docs/tasks/traffic-management/mirroring/), specifically, the [setup steps](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#before-you-begin), the step for [creating the default routing policy](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#creating-a-default-routing-policy), and the step for [mirroring traffic](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#mirroring-traffic-to-v2). Omit the step for cleaning up (you can clean up once you are done with this tutorial).
+    3. [Install Istio's Prometheus add-on](https://istio.io/latest/docs/ops/integrations/prometheus/).
+    4. Generate load.
     ```shell
     kubectl run fortio --image=fortio/fortio --command -- fortio load -t 6000s http://httpbin.default:8000/get
     ```
@@ -39,6 +38,14 @@ iter8 k launch \
 --set cronjobSchedule="*/1 * * * *"
 ```
 
-???+ note "About this experiment"
-    This experiment extends the [custom metrics experiment with one app version](one-version.md). There are two versions of the app in this experiment. Variable values that are specific to the first version are specified under `custommetrics.versionValues[0]`, while those that are specific to the second version are specified under `custommetrics.versionValues[1]`. For the first version, Iter8 merges `custommetrics.values` with `custommetrics.versionValues[0]` (the latter takes precedence), and uses the result for template variable substitution. Similarly, for the second version, Iter8 merges `custommetrics.values` with `custommetrics.versionValues[1]` (the latter takes precedence), and uses the result for template variable substitution.
+??? note "About this experiment"
+    This experiment extends the [SLO validation experiment using custom metrics for a single app version](one-version.md). There are two versions of the app in this experiment. Variable values that are specific to the first version are specified under `custommetrics.versionValues[0]`, while those that are specific to the second version are specified under `custommetrics.versionValues[1]`. For the first version, Iter8 merges `custommetrics.values` with `custommetrics.versionValues[0]` (the latter takes precedence), and uses the result for template variable substitution. Similarly, for the second version, Iter8 merges `custommetrics.values` with `custommetrics.versionValues[1]` (the latter takes precedence), and uses the result for template variable substitution.
+
+??? note "Some variations and extensions of this experiment"
+    1. Create your own provider templates, serve them through URLs, and configure the custom metrics to use these templates. This enables you to use any app-specific metrics from any database as part of Iter8 experiments. Read the [documentation for the `custommetrics` task](../../user-guide/tasks/custommetrics.md) to learn more.
+    2. Alter the `cronjobSchedule` expression so that experiment loops are repeated at a frequency of your choice. Use use [https://crontab.guru](https://crontab.guru) to learn more about `cronjobSchedule` expressions.
+
+***
+
+Assert experiment outcomes, view experiment report, view experiment logs, and cleanup as described in [this experiment](../../tutorials/custom-metrics/one-version.md).
     

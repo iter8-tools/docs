@@ -4,14 +4,14 @@ template: main.html
 
 # Your First Experiment
 
-Perform your first [Iter8 experiment](concepts.md#iter8-experiment) for load testing an HTTP service inside Kubernetes and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives).
+Run your first [Iter8 experiment](concepts.md#iter8-experiment) by load testing a Kubernetes HTTP service and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives). This is a [single-loop](concepts.md#loops) [Kubernetes experiment](concepts.md#execution-environments).
 
 <p align='center'>
   <img alt-text="load-test-http" src="../images/http.png" />
 </p>
 
 ???+ warning "Before you begin"
-    1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You may run a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
+    1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
     2. Deploy the sample HTTP service in the Kubernetes cluster.
     ```shell
     kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
@@ -40,8 +40,22 @@ iter8 k launch \
 --set runner=job
 ```
 
-???+ note "About this experiment"
-    This experiment consists of three [tasks](../getting-started/concepts.md#tasks), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. The [runner](../getting-started/concepts.md#runners) value specifies that the experiment should be [run using a Kubernetes job](../getting-started/concepts.md#runners).
+??? note "About this experiment"
+    This experiment consists of three [tasks](concepts.md#tasks), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
+    
+    The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
+    
+    The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). 
+    
+    The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
+    
+    This is a [single-loop](concepts.md#loops) [Kubernetes experiment](concepts.md#execution-environments). Hence, its [runner](concepts.md#runners) value is set to `job`.
+
+??? note "Some variations and extensions of this experiment"
+    1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+    2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
+    3. The [assess task](../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics).
+    4. This experiment can also be run in your [local environment](../tutorials/integrations/local.md) or run within a [GitHub Actions pipeline](../tutorials/integrations/ghactions.md).
 
 ***
 
@@ -73,7 +87,7 @@ iter8 k log
 ***
 
 ## Cleanup
-Remove the [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) created during the Iter8 experiment launch.
+Remove the [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) created by the `iter8 k launch` command.
 ```shell
 iter8 k delete
 ```
@@ -81,9 +95,3 @@ iter8 k delete
 ***
 
 Congratulations! :tada: You completed your first Iter8 experiment.
-
-???+ tip "Variations"
-    1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
-    2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
-    3. The [assess task](../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics).
-    4. This experiment can also be run in your [local environment](../tutorials/integrations/local.md) or run within a [GitHub Actions pipeline](../tutorials/integrations/ghactions.md).

@@ -3,32 +3,33 @@ template: main.html
 ---
 
 # Iter8
-Iter8 is the Kubernetes testing platform built for DevSecOps, MLOps, SRE and data science teams. Iter8 makes it easy to ensure that new versions of apps and ML models perform well and maximize business value.
+Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 makes it easy to ensure that Kubernetes apps and ML models perform well and maximize business value.
 
-## Iter8 Experiment
+## Iter8 experiment
 <p align='center'>
   <img alt-text="load-test-http" src="../../images/iter8-intro-dark.png" width="70%" />
 </p>
 
 Iter8 experiments makes it simple to collect performance and business metrics for apps and ML models, assess and compare one or more app/ML model versions, validate [service-level objectives (SLOs)](#service-level-objectives), promote the winning version, and maximize business value during each release.
 
-Specifying an Iter8 experiment involves specifying the list of [tasks](#tasks) executed during the experiment, their [parameters](../user-guide/topics/parameters.md), and the experiment [runner](#loops-and-runner).
-
 ### Tasks
-An experiment is an ordered collection of tasks that are executed sequentially. Iter8 provides pre-defined tasks for various functions such as generating load and collecting Iter8's built-in metrics for HTTP and gRPC services, collecting custom metrics for one or more versions of an app from databases, assessing [SLOs](#service-level-objectives), and checking if the application is ready.
+An experiment is a set of tasks that are executed in a specific sequence. Iter8 provides pre-defined tasks for various functions such as generating load and collecting Iter8's built-in metrics for HTTP and gRPC services, collecting custom metrics for one or more versions of an app from databases, assessing [SLOs](#service-level-objectives), and checking if the application is ready.
 
 ### Loops
-A single loop of an experiment involves each task in the experiment executing once. Iter8 experiments can be set up to loop once and finish (single-loop), or loop repeatedly over time (multi-loop).
+Iter8 experiments have a concept of loops. A single loop of an experiment involves each [task](#tasks) in the experiment executing once. Iter8 experiments can be **single-loop** or **multi-loop**. In the former case, the experiment finishes after a single loop. In the latter case, loops are scheduled for repeated executions periodically over time.
 
-### Execution Environments
-Experiments can run inside Kubernetes clusters, in the local environment, and within CI/CD/GitOps workflows including GitHub Actions workflows.
+### Execution environments
+Experiments can run inside Kubernetes clusters, in the local environment, and within CI/CD/GitOps workflows including GitHub Actions workflows. Experiments that are executed inside Kubernetes clusters are referred to as **Kubernetes experiments**. All other experiments are referred to as **local experiments**.
 
-#### Runners
-A single-loop experiment that is run inside a Kubernetes cluster uses the Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) workload as its runner. A multi-loop experiment that is run inside a Kubernetes cluster uses the Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) as its runner.
+### Runner
+A [single-loop](#loops) [Kubernetes experiment](#execution-environments) uses the Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) workload as its runner. A [multi-loop](#loops) [Kubernetes experiment](#execution-environments) uses the Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) workload as its runner.
 
-## Service-level Objectives
+### Specifying an experiment
+Specifying an Iter8 experiment involves specifying the list of [tasks](#tasks) executed during the experiment and their [parameters](../user-guide/topics/parameters.md). Additionally, Kubernetes experiments involve specifying the [runner](#runner).
 
-Service-level objectives (SLOs) specify the acceptable limits for an app's metric values. Both upper and lower limits on metric values can be specified as SLOs in Iter8 experiments.
+## Service-level objectives
+
+Service-level objectives (SLOs) are acceptable limits for an app's metric values. Both upper and lower limits on metric values can be specified as SLOs in Iter8 experiments.
 
 
 <!-- ## Features at a glance

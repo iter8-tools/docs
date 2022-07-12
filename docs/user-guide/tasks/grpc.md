@@ -37,13 +37,13 @@ In addition, the following fields are defined by this task.
 
 ## Metrics
 
-The following metrics are collected by this task:
+This task creates a built-in [provider](../topics/metrics.md#fully-qualified-names) named `grpc`. The following metrics are collected by this task:
 
 - `grpc/request-count`: total number of requests sent
 - `grpc/error-count`: number of error responses
 - `grpc/error-rate`: fraction of error responses
 
-The following latency metrics are also supported.
+The following latency metrics are also supported by this task.
 
 - `grpc/latency/mean`: mean latency
 - `grpc/latency/stddev`: standard deviation of latency
@@ -51,4 +51,4 @@ The following latency metrics are also supported.
 - `grpc/latency/max`: max latency
 - `grpc/latency/pX`: X^th^ percentile latency, for any X in the range 0.0 to 100.0
 
-All latency metrics have `msec` units. Note that the name of the provider for all the metrics collected by this task is `grpc`.
+All latency metrics have `msec` units.

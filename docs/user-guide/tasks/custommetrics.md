@@ -25,17 +25,36 @@ iter8 k launch \
 --set cronjobSchedule="*/1 * * * *"
 ```
 
-[This section](#concepts) describes the concepts of [provider spec](#provider-spec) and [provider template](#provider-template) that are central to this task. [This section](#how-it-works) describes how this task works under the hood.
 
 ## Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| templates  | map[string]string | A map where each key is the name of a provider, and the corresponding value is a URL containing the [provider template](#provider-template). |
+| templates  | map[string]string | A map where each key is the name of a [provider](../topics/metrics.md#provider), and the corresponding value is a URL containing the [provider template](#provider-template). |
 | values  | map[string]interface{} | A map that contains the values for variables in [provider templates](#provider-template). When there are two or more app versions, this map contains values that are common to all versions. |
 | versionValues  | []map[string]interface{} | An array that contains version-specific values for variables in [provider templates](#provider-template). While fetching metrics for version `i`, the task merges `values` with `versionValues[i]` (latter takes precedence), and the merged map contains the values for variables in provider templates. |
 
-## Concepts
+
+## How it works
+
+The logic of this task is illustrated by the following flowchart.
+
+```mermaid
+graph TD
+  A([Start]) --> B([Get provider template]);
+  B --> C([Compute variable values]);
+  C --> D([Create provider spec by combining template with values]);
+  D --> E([Query database]);
+  E --> F([Process response]);
+  F --> G([Update metric value in experiment]);
+  G --> H{Done with all metrics?};
+  H ---->|No| E;
+  H ---->|Yes| I{Done with all versions?};
+  I ---->|No| C;
+  I ---->|Yes| J([End]);
+```
+
+We describe the concepts or [provider spec](#provider-spec) and [provider template](#provider-template) next.
 
 ### Provider spec
 
@@ -47,7 +66,7 @@ Iter8 needs the information following in order to fetch metrics from a database.
     * The specific HTTP query to be used, in particular, the HTTP query parameters and body (if any).
     * The logic for parsing the query response and retrieving the metric value.
 
-The above information is encapsulated by `ProviderSpec`, a data structure which Iter8 associates with each provider in this task.
+The above information is encapsulated by `ProviderSpec`, a data structure which Iter8 associates with each provider, and `Metric`, a data structure which Iter8 associates with each metric provided by a provider.
 
 ???+ tip "Golang type definitions for ProviderSpec and Metric"
     ```go linenums="1"
@@ -88,9 +107,11 @@ The above information is encapsulated by `ProviderSpec`, a data structure which 
     }
     ```
 
+The `ProviderSpec` and `Metric` data structures together supply Iter8 with all the information needed to query databases, process the response to extract metric values, store the metric values in experiments, and display them in experiment reports with auxiliary information (such as description and units). Metric types are defined [here](../topics/metrics.md#metric-types).
+
 ### Provider template
 
-An initial idea would be for users to supply one or more [provider specs](#provider-spec), so that Iter8 can construct the metric queries. Iter8 builds on this idea by letting users supply one or more [Golang templates](https://pkg.go.dev/text/template) for provider specs. When a provider template is combined with [values](#computing-variable-values), it generates a [provider spec](#provider-spec) in YAML format that can be used by Iter8.
+Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables users to supply one or more [Golang templates](https://pkg.go.dev/text/template) for provider specs. Iter8 combines the provider templates with [values](#computing-variable-values), in order to generate [provider specs](#provider-spec) in YAML format, and uses them to query for the metrics.
 
 ??? tip "`istio-prom` provider template in the usage example"
     ```yaml linenums="1"
@@ -208,32 +229,13 @@ An initial idea would be for users to supply one or more [provider specs](#provi
           }[{{ .elapsedTimeSeconds }}s])) by (le))
       jqExpression: .data.result[0].value[1] | tonumber
     {{- end }}    
-    ```    
+    ```
 
-## How it works
-
-The logic of this task is illustrated in the following flowchart.
-
-```mermaid
-graph TD
-  A([Start]) --> B([Get provider template]);
-  B --> C([Compute variable values]);
-  C --> D([Create provider spec by combining template with values]);
-  D --> E([Query database]);
-  E --> F([Process response]);
-  F --> G([Update metric value in experiment]);
-  G --> H{Done with all metrics?};
-  H ---->|No| E;
-  H ---->|Yes| I{Done with all versions?};
-  I ---->|No| C;
-  I ---->|Yes| J([End]);
-```
-
-In order to create [provider templates](#provider-template) and use them in experiments, users need an understanding of how variable values are computed and how the response from the database is processed by Iter8. We describe these steps next.
+In order to create [provider templates](#provider-template) and use them in experiments, it is necessary to have a clear understanding of how variable values are computed, and how the response from the database is processed by Iter8. We describe these steps next.
 
 ### Computing variable values
 
-All variable values are configured explicitly by the user during experiment launch. The sole exception is the `elapsedTimeSeconds` variable which is computed by Iter8. Please see the tabs below to learn more about how to configure values and how Iter8 computes `elapsedTimeSeconds`.
+Variable values are configured explicitly by the user during experiment launch. The sole exception to this rule is the `elapsedTimeSeconds` variable which is computed by Iter8. Please see the tabs below to learn more about how to configure values and how Iter8 computes `elapsedTimeSeconds`.
 
 === "Configure values for one version"
 
@@ -353,3 +355,10 @@ The metrics provider is expected to respond to Iter8's HTTP request for a metric
     Executing the above command results yields `21.7639`, a number, as required by Iter8. 
 
     > **Note:** The shell command above is for illustration only. Iter8 uses Python bindings for `jq` to evaluate the `jqExpression`.
+
+## Defining and using providers
+
+1. Understand how the `custommetrics` task works; this is described in [this section](#how-it-works).
+2. Create your provider template and serve it from a URL. A sample provider template is in [this section](#provider-template).
+3. Configure the `custommetrics` task with one or more provider templates. An example of `custommetrics` configuration is in [this section](#usage-example).
+4. The metrics fetched by this task can be used to assess app versions in Iter8 experiments. An example that illustrates the use of both `custommetrics` and `assess` tasks together is in [this section](#usage-example).

@@ -2,7 +2,7 @@ site_name: Iter8
 site_url: https://iter8.tools/latest
 site_author: Srinivasan Parthasarathy
 site_description: >-
-  Iter8 is a metrics-driven release optimizer built for DevSecOps, MLOps, SRE and data science teams. Iter8 makes it easy to ensure that new versions of apps and ML models perform well, are secure, and maximize business value.
+  Iter8 is a Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 makes it easy to ensure that Kubernetes apps and ML models perform well and maximize business value.
 # Repository
 repo_name: iter8-tools/iter8
 repo_url: https://github.com/iter8-tools/iter8
@@ -50,7 +50,7 @@ extra:
     provider: google
     property: UA-152813895-1
 
-  title: Metrics-Driven Release Optimizer
+  title: Kubernetes Release Optimizer
   version:
     provider: mike
   social:
@@ -118,8 +118,8 @@ nav:
   - Install Iter8: getting-started/install.md
   - Get help: getting-started/help.md
 - Tutorials:
-  - Load test gRPC with SLOs: tutorials/load-test-grpc.md
   - Load test HTTP with SLOs: tutorials/load-test-http.md
+  - Load test gRPC with SLOs: tutorials/load-test-grpc.md
   - Custom metrics:
     - One version: tutorials/custom-metrics/one-version.md
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md

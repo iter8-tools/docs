@@ -16,5 +16,5 @@ iter8 launch \
 --set assess.SLOs.upper.http/error-count=0
 ```
 
-All the parameters of a task or an experiment are optional unless indicated otherwise.
+All the parameters of a task or an experiment are optional unless indicated otherwise in the documentation of the task or expereiment.
 

@@ -11,7 +11,7 @@ Kubernetes testing platform
 ### Synopsis
 
 
-Kubernetes testing platform built for DevSecOps, MLOps, SRE, and data science teams. Iter8 makes it easy to ensure that new versions of apps and ML models perform well, are secure, and maximize business value.
+Kubernetes testing platform built for DevSecOps, MLOps, SRE, and data science teams. Iter8 makes it easy to ensure that Kubernetes apps and ML models perform well, are secure, and maximize business value.
 
 
 ### Options
