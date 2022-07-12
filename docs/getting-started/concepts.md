@@ -16,7 +16,7 @@ Iter8 experiments make it simple to collect performance and business metrics for
 An experiment is a set of tasks that are executed in a specific sequence. Iter8 provides pre-defined tasks for various functions such as generating load and collecting Iter8's built-in metrics for HTTP and gRPC services, collecting custom metrics for one or more versions of an app from databases, assessing [SLOs](#service-level-objectives), and checking if the application is ready.
 
 ### Loops
-Iter8 experiments have a concept of loops. A single loop of an experiment involves each [task](#tasks) in the experiment executing once. Iter8 experiments can be **single-loop** or **multi-loop**. In the former case, the experiment finishes after a single loop. In the latter case, loops are scheduled for repeated executions periodically over time.
+Iter8 experiments have a concept of loops. A single loop of an experiment involves the entire sequence of [tasks](#tasks) in the experiment executing once. You can configure experiments to loop once and finish (**single-loop**), or loop repeatedly over time (**multi-loop**).
 
 ### Execution environments
 Experiments can run inside Kubernetes clusters, in the local environment, and within CI/CD/GitOps workflows including GitHub Actions workflows. Experiments that are executed inside Kubernetes clusters are referred to as **Kubernetes experiments**. All other experiments are referred to as **local experiments**.
