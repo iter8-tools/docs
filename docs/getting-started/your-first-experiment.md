@@ -49,7 +49,7 @@ iter8 k launch \
     
     The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
     
-    This is a [single-loop](concepts.md#loops) [Kubernetes experiment](concepts.md#execution-environments). Hence, its [runner](concepts.md#runners) value is set to `job`.
+    This is a [single-loop](concepts.md#loops) [Kubernetes experiment](concepts.md#execution-environments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`.
 
 ??? note "Some variations and extensions of this experiment"
     1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
