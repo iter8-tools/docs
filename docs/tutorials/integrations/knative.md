@@ -32,4 +32,4 @@ The power of the Iter8 solution (HTTP, gRPC, load profile, request payload/data,
 
 ### gRPC performance testing in seconds
 
-## Variations and extensions
+## What next?
