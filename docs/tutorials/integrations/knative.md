@@ -26,7 +26,7 @@ The power of the Iter8 solution (HTTP, gRPC, load profile, request payload/data,
 
 ### Install Iter8 CLI and setup Knative apps
 
-### Sample HTTP and gRPC apps
+### Setup sample HTTP and gRPC apps
 
 ### HTTP performance testing in seconds
 
