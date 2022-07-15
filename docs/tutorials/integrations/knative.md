@@ -115,43 +115,6 @@ iter8 k launch \
     ??? note "The HTML report looks like this"
         ![HTML report](https://iter8.tools/0.11/getting-started/images/report.html.png)
 
-## Assert experiment outcomes
-Assert that the experiment completed without failures, and all SLOs are satisfied. The timeout flag below specifies a period of 120 sec for assert conditions to be satisfied.
-
-```shell
-iter8 k assert -c completed -c nofailure -c slos --timeout 120s
-```
-
-If the assert conditions are satisfied, the above command exits with code 0; else, it exits with code 1. Assertions are especially useful inside CI/CD/GitOps pipelines. Depending on the exit code of the assert command, your pipeline can branch into different actions.
-
-## View experiment logs
-Logs are useful when debugging an experiment.
-
-```shell
-iter8 k log
-```
-
-??? note "Sample experiment logs"
-    ```shell
-    INFO[2022-06-27 11:50:39] inited Helm config                           
-    INFO[2022-06-27 11:50:39] experiment logs from Kubernetes cluster       indented-trace=below ... 
-      time=2022-06-27 15:48:59 level=info msg=task 1: ready : started
-      time=2022-06-27 15:48:59 level=info msg=task 1: ready : completed
-      time=2022-06-27 15:48:59 level=info msg=task 2: ready : started
-      time=2022-06-27 15:48:59 level=info msg=task 2: ready : completed
-      time=2022-06-27 15:48:59 level=info msg=task 3: http : started
-      time=2022-06-27 15:49:11 level=info msg=task 3: http : completed
-      time=2022-06-27 15:49:11 level=info msg=task 4: assess : started
-      time=2022-06-27 15:49:11 level=info msg=task 4: assess : completed
-    ```
-
-## Cleanup
-Remove the [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) created by the `iter8 k launch` command.
-
-```shell
-iter8 k delete
-```
-
 ### Tutorial: gRPC performance test in seconds
 In this tutorial, we will launch an Iter8 experiment that generates load for a Knative gRPC service and validates its service-level objectives (SLOs). The setup of this experiment is illustrated in the figure below.
 
