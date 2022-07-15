@@ -5,7 +5,7 @@ hide:
 - toc
 ---
 
-# Dead Simple Performance Testing with SLOs for Knative Services
+# Dead Simple Performance Testing with SLOs
 
 > Launch performance tests for Knative services (HTTP and gRPC) and validate their service-level objectives (SLOs) **in seconds**.
 
