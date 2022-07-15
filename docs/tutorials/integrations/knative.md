@@ -30,6 +30,18 @@ Iter8 is packed with powerful features that simplifies performance testing of Kn
 
 ### Install Iter8 CLI
 
+Install the latest stable release of the Iter8 CLI using `brew` as follows.
+
+```shell
+brew tap iter8-tools/iter8
+brew install iter8@0.11
+```
+
+You can also install the Iter8 CLI using pre-built binaries, or use Iter8 inside a GitHub Actions pipeline as described [here](https://iter8.tools/0.11/getting-started/install/).
+
+
+
+
 ### HTTP performance test in seconds
 <img src="https://iter8.tools/0.11/getting-started/images/http.png" alt="HTTP performance test" width="800"/>
 
