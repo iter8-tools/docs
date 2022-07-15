@@ -20,11 +20,11 @@ Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data 
 ### Why Iter8?
 Iter8 is packed with powerful features that simplifies performance testing of Knative apps. We highlight a few of them below.
 
-1.  Built-in latency and error-related metrics for HTTP and gRPC services. Eliminates the need to set up and configure metrics databases for performance testing.
-2.  Well-defined notion of service-level objectives (SLOs) in experiments. Makes it simple to define and verify SLOs.
-3.  Readiness checks in experiments. Performance testing begins only after the Knative service is ready.
-4.  HTML/text reports that describe the results of an experiment. Ideal for promoting human understanding of experiment outcomes through visual insights. 
-5. Ability to assert experiment outcomes, such as whether the target app satisfies the SLOs that are specified in the experiment. Ideal for automation, since assertions allow CI/CD/GitOps pipelines to branch off into different paths depending on whether they are true or false.
+1.  **Built-in latency and error-related metrics for HTTP and gRPC services.** Eliminates the need to set up and configure metrics databases for performance testing.
+2.  **Well-defined notion of service-level objectives (SLOs) in experiments.** Makes it simple to define and verify SLOs.
+3.  **Readiness checks in experiments.** Performance testing begins only after the Knative service is ready.
+4.  **HTML/text reports that describe the results of an experiment.** Ideal for promoting human understanding of experiment outcomes through visual insights. 
+5. **Assertions for experiment outcomes, such as whether the target app satisfies the specified SLOs**. Ideal for automation, since assertions allow CI/CD/GitOps pipelines to branch off into different paths depending on whether they are true or false.
 
 ## Quick start
 
