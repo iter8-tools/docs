@@ -7,30 +7,29 @@ hide:
 
 # Dead Simple Performance Testing with SLOs for Knative Services
 
-> Launch performance tests for Knative apps (HTTP and gRPC services) and validate their service-level objectives (SLOs) **in seconds**.
+> Launch performance tests for Knative services (HTTP and gRPC) and validate their service-level objectives (SLOs) **in seconds**.
 
-Performance testing is a core building block in the robust delivery of Knative HTTP and gRPC apps (services). One way to accomplish this is by sending a stream of requests to the target service, and evaluating the responses for error and latency-related violations. From a developer’s perspective, this approach involves three main dimensions — namely, i) the load-related characteristics of the request stream, such as the request rate; ii) the shape of the requests, in particular, whether the service requires any payload/data to be sent as part of the requests; and iii) the service-level objectives (SLOs) used to validate the quality of the target service.
+Performance testing is a core building block in the robust delivery of HTTP and gRPC services. One way to accomplish this is by sending a stream of requests to the target service, and evaluating the responses for error and latency-related violations. From a developer’s perspective, this approach involves three main considerations, namely, i) the load-related characteristics of the request stream, such as the request rate; ii) the shape of the requests, in particular, whether the service requires any payload/data to be sent as part of the requests; and iii) the service-level objectives (SLOs) used to validate the quality of the target service.
 
-You can use [Iter8](https://iter8.tools), the open source Kubernetes release optimizer, to flexibly launch performance tests for Knative apps **in seconds**, with precise control over all of the above. This article shows how.
+You can use [Iter8](https://iter8.tools), the open source Kubernetes release optimizer, to flexibly launch performance tests for Knative services **in seconds**, with precise control over all of the above. This article shows how.
 
 ## Overview of Iter8
 
-[Iter8](https://iter8.tools) is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. [Iter8](https://iter8.tools) makes it easy to ensure that Kubernetes apps and ML models perform well and maximize business value. Specifically, [Iter8](https://iter8.tools) introduces the notion of *experiments* that simplifies the collection of performance and business metrics for apps and ML models, assessment and comparison of one or more app/ML model versions, validation of service-level objectives (SLOs), promoting the winning version, and maximizing business value during each release.
+[Iter8](https://iter8.tools) is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. [Iter8](https://iter8.tools) makes it easy to ensure that Kubernetes apps and ML models perform well and maximize business value. [Iter8](https://iter8.tools) introduces the notion of an [experiment](https://iter8.tools/0.11/getting-started/concepts/#iter8-experiment), which is a set of configurable tasks that are executed in a specific sequence. 
 
 <img src="https://iter8.tools/0.11/images/iter8-intro-dark.png" alt="Iter8 experiment" width="600"/>
 
-### Why Iter8?
-We highlight a few powerful features of [Iter8](https://iter8.tools) that simplify performance testing of Knative apps.
+Iter8 packs a number of powerful features that facilitate Kubernetes app testing and experimentation. They include the following. 
 
-1.  **Built-in latency and error-related metrics for HTTP and gRPC services.** Eliminates the need to set up and configure metrics databases during performance testing.
+1.  **Generating load and collecting built-in metrics for HTTP and gRPC services.** Simplifies performance testing by eliminating the need to setup and use metrics databases.
 2.  **Well-defined notion of service-level objectives (SLOs)**. Makes it simple to define and verify SLOs in experiments.
-3.  **Readiness checks.** The performance testing portion of the experiment begins only after the Knative service is ready.
+3.  **Readiness checks.** The performance testing portion of the experiment begins only after the service is ready.
 4.  **HTML/text reports**. Promotes human understanding of experiment results through visual insights. 
-5. **Assertions**. Verify whether the target app satisfies the specified SLOs or not after an experiment. Simplified automation in CI/CD/GitOps pipelines. Pipelines can branch off into different paths depending upon whether the assertions are true or false.
+5. **Assertions**. Verifies whether the target app satisfies the specified SLOs or not after an experiment. Simplifies automation in CI/CD/GitOps pipelines: branch off into different paths depending upon whether the assertions are true or false.
 
 ## Quick start
 
-Install Iter8 CLI using `brew` as follows. You can also install using pre-built binaries, or use Iter8 inside a GitHub Actions pipeline as described [here](https://iter8.tools/0.11/getting-started/install/).
+Install the Iter8 CLI using `brew` as follows. You can also install using pre-built binaries, or use Iter8 inside a GitHub Actions pipeline as described [here](https://iter8.tools/0.11/getting-started/install/).
 
 ```shell
 brew tap iter8-tools/iter8
@@ -38,7 +37,7 @@ brew install iter8@0.11
 ```
 
 ### Tutorial: Performance test for Knative HTTP service
-Launch an Iter8 experiment that generates load for a Knative HTTP service and validates its service-level objectives (SLOs). The setup of this experiment is illustrated in the figure below.
+In this tutorial, we will launch an Iter8 experiment that generates load for a Knative HTTP service, collects Iter8's built-in HTTP metrics, and validates the specified service-level objectives (SLOs) for the service. This experiment is illustrated in the figure below.
 
 <img src="https://iter8.tools/0.11/getting-started/images/http.png" alt="HTTP performance test" width="800"/>
 
@@ -51,24 +50,25 @@ iter8 k launch \
 --set "tasks={ready,http,assess}" \
 --set ready.ksvc=hello \
 --set http.url=http://httpbin.default/get \
+--set http.numRequests=100 \
+--set http.connections=10 \
+--set http.qps=20 \
 --set assess.SLOs.upper.http/latency-mean=200 \
 --set assess.SLOs.upper.http/error-count=0 \
 --set runner=job
 ```
 
-???+ note "About this experiment"
-    This experiment consists of three [tasks](concepts.md#tasks), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
-    
-    The [ready](../user-guide/tasks/ready.md) task checks if the Knative service named `hello` exists and is ready.
-    
-    The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL is `http://hello.default`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). 
-    
-    The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 200 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
-    
-    This is a [single-loop](concepts.md#loops) [Kubernetes experiment](concepts.md#execution-environments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`, which enables Iter8 to use a Kubernetes `job` to execute this experiment in the cluster.
+#### About this experiment
+This experiment consists of three tasks, namely, [ready](https://iter8.tools/0.11/user-guide/tasks/ready.md), [http](https://iter8.tools/0.11/user-guide/tasks/http.md), and [assess](https://iter8.tools/0.11/user-guide/tasks/assess.md).
+
+1.  The [ready](https://iter8.tools/0.11/user-guide/tasks/ready.md) task checks if the Knative service named `hello` exists and is ready.
+2.  The [http](https://iter8.tools/0.11/user-guide/tasks/http.md) task sends HTTP requests and collects [Iter8's built-in HTTP metrics](https://iter8.tools/0.11/user-guide/tasks/http.md#metrics). It is configured to send 100 requests (`numRequests`) across 10 concurrent connections (`connections`) at 20 requests per second (`qps`). The task sends its requests to the cluster-local URL `http://httpbin.default/get`.
+3.  The [assess](https://iter8.tools/0.11/user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 200 msec, and ii) there are no errors.
+
+The value of the [runner](https://iter8.tools/0.11/getting-started/concepts/#runner) parameter is set to `job`, which enables Iter8 to use a [Kubernetes job workload](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to run this experiment.
 
 #### View experiment report
-Once the experiment completes (~ 20 secs), view the experiment report as follows.
+Once the experiment completes (~5 secs), view the experiment report as follows.
 
 === "Text"
     ```shell
@@ -114,11 +114,11 @@ Once the experiment completes (~ 20 secs), view the experiment report as follows
         ![HTML report](https://iter8.tools/0.11/getting-started/images/report.html.png)
 
 ### Tutorial: Performance test for Knative gRPC service
-In this tutorial, we will launch an Iter8 experiment that generates load for a Knative gRPC service and validates its service-level objectives (SLOs). The setup of this experiment is illustrated in the figure below.
+In this tutorial, we will launch an Iter8 experiment that generates load for a Knative gRPC service, collects Iter8's built-in gRPC metrics, and validates the specified service-level objectives (SLOs) for the service. This experiment is illustrated in the figure below.
 
 <img src="https://iter8.tools/0.11/tutorials/images/grpc.png" alt="gRPC performance test" width="800"/>
 
-Use the [Knative (`kn`) CLI]() to update the Knative service deployed in the [above tutorial](#tutorial-performance-test-for-knative-http-service) to a gRPC service as follows.
+Use the [Knative (`kn`) CLI](https://knative.dev/docs/client/install-kn/) to update the Knative service deployed in the [above tutorial](#tutorial-performance-test-for-knative-http-service) to a gRPC service as follows.
 
 ```shell
 kn service update hello \
@@ -135,6 +135,9 @@ iter8 k launch \
 --set ready.ksvc=hello \
 --set grpc.host="hello.default:50051" \
 --set grpc.call="helloworld.Greeter.SayHello" \
+--set grpc.total=100 \
+--set grpc.concurrency=10 \
+--set grpc.rps=20 \
 --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-java/master/examples/example-hostname/src/main/proto/helloworld/helloworld.proto" \
 --set grpc.data.name="frodo" \
 --set assess.SLOs.upper.grpc/error-rate=0 \
@@ -143,18 +146,17 @@ iter8 k launch \
 --set runner=job
 ```
 
-???+ note "About this experiment"
-    This experiment consists of three [tasks](../getting-started/concepts.md#tasks), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md).
-    
-    The [ready](../user-guide/tasks/ready.md) task checks if the `hello` deployment exists and is available, and the `hello` service exists. 
-    
-    The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `helloworld.Greeter.SayHello` method of the cluster-local gRPC service with host address `hello.default:50051`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). 
-    
-    The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
-    
-    This is a [single-loop](../getting-started/concepts.md#loops) [Kubernetes experiment](../getting-started/concepts.md#execution-environments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
+#### About this experiment
+This experiment consists of three tasks, namely, [ready](https://iter8.tools/0.11/user-guide/tasks/ready.md), [grpc](https://iter8.tools/0.11/user-guide/tasks/grpc.md), and [assess](https://iter8.tools/0.11/user-guide/tasks/assess.md).
 
-Once the experiment completes (~ 20 secs), view the experiment report as described in the [earlier tutorial](#tutorial-performance-test-for-knative-http-service).
+1.  The [ready](https://iter8.tools/0.11/user-guide/tasks/ready.md) task checks if the Knative service named `hello` exists and is ready.
+2.  The [grpc](https://iter8.tools/0.11/user-guide/tasks/grpc.md) task sends gRPC call requests and collects [Iter8's built-in gRPC metrics](https://iter8.tools/0.11/user-guide/tasks/grpc.md#metrics). It is configured to send 100 `total` requests across 10 concurrent connections (`concurrency`) at 20 requests per second (`rps`). The task sends its requests to the `helloworld.Greeter.SayHello` method of the cluster-local gRPC service with host address `hello.default:50051`. The task is also configured with the protobuf specification of the gRPC service, available from the `protoURL`. Each request sent by the task includes a protobuf serialized data object, with a single field called `name` whose value is `frodo`.
+3.  The [assess](https://iter8.tools/0.11/user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 400 msec, and iii) the 90th percentile latency does not exceed 500 msec. 
+
+The value of the [runner](https://iter8.tools/0.11/getting-started/concepts/#runner) parameter is set to `job`, which enables Iter8 to use a [Kubernetes job workload](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to run this experiment.
+
+#### View experiment report
+Once the experiment completes (~5 secs), view the experiment report as described in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service).
 
 ## What next?
 
@@ -162,5 +164,5 @@ Try the following enhancements and variations of the above tutorials.
 
 1. Assert experiment outcomes, view experiment logs, and clean up the experiment as documented in [this example](https://iter8.tools/0.11/getting-started/your-first-experiment/).
 2. Run experiments in your local environment instead of a Kubernetes cluster. Local experiment is documented in [this example](https://iter8.tools/0.11/tutorials/integrations/local/).
-3. Configure the [`http` task](https://iter8.tools/0.11/user-guide/tasks/http/) in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service), and the [`grpc` task](https://iter8.tools/0.11/user-guide/tasks/grpc/) in the [gRPC tutorial](#tutorial-performance-test-for-knative-grpc-service) with load related parameters such as the number of requests, queries per second, duration, number of parallel connections, and various types of payloads. Use the [`grpc` task](https://iter8.tools/0.11/user-guide/tasks/grpc/) for performance testing of streaming gRPC.
+3. Explore the parameters of the [`http` task](https://iter8.tools/0.11/user-guide/tasks/http/) in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service), and the [`grpc` task](https://iter8.tools/0.11/user-guide/tasks/grpc/) in the [gRPC tutorial](#tutorial-performance-test-for-knative-grpc-service). In particular, configure the load related parameters such as the number of requests, queries per second, duration, and the number of parallel connections as per your needs, and configure various types of request payloads. Use the [`grpc` task](https://iter8.tools/0.11/user-guide/tasks/grpc/) for performance testing of streaming gRPC.
 4. Configure the [assess task](https://iter8.tools/0.11/user-guide/tasks/assess/) in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service) with additional SLOs based on [Iter8's built-in HTTP metrics](https://iter8.tools/0.11/user-guide/tasks/http/#metrics). Similarly, configure the [assess task](https://iter8.tools/0.11/user-guide/tasks/assess/) in the [gRPC tutorial](#tutorial-performance-test-for-knative-grpc-service) with additional SLOs based on [Iter8's built-in gRPC metrics](https://iter8.tools/0.11/user-guide/tasks/grpc/#metrics).

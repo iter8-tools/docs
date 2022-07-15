@@ -13,7 +13,7 @@ Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data 
 Iter8 experiments make it simple to collect performance and business metrics for apps and ML models, assess and compare one or more app/ML model versions, validate [service-level objectives (SLOs)](#service-level-objectives), promote the winning version, and maximize business value during each release.
 
 ### Tasks
-An experiment is a set of tasks that are executed in a specific sequence. Iter8 provides pre-defined tasks for various functions such as the following:
+An experiment is a set of configurable tasks that are executed in a specific sequence. Iter8 provides pre-defined tasks for various functions such as the following:
 
 1. Generating load and collecting Iter8's built-in metrics for HTTP services.
 2. Generating load and collecting Iter8's built-in metrics for gRPC services.
