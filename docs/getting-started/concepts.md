@@ -13,7 +13,7 @@ Iter8 supports the following use-cases.
 
 
 ## Iter8 experiment
-Iter8 introduces the notion of an experiment, which is a set of configurable tasks that are executed in a specific sequence.
+Iter8 introduces the notion of an experiment, which is a list of configurable tasks that are executed in a specific sequence.
 
 <p align='center'>
   <img alt-text="load-test-http" src="../../images/iter8-intro-dark.png" width="70%" />
