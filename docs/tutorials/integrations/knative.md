@@ -9,7 +9,7 @@ hide:
 
 > Launch performance tests for Knative services (HTTP and gRPC) and validate their service-level objectives (SLOs) **in seconds**.
 
-Performance testing is a core building block in the robust delivery of HTTP and gRPC services. One way to accomplish this is by sending a stream of requests to the target service, and evaluating the responses for error and latency-related violations. From a developer’s perspective, this approach involves three main considerations, namely, i) the load-related characteristics of the request stream, such as the request rate; ii) the shape of the requests, in particular, whether the service requires any payload/data to be sent as part of the requests; and iii) the service-level objectives (SLOs) used to validate the quality of the target service.
+Performance testing is a core building block in the robust delivery of HTTP and gRPC services. One way to accomplish this is by sending a stream of requests to the target service, and evaluating the responses for error and latency-related violations. From a developer’s perspective, this approach has three main considerations, namely, i) the load-related characteristics of the request stream, such as the request rate; ii) the shape of the requests, in particular, whether the service requires any payload/data to be sent as part of the requests; and iii) the service-level objectives (SLOs) used to validate the quality of the target service.
 
 You can use [Iter8](https://iter8.tools), the open source Kubernetes release optimizer, to flexibly launch performance tests for Knative services **in seconds**, with precise control over all of the above. This article shows how.
 
@@ -32,15 +32,16 @@ Iter8 packs a number of powerful features that facilitate Kubernetes app testing
 1.  **Generating load and collecting built-in metrics for HTTP and gRPC services.** Simplifies performance testing by eliminating the need to setup and use metrics databases.
 2.  **Well-defined notion of service-level objectives (SLOs).** Makes it simple to define and verify SLOs in experiments.
 3.  **Custom metrics.** Enables the use of custom metrics from any database(s) or REST API(s) in experiments.
-4.  **Readiness checks.** The performance testing portion of the experiment begins only after the service is ready.
+4.  **Readiness check.** The performance testing portion of the experiment begins only after the service is ready.
 5.  **HTML/text reports.** Promotes human understanding of experiment results through visual insights.
 6.  **Assertions.** Verifies whether the target app satisfies the specified SLOs or not after an experiment. Simplifies automation in CI/CD/GitOps pipelines: branch off into different paths depending upon whether the assertions are true or false.
-7.  **Multi-loop experiments.** Experiment loops are executed periodically. Experiment tasks (such as collecting metrics and assessing app versions) are evaluated during each loop of the experiment, and experiment results are updated with the latest assessments.
+7.  **Multi-loop experiments.** Experiment tasks can be executed periodically (multi-loop) instead of just once (single-loop). This enables Iter8 to refresh metric values and perform SLO validation with the latest metric values during each loop.
+8.  **Launch experiments anywhere.** Launch Iter8 experiments inside Kubernetes, in your local environment, or inside a GitHub Actions pipeline.
 
 
 ## Quick start
 
-Install the Iter8 CLI using `brew` as follows. You can also install using pre-built binaries, or use Iter8 inside a GitHub Actions pipeline as described [here](https://iter8.tools/0.11/getting-started/install/).
+Install the Iter8 CLI using `brew` as follows. You can also install using pre-built binaries as described [here](https://iter8.tools/0.11/getting-started/install/).
 
 ```shell
 brew tap iter8-tools/iter8
