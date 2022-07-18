@@ -58,7 +58,7 @@ Launch the Iter8 experiment as follows.
 iter8 k launch \
 --set "tasks={ready,http,assess}" \
 --set ready.ksvc=hello \
---set http.url=http://hello.default \
+--set http.url=http://hello.default.svc.cluster.local:80 \
 --set http.numRequests=100 \
 --set http.connections=10 \
 --set http.qps=20 \
@@ -132,7 +132,7 @@ Use the [Knative (`kn`) CLI](https://knative.dev/docs/client/install-kn/) to upd
 ```shell
 kn service update hello \
 --image docker.io/grpc/java-example-hostname:latest \
---port 50051 \
+--port h2c:50051 \
 --revision-name=grpc
 ```
 
@@ -142,7 +142,7 @@ Launch the Iter8 experiment as follows.
 iter8 k launch \
 --set "tasks={ready,grpc,assess}" \
 --set ready.ksvc=hello \
---set grpc.host="hello.default:50051" \
+--set grpc.host="hello.default.svc.cluster.local:80" \
 --set grpc.call="helloworld.Greeter.SayHello" \
 --set grpc.total=100 \
 --set grpc.concurrency=10 \
@@ -153,6 +153,7 @@ iter8 k launch \
 --set assess.SLOs.upper.grpc/latency/mean=400 \
 --set assess.SLOs.upper.grpc/latency/p90=500 \
 --set runner=job  \
+--set logLevel=debug \
 --noDownload
 ```
 

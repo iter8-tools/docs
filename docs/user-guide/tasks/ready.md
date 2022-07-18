@@ -21,8 +21,9 @@ iter8 k launch \
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| deploy  | string | Name of a Kubernetes deployment. The task checks if the deployment exists and its `available` condition is set to true. |
+| deploy  | string | Name of a Kubernetes deployment. The task checks if the deployment exists and its `Available` condition is set to true. |
 | service | string | Name of a Kubernetes service. The task checks if the service exists. |
+| ksvc | string | Name of a Knative service. The task checks if the service exists and its `Ready` condition is set to true. |
 | timeout | string | Timeout for readiness check to succeed. Default value is `60s`. |
 | namespace | string | The namespace under which to look for the Kubernetes objects. For experiments that run inside a Kubernetes cluster, the default value of this field is the [namespace of the Iter8 experiment](../topics/group.md); for experiments that run in the local environment, it is the [`default`](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) namespace. |
 
@@ -33,7 +34,7 @@ Iter8 can be easily extended to support readiness checks for any type of Kuberne
 
 ### Example
 
-Consider an extension that will enable experiment authors to define readiness check for [Knative services](https://knative.dev/docs/serving) as follows. The ready task should succeed if the Knative service named `httpbin` exists, and has its `Ready` condition set to true.
+Consider the Knative extension for this task, that enables Iter8 experiment authors to define readiness check for [Knative services](https://knative.dev/docs/serving). In the following example, the ready task succeed if the Knative service named `httpbin` exists, and has its `Ready` condition set to true.
 
 ```shell
 iter8 k launch \
@@ -43,10 +44,10 @@ iter8 k launch \
 --set runner=job
 ```
 
-The following changes to the `task.ready` and `k.role` templates will accomplish the above.
+The `task.ready` and `k.role` were changed in the following ways to accomplish the above.
 
 === "task.ready"
-    Define the group/version/resource (GVR) and the condition that should be checked for a Knative `Service`.
+    The group/version/resource (GVR) and the condition that should be checked for a Knative `Service` are defined in this template.
 
     ```yaml linenums="1"
     {{- if .Values.ready.ksvc }}
@@ -58,12 +59,7 @@ The following changes to the `task.ready` and `k.role` templates will accomplish
         version: v1
         resource: services
         condition: Ready
-    {{- if $namespace }}
-        namespace: {{ $namespace }}
-    {{- end }}
-    {{- if .Values.ready.timeout }}
-        timeout: {{ .Values.ready.timeout }}
-    {{- end }}
+    {{- include "task.ready.tn" . }}
     {{- end }}
     ```
 
@@ -72,7 +68,7 @@ The following changes to the `task.ready` and `k.role` templates will accomplish
 
     ```yaml linenums="1"
     {{- if .Values.ready.ksvc }}
-    - apiGroups: ["apps"]
+    - apiGroups: ["serving.knative.dev"]
       resourceNames: [{{ .Values.ready.ksvc | quote }}]
       resources: ["services"]
       verbs: ["get"]
