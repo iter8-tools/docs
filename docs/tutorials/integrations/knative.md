@@ -58,7 +58,7 @@ Launch the Iter8 experiment as follows.
 iter8 k launch \
 --set "tasks={ready,http,assess}" \
 --set ready.ksvc=hello \
---set http.url=http://httpbin.default/get \
+--set http.url=http://hello.default \
 --set http.numRequests=100 \
 --set http.connections=10 \
 --set http.qps=20 \
@@ -152,7 +152,8 @@ iter8 k launch \
 --set assess.SLOs.upper.grpc/error-rate=0 \
 --set assess.SLOs.upper.grpc/latency/mean=400 \
 --set assess.SLOs.upper.grpc/latency/p90=500 \
---set runner=job
+--set runner=job  \
+--noDownload
 ```
 
 #### About this experiment
@@ -163,6 +164,8 @@ This experiment consists of three tasks, namely, [ready](https://iter8.tools/0.1
 3.  The [assess](https://iter8.tools/0.11/user-guide/tasks/assess/) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 400 msec, and iii) the 90th percentile latency does not exceed 500 msec. 
 
 The value of the [runner](https://iter8.tools/0.11/getting-started/concepts/#runner) parameter is set to `job`, which enables Iter8 to use a [Kubernetes job workload](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to run this experiment.
+
+The Iter8 experiment chart was already downloaded as part of the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service) above. The `--noDownload` reuses the previously downloaded chart.
 
 #### View experiment report
 Once the experiment completes (~5 secs), view the experiment report as described in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service) above.
