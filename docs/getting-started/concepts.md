@@ -5,33 +5,38 @@ template: main.html
 # Iter8
 Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 makes it easy to ensure that Kubernetes apps and ML models perform well and maximize business value.
 
+Iter8 supports the following use-cases.
+1.  Performance testing and SLO validation of HTTP services.
+2.  Performance testing and SLO validation of gRPC services.
+3.  SLO validation using custom metrics from any database(s) or REST API(s).
+
+
 ## Iter8 experiment
+Iter8 introduces the notion of an experiment, which is a set of configurable tasks that are executed in a specific sequence.
+
 <p align='center'>
   <img alt-text="load-test-http" src="../../images/iter8-intro-dark.png" width="70%" />
 </p>
 
-Iter8 experiments make it simple to collect performance and business metrics for apps and ML models, assess and compare one or more app/ML model versions, validate [service-level objectives (SLOs)](#service-level-objectives), promote the winning version, and maximize business value during each release.
+Iter8 packs a number of powerful features that facilitate Kubernetes app testing and experimentation. They include the following.
 
-### Tasks
-An experiment is a set of configurable tasks that are executed in a specific sequence. Iter8 provides pre-defined tasks for various functions such as the following:
+1.  **Generating load and collecting built-in metrics for HTTP and gRPC services.** Simplifies performance testing by eliminating the need to setup and use metrics databases.
+2.  **Well-defined notion of service-level objectives (SLOs).** Makes it simple to define and verify SLOs in experiments.
+3.  **Custom metrics.** Enables the use of custom metrics from any database(s) or REST API(s) in experiments.
+4.  **Readiness check.** The performance testing portion of the experiment begins only after the service is ready.
+5.  **HTML/text reports.** Promotes human understanding of experiment results through visual insights.
+6.  **Assertions.** Verifies whether the target app satisfies the specified SLOs or not after an experiment. Simplifies automation in CI/CD/GitOps pipelines: branch off into different paths depending upon whether the assertions are true or false.
+7.  **Multi-loop experiments.** Experiment tasks can be executed periodically (multi-loop) instead of just once (single-loop). This enables Iter8 to refresh metric values and perform SLO validation using the latest metric values during each loop.
+8.  **Experiment anywhere.** Iter8 experiments can be launched inside a Kubernetes cluster, in local environments, or inside a GitHub Actions pipeline.
 
-1. Generating load and collecting Iter8's built-in metrics for HTTP services.
-2. Generating load and collecting Iter8's built-in metrics for gRPC services.
-3. Fetching metrics from databases and other REST APIs.
-4. Assessing [SLOs](#service-level-objectives) for app versions.
-5. Checking if app is ready.
-
-### Loops
-A single loop of an experiment involves the entire sequence of [tasks](#tasks) in the experiment executing once. You can configure experiments to loop once and finish (**single-loop**), or loop repeatedly over time (**multi-loop**).
-
-### Execution environments
-Experiments can run inside Kubernetes clusters, in the local environment, and within CI/CD/GitOps workflows including GitHub Actions workflows. Experiments that are executed inside Kubernetes clusters are referred to as **Kubernetes experiments**. All other experiments are referred to as **local experiments**.
+### Kubernetes experiments
+Experiments that are executed inside Kubernetes clusters are referred to as **Kubernetes experiments**. All other experiments are referred to as **local experiments**.
 
 ### Runner
-A [single-loop](#loops) [Kubernetes experiment](#execution-environments) uses the Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) workload as its runner. A [multi-loop](#loops) [Kubernetes experiment](#execution-environments) uses the Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) workload as its runner.
+A [single-loop](#iter8-experiment) [Kubernetes experiment](#execution-environments) uses the Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) workload as its runner. A [multi-loop](#iter8-experiment) [Kubernetes experiment](#execution-environments) uses the Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) workload as its runner.
 
 ### Specifying an experiment
-Specifying an Iter8 experiment involves specifying the list of [tasks](#tasks) executed during the experiment and their [parameters](../user-guide/topics/parameters.md). Additionally, Kubernetes experiments involve specifying the [runner](#runner).
+Specifying an Iter8 experiment involves specifying the [list of tasks executed during the experiment](#iter8-experiment) and their [parameters](../user-guide/topics/parameters.md). Additionally, [Kubernetes experiments](#kubernetes-experiments) involve specifying the [runner](#runner).
 
 ## Service-level objectives
 
