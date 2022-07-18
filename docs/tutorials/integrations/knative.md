@@ -1,8 +1,5 @@
 ---
 template: main.html
-hide:
-- navigation
-- toc
 ---
 
 # Dead Simple Performance Testing with SLOs
