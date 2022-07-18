@@ -64,7 +64,7 @@ The `task.ready` and `k.role` were changed in the following ways to create this 
     ```
 
 === "k.role"
-    The role named `{{ .Release.Name }}-ready` was extended with the Knative `apiGroup`.
+    The role named `{{ .Release.Name }}-ready` is extended with the Knative `apiGroup`.
 
     ```yaml linenums="1"
     {{- if .Values.ready.ksvc }}
