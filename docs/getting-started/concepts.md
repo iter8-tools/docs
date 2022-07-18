@@ -33,7 +33,7 @@ Iter8 packs a number of powerful features that facilitate Kubernetes app testing
 Experiments that are executed inside Kubernetes clusters are referred to as **Kubernetes experiments**. All other experiments are referred to as **local experiments**.
 
 ### Runner
-A [single-loop](#iter8-experiment) [Kubernetes experiment](#execution-environments) uses the Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) workload as its runner. A [multi-loop](#iter8-experiment) [Kubernetes experiment](#execution-environments) uses the Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) workload as its runner.
+A [single-loop](#iter8-experiment) [Kubernetes experiment](#kubernetes-experiments) uses the Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) workload as its runner. A [multi-loop](#iter8-experiment) [Kubernetes experiment](#kubernetes-experiments) uses the Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) workload as its runner.
 
 ### Specifying an experiment
 Specifying an Iter8 experiment involves specifying the [list of tasks executed during the experiment](#iter8-experiment) and their [parameters](../user-guide/topics/parameters.md). Additionally, [Kubernetes experiments](#kubernetes-experiments) involve specifying the [runner](#runner).

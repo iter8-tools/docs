@@ -4,7 +4,7 @@ template: main.html
 
 # SLO validation using custom metrics (single version)
 
-Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for an app by fetching the app's metrics from a database (like Prometheus). This is a [multi-loop](../../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../../getting-started/concepts.md#execution-environments).
+Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for an app by fetching the app's metrics from a database (like Prometheus). This is a [multi-loop](../../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../../getting-started/concepts.md#kubernetes-experiments).
 
 <p align='center'>
   <img alt-text="custom-metrics-one-version" src="../images/one-version.png" />
@@ -53,7 +53,7 @@ iter8 k launch \
     
     The [assess](../../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, and ii) the mean latency of the app does not exceed 100 msec. 
 
-    This is a [multi-loop](../../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../../getting-started/concepts.md#execution-environments). Hence, its [runner](../../getting-started/concepts.md#runners) value is set to `cronjob`. The `cronjobSchedule` expression specifies that each experiment loop (i.e., the sequence of tasks in the experiment) is scheduled for execution periodically once every minute. This enables Iter8 to refresh the metric values and perform SLO validation using the latest metric values during each loop.
+    This is a [multi-loop](../../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../../getting-started/concepts.md#kubernetes-experiments). Hence, its [runner](../../getting-started/concepts.md#runners) value is set to `cronjob`. The `cronjobSchedule` expression specifies that each experiment loop (i.e., the sequence of tasks in the experiment) is scheduled for execution periodically once every minute. This enables Iter8 to refresh the metric values and perform SLO validation using the latest metric values during each loop.
 
 ??? note "Some variations and extensions of this experiment"
     1. Perform [SLO validation for multiple versions of an app using custom metrics](two-or-more-versions.md).
