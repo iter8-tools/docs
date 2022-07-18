@@ -34,7 +34,7 @@ Iter8 can be easily extended to support readiness checks for any type of Kuberne
 
 ### Example
 
-Consider the Knative extension for this task, that enables Iter8 experiment authors to define readiness check for [Knative services](https://knative.dev/docs/serving). In the following example, the ready task succeed if the Knative service named `httpbin` exists, and has its `Ready` condition set to true.
+Consider the Knative extension for this task; this extension enables Iter8 experiment authors to define readiness check for [Knative services](https://knative.dev/docs/serving). In the following example, the ready task succeed if the Knative service named `httpbin` exists, and has its `Ready` condition set to true.
 
 ```shell
 iter8 k launch \
@@ -44,7 +44,7 @@ iter8 k launch \
 --set runner=job
 ```
 
-The `task.ready` and `k.role` were changed in the following ways to accomplish the above.
+The `task.ready` and `k.role` were changed in the following ways to create this extension.
 
 === "task.ready"
     The group/version/resource (GVR) and the condition that should be checked for a Knative `Service` are defined in this template.
@@ -64,7 +64,7 @@ The `task.ready` and `k.role` were changed in the following ways to accomplish t
     ```
 
 === "k.role"
-    Add the Knative `apiGroup` to the role named `{{ .Release.Name }}-ready`.
+    The role named `{{ .Release.Name }}-ready` was extended with the Knative `apiGroup`.
 
     ```yaml linenums="1"
     {{- if .Values.ready.ksvc }}
