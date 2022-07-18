@@ -167,13 +167,14 @@ This experiment consists of three tasks, namely, [ready](https://iter8.tools/0.1
 The value of the [runner](https://iter8.tools/0.11/getting-started/concepts/#runner) parameter is set to `job`, which enables Iter8 to use a [Kubernetes job workload](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to run this experiment.
 
 #### View experiment report
-Once the experiment completes (~5 secs), view the experiment report as described in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service).
+Once the experiment completes (~5 secs), view the experiment report as described in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service) above.
 
 ## What next?
 
 Try the following enhancements and variations of the above tutorials.
 
-1. Assert experiment outcomes, view experiment logs, and clean up the experiment as documented in [this example](https://iter8.tools/0.11/getting-started/your-first-experiment/).
-2. Run experiments in your local environment instead of a Kubernetes cluster. Local experimentation is documented in [this example](https://iter8.tools/0.11/tutorials/integrations/local/).
-3. Explore the parameters of the [`http` task](https://iter8.tools/0.11/user-guide/tasks/http/) used in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service), and the [`grpc` task](https://iter8.tools/0.11/user-guide/tasks/grpc/) used in the [gRPC tutorial](#tutorial-performance-test-for-knative-grpc-service). Configure load related parameters such as the number of requests, queries per second, duration, and the number of parallel connections as per your needs, and configure various types of request payloads. Use the [`grpc` task](https://iter8.tools/0.11/user-guide/tasks/grpc/) for performance testing of streaming gRPC.
-4. Configure the [assess task](https://iter8.tools/0.11/user-guide/tasks/assess/) used in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service) with other SLOs based on [Iter8's built-in HTTP metrics](https://iter8.tools/0.11/user-guide/tasks/http/#metrics). Similarly, configure the [assess task](https://iter8.tools/0.11/user-guide/tasks/assess/) used in the [gRPC tutorial](#tutorial-performance-test-for-knative-grpc-service) with other SLOs based on [Iter8's built-in gRPC metrics](https://iter8.tools/0.11/user-guide/tasks/grpc/#metrics).
+1. Explore the parameters of the [`http` task](https://iter8.tools/0.11/user-guide/tasks/http/) used in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service) above, and the [`grpc` task](https://iter8.tools/0.11/user-guide/tasks/grpc/) used in the [gRPC tutorial](#tutorial-performance-test-for-knative-grpc-service) above. Configure load related parameters such as the number of requests, queries per second, duration, and the number of parallel connections as per your needs, and configure various types of request payloads. Use the [`grpc` task](https://iter8.tools/0.11/user-guide/tasks/grpc/) for performance testing of streaming gRPC.
+2. Configure the [assess task](https://iter8.tools/0.11/user-guide/tasks/assess/) used in the [HTTP tutorial](#tutorial-performance-test-for-knative-http-service) above with other SLOs based on [Iter8's built-in HTTP metrics](https://iter8.tools/0.11/user-guide/tasks/http/#metrics). Similarly, configure the [assess task](https://iter8.tools/0.11/user-guide/tasks/assess/) used in the [gRPC tutorial](#tutorial-performance-test-for-knative-grpc-service) above with other SLOs based on [Iter8's built-in gRPC metrics](https://iter8.tools/0.11/user-guide/tasks/grpc/#metrics).
+3. Assert experiment outcomes, view experiment logs, and clean up the experiment as documented in [this example](https://iter8.tools/0.11/getting-started/your-first-experiment/).
+4. Run experiments in your local environment instead of a Kubernetes cluster. Local experimentation is documented in [this example](https://iter8.tools/0.11/tutorials/integrations/local/).
+
