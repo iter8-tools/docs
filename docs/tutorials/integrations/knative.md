@@ -36,7 +36,7 @@ Iter8 packs a number of powerful features that facilitate Kubernetes app testing
 5.  **HTML/text reports.** Promotes human understanding of experiment results through visual insights.
 6.  **Assertions.** Verifies whether the target app satisfies the specified SLOs or not after an experiment. Simplifies automation in CI/CD/GitOps pipelines: branch off into different paths depending upon whether the assertions are true or false.
 7.  **Multi-loop experiments.** Experiment tasks can be executed periodically (multi-loop) instead of just once (single-loop). This enables Iter8 to refresh metric values and perform SLO validation with the latest metric values during each loop.
-8.  **Launch experiments anywhere.** Launch Iter8 experiments inside Kubernetes, in your local environment, or inside a GitHub Actions pipeline.
+8.  **Launch experiments anywhere.** Iter8 experiments can be launched inside Kubernetes, in your local environment, or inside a GitHub Actions pipeline.
 
 
 ## Quick start
