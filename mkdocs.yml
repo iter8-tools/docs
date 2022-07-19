@@ -127,6 +127,7 @@ nav:
     - Local environment: tutorials/integrations/local.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Istio: tutorials/integrations/istio.md
+    - Knative: tutorials/integrations/knative.md
     - Kserve: tutorials/integrations/kserve.md
     - Seldon: tutorials/integrations/seldon.md
     - Litmus: tutorials/integrations/litmus.md
