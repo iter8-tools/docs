@@ -4,7 +4,7 @@ template: main.html
 
 # Namespaces and groups for Kubernetes experiments
 
-[Kubernetes experiments](../../getting-started/concepts.md#execution-environments) are launched within a [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/), and are associated with a unique *group* within that namespace.
+[Kubernetes experiments](../../getting-started/concepts.md#kubernetes-experiments) are launched within a [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/), and are associated with a unique *group* within that namespace.
 
 For example, consider the following invocation:
 
