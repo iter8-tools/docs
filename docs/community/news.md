@@ -5,6 +5,12 @@ hide:
 ---
 
 # News and Announcements
+* **June 2022:**  Iter8 at Open Source Summit. Video coming soon. [Conference details](https://events.linuxfoundation.org/open-source-summit-north-america/)
+    
+* **May 2022:**  IBM Developer blog article by Srinivasan Parthasarathy: [Dead simple benchmarking and SLO validation for Kubernetes services](https://developer.ibm.com/articles/dead-simple-benchmarking-and-slo-validation-for-kubernetes-services/)
+
+* **March 2022:**  New Stack blog article by Michael Kalantar: [Simple Load Testing with GitHub Actions](https://thenewstack.io/simple-load-testing-with-github-actions/)
+    
 * **Feb 2022:**  The New Stack blog article on [Simple HTTP Load Testing with SLOs](https://thenewstack.io/simple-http-load-testing-with-slos/)
 
 * **Nov 2021:** Iter8 at ACM Symposium on Cloud Computing. Full paper [here](https://github.com/sriumcp/papers/blob/main/socc2021-final106.pdf)
@@ -12,15 +18,14 @@ hide:
     ![SLO Validation](images/socc-thumbnail.jpg)
     
 ???+ note "Iter8 v0.7 and older"
+    
     * **Oct 2021:**  New Stack blog article by Hai Huang: [Progressive Delivery on OpenShift](https://thenewstack.io/progressive-delivery-on-openshift/)
-
 
     ***
 
     * **Oct 2021:** Iter8 at PREVAIL conference. Video coming soon. [Conference details](https://www.ibm.com/blogs/academy-of-technology/events/)
 
     ***
-
 
     * **Oct 2021:**  New Stack blog article by Srinivasan Parthasarathy: [Validate Service-Level Objectives of REST APIs Using Iter8](https://thenewstack.io/validate-service-level-objectives-of-rest-apis-using-iter8/)
 
