@@ -5,13 +5,21 @@ hide:
 ---
 
 # News and Announcements
-* **June 2022:**  Iter8 at Open Source Summit. Video coming soon. [Conference details](https://events.linuxfoundation.org/open-source-summit-north-america/)
-    
-* **May 2022:**  IBM Developer blog article by Srinivasan Parthasarathy: [Dead simple benchmarking and SLO validation for Kubernetes services](https://developer.ibm.com/articles/dead-simple-benchmarking-and-slo-validation-for-kubernetes-services/)
+* **October 2022:** Iter8 at KubeCon. Coming soon. [Conference details](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/)
 
-* **March 2022:**  New Stack blog article by Michael Kalantar: [Simple Load Testing with GitHub Actions](https://thenewstack.io/simple-load-testing-with-github-actions/)
+* **August 2022:** ITNEXT article by Alan Cha. [Performance testing with Iter8, now with custom metrics!](https://itnext.io/performance-testing-with-iter8-now-with-custom-metrics-8c97bb7449c8)
+
+* **August 2022:** Knative blog article by Srinivasan Parthasarathy. [Simple Performance Testing with SLOs](https://knative.dev/blog/articles/performance-test-with-slos/)
+
+* **June 2022:** Iter8 at Open Source Summit. Video coming soon. [Conference details](https://events.linuxfoundation.org/open-source-summit-north-america/)
     
-* **Feb 2022:**  The New Stack blog article on [Simple HTTP Load Testing with SLOs](https://thenewstack.io/simple-http-load-testing-with-slos/)
+* **May 2022:** IBM Developer blog article by Srinivasan Parthasarathy: [Dead simple benchmarking and SLO validation for Kubernetes services](https://developer.ibm.com/articles/dead-simple-benchmarking-and-slo-validation-for-kubernetes-services/)
+
+* **May 2022:** New Stack blog article by Srinivasan Parthasarathy: [Iter8 Unifies Performance Validation for gRPC and HTTP](https://thenewstack.io/iter8-unifies-performance-validation-for-grpc-and-http/)
+
+* **March 2022:** New Stack blog article by Michael Kalantar: [Simple Load Testing with GitHub Actions](https://thenewstack.io/simple-load-testing-with-github-actions/)
+    
+* **Feb 2022:** New Stack blog article on [Simple HTTP Load Testing with SLOs](https://thenewstack.io/simple-http-load-testing-with-slos/)
 
 * **Nov 2021:** Iter8 at ACM Symposium on Cloud Computing. Full paper [here](https://github.com/sriumcp/papers/blob/main/socc2021-final106.pdf)
 
@@ -19,7 +27,7 @@ hide:
     
 ???+ note "Iter8 v0.7 and older"
     
-    * **Oct 2021:**  New Stack blog article by Hai Huang: [Progressive Delivery on OpenShift](https://thenewstack.io/progressive-delivery-on-openshift/)
+    * **Oct 2021:** New Stack blog article by Hai Huang: [Progressive Delivery on OpenShift](https://thenewstack.io/progressive-delivery-on-openshift/)
 
     ***
 
@@ -27,7 +35,7 @@ hide:
 
     ***
 
-    * **Oct 2021:**  New Stack blog article by Srinivasan Parthasarathy: [Validate Service-Level Objectives of REST APIs Using Iter8](https://thenewstack.io/validate-service-level-objectives-of-rest-apis-using-iter8/)
+    * **Oct 2021:** New Stack blog article by Srinivasan Parthasarathy: [Validate Service-Level Objectives of REST APIs Using Iter8](https://thenewstack.io/validate-service-level-objectives-of-rest-apis-using-iter8/)
 
     ***
 
