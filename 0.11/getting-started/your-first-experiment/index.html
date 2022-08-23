@@ -26,27 +26,36 @@ tar -xvf iter8-windows-amd64.tar.gz
 
   Experiment completed: <span class=nb>true</span>
   No task failures: <span class=nb>true</span>
-  Total number of tasks: <span class=m>1</span>
-  Number of completed tasks: <span class=m>1</span>
+  Total number of tasks: <span class=m>4</span>
+  Number of completed tasks: <span class=m>4</span>
+
+Whether or not service level objectives <span class=o>(</span>SLOs<span class=o>)</span> are satisfied:
+*************************************************************
+
+  SLO Conditions                 <span class=p>|</span>Satisfied
+  --------------                 <span class=p>|</span>---------
+  http/error-count &lt;<span class=o>=</span> <span class=m>0</span>          <span class=p>|</span><span class=nb>true</span>
+  http/latency-mean <span class=o>(</span>msec<span class=o>)</span> &lt;<span class=o>=</span> <span class=m>50</span> <span class=p>|</span><span class=nb>true</span>
+
 
 Latest observed values <span class=k>for</span> metrics:
 ***********************************
 
-  Metric                              <span class=p>|</span>value
-  -------                             <span class=p>|</span>-----
-  built-in/http-error-count           <span class=p>|</span><span class=m>0</span>.00
-  built-in/http-error-rate            <span class=p>|</span><span class=m>0</span>.00
-  built-in/http-latency-max <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>203</span>.78
-  built-in/http-latency-mean <span class=o>(</span>msec<span class=o>)</span>   <span class=p>|</span><span class=m>17</span>.00
-  built-in/http-latency-min <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>4</span>.20
-  built-in/http-latency-p50 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>10</span>.67
-  built-in/http-latency-p75 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>12</span>.33
-  built-in/http-latency-p90 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>14</span>.00
-  built-in/http-latency-p95 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>15</span>.67
-  built-in/http-latency-p99 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>202</span>.84
-  built-in/http-latency-p99.9 <span class=o>(</span>msec<span class=o>)</span>  <span class=p>|</span><span class=m>203</span>.69
-  built-in/http-latency-stddev <span class=o>(</span>msec<span class=o>)</span> <span class=p>|</span><span class=m>37</span>.94
-  built-in/http-request-count         <span class=p>|</span><span class=m>100</span>.00
+  Metric                     <span class=p>|</span>value
+  -------                    <span class=p>|</span>-----
+  http/error-count           <span class=p>|</span><span class=m>0</span>.00
+  http/error-rate            <span class=p>|</span><span class=m>0</span>.00
+  http/latency-max <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>19</span>.74
+  http/latency-mean <span class=o>(</span>msec<span class=o>)</span>   <span class=p>|</span><span class=m>5</span>.27
+  http/latency-min <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>1</span>.16
+  http/latency-p50 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>4</span>.67
+  http/latency-p75 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>7</span>.00
+  http/latency-p90 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>9</span>.50
+  http/latency-p95 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>11</span>.33
+  http/latency-p99 <span class=o>(</span>msec<span class=o>)</span>    <span class=p>|</span><span class=m>18</span>.00
+  http/latency-p99.9 <span class=o>(</span>msec<span class=o>)</span>  <span class=p>|</span><span class=m>19</span>.56
+  http/latency-stddev <span class=o>(</span>msec<span class=o>)</span> <span class=p>|</span><span class=m>3</span>.28
+  http/request-count         <span class=p>|</span><span class=m>100</span>.00
 </code></pre></div> </details> </div> <div class=tabbed-block> <div class=highlight><pre><span></span><code>iter8 k report -o html &gt; report.html <span class=c1># view in a browser</span>
 </code></pre></div> <details class=note> <summary>The HTML report looks like this</summary> <p><img alt="HTML report" src=../images/report.html.png></p> </details> </div> </div> </div> <hr> <h2 id=view-experiment-logs>View experiment logs<a class=headerlink href=#view-experiment-logs title="Permanent link">&para;</a></h2> <p>Logs are useful when debugging an experiment.</p> <div class=highlight><pre><span></span><code>iter8 k log
 </code></pre></div> <details class=note> <summary>Sample experiment logs</summary> <div class=highlight><pre><span></span><code>INFO<span class=o>[</span><span class=m>2022</span>-06-27 <span class=m>11</span>:50:39<span class=o>]</span> inited Helm config                           
