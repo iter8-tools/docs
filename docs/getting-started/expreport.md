@@ -10,27 +10,36 @@
 
           Experiment completed: true
           No task failures: true
-          Total number of tasks: 1
-          Number of completed tasks: 1
+          Total number of tasks: 4
+          Number of completed tasks: 4
+
+        Whether or not service level objectives (SLOs) are satisfied:
+        *************************************************************
+
+          SLO Conditions                 |Satisfied
+          --------------                 |---------
+          http/error-count <= 0          |true
+          http/latency-mean (msec) <= 50 |true
+          
 
         Latest observed values for metrics:
         ***********************************
 
-          Metric                              |value
-          -------                             |-----
-          built-in/http-error-count           |0.00
-          built-in/http-error-rate            |0.00
-          built-in/http-latency-max (msec)    |203.78
-          built-in/http-latency-mean (msec)   |17.00
-          built-in/http-latency-min (msec)    |4.20
-          built-in/http-latency-p50 (msec)    |10.67
-          built-in/http-latency-p75 (msec)    |12.33
-          built-in/http-latency-p90 (msec)    |14.00
-          built-in/http-latency-p95 (msec)    |15.67
-          built-in/http-latency-p99 (msec)    |202.84
-          built-in/http-latency-p99.9 (msec)  |203.69
-          built-in/http-latency-stddev (msec) |37.94
-          built-in/http-request-count         |100.00
+          Metric                     |value
+          -------                    |-----
+          http/error-count           |0.00
+          http/error-rate            |0.00
+          http/latency-max (msec)    |19.74
+          http/latency-mean (msec)   |5.27
+          http/latency-min (msec)    |1.16
+          http/latency-p50 (msec)    |4.67
+          http/latency-p75 (msec)    |7.00
+          http/latency-p90 (msec)    |9.50
+          http/latency-p95 (msec)    |11.33
+          http/latency-p99 (msec)    |18.00
+          http/latency-p99.9 (msec)  |19.56
+          http/latency-stddev (msec) |3.28
+          http/request-count         |100.00
         ```
 
 === "HTML"
