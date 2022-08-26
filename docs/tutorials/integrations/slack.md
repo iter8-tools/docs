@@ -4,17 +4,19 @@ template: main.html
 
 # Use Iter8 to send a message to a Slack channel
 
-Iter8 provides a `slack` task that sends a message to a Slack channel using a [webhook](https://api.slack.com/messaging/webhooks).
-
-The `slack` task has the following parameters:
-
-| Name | Type | Required | Default value | Description |
-| ---- | ---- | -------- | ------------- | ----------- |
-| url | string | Yes | N/A | URL to the Slack webhook |
-| payloadTemplateURL | string | No | [https://raw.githubusercontent.com/iter8-tools/hub/main/templates/_payload-slack.tpl](https://raw.githubusercontent.com/iter8-tools/hub/main/templates/_payload-slack.tpl) | URL to a payload template |
-| softFailure | bool | No | true | Indicates the task and experiment should not fail if the task cannot successfully send the request |
+Iter8 provides a [`slack` task](../..user-guide/tasks/slack)  that sends a message to a Slack channel using a [webhook](https://api.slack.com/messaging/webhooks).
 
 ## Example
+
+In this example, you will run the [Your First Experiment](../../getting-started/your-first-experiment.md) but at the end of the experiment, Iter8 will send a message on Slack. 
+
+The message will simply contain the experiment report in text form. However, you can easily construct a more sophisticated message by providing your own payload template.
+
+This task could provide important updates on an experiment over Slack, for example a summary at the end of an experiment.
+
+To summarize what will happen, you will create a new channel on Slack and configure a webhook, set up and run an experiment, and check if a message was sent to the channel.
+
+The `slack` task requires the URL of the Slack webhook. To see a full list of the `github` task parameters, see [here](../../user-guide/tasks/slack.md#parameters).
 
 1. Create a new channel in your Slack organization.
 2. Create a Slack app, enable incoming webhooks, and create a new incoming webhook. See [here](https://api.slack.com/messaging/webhooks).
@@ -32,7 +34,7 @@ iter8 launch \
 --set http.url=http://127.0.0.1/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
 --set assess.SLOs.upper.http/error-count=0 \
---set slack.url="<Slack webhook>" \
+--set slack.url=<Slack webhook> \
 --set slack.method=POST \
 --set runner=job
 ```

@@ -2,6 +2,8 @@
 template: main.html
 ---
 
+There are two ways that you can use Iter8 with GitHub. You can [run Iter8 CLI within a GitHub Actions workflow](#use-iter8-in-a-github-actions-workflow) and you can also [use Iter8 to trigger a GitHub Actions workflow](#use-iter8-to-trigger-a-github-actions-workflow) in the context of an experiment.
+
 # Use Iter8 in a GitHub Actions workflow
 
 Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.11`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
@@ -23,24 +25,22 @@ Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.11`. Onc
 
 # Use Iter8 to trigger a GitHub Actions workflow
 
-Iter8 provides a `github` task that sends a [repository_dispatch](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
-
-The `github` task has the following parameters:
-
-| Name | Type | Required | Default value | Description |
-| ---- | ---- | -------- | ------------- | ----------- |
-| owner | string | Yes | N/A | Owner of the GitHub repository |
-| repo | string | Yes | N/A | GitHub repository |
-| token | string | Yes | N/A | Authorization token |
-| payloadTemplateURL | string | No | [https://raw.githubusercontent.com/iter8-tools/hub/main/templates/_payload-github.tpl](https://raw.githubusercontent.com/iter8-tools/hub/main/templates/_payload-github.tpl) | URL to a payload template |
-| softFailure | bool | No | true | Indicates the task and experiment should not fail if the task cannot successfully send the request |
+Iter8 provides a [`github` task](../..user-guide/tasks/github) that sends a [repository_dispatch](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
 
 ## Example
+
+In this example, you will run the [Your First Experiment](../../getting-started/your-first-experiment.md) but at the end of the experiment, Iter8 will trigger a workflow on GitHub.
+
+In this simple example, the workflow will simply print out the experiment report that it will receive with the `repository_dispatch`. In a more sophisticated scenario, the workflow could, for example, read from the experiment report and based on whether or not task failured or metrics did not meet SLOs, determine what to do next. In a GitOps scenario, it could make changes to the Git repo, promote winners, or restart pipelines among other things.
+
+To summarize what will happen, you will create a new GitHub repo, add a workflow that will respond to the `github` task, set up and run an experiment, and check if the workflow was triggered.
+
+The `github` task requires the name of a repo, the name of the owner, as well as an authentication token in order to send the `repository_dispatch`. To see a full list of the `github` task parameters, see [here](../../user-guide/tasks/github.md#parameters).
 
 1. Create a new repository on GitHub.
 2. Add the following workflow.
 ```yaml
-name: iter8 notify test
+name: iter8 `github` task test
 on:
   repository_dispatch:
     types: iter8

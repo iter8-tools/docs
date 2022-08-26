@@ -140,9 +140,10 @@ nav:
   - Tasks:
     - assess: user-guide/tasks/assess.md
     - custommetrics: user-guide/tasks/custommetrics.md
+    - github: user-guide/tasks/github.md
     - grpc: user-guide/tasks/grpc.md
     - http: user-guide/tasks/http.md
-    - notify: user-guide/tasks/notify.md
+    - slack: user-guide/tasks/slack.md
     - ready: user-guide/tasks/ready.md
   - Topics:
     - Experiment parameters: user-guide/topics/parameters.md
