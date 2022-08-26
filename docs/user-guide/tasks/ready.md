@@ -7,6 +7,7 @@ template: main.html
 Check if a Kubernetes object exists and is ready.
 
 ## Usage example
+
 In the following example, the `ready` task checks if a deployment named `httpbin-prod` exists and its [availability condition](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) is set to true, and a service named `httpbin` exists.
 ```shell
 iter8 k launch \

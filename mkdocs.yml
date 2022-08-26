@@ -125,11 +125,12 @@ nav:
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md
   - Integrations:
     - Local environment: tutorials/integrations/local.md
-    - GitHub Actions: tutorials/integrations/ghactions.md
+    - GitHub: tutorials/integrations/github.md
     - Istio: tutorials/integrations/istio.md
     - Knative: tutorials/integrations/knative.md
     - Kserve: tutorials/integrations/kserve.md
     - Seldon: tutorials/integrations/seldon.md
+    - Slack:  tutorials/integrations/slack.md
     - Litmus: tutorials/integrations/litmus.md
     - Linkerd: tutorials/integrations/linkerd.md
   - Earlier versions:
@@ -141,6 +142,7 @@ nav:
     - custommetrics: user-guide/tasks/custommetrics.md
     - grpc: user-guide/tasks/grpc.md
     - http: user-guide/tasks/http.md
+    - notify: user-guide/tasks/notify.md
     - ready: user-guide/tasks/ready.md
   - Topics:
     - Experiment parameters: user-guide/topics/parameters.md

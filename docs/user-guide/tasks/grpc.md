@@ -7,6 +7,7 @@ template: main.html
 Generate requests for a gRPC service and and collect [latency and error-related metrics](#metrics).
 
 ## Usage example
+
 In this experiment, the `grpc` task generates call requests for a gRPC service hosted at `hello.default:50051`, defined in the [protobuf](https://developers.google.com/protocol-buffers) file located at `grpc.protoURL`, with a gRPC method named `helloworld.Greeter.SayHello`. Metrics collected by this task are used by the `assess` task to validate SLOs.
 
 ```
@@ -32,8 +33,6 @@ In addition, the following fields are defined by this task.
 | dataURL  | string (URL) | URL where JSON data to be used in call requests is located. |
 | binaryDataURL  | string (URL) | URL where binary data to be used in call requests is located. |
 | metadataURL  | string (URL) | URL where the JSON metadata data to be used in call requests is located. |
-
-
 
 ## Metrics
 
