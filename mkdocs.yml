@@ -125,7 +125,7 @@ nav:
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md
   - Integrations:
     - Local environment: tutorials/integrations/local.md
-    - GitHub: tutorials/integrations/github.md
+    - GitHub Actions: tutorials/integrations/ghactions.md
     - Istio: tutorials/integrations/istio.md
     - Knative: tutorials/integrations/knative.md
     - Kserve: tutorials/integrations/kserve.md

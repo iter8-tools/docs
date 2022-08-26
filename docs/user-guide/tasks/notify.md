@@ -25,7 +25,7 @@ iter8 launch \
 --set runner=job
 ```
 
-In this example, the `github` task triggers GitHub workflows in a particular GitHub repository. See [here](../../tutorials/integrations/github.md#use-iter8-to-trigger-a-github-actions-workflow) for more information.
+In this example, the `github` task triggers GitHub workflows in a particular GitHub repository. See [here](../../tutorials/integrations/ghactions.md#use-iter8-to-trigger-a-github-actions-workflow) for more information.
 
 ```shell
 iter8 launch \
