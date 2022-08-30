@@ -130,6 +130,7 @@ nav:
     - Knative: tutorials/integrations/knative.md
     - Kserve: tutorials/integrations/kserve.md
     - Seldon: tutorials/integrations/seldon.md
+    - Slack:  tutorials/integrations/slack.md
     - Litmus: tutorials/integrations/litmus.md
     - Linkerd: tutorials/integrations/linkerd.md
   - Earlier versions:
@@ -139,8 +140,10 @@ nav:
   - Tasks:
     - assess: user-guide/tasks/assess.md
     - custommetrics: user-guide/tasks/custommetrics.md
+    - github: user-guide/tasks/github.md
     - grpc: user-guide/tasks/grpc.md
     - http: user-guide/tasks/http.md
+    - slack: user-guide/tasks/slack.md
     - ready: user-guide/tasks/ready.md
   - Topics:
     - Experiment parameters: user-guide/topics/parameters.md

@@ -7,6 +7,7 @@ template: main.html
 Generate requests for an HTTP service and and collect [latency and error-related metrics](#metrics).
 
 ## Usage example
+
 In this experiment, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. The metrics are used by the `assess` task to validate SLOs.
 
 ```
@@ -30,7 +31,6 @@ iter8 launch \
 | payloadURL  | string (URL) | URL from which to download the content that will be used as the request payload. If this field is specified, Iter8 will send HTTP POST requests to the app using this content as the payload. |
 | payloadStr  | string | String data to be used as the request payload. If this field is specified, Iter8 will send HTTP POST requests to the app using this string as the payload. |
 | contentType  | string | Content type of the payload. This is intended to be used in conjunction with one of the `payload*` fields. If this field is specified, Iter8 will send HTTP POST requests to the app using this as the Content-Type header value. |
-
 
 ## Metrics
 

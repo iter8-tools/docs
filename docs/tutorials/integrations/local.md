@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Running experiments in the local environment
+# Run experiments in the local environment
 
 Iter8 can be used to run experiments in the local environment as in the following example. In contrast to Kubernetes experiment launch, the local launch **does not** use the `k` subcommand.
 
