@@ -7,6 +7,7 @@ template: main.html
 Assess if [service-level objectives (SLOs)](../../getting-started/concepts.md#service-level-objectives) are satisfied by app versions.
 
 ## Usage example
+
 In this experiment, the `assess` task validates if the `http/latency-mean` metric has a value that does not exceed 50, and the `http/error-count` metric has a value that does not exceed 0.
 ```
 iter8 launch \
@@ -27,7 +28,6 @@ iter8 launch \
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | upper  | map[string]float | Map keys are [fully-qualified metric names](../topics/metrics.md#fully-qualified-names) and map values are upper limits of those metrics.  |
-
 
 ### lower
 

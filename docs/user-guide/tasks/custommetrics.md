@@ -2,15 +2,12 @@
 template: main.html
 ---
 
----
-template: main.html
----
-
 # custommetrics
 
 Fetch metrics from databases (like Prometheus) and other REST APIs.
 
 ## Usage Example
+
 In this example, the `custommetrics` task fetches metrics from the Prometheus database that is created by [Istio's Prometheus add-on](https://istio.io/latest/docs/ops/integrations/prometheus/). 
 
 ```shell
@@ -25,7 +22,6 @@ iter8 k launch \
 --set cronjobSchedule="*/1 * * * *"
 ```
 
-
 ## Parameters
 
 | Name | Type | Description |
@@ -33,7 +29,6 @@ iter8 k launch \
 | templates  | map[string]string | A map where each key is the name of a [provider](../topics/metrics.md#provider), and the corresponding value is a URL containing the [provider template](#provider-template). |
 | values  | map[string]interface{} | A map that contains the values for variables in [provider templates](#provider-template). When there are two or more app versions, this map contains values that are common to all versions. |
 | versionValues  | []map[string]interface{} | An array that contains version-specific values for variables in [provider templates](#provider-template). While fetching metrics for version `i`, the task merges `values` with `versionValues[i]` (latter takes precedence), and the merged map contains the values for variables in provider templates. |
-
 
 ## How it works
 
