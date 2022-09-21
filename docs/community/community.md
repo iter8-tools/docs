@@ -6,7 +6,7 @@ template: main.html
 
 ## Meetings
 
-Everyone is welcome to join our community meetings. They are on the 3rd Wednesday of each month from 11:00 AM – 12:00 PM EST/EDT. Here is the [meeting link](https://meet.google.com/vzn-viec-dbs).
+Everyone is welcome to join our community meetings. They are usually on the 3rd Wednesday of each month from 11:00 AM – 12:00 PM EST/EDT. All community meetings will be announced on [Iter8 Slack](#slack) in advance. Here is the [meeting link](https://meet.google.com/vzn-viec-dbs).
 
 [View the calendar](https://calendar.google.com/calendar/embed?src=6ck3asgicl9jfgjhkqq1bogen4%40group.calendar.google.com&ctz=America%2FNew_York) or subscribe ([Google Calendar](https://calendar.google.com/calendar/u/3?cid=NmNrM2FzZ2ljbDlqZmdqaGtxcTFib2dlbjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ), [iCalendar file](https://calendar.google.com/calendar/ical/6ck3asgicl9jfgjhkqq1bogen4%40group.calendar.google.com/public/basic.ics)).
 
