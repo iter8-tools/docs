@@ -124,6 +124,7 @@ nav:
   - Custom metrics:
     - One version: tutorials/custom-metrics/one-version.md
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md
+  - A/B experiment: tutorials/abn/abn.md
   - Integrations:
     - Local environment: tutorials/integrations/local.md
     - GitHub Actions: tutorials/integrations/ghactions.md
@@ -139,6 +140,7 @@ nav:
     - Docs for Iter8 v0.7: https://iter8-tools.github.io/iter8/0.7/
 - User guide:
   - Tasks:
+    - abnmetrics: user-guide/tasks/abnmetrics.md
     - assess: user-guide/tasks/assess.md
     - custommetrics: user-guide/tasks/custommetrics.md
     - github: user-guide/tasks/github.md
