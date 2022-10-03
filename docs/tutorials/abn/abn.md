@@ -53,7 +53,7 @@ If not already deployed, deploy the Iter8 A/B(/n) service. Specify which Kuberne
 ```shell
 helm install iter8-abn iter8/iter8-abn \
 --set resources='{deployments,services}' \
---set namespaces='{default}'     --set logLevel=trace --set image=kalantar/iter8:abn
+--set namespaces='{default}'     --set image=iter8/iter8:0.11
 ```
 
 ??? warn "Currently supported resource types"
@@ -86,18 +86,17 @@ To terminate traffic to the candidate version, remove the `iter8.tools/abn` labe
     The Iter8 watches resources where the label `iter8-tools/abn` set to `true`. The following labels are expected to be present identifying the role of the resource in an A/B(/n) experiment. Note that an application _version_ might be composed of multiple resources. Iter8 expects only 1 of these resources to be labeled
 
     1. `app.kubernetes.io/name`: application name
-    2. `app.kubernetes.io/version`" version name
+    2. `app.kubernetes.io/version`: version name
     3. `iter8-tools/track`: track identifier (used for routing)
 
 ## Launch experiment
 
 ```shell
-# iter8 k launch \
-go run main.go k launch \
+iter8 k launch \
 --set abnmetrics.application=default/backend \
 --set "tasks={abnmetrics}" \
 --set runner=cronjob \
---set cronjobSchedule="*/1 * * * *"     -l trace --noDownload --set logLevel=trace --set iter8Image=kalantar/iter8:abn
+--set cronjobSchedule="*/1 * * * *"
 ```
 
 This experiment periodically (once a minute) reads the `abn` metrics associated with the `backend` application in the `default` namespace.
@@ -105,8 +104,7 @@ This experiment periodically (once a minute) reads the `abn` metrics associated 
 ## Inspect experiment report
 
 ```shell
-# iter8 k report
-go run main.go k report
+iter8 k report
 ```
 
 ??? note "Sample output from report"
@@ -159,8 +157,7 @@ kubectl delete deployment backend-candidate
 ### Delete the experiment
 
 ```shell
-# iter8 k delete
-go run main.go k delete
+iter8 k delete
 ```
 
 ### Delete the A/B(/n) service
