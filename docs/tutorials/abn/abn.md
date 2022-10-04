@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# A/B Experiment
+# A/B Experiments
 
 Given two versions of an application component, compare their metrics to determine a winner. 
 
@@ -37,13 +37,7 @@ Given two versions of an application component, compare their metrics to determi
     ```shell
     watch -x curl -s localhost:8090/buy -H "X-User: foobar"
     ```
-    4. Add (and/or) update the Iter8 helm repository:
-    ```shell
-    helm repo add iter8 https://iter8-tools.github.io/hub
-    ```
-    ```shell
-    helm repo update
-    ```
+
 ***
 
 ## Launch Iter8 A/B(/n) service
@@ -51,7 +45,7 @@ Given two versions of an application component, compare their metrics to determi
 If not already deployed, deploy the Iter8 A/B(/n) service. Specify which Kubernetes resource(s) to watch in which namespaces.
 
 ```shell
-helm install iter8-abn iter8/iter8-abn \
+helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
 --set resources='{deployments,services}' \
 --set namespaces='{default}'     --set image=iter8/iter8:0.11
 ```
