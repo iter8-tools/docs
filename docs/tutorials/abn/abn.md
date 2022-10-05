@@ -27,7 +27,7 @@ Given two versions of an application component, compare their metrics to determi
     | kubectl apply -f -
     kubectl label deployment backend iter8.tools/abn=true
     ```
-    3. Generate load.  In separate shells, port-forward requests to the frontend service and generate load for multiple users.  For example:
+    3. Generate load. In separate shells, port-forward requests to the frontend service and generate load for multiple users.  For example:
     ```shell
     kubectl port-forward svc/frontend 8090:8090
     ```
@@ -47,7 +47,7 @@ If not already deployed, deploy the Iter8 A/B(/n) service. Specify which Kuberne
 ```shell
 helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
 --set resources='{deployments,services}' \
---set namespaces='{default}'     --set image=iter8/iter8:0.11
+--set namespaces='{default}'
 ```
 
 ??? warn "Currently supported resource types"
@@ -77,7 +77,7 @@ Once labeled, subsequent requests for a backend will include the candidate versi
 To terminate traffic to the candidate version, remove the `iter8.tools/abn` label.
 
 ??? note "Details about labels"
-    The Iter8 watches resources where the label `iter8-tools/abn` set to `true`. The following labels are expected to be present identifying the role of the resource in an A/B(/n) experiment. Note that an application _version_ might be composed of multiple resources. Iter8 expects only 1 of these resources to be labeled
+    The Iter8 watches resources where the label `iter8-tools/abn` is set to `true`. The following labels are expected to be present; they identify the role of the resource in an A/B(/n) experiment. Note that an application _version_ might be composed of multiple resources. Iter8 expects only one of these resources to be labeled.
 
     1. `app.kubernetes.io/name`: application name
     2. `app.kubernetes.io/version`: version name
