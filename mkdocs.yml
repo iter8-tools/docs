@@ -120,6 +120,7 @@ nav:
 - Tutorials:
   - Load test HTTP with SLOs: tutorials/load-test-http.md
   - Load test gRPC with SLOs: tutorials/load-test-grpc.md
+  - SLO validation with chaos: tutorials/chaos/slo-validation-chaos.md
   - Custom metrics:
     - One version: tutorials/custom-metrics/one-version.md
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md
