@@ -30,9 +30,9 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     ```shell
     helm install httpbin litmuschaos \
     --repo https://iter8-tools.github.io/hub/ \
-    --set applabel='app.kubernetes.io/name=httpbin' \
+    --set applabel='app=httpbin' \
     --set totalChaosDuration=3600 \
-    --set chaosInterval=2
+    --set chaosInterval=0
     ```
 
     ??? note "About this LitmusChaos experiment"
@@ -55,6 +55,8 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     --set ready.chaosengine=litmuschaos-httpbin \
     --set ready.timeout=60s \
     --set http.url=http://httpbin.default/get \
+    --set http.duration=30s \
+    --set http.qps=20 \
     --set assess.SLOs.upper.http/latency-mean=50 \
     --set assess.SLOs.upper.http/error-count=0 \
     --set runner=job
@@ -67,17 +69,18 @@ Launch the LitmusChaos and Iter8 experiments as described below.
 Observe the LitmusChaos and Iter8 experiments as follows. The chaos and Iter8 experiments 
 
 === "LitmusChaos"
-    Verify that the phase of the chaos experiment is `Completed`.
+    Verify that the phase of the chaos experiment is `Running`.
     ```shell
-    kubectl get chaosresults/httpbinchaos -n default \
+    kubectl get chaosresults/litmuschaos-httpbin-pod-delete -n default \
     -ojsonpath='{.status.experimentStatus.phase}'
     ```
 
-    Verify that the chaos experiment returned a `Pass` verdict. The `Pass` verdict states that the application is still running after chaos has ended.
-    ```shell
-    kubectl get chaosresults/httpbinchaos -n default \
-    -o=jsonpath='{.status.experimentStatus.verdict}'
-    ```
+    ??? note "On completion of the LitmusChaos experiment"
+        After the LitmusChaos experiment completes (in ~3600 sec), the phase of the experiment will change to `Completed`. At that point, you can verify that the chaos experiment returns a `Pass` verdict. The `Pass` verdict states that the application is still running after chaos has ended.
+        ```shell
+        kubectl get chaosresults/litmuschaos-httpbin-pod-delete -n default \
+        -o=jsonpath='{.status.experimentStatus.verdict}'
+        ```
 
 === "Iter8"
     Due to chaos injection, and the fact that the number of replicas of the app in the deployment manifest is set to 1, the SLOs are not expected to be satisfied within the Iter8 experiment. Verify this is the case.
