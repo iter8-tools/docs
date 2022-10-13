@@ -11,20 +11,48 @@ In the tutorial, the app consists of a Kubernetes service and deployment. The ch
     1. Try [your first experiment](../../getting-started/your-first-experiment.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8 experiments.
     2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLI.
     3. Install [Litmus](https://litmuschaos.io/) in Kubernetes using [these steps](https://docs.litmuschaos.io/docs/getting-started/installation).
+    4. Create the `httpbin` deployment file.
+    ```shell
+    cat <<EOF >>deploy.yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: httpbin
+      labels:
+        app: httpbin
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+      template:
+        metadata:
+          labels:
+            app: httpbin
+        spec:
+          containers:
+          - name: httpbin
+            image: kennethreitz/httpbin
+            ports:
+            - containerPort: 80
+          initContainers:
+          - name: init-myservice
+            image: busybox:1.28
+            command: ['sh', '-c', 'sleep 1']
+    EOF
+    ```
+    5. Create the `httpbin` deployment.
+    ```shell
+    kubectl apply -f deploy.yaml
+    ```
+    6. Create the `httpbin` service.
+    ```shell
+    kubectl expose deploy httpbin --port=80
+    ```
 
 ***
 
-## 1. Create app
-Deploy the `httpbin` app in the Kubernetes cluster.
-
-```shell
-kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
-kubectl expose deploy httpbin --port=80
-```
-
-***
-
-## 2. Launch experiments
+## Launch experiments
 Launch the LitmusChaos and Iter8 experiments as described below.
 === "LitmusChaos"
     ```shell
@@ -32,7 +60,7 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     --repo https://iter8-tools.github.io/hub/ \
     --set applabel='app=httpbin' \
     --set totalChaosDuration=3600 \
-    --set chaosInterval=0
+    --set chaosInterval=5
     ```
 
     ??? note "About this LitmusChaos experiment"
@@ -58,6 +86,7 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     --set http.duration=30s \
     --set http.qps=20 \
     --set assess.SLOs.upper.http/latency-mean=50 \
+    --set assess.SLOs.upper.http/latency-p99=100 \
     --set assess.SLOs.upper.http/error-count=0 \
     --set runner=job
     ```
@@ -65,7 +94,9 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     ??? note "About this Iter8 experiment"
         Please see [here](../../../getting-started/your-first-experiment/#launch-experiment).
 
-## 3. Observe experiments
+*** 
+
+## Observe experiments
 Observe the LitmusChaos and Iter8 experiments as follows. The chaos and Iter8 experiments 
 
 === "LitmusChaos"
@@ -87,7 +118,7 @@ Observe the LitmusChaos and Iter8 experiments as follows. The chaos and Iter8 ex
 
     ```shell
     # the SLOs assertion is expected to fail
-    iter8 k assert -c completed -c nofailure -c slos --timeout 120s
+    iter8 k assert -c completed -c nofailure -c slos --timeout 30s
     ```
 
     For a more detailed report of the Iter8 experiment, run the `report` command.
@@ -95,13 +126,15 @@ Observe the LitmusChaos and Iter8 experiments as follows. The chaos and Iter8 ex
     iter8 k report
     ```
 
-## 5. Cleanup experiments
+***
+
+## Cleanup experiments
 
 Clean up the LitmusChaos and Iter8 experiments as described below.
 
 === "LitmusChaos"
     ```shell
-    helm uninstall httpbinchaos
+    helm uninstall httpbin
     ```
 
 === "Iter8"
@@ -109,31 +142,30 @@ Clean up the LitmusChaos and Iter8 experiments as described below.
     iter8 k delete
     ```
 
+***
 
-## 6. Scale app and retry
-Scale up the app so that replica count is increased to 2. 
+## Scale app and retry
+Scale up the app so that replica count is increased to 3. 
 ```shell
-kubectl scale --replicas=2 -n default deploy/httpbin
+kubectl scale --replicas=3 -n default deploy/httpbin
 ```
 
-The scaled app is now more resilient. Performing the same experiments as above will now result in SLOs being satisfied and a winner being found. Retry [this step](#2-launch-experiments) and [this step](#3-observe-experiments). You should now find that SLOs are satisfied.
+The scaled app is now more resilient. Performing the same experiments as above will now result in SLOs being satisfied and a winner being found. Retry [this step](launch-experiments) and [this step](observe-experiments). You should now find that SLOs are satisfied.
 
-## 7. Cleanup
+***
+
+## Cleanup
 
 Cleanup the app as follows.
 
 ```shell
-kubectl delete svc httpbin
-kubectl delete deploy httpbin
+kubectl delete svc/httpbin
+kubectl delete deploy/httpbin
 ```
 
 Cleanup the experiments as described [here](#5-cleanup-experiments).
 
-Delete LitmusChaos from your cluster as follows.
-```shell
-helm uninstall chaos -n litmus
-kubectl delete ns litmus
-```
+Uninstall LitmusChaos from your cluster as described [here](https://docs.litmuschaos.io/docs/user-guides/uninstall-litmus/).
 
 ***
 
