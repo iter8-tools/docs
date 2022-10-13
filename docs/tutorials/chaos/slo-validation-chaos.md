@@ -9,14 +9,8 @@ In the tutorial, the app consists of a Kubernetes service and deployment. The ch
 
 ???+ warning "Before you begin"
     1. Try [your first experiment](../../getting-started/your-first-experiment.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8 experiments.
-    2. Ensure that you have the [Helm v3.x](https://helm.sh/docs/intro/install/) and [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLIs.
-    3. Install [Litmus](https://litmuschaos.io/) in Kubernetes cluster. You can perform a quick install as follows.
-    ```shell
-    helm repo add litmuschaos https://litmuschaos.github.io/litmus-helm/
-    kubectl create ns litmus
-    helm install chaos litmuschaos/litmus --namespace=litmus --set portal.frontend.service.type=NodePort
-    ```
-    Verify that Litmus is install correctly as described [here](https://docs.litmuschaos.io/docs/getting-started/installation/#verify-your-installation).
+    2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLI.
+    3. Install [Litmus](https://litmuschaos.io/) in Kubernetes using [these steps](https://docs.litmuschaos.io/docs/getting-started/installation).
 
 ***
 
@@ -34,9 +28,11 @@ kubectl expose deploy httpbin --port=80
 Launch the LitmusChaos and Iter8 experiments as described below.
 === "LitmusChaos"
     ```shell
-    helm install httpbinchaos litmuschaos \
+    helm install httpbin litmuschaos \
     --repo https://iter8-tools.github.io/hub/ \
-    --set applabel='app.kubernetes.io/name=hello'
+    --set applabel='app.kubernetes.io/name=httpbin' \
+    --set totalChaosDuration=3600 \
+    --set chaosInterval=2
     ```
 
     ??? note "About this LitmusChaos experiment"
@@ -56,7 +52,7 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     --set "tasks={ready,http,assess}" \
     --set ready.deploy=httpbin \
     --set ready.service=httpbin \
-    --set ready.chaosengine=httpbinchaos \
+    --set ready.chaosengine=litmuschaos-httpbin \
     --set ready.timeout=60s \
     --set http.url=http://httpbin.default/get \
     --set assess.SLOs.upper.http/latency-mean=50 \
