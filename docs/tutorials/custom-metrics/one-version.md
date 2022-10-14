@@ -55,11 +55,6 @@ iter8 k launch \
 
     This is a [multi-loop](../../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../../getting-started/concepts.md#kubernetes-experiments). Hence, its [runner](../../getting-started/concepts.md#runners) value is set to `cronjob`. The `cronjobSchedule` expression specifies that each experiment loop (i.e., the sequence of tasks in the experiment) is scheduled for execution periodically once every minute. This enables Iter8 to refresh the metric values and perform SLO validation using the latest metric values during each loop.
 
-??? note "Some variations and extensions of this experiment"
-    1. Perform [SLO validation for multiple versions of an app using custom metrics](two-or-more-versions.md).
-    2. Define and use your own provider templates. This enables you to use any app-specific metrics from any database as part of Iter8 experiments. Read the [documentation for the `custommetrics` task](../../user-guide/tasks/custommetrics.md) to learn more.
-    3. Alter the `cronjobSchedule` expression so that experiment loops are repeated at a frequency of your choice. Use use [https://crontab.guru](https://crontab.guru) to learn more about `cronjobSchedule` expressions.
-
 ***
 
 ## Assert experiment outcomes
@@ -69,3 +64,11 @@ iter8 k launch \
 ***
 
 View experiment report and logs, and cleanup as described in [your first experiment](../../getting-started/your-first-experiment.md).
+
+***
+
+??? note "Some variations and extensions of this experiment"
+    1. Perform [SLO validation for multiple versions of an app using custom metrics](two-or-more-versions.md).
+    2. Define and use your own provider templates. This enables you to use any app-specific metrics from any database as part of Iter8 experiments. Read the [documentation for the `custommetrics` task](../../user-guide/tasks/custommetrics.md) to learn more.
+    3. Alter the `cronjobSchedule` expression so that experiment loops are repeated at a frequency of your choice. Use use [https://crontab.guru](https://crontab.guru) to learn more about `cronjobSchedule` expressions.
+

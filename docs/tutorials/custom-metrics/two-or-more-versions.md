@@ -41,11 +41,14 @@ iter8 k launch \
 ??? note "About this experiment"
     This experiment extends the [SLO validation experiment using custom metrics for a single app version](one-version.md). There are two versions of the app in this experiment. Variable values that are specific to the first version are specified under `custommetrics.versionValues[0]`, while those that are specific to the second version are specified under `custommetrics.versionValues[1]`. For the first version, Iter8 merges `custommetrics.values` with `custommetrics.versionValues[0]` (the latter takes precedence), and uses the result for template variable substitution. Similarly, for the second version, Iter8 merges `custommetrics.values` with `custommetrics.versionValues[1]` (the latter takes precedence), and uses the result for template variable substitution.
 
+***
+
+Assert experiment outcomes, view experiment report, view experiment logs, and cleanup as described in [this experiment](../../tutorials/custom-metrics/one-version.md).
+
+***
+
 ??? note "Some variations and extensions of this experiment"
     1. Define and use your own provider templates. This enables you to use any app-specific metrics from any database as part of Iter8 experiments. Read the [documentation for the `custommetrics` task](../../user-guide/tasks/custommetrics.md) to learn more.
     2. Alter the `cronjobSchedule` expression so that experiment loops are repeated at a frequency of your choice. Use use [https://crontab.guru](https://crontab.guru) to learn more about `cronjobSchedule` expressions.
 
-***
-
-Assert experiment outcomes, view experiment report, view experiment logs, and cleanup as described in [this experiment](../../tutorials/custom-metrics/one-version.md).
     
