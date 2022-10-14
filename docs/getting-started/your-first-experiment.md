@@ -51,12 +51,6 @@ iter8 k launch \
     
     This is a [single-loop](concepts.md#iter8-experiment) [Kubernetes experiment](concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`.
 
-??? note "Some variations and extensions of this experiment"
-    1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
-    2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
-    3. The [assess task](../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics).
-    4. This experiment can also be run in your [local environment](../tutorials/integrations/local.md) or run within a [GitHub Actions pipeline](../tutorials/integrations/ghactions.md).
-
 ***
 
 ## Assert experiment outcomes
@@ -95,3 +89,10 @@ iter8 k delete
 ***
 
 Congratulations! :tada: You completed your first Iter8 experiment.
+
+??? note "Some variations and extensions of this experiment"
+    1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+    2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
+    3. The [assess task](../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics).
+    4. This experiment can also be run in your [local environment](../tutorials/integrations/local.md) or run within a [GitHub Actions pipeline](../tutorials/integrations/ghactions.md).
+
