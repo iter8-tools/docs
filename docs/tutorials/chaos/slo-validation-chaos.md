@@ -1,4 +1,4 @@
-# SLO Validation with Chaos Injection
+# Chaos Injection with SLOs
 
 Perform a joint Iter8 and [LitmusChaos](https://litmuschaos.io/) experiment. This joint experiment enables you to verify if an app continues to be resilient (satisfies SLOs) in the midst of chaos (pod kill).
 
