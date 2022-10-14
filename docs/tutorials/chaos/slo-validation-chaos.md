@@ -147,7 +147,7 @@ Scale up the app so that replica count is increased to 3.
 kubectl scale --replicas=3 -n default deploy/httpbin
 ```
 
-The scaled app is now more resilient. Performing the same experiments as above will now result in SLOs being satisfied and a winner being found. [Relaunch the experiments](#launch-experiments) and [observe the experiments](#observe-experiments). You should now find that SLOs are satisfied.
+The scaled app is now more resilient. Performing the same experiments as above will now result in SLOs being satisfied and a winner being found. [Relaunch the experiments](#launch-experiments) and [observe the experiments](#observe-experiments). You should now find that the SLOs are satisfied.
 
 ***
 
@@ -174,4 +174,4 @@ Cleanup the Kubernetes cluster.
 ??? note "Some variations and extensions of this experiment"
     1. Reuse the above experiment with *your* app by replacing the `httpbin` app with *your* app, and modifying the experiment values appropriately.
     2. Iter8 supports load testing and SLO validation for [gRPC services](../load-test-grpc.md). Try a joint chaos injection and SLO validation experiment for gRPC.
-    3. Litmus makes it possible to inject [over 51 types of Chaos](https://hub.litmuschaos.io/). Modify the LitmusChaos Helm chart with new templates in order to use any of these other types of chaos experiments.
+    3. Litmus makes it possible to inject [over 51 types of chaos](https://hub.litmuschaos.io/). Modify the LitmusChaos Helm chart with new templates in order to use any of these other types of chaos experiments.

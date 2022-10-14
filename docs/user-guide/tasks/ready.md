@@ -25,7 +25,7 @@ iter8 k launch \
 | deploy  | string | Name of a Kubernetes deployment. The task checks if the deployment exists and its `Available` condition is set to true. |
 | service | string | Name of a Kubernetes service. The task checks if the service exists. |
 | ksvc | string | Name of a Knative service. The task checks if the service exists and its `Ready` condition is set to true. |
-| chaosengine | string | Name of a LitmusChaos chaosengine resource object. The task checks if the object exists. |
+| chaosengine | string | Name of a LitmusChaos ChaosEngine resource object. The task checks if the object exists. |
 | timeout | string | Timeout for readiness check to succeed. Default value is `60s`. |
 | namespace | string | The namespace under which to look for the Kubernetes objects. For experiments that run inside a Kubernetes cluster, the default value of this field is the [namespace of the Iter8 experiment](../topics/group.md); for experiments that run in the local environment, it is the [`default`](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) namespace. |
 
