@@ -172,6 +172,6 @@ Cleanup the Kubernetes cluster.
 ***
 
 ??? note "Some variations and extensions of this experiment"
-    1. Reuse the above experiment with *your* app by replacing the `httpbin` app with *your* app, and modifying the Helm values appropriately.
-    2. gRPC. Variations of both HTTP and gRPC load tests.
-    3. Litmus makes it possible to inject [over 51 types of Chaos](https://hub.litmuschaos.io/). Modify the Helm chart to use any of these other types of chaos experiments.
+    1. Reuse the above experiment with *your* app by replacing the `httpbin` app with *your* app, and modifying the experiment values appropriately.
+    2. Iter8 supports load testing and SLO validation for [gRPC services](../load-test-grpc.md). Try a joint chaos injection and SLO validation experiment for gRPC.
+    3. Litmus makes it possible to inject [over 51 types of Chaos](https://hub.litmuschaos.io/). Modify the LitmusChaos Helm chart with new templates in order to use any of these other types of chaos experiments.
