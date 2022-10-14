@@ -66,7 +66,7 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     ??? note "About this LitmusChaos experiment"
         This is a [LitmusChaos pod-delete experiment](https://litmuschaos.github.io/litmus/experiments/categories/pods/pod-delete/) packaged for reusability in the form of a Helm chart. This experiment causes (forced/graceful) pod failure of specific/random replicas of application resources, in this case, pods with a label called `app` with value `httpbin`.
 
-        The deletion of pod(s) will be attempted by the chaos experiment once every  `chaosInterval`(5) seconds, and this experiment will terminate after `totalChaosDuration`(3600) seconds.
+        The deletion of pod(s) will be attempted by the chaos experiment once every  `chaosInterval` (5) seconds, and this experiment will terminate after `totalChaosDuration` (3600) seconds.
 
 === "Iter8" 
     ```shell
