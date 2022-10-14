@@ -97,7 +97,7 @@ Observe the LitmusChaos and Iter8 experiments as follows. The chaos and Iter8 ex
     Verify that the phase of the chaos experiment is `Running`.
     ```shell
     kubectl get chaosresults/litmuschaos-httpbin-pod-delete -n default \
-    -ojsonpath='{.status.experimentStatus.phase}'
+    -o jsonpath='{.status.experimentStatus.phase}'
     ```
 
     ??? note "On completion of the LitmusChaos experiment"
@@ -107,7 +107,7 @@ Observe the LitmusChaos and Iter8 experiments as follows. The chaos and Iter8 ex
 
         ```shell
         kubectl get chaosresults/litmuschaos-httpbin-pod-delete -n default \
-        -o=jsonpath='{.status.experimentStatus.verdict}'
+        -o jsonpath='{.status.experimentStatus.verdict}'
         ```
 
 === "Iter8"
