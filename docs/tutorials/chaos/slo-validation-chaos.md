@@ -13,7 +13,7 @@ In the tutorial, the app consists of a Kubernetes service and deployment. The ch
     3. Install [Litmus](https://litmuschaos.io/) in Kubernetes using [these steps](https://docs.litmuschaos.io/docs/getting-started/installation).
     4. Create the `httpbin` deployment file.
     ```shell
-    cat <<EOF >>deploy.yaml
+    cat <<EOF> deploy.yaml
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -64,15 +64,9 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     ```
 
     ??? note "About this LitmusChaos experiment"
-        This experiment consists of three [tasks](../getting-started/concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
-        
-        The [ready](../user-guide/tasks/ready.md) task checks if the `hello` deployment exists and is available, and the `hello` service exists. 
-        
-        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `helloworld.Greeter.SayHello` method of the cluster-local gRPC service with host address `hello.default:50051`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). 
-        
-        The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
-        
-        This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
+        This is a [LitmusChaos pod-delete experiment](https://litmuschaos.github.io/litmus/experiments/categories/pods/pod-delete/) packaged for reusability in the form of a Helm chart. This experiment causes (forced/graceful) pod failure of specific/random replicas of application resources, in this case, pods with a label called `app` with value `httpbin`.
+
+        The deletion of pod(s) will be attempted by the chaos experiment once every  `chaosInterval`(5) seconds, and this experiment will terminate after `totalChaosDuration`(3600) seconds.
 
 === "Iter8" 
     ```shell
@@ -92,7 +86,7 @@ Launch the LitmusChaos and Iter8 experiments as described below.
     ```
 
     ??? note "About this Iter8 experiment"
-        Please see [here](../../../getting-started/your-first-experiment/#launch-experiment).
+        This Iter8 experiment is similar to [your first Iter8 experiment](../../getting-started/your-first-experiment.md) with some notable changes. The `ready` task in this experiment also checks if the `chaosengine` resource exists before it starts, and in addition to the mean latency and error count SLOs, it verifies that the 99th percentile latency is under 100 msec.
 
 *** 
 
@@ -108,13 +102,16 @@ Observe the LitmusChaos and Iter8 experiments as follows. The chaos and Iter8 ex
 
     ??? note "On completion of the LitmusChaos experiment"
         After the LitmusChaos experiment completes (in ~3600 sec), the phase of the experiment will change to `Completed`. At that point, you can verify that the chaos experiment returns a `Pass` verdict. The `Pass` verdict states that the application is still running after chaos has ended.
+
+        When the LitmusChaos experiment is still running, its verdict will be set to `Awaited`.
+
         ```shell
         kubectl get chaosresults/litmuschaos-httpbin-pod-delete -n default \
         -o=jsonpath='{.status.experimentStatus.verdict}'
         ```
 
 === "Iter8"
-    Due to chaos injection, and the fact that the number of replicas of the app in the deployment manifest is set to 1, the SLOs are not expected to be satisfied within the Iter8 experiment. Verify this is the case.
+    Due to chaos injection, and the fact that the number of replicas is set to 1, SLOs are not expected to be satisfied within the Iter8 experiment. Verify this is the case.
 
     ```shell
     # the SLOs assertion is expected to fail
@@ -150,22 +147,27 @@ Scale up the app so that replica count is increased to 3.
 kubectl scale --replicas=3 -n default deploy/httpbin
 ```
 
-The scaled app is now more resilient. Performing the same experiments as above will now result in SLOs being satisfied and a winner being found. Retry [this step](launch-experiments) and [this step](observe-experiments). You should now find that SLOs are satisfied.
+The scaled app is now more resilient. Performing the same experiments as above will now result in SLOs being satisfied and a winner being found. [Relaunch the experiments](#launch-experiments) and [observe the experiments](#observe-experiments). You should now find that SLOs are satisfied.
 
 ***
 
 ## Cleanup
 
-Cleanup the app as follows.
+Cleanup the Kubernetes cluster.
 
-```shell
-kubectl delete svc/httpbin
-kubectl delete deploy/httpbin
-```
+=== "App"
+    Cleanup the app.
 
-Cleanup the experiments as described [here](#5-cleanup-experiments).
+    ```shell
+    kubectl delete svc/httpbin
+    kubectl delete deploy/httpbin
+    ```
 
-Uninstall LitmusChaos from your cluster as described [here](https://docs.litmuschaos.io/docs/user-guides/uninstall-litmus/).
+=== "Experiments"
+    Cleanup the experiments as described [here](#cleanup-experiments).
+
+=== "LitmusChaos"
+    Uninstall LitmusChaos from your cluster as described [here](https://docs.litmuschaos.io/docs/user-guides/uninstall-litmus/).
 
 ***
 
