@@ -10,7 +10,6 @@ Send the experiment report in a message to a Slack channel using a [incoming web
 
 ```shell
 iter8 launch \
---noDownload \
 --set "tasks={http,assess,slack}" \
 --set http.url=http://127.0.0.1/get \
 --set assess.SLOs.upper.http/latency-mean=50 \

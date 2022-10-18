@@ -67,7 +67,6 @@ kubectl expose deploy httpbin --port=80
 6. Launch the experiment with the `github` task with the appropriate values.
 ```shell
 iter8 launch \
---noDownload \
 --set "tasks={http,assess,github}" \
 --set http.url=http://127.0.0.1/get \
 --set assess.SLOs.upper.http/latency-mean=50 \

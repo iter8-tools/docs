@@ -29,7 +29,6 @@ kubectl expose deploy httpbin --port=80
 5. Launch the experiment with the `slack` task with the appropriate values.
 ```shell
 iter8 launch \
---noDownload \
 --set "tasks={http,assess,slack}" \
 --set http.url=http://127.0.0.1/get \
 --set assess.SLOs.upper.http/latency-mean=50 \

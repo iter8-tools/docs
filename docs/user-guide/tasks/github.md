@@ -12,7 +12,6 @@ A `repository_dispatch` will trigger workflows in the default branch of the GitH
 
 ```shell
 iter8 launch \
---noDownload \
 --set "tasks={http,assess,github}" \
 --set http.url=http://127.0.0.1/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
