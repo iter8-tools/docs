@@ -14,8 +14,8 @@ In this example, the `custommetrics` task fetches metrics from the Prometheus da
 iter8 k launch \
 --set "tasks={custommetrics,assess}" \
 --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/master/custommetrics/istio-prom.tpl" \
---set custommetrics.values.destinationWorkload=httpbin \
---set custommetrics.values.destinationWorkloadNamespace=default \
+--set custommetrics.values.labels.destination_app=httpbin \
+--set custommetrics.values.labels.namespace=default \
 --set assess.SLOs.upper.istio-prom/error-rate=0 \
 --set assess.SLOs.upper.istio-prom/latency-mean=100 \
 --set runner=cronjob \
@@ -113,22 +113,16 @@ Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables u
     # This file provides templated metric specifications that enable
     # Iter8 to retrieve metrics from Istio's Prometheus add-on.
     # 
-    # For a list of metrics supported out-of-the-box by the Istio Prom add-on, 
+    # For a list of metrics supported out-of-the-box by the Istio Prometheus add-on, 
     # please see https://istio.io/latest/docs/reference/config/metrics/
     #
     # Iter8 substitutes the placeholders in this file with values, 
     # and uses the resulting metric specs to query Prometheus.
     # The placeholders are as follows.
     # 
-    # reporter                        string  optional
-    # destinationWorkload             string  required
-    # destinationWorkloadNamespace    string  required
     # elapsedTimeSeconds              int     implicit
     # startingTime                    string  optional
     # latencyPercentiles              []int   optional
-    #
-    # For descriptions of reporter, destinationWorkload, and destinationWorkloadNamespace, 
-    # please see https://istio.io/latest/docs/reference/config/metrics/
     #
     # elapsedTimeSeconds: this should not be specified directly by the user. 
     # It is implicitly computed by Iter8 according to the following formula
@@ -142,17 +136,17 @@ Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables u
     # For example, if this is set to [50,75,90,95],
     # then, latency-p50, latency-p75, latency-p90, latency-p95 metric specs are created.
 
-    {{- define "istio-prom-reporter"}}
-    {{- if .reporter }}
-    reporter="{{ .reporter }}",
+    {{- define "labels"}}
+    {{- range $key, $val := .labels }}
+    {{- if or (eq (kindOf $val) "slice") (eq (kindOf $val) "map")}}
+    {{- fail (printf "labels should be a primitive types but received: %s :%s" $key $val) }}
     {{- end }}
+    {{- if eq $key "response_code"}}
+    {{- fail "labels should not contain 'response_code'" }}
     {{- end }}
-
-    {{- define "istio-prom-dest"}}
-    {{ template "istio-prom-reporter" . }}
-    destination_workload="{{ .destinationWorkload }}",
-    destination_workload_namespace="{{ .destinationWorkloadNamespace }}"
+              {{ $key }}="{{ $val }}",
     {{- end }}
+    {{- end}}
 
     # url is the HTTP endpoint where the Prometheus service installed by Istio's Prom add-on
     # can be queried for metrics
@@ -169,7 +163,7 @@ Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables u
       - name: query
         value: |
           sum(last_over_time(istio_requests_total{
-            {{ template "istio-prom-dest" . }}
+            {{ template "labels" . }}
           }[{{ .elapsedTimeSeconds }}s])) or on() vector(0)
       jqExpression: .data.result[0].value[1] | tonumber
     - name: error-count
@@ -181,7 +175,7 @@ Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables u
         value: |
           sum(last_over_time(istio_requests_total{
             response_code=~'5..',
-            {{ template "istio-prom-dest" . }}
+            {{ template "labels" . }}
           }[{{ .elapsedTimeSeconds }}s])) or on() vector(0)
       jqExpression: .data.result[0].value[1] | tonumber
     - name: error-rate
@@ -193,9 +187,9 @@ Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables u
         value: |
           (sum(last_over_time(istio_requests_total{
             response_code=~'5..',
-            {{ template "istio-prom-dest" . }}
+            {{ template "labels" . }}
           }[{{ .elapsedTimeSeconds }}s])) or on() vector(0))/(sum(last_over_time(istio_requests_total{
-            {{ template "istio-prom-dest" . }}
+            {{ template "labels" . }}
           }[{{ .elapsedTimeSeconds }}s])) or on() vector(0))
       jqExpression: .data.result.[0].value.[1]
     - name: latency-mean
@@ -206,9 +200,9 @@ Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables u
       - name: query
         value: |
           (sum(last_over_time(istio_request_duration_milliseconds_sum{
-            {{ template "istio-prom-dest" . }}
+            {{ template "labels" . }}
           }[{{ .elapsedTimeSeconds }}s])) or on() vector(0))/(sum(last_over_time(istio_requests_total{
-            {{ template "istio-prom-dest" . }}
+            {{ template "labels" . }}
           }[{{ .elapsedTimeSeconds }}s])) or on() vector(0))
       jqExpression: .data.result[0].value[1] | tonumber
     {{- range $i, $p := .latencyPercentiles }}
@@ -220,10 +214,10 @@ Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables u
       - name: query
         value: |
           histogram_quantile(0.{{ $p }}, sum(rate(istio_request_duration_milliseconds_bucket{
-            {{ template "istio-prom-dest" $ }}
+            {{ template "labels" $ }}
           }[{{ .elapsedTimeSeconds }}s])) by (le))
       jqExpression: .data.result[0].value[1] | tonumber
-    {{- end }}    
+    {{- end }}
     ```
 
 In order to create [provider templates](#provider-template) and use them in experiments, it is necessary to have a clear understanding of how variable values are computed, and how the response from the database is processed by Iter8. We describe these steps next.
@@ -244,10 +238,14 @@ Variable values are configured explicitly by the user during experiment launch. 
     iter8 k launch \
     --set "tasks={custommetrics,assess}" \
     --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/master/custommetrics/istio-prom.tpl" \
-    --set custommetrics.values.destinationWorkloadNamespace=default \
-    --set custommetrics.values.reporter=destination \
-    --set custommetrics.versionValues[0].destinationWorkload=httpbin-v1 \
-    --set custommetrics.versionValues[1].destinationWorkload=httpbin-v2 \
+    --set 'custommetrics.versionValues[0].destination_app=httpbin' \
+    --set 'custommetrics.versionValues[0].destination_version=v1' \
+    --set 'custommetrics.versionValues[0].namespace=default' \
+    --set 'custommetrics.versionValues[0].reporter=default' \
+    --set 'custommetrics.versionValues[0].destination_app=httpbin' \
+    --set 'custommetrics.versionValues[0].destination_version=v2' \
+    --set 'custommetrics.versionValues[0].namespace=default' \
+    --set 'custommetrics.versionValues[0].reporter=default' \
     --set assess.SLOs.upper.istio-prom/error-rate=0 \
     --set assess.SLOs.upper.istio-prom/latency-mean=100 \
     --set runner=cronjob \
