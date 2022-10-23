@@ -14,7 +14,7 @@ Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for 
 
 ???+ warning "Before you begin"
     1. Try [your first experiment](../../getting-started/your-first-experiment.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8 experiments. Try [an SLO validation experiment using custom metrics for a single version of an app](one-version.md).
-    2. [Complete the Istio traffic mirroring tutorial](https://istio.io/latest/docs/tasks/traffic-management/mirroring/), specifically, the [setup steps](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#before-you-begin), the step for [creating the default routing policy](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#creating-a-default-routing-policy), and the step for [mirroring traffic](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#mirroring-traffic-to-v2). Omit the step for cleaning up (you can clean up once you are done with this tutorial).
+    2. [Complete the Istio traffic mirroring tutorial](https://istio.io/latest/docs/tasks/traffic-management/mirroring/), specifically, the [Before you begin](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#before-you-begin) section, the [Creating a default routing policy](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#creating-a-default-routing-policy) section, and the [Mirroring traffic to v2](https://istio.io/latest/docs/tasks/traffic-management/mirroring/#mirroring-traffic-to-v2) section. Omit the the `Cleaning up` step (you can clean up once you are done with this tutorial).
     3. [Install Istio's Prometheus add-on](https://istio.io/latest/docs/ops/integrations/prometheus/).
     4. Generate load.
     ```shell
@@ -30,8 +30,8 @@ iter8 k launch \
 --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/master/custommetrics/istio-prom.tpl" \
 --set custommetrics.values.destinationWorkloadNamespace=default \
 --set custommetrics.values.reporter=destination \
---set custommetrics.versionValues[0].destinationWorkload=httpbin-v1 \
---set custommetrics.versionValues[1].destinationWorkload=httpbin-v2 \
+--set 'custommetrics.versionValues[0].destinationWorkload=httpbin-v1' \
+--set 'custommetrics.versionValues[1].destinationWorkload=httpbin-v2' \
 --set assess.SLOs.upper.istio-prom/error-rate=0 \
 --set assess.SLOs.upper.istio-prom/latency-mean=100 \
 --set runner=cronjob \

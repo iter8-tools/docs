@@ -29,7 +29,6 @@ kubectl expose deploy httpbin --port=80
 5. Launch the experiment with the `slack` task with the appropriate values.
 ```shell
 iter8 launch \
---noDownload \
 --set "tasks={http,assess,slack}" \
 --set http.url=http://127.0.0.1/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
@@ -38,13 +37,44 @@ iter8 launch \
 --set slack.method=POST \
 --set runner=job
 ```
-7. Verify that the message has been sent after the experiment has completed.
+6. Verify that the message has been sent after the experiment has completed.
 
 ??? note "Some variations and extensions of the `slack` task"
-    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.11.10/charts/iter8/templates/_payload-slack.tpl) sends the entirety of the experiment report.
+    1. The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.11.10/charts/iter8/templates/_payload-slack.tpl) sends the entirety of the experiment report.
 
-    However, you do not need to use the default payload. You can provide your own payload by overriding the default of the `payloadTemplateURL`.
+        However, you do not need to use the default payload. You can provide your own payload by overriding the default of the `payloadTemplateURL`.
 
-    For example, you can create a payload that selectively print out parts of the experiment report instead of the whole thing.
+        For example, you can create a payload that selectively print out parts of the experiment report instead of the whole thing.
 
-    You can also use Slack's [Block Kit](https://api.slack.com/block-kit/building) in order to make your message more sophisticated. You can use markdown, create different sections, or add interactivity, such as buttons.
+        You can also use Slack's [Block Kit](https://api.slack.com/block-kit/building) in order to make your message more sophisticated. You can use markdown, create different sections, or add interactivity, such as buttons.
+
+    2. Try a [multi-loop experiment](../../getting-started/concepts.md#runner) with an [`if` parameter](../../user-guide/tasks/slack.md#if-parameter) to control when the `slack` task is run. 
+    
+        A multi-loop experiment will allow you to run the tasks on a recurring basis, allowing you to monitor your app over a course of time. For example:
+
+        ```shell
+        iter8 k launch \
+        --set "tasks={http,assess,slack}" \
+        --set http.url=http://127.0.0.1/get \
+        --set assess.SLOs.upper.http/latency-mean=50 \
+        --set assess.SLOs.upper.http/error-count=0 \
+        --set slack.url=<Slack webhook> \
+        --set slack.method=POST \
+        --set runner=cronjob \
+        --set cronjobSchedule="*/1 * * * *"
+        ```
+
+        This will run `http`, `assess`, and `slack` tasks every minute. If you would like to run the `slack` task only during the 10th loop, use the `if` parameter.
+
+        ```diff
+          iter8 k launch \
+          --set "tasks={http,assess,slack}" \
+          --set http.url=http://127.0.0.1/get \
+          --set assess.SLOs.upper.http/latency-mean=50 \
+          --set assess.SLOs.upper.http/error-count=0 \
+          --set slack.url=<Slack webhook> \
+          --set slack.method=POST \
+        + --set slack.if="Result.NumLoops == 10"
+          --set runner=cronjob \
+          --set cronjobSchedule="*/1 * * * *"
+        ```
