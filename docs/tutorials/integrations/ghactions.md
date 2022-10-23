@@ -67,7 +67,6 @@ kubectl expose deploy httpbin --port=80
 6. Launch the experiment with the `github` task with the appropriate values.
 ```shell
 iter8 launch \
---noDownload \
 --set "tasks={http,assess,github}" \
 --set http.url=http://127.0.0.1/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
@@ -82,3 +81,35 @@ iter8 launch \
 ??? note "Some variations and extensions of the `github` task"
     1. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.11.10/charts/iter8/templates/_payload-github.tpl) sends the entirety of the experiment report. In your workflow, you can read from the report and use that data for control flow or use snippets of that data in different actions. For example, you can check to see if there have been any task failures during the experiment and perform different actions.
     2. You do not need to use the default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.11.10/charts/iter8/templates/_payload-github.tpl). You can provide your own payload by overriding the default of the `payloadTemplateURL`. For example, instead of sending the entirety of the experiment report, you can create a payload template that only sends a subset.
+    3. Try a [multi-loop experiment](../../getting-started/concepts.md#runner) with an [`if` parameter](../../user-guide/tasks/github.md#if-parameter) to control when the `github` task is run. 
+    
+        A multi-loop experiment will allow you to run the tasks on a recurring basis, allowing you to monitor your app over a course of time. For example:
+
+        ```shell
+        iter8 k launch \
+        --set "tasks={http,assess,github}" \
+        --set http.url=http://127.0.0.1/get \
+        --set assess.SLOs.upper.http/latency-mean=50 \
+        --set assess.SLOs.upper.http/error-count=0 \
+        --set github.owner=<GitHub owner> \
+        --set github.repo=<GitHub repository> \
+        --set github.token=<GitHub token> \
+        --set runner=cronjob \
+        --set cronjobSchedule="*/1 * * * *"
+        ```
+
+        This will run `http`, `assess`, and `github` tasks every minute. If you would like to run the `github` task only during the 10th loop, use the `if` parameter.
+
+        ```diff
+          iter8 k launch \
+          --set "tasks={http,assess,github}" \
+          --set http.url=http://127.0.0.1/get \
+          --set assess.SLOs.upper.http/latency-mean=50 \
+          --set assess.SLOs.upper.http/error-count=0 \
+          --set github.owner=<GitHub owner> \
+          --set github.repo=<GitHub repository> \
+          --set github.token=<GitHub token> \
+        + --set github.if="Result.NumLoops == 10"
+          --set runner=cronjob \
+          --set cronjobSchedule="*/1 * * * *"
+        ```
