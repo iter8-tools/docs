@@ -19,7 +19,7 @@ Iter8 introduces the notion of an *experiment*. An experiment is simply a list o
   <img alt-text="Iter8 experiment" src="../../images/authoring.png" width="40%" />
 </p>
 
-Iter8 defines a variety of configurable tasks. Authoring an experiment is as simple as specifying the names of the tasks you wish to include in the experiment, and specifying their parameter values. The following are some examples of tasks provided by Iter8.
+Iter8 provides a variety of configurable tasks. Authoring an experiment is as simple as specifying the names of the tasks and specifying their parameter values. The following are some examples of tasks provided by Iter8.
 
 1.  Tasks for **generating load and collecting built-in metrics** for HTTP and gRPC services.
 2.  A task for verifying **service-level objectives (SLOs)** for apps or app versions.
