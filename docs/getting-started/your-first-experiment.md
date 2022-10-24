@@ -81,14 +81,19 @@ iter8 k log
 ***
 
 ## Cleanup
-Remove the [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) created by the `iter8 k launch` command.
+Remove the Iter8 experiment and the sample app from the Kubernetes cluster and the local Iter8 `charts` folder.
 ```shell
 iter8 k delete
+kubectl delete svc/httpbin
+kubectl delete deploy/httpbin
+rm -rf charts
 ```
 
 ***
 
 Congratulations! :tada: You completed your first Iter8 experiment.
+
+***
 
 ??? note "Some variations and extensions of this experiment"
     1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
