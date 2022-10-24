@@ -13,7 +13,7 @@ Iter8 supports the following use-cases.
 
 
 ## Iter8 experiment
-The main notion introduced by Iter8 is that of an experiment. An experiment is simply a list of tasks that are executed in a specific sequence.
+Iter8 introduces the notion of an *experiment*. An experiment is simply a list of tasks that are executed in a specific sequence.
 
 <p align='center'>
   <img alt-text="Iter8 experiment" src="../../images/authoring.png" width="40%" />
