@@ -13,7 +13,7 @@ In this example, the `custommetrics` task fetches metrics from the Prometheus da
 ```shell
 iter8 k launch \
 --set "tasks={custommetrics,assess}" \
---set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/master/custommetrics/istio-prom.tpl" \
+--set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/hub/main/templates/custommetrics/istio-prom.tpl" \
 --set custommetrics.values.labels.destination_app=httpbin \
 --set custommetrics.values.labels.namespace=default \
 --set assess.SLOs.upper.istio-prom/error-rate=0 \
@@ -128,7 +128,7 @@ Variable values are configured explicitly by the user during experiment launch. 
     ```shell
     iter8 k launch \
     --set "tasks={custommetrics,assess}" \
-    --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/master/custommetrics/istio-prom.tpl" \
+    --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/hub/main/templates/custommetrics/istio-prom.tpl" \
     --set 'custommetrics.values.labels.namespace=default' \
     --set 'custommetrics.values.labels.reporter=default' \
     --set 'custommetrics.values.labels.destination_app=httpbin' \
