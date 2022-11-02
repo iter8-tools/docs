@@ -146,8 +146,8 @@ Variable values are configured explicitly by the user during experiment launch. 
     === "query"
         ```go
         sum(last_over_time(istio_requests_total{
-          destination_workload="httpbin",
-          destination_workload_namespace="default"      
+          destination_app="httpbin",
+          namespace="default"      
         }[3600s]))
         ```
         The metric is computed over the recent one-hour time window (that ends at the current time).
@@ -155,8 +155,8 @@ Variable values are configured explicitly by the user during experiment launch. 
     === "query template"
         ```go
         sum(last_over_time(istio_requests_total{
-          destination_workload="httpbin",
-          destination_workload_namespace="default"      
+          destination_app="httpbin",
+          namespace="default"      
         }[{{ .elapsedTimeSeconds }}s]))
         ```
         The metric is computed over a recent time window (that ends at the current time). The length of this window is determined by the value of the template variable `elapsedTimeSeconds`.
