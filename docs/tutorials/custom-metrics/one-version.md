@@ -38,8 +38,8 @@ Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for 
 iter8 k launch \
 --set "tasks={custommetrics,assess}" \
 --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/hub/main/templates/custommetrics/istio-prom.tpl" \
---set custommetrics.values.labels.destination_app=httpbin \
 --set custommetrics.values.labels.namespace=default \
+--set custommetrics.values.labels.destination_app=httpbin \
 --set assess.SLOs.upper.istio-prom/error-rate=0 \
 --set assess.SLOs.upper.istio-prom/latency-mean=100 \
 --set runner=cronjob \

@@ -130,8 +130,8 @@ Variable values are configured explicitly by the user during experiment launch. 
     --set "tasks={custommetrics,assess}" \
     --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/hub/main/templates/custommetrics/istio-prom.tpl" \
     --set custommetrics.values.labels.namespace=default \
-    --set custommetrics.values.labels.reporter=destination \
     --set custommetrics.values.labels.destination_app=httpbin \
+    --set custommetrics.values.labels.reporter=destination \
     --set 'custommetrics.versionValues[0].labels.destination_version=v1' \
     --set 'custommetrics.versionValues[1].labels.destination_version=v2' \
     --set assess.SLOs.upper.istio-prom/error-rate=0 \
