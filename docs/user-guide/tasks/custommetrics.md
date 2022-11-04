@@ -13,7 +13,7 @@ In this example, the `custommetrics` task fetches metrics from the Prometheus da
 ```shell
 iter8 k launch \
 --set "tasks={custommetrics,assess}" \
---set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/hub/main/templates/custommetrics/istio-prom.tpl" \
+--set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/v0.12.2-pre/testdata/custommetrics/istio-prom.tpl" \
 --set custommetrics.values.labels.destination_app=httpbin \
 --set custommetrics.values.labels.namespace=default \
 --set assess.SLOs.upper.istio-prom/error-rate=0 \
@@ -109,7 +109,7 @@ The `ProviderSpec` and `Metric` data structures together supply Iter8 with all t
 Rather than supplying [provider specs](#provider-spec) directly, Iter8 enables users to supply one or more [Golang templates](https://pkg.go.dev/text/template) for provider specs. Iter8 combines the provider templates with [values](#computing-variable-values), in order to generate [provider specs](#provider-spec) in YAML format, and uses them to query for the metrics.
 
 Example providers specs:
-  * [istio-prom](https://github.com/iter8-tools/hub/blob/main/templates/custommetrics/istio-prom.tpl) for [Istio's Prometheus plugin](https://istio.io/latest/docs/ops/integrations/prometheus/)
+  * [istio-prom](https://raw.githubusercontent.com/iter8-tools/iter8/v0.12.2-pre/testdata/custommetrics/istio-prom.tpl) for [Istio's Prometheus plugin](https://istio.io/latest/docs/ops/integrations/prometheus/)
 
 In order to create [provider templates](#provider-template) and use them in experiments, it is necessary to have a clear understanding of how variable values are computed, and how the response from the database is processed by Iter8. We describe these steps next.
 
@@ -128,7 +128,7 @@ Variable values are configured explicitly by the user during experiment launch. 
     ```shell
     iter8 k launch \
     --set "tasks={custommetrics,assess}" \
-    --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/hub/main/templates/custommetrics/istio-prom.tpl" \
+    --set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/v0.12.2-pre/testdata/custommetrics/istio-prom.tpl" \
     --set custommetrics.values.labels.namespace=default \
     --set custommetrics.values.labels.destination_app=httpbin \
     --set custommetrics.values.labels.reporter=destination \
