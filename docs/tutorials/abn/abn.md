@@ -44,22 +44,22 @@ Deploy both the frontend and backend components of the application as described 
 
     === "node"
         ```shell
-        curl -qs https://raw.githubusercontent.com/kalantar/ab-example/main/frontend/deploy.yaml \
-        | sed -e "s#FRONTEND_TAG#iter8/frontend:node#" \
+        curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/frontend/deploy.yaml \
+        | sed -e "s#\$IMAGE#kalantar/abn-sample-frontend-node:latest#" \
         | kubectl apply -f -
         ```
 
     === "Python"
         ```shell
-        curl -qs https://raw.githubusercontent.com/kalantar/ab-example/main/frontend/deploy.yaml \
-        | sed -e "s#FRONTEND_TAG#iter8/frontend:python#" \
+        curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/frontend/deploy.yaml \
+        | sed -e "s#\$IMAGE#kalantar/abn-sample-frontend-python:latest#" \
         | kubectl apply -f -
         ```
 
     === "Go"
         ```shell
-        curl -qs https://raw.githubusercontent.com/kalantar/ab-example/main/frontend/deploy.yaml \
-        | sed -e "s#FRONTEND_TAG#iter8/frontend:go#" \
+        curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/frontend/deploy.yaml \
+        | sed -e "s#\$IMAGE#kalantar/abn-sample-frontend-go:latest#" \
         | kubectl apply -f -
         ```
     
@@ -69,7 +69,8 @@ Deploy both the frontend and backend components of the application as described 
     Deploy the *v1* version of the *backend* component as track *default*.
 
     ```shell
-    curl -qs https://raw.githubusercontent.com/kalantar/ab-example/main/backend/deploy.yaml \
+    curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/backend/deploy.yaml \
+    | sed -e "s#\$IMAGE#kalantar/abn-sample-backend:latest#" \
     | sed -e "s#\$NAME#backend#" \
     | sed -e "s#\$VERSION#v1#" \
     | sed -e "s#\$TRACK#default#" \
@@ -95,6 +96,7 @@ If not already deployed, deploy the Iter8 A/B(/n) service. This service implemen
 
 ```shell
 helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
+--set image=iter8/iter8:0.12-pre --set logLevel=trace \
 --set "resources={deployments,services}" \
 --set "namespaces={default}"
 ```
@@ -108,7 +110,8 @@ helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
 Deploy the *v2* version of the *backend* component as track *candidate*.
 
 ```shell
-curl -qs https://raw.githubusercontent.com/kalantar/ab-example/main/backend/deploy.yaml \
+curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/backend/deploy.yaml \
+| sed -e "s#\$IMAGE#kalantar/abn-sample-backend:latest#" \
 | sed -e "s#\$NAME#backend-candidate#" \
 | sed -e "s#\$VERSION#v2#" \
 | sed -e "s#\$TRACK#candidate#" \
@@ -117,7 +120,7 @@ curl -qs https://raw.githubusercontent.com/kalantar/ab-example/main/backend/depl
 
 When version *v2* of the backend component is deployed, the frontend service continues to send requests only to version *v2* until the new version is marked as *ready* by adding the `iter8.tools/abn` label.
 
-## Mark the ßcandidate version ready
+## Mark the candidate version ready
 
 Once the candidate version is ready to receive user traffic, for example, when the pods are `Ready`, label the deployment object as a valid participant in A/B(/n) experiments:
 
@@ -141,6 +144,7 @@ To terminate traffic to the candidate version, simply remove the `iter8.tools/ab
 
 ```shell
 iter8 k launch \
+--set iter8Image=iter8/iter8:0.12-pre --set majorMinor=v0.12 --set logLevel=trace --loglevel=trace \
 --set abnmetrics.application=default/backend \
 --set "tasks={abnmetrics}" \
 --set runner=cronjob \
