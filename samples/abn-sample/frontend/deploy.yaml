@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: FRONTEND_TAG
+        image: $IMAGE
+        imagePullPolicy: Always
         resources: {}
         env:
         - name: ABN_SERVICE
