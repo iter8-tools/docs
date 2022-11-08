@@ -26,13 +26,13 @@ See [here](../../tutorials/integrations/slack.md#use-iter8-to-send-a-message-to-
 | Name | Type | Required | Default value | Description |
 | ---- | ---- | -------- | ------------- | ----------- |
 | url | string | Yes | N/A | URL to the Slack webhook |
-| payloadTemplateURL | string | No | [https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.1/templates/_payload-slack.tpl](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.1/templates/_payload-slack.tpl) | URL to a payload template |
+| payloadTemplateURL | string | No | [https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.2/templates/notify/_payload-slack.tpl](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.2/templates/notify/_payload-slack.tpl) | URL to a payload template |
 | softFailure | bool | No | true | Indicates the task and experiment should not fail if the task cannot successfully send the request |
 | if | string | No | N/A | An if condition that can be control when the task is run in a [multi-looped experiment](../../getting-started/concepts.md#runner). To learn more, see [here](#if-parameter). |
 
 ## Default payload
 
-The payload will determine what will be contained in the Slack message. The [default payload templae](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.1/templates/_payload-slack.tpl) of the `slack` task is to send the experiment report in text form.
+The payload will determine what will be contained in the Slack message. The [default payload templae](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.2/templates/notify/_payload-slack.tpl) of the `slack` task is to send the experiment report in text form.
 
 However, if you would like to use a different payload template, simply set a `payloadTemplateURL` and Iter8 will not use the default.
 
