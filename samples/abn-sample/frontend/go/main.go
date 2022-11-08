@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
-	"math"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -112,21 +112,9 @@ func main() {
 	})
 	Logger.SetLevel(logrus.TraceLevel)
 
-	t := time.Now()
-	fmt.Println(t)
-	eu := t.Unix()
-	fmt.Println(eu)
-	ef := float64(eu)
-	fmt.Println(ef)
-	// time.Unix(int64(math.Round(encoded[5])), 0)
-	di := int64(math.Round(ef))
-	fmt.Println(di)
-	dt := time.Unix(di, 0)
-	fmt.Println(dt)
-
 	// establish connection to ABn service
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
-	conn, err := grpc.Dial("iter8-abn:50051", opts...)
+	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", getAbnService(), getAbnServicePort()), opts...)
 	if err != nil {
 		panic("Cannot establish connection with abn service")
 		// return
@@ -138,4 +126,18 @@ func main() {
 	http.HandleFunc("/getRecommendation", getRecommendation)
 	http.HandleFunc("/buy", buy)
 	http.ListenAndServe(":8090", nil)
+}
+
+func getAbnService() string {
+	if value, ok := os.LookupEnv("ABN_SERVICE"); ok {
+		return value
+	}
+	return "iter8-abn"
+}
+
+func getAbnServicePort() string {
+	if value, ok := os.LookupEnv("ABN_SERVICE_PORT"); ok {
+		return value
+	}
+	return "50051"
 }

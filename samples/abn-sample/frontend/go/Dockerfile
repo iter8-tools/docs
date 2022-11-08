@@ -2,7 +2,7 @@
 FROM golang:1.18-buster as builder
 
 WORKDIR /
-COPY frontend/go .
+COPY samples/abn-sample/frontend/go .
 RUN go mod download
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o fe main.go

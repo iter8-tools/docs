@@ -20,7 +20,8 @@ spec:
     spec:
       containers:
       - name: backend
-        image: kalantar/backend:$VERSION
+        image: $IMAGE
+        imagePullPolicy: Always
         env:
         - name: MY_VERSION
           value: $VERSION

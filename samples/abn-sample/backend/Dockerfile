@@ -3,7 +3,7 @@ FROM golang:1.18-buster as builder
 
 WORKDIR /
 
-COPY backend/ .
+COPY samples/abn-sample/backend/ .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o backend main.go
 

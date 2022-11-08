@@ -1,6 +1,7 @@
 import random
 
 from http import HTTPStatus
+import os
 import requests
 
 import grpc
@@ -32,7 +33,8 @@ def getRecommendation():
     route = trackToRoute["default"]
 
     # establish connection to ABn service
-    with grpc.insecure_channel("abn:50051") as channel:
+    abnSvc = os.getenv('ABN_SERVICE', 'iter8-abn') + ":" + os.getenv('ABN_SERVICE_PORT', '50051')
+    with grpc.insecure_channel(abnSvc) as channel:
         stub = abn_pb2_grpc.ABNStub(channel)
 
         try:
@@ -69,7 +71,8 @@ def buy():
 	# this is best effort; we ignore any failure
 
     # establish connection to ABn service
-    with grpc.insecure_channel("abn:50051") as channel:
+    abnSvc = os.getenv('ABN_SERVICE', 'iter8-abn') + ":" + os.getenv('ABN_SERVICE_PORT', '50051')
+    with grpc.insecure_channel(abnSvc) as channel:
         stub = abn_pb2_grpc.ABNStub(channel)
 
         # export metric to metrics database
