@@ -29,8 +29,8 @@ The examples in this document focus on Prometheus, NewRelic, Sysdig, and Elastic
         The following is an example of an Iter8 metric with Prometheus as the provider. This example assumes that Prometheus can be queried by Iter8 without any authentication.
 
         ```yaml linenums="1"
-        url: http://127.0.0.1:9090/api/v1/query
-        provider: istio
+        url: {{ default .istioPromURL "http://prometheus.istio-system:9090/api/v1/query" }}
+        provider: istio-prom
         method: GET
         metrics:
         - name: request-count
@@ -41,15 +41,9 @@ The examples in this document focus on Prometheus, NewRelic, Sysdig, and Elastic
           - name: query
             value: |
               sum(last_over_time(istio_requests_total{
-                  reporter="source",    
-                {{- if .destination_workload }}
-                  destination_workload="{{.destination_workload}}",
-                {{- end }}
-                {{- if .destination_workload_namespace }}
-                  destination_workload_namespace="{{.destination_workload_namespace}}",
-                {{- end }}
-              }[{{.elapsedTimeSeconds}}s])) or on() vector(0)
-          jqExpression: .data.result[0].value[1]
+                {{- template "labels" . }}
+              }[{{ .elapsedTimeSeconds }}s])) or on() vector(0)
+          jqExpression: .data.result[0].value[1] | tonumber
         ```
 
     ??? hint "Brief explanation of the `request-count` metric"
