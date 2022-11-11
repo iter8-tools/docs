@@ -5,7 +5,9 @@ hide:
 ---
 
 # News and Announcements
-* **October 2022:** Iter8 at KubeCon. Coming soon. [Conference details](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/)
+* **October 2022:** Iter8 at KubeCon. [Conference details](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/)
+    * Presentation by Srinivasan Parthasarathy. Video coming soon
+    * Lightning talk by Alan Cha. Video link [here](https://www.youtube.com/watch?v=CloYk6W_7Ns)
 
 * **August 2022:** ITNEXT article by Alan Cha. [Performance testing with Iter8, now with custom metrics!](https://itnext.io/performance-testing-with-iter8-now-with-custom-metrics-8c97bb7449c8)
 
