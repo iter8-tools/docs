@@ -31,6 +31,28 @@ function deserialize_main_Application(buffer_arg) {
   return abn_pb.Application.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_main_ApplicationData(arg) {
+  if (!(arg instanceof abn_pb.ApplicationData)) {
+    throw new Error('Expected argument of type main.ApplicationData');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_main_ApplicationData(buffer_arg) {
+  return abn_pb.ApplicationData.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_main_ApplicationRequest(arg) {
+  if (!(arg instanceof abn_pb.ApplicationRequest)) {
+    throw new Error('Expected argument of type main.ApplicationRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_main_ApplicationRequest(buffer_arg) {
+  return abn_pb.ApplicationRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_main_MetricValue(arg) {
   if (!(arg instanceof abn_pb.MetricValue)) {
     throw new Error('Expected argument of type main.MetricValue');
@@ -57,7 +79,7 @@ function deserialize_main_Session(buffer_arg) {
 // for more information, see https://github.com/iter8-tools/iter8/issues/1257
 //
 var ABNService = exports.ABNService = {
-  // Identify a version the caller should send a request to.
+  // Identify a track the caller should send a request to.
 // Should be called for each request (transaction).
 lookup: {
     path: '/main.ABN/Lookup',
@@ -83,6 +105,18 @@ writeMetric: {
     requestDeserialize: deserialize_main_MetricValue,
     responseSerialize: serialize_google_protobuf_Empty,
     responseDeserialize: deserialize_google_protobuf_Empty,
+  },
+  // Get application data (tracks, versions and metrics for each)
+getApplicationData: {
+    path: '/main.ABN/GetApplicationData',
+    requestStream: false,
+    responseStream: false,
+    requestType: abn_pb.ApplicationRequest,
+    responseType: abn_pb.ApplicationData,
+    requestSerialize: serialize_main_ApplicationRequest,
+    requestDeserialize: deserialize_main_ApplicationRequest,
+    responseSerialize: serialize_main_ApplicationData,
+    responseDeserialize: deserialize_main_ApplicationData,
   },
 };
 

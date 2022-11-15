@@ -27,6 +27,11 @@ class ABNStub(object):
                 request_serializer=abn__pb2.MetricValue.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
+        self.GetApplicationData = channel.unary_unary(
+                '/main.ABN/GetApplicationData',
+                request_serializer=abn__pb2.ApplicationRequest.SerializeToString,
+                response_deserializer=abn__pb2.ApplicationData.FromString,
+                )
 
 
 class ABNServicer(object):
@@ -35,7 +40,7 @@ class ABNServicer(object):
     """
 
     def Lookup(self, request, context):
-        """Identify a version the caller should send a request to.
+        """Identify a track the caller should send a request to.
         Should be called for each request (transaction).
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -46,6 +51,13 @@ class ABNServicer(object):
         """Write a metric value to metrics database.
         The metric value is explicitly associated with a list of transactions that contributed to its computation.
         The user is expected to identify these transactions.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetApplicationData(self, request, context):
+        """Get application data (tracks, versions and metrics for each)
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -63,6 +75,11 @@ def add_ABNServicer_to_server(servicer, server):
                     servicer.WriteMetric,
                     request_deserializer=abn__pb2.MetricValue.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'GetApplicationData': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetApplicationData,
+                    request_deserializer=abn__pb2.ApplicationRequest.FromString,
+                    response_serializer=abn__pb2.ApplicationData.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -107,5 +124,22 @@ class ABN(object):
         return grpc.experimental.unary_unary(request, target, '/main.ABN/WriteMetric',
             abn__pb2.MetricValue.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetApplicationData(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/main.ABN/GetApplicationData',
+            abn__pb2.ApplicationRequest.SerializeToString,
+            abn__pb2.ApplicationData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

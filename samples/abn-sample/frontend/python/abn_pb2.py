@@ -15,13 +15,15 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tabn.proto\x12\x04main\x1a\x1bgoogle/protobuf/empty.proto\")\n\x0b\x41pplication\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04user\x18\x02 \x01(\t\"\x18\n\x07Session\x12\r\n\x05track\x18\x01 \x01(\t\"M\n\x0bMetricValue\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x13\n\x0b\x61pplication\x18\x03 \x01(\t\x12\x0c\n\x04user\x18\x04 \x01(\t2o\n\x03\x41\x42N\x12,\n\x06Lookup\x12\x11.main.Application\x1a\r.main.Session\"\x00\x12:\n\x0bWriteMetric\x12\x11.main.MetricValue\x1a\x16.google.protobuf.Empty\"\x00\x42\'Z%github.com/iter8-tools/iter8/abn/grpcb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tabn.proto\x12\x04main\x1a\x1bgoogle/protobuf/empty.proto\")\n\x0b\x41pplication\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04user\x18\x02 \x01(\t\"\x18\n\x07Session\x12\r\n\x05track\x18\x01 \x01(\t\"M\n\x0bMetricValue\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x13\n\x0b\x61pplication\x18\x03 \x01(\t\x12\x0c\n\x04user\x18\x04 \x01(\t\")\n\x12\x41pplicationRequest\x12\x13\n\x0b\x61pplication\x18\x01 \x01(\t\"*\n\x0f\x41pplicationData\x12\x17\n\x0f\x61pplicationJson\x18\x01 \x01(\t2\xb8\x01\n\x03\x41\x42N\x12,\n\x06Lookup\x12\x11.main.Application\x1a\r.main.Session\"\x00\x12:\n\x0bWriteMetric\x12\x11.main.MetricValue\x1a\x16.google.protobuf.Empty\"\x00\x12G\n\x12GetApplicationData\x12\x18.main.ApplicationRequest\x1a\x15.main.ApplicationData\"\x00\x42\'Z%github.com/iter8-tools/iter8/abn/grpcb\x06proto3')
 
 
 
 _APPLICATION = DESCRIPTOR.message_types_by_name['Application']
 _SESSION = DESCRIPTOR.message_types_by_name['Session']
 _METRICVALUE = DESCRIPTOR.message_types_by_name['MetricValue']
+_APPLICATIONREQUEST = DESCRIPTOR.message_types_by_name['ApplicationRequest']
+_APPLICATIONDATA = DESCRIPTOR.message_types_by_name['ApplicationData']
 Application = _reflection.GeneratedProtocolMessageType('Application', (_message.Message,), {
   'DESCRIPTOR' : _APPLICATION,
   '__module__' : 'abn_pb2'
@@ -43,6 +45,20 @@ MetricValue = _reflection.GeneratedProtocolMessageType('MetricValue', (_message.
   })
 _sym_db.RegisterMessage(MetricValue)
 
+ApplicationRequest = _reflection.GeneratedProtocolMessageType('ApplicationRequest', (_message.Message,), {
+  'DESCRIPTOR' : _APPLICATIONREQUEST,
+  '__module__' : 'abn_pb2'
+  # @@protoc_insertion_point(class_scope:main.ApplicationRequest)
+  })
+_sym_db.RegisterMessage(ApplicationRequest)
+
+ApplicationData = _reflection.GeneratedProtocolMessageType('ApplicationData', (_message.Message,), {
+  'DESCRIPTOR' : _APPLICATIONDATA,
+  '__module__' : 'abn_pb2'
+  # @@protoc_insertion_point(class_scope:main.ApplicationData)
+  })
+_sym_db.RegisterMessage(ApplicationData)
+
 _ABN = DESCRIPTOR.services_by_name['ABN']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -54,6 +70,10 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _SESSION._serialized_end=115
   _METRICVALUE._serialized_start=117
   _METRICVALUE._serialized_end=194
-  _ABN._serialized_start=196
-  _ABN._serialized_end=307
+  _APPLICATIONREQUEST._serialized_start=196
+  _APPLICATIONREQUEST._serialized_end=237
+  _APPLICATIONDATA._serialized_start=239
+  _APPLICATIONDATA._serialized_end=281
+  _ABN._serialized_start=284
+  _ABN._serialized_end=468
 # @@protoc_insertion_point(module_scope)
