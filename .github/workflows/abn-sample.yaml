@@ -1,16 +1,17 @@
 name: Publish A/B/n Sample Docker images
 
 on:
-  release:
-    types: [published]
-    paths:
-    - samples/abn-sample
+  workflow_dispatch:
+  # release:
+  #   types: [published]
+  #   paths:
+  #   - samples/abn-sample
 
 jobs:
   build-and-push-backend:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Get version
@@ -27,15 +28,15 @@ jobs:
           owner=iter8
         fi
         echo "OWNER=$owner" >> $GITHUB_ENV
-    - uses: docker/setup-buildx-action@v1
-    - uses: docker/login-action@v1
+    - uses: docker/setup-buildx-action@v2
+    - uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SECRET }}
-    - uses: docker/build-push-action@v2
+    - uses: docker/build-push-action@v3
       with:
         tags: ${{ env.OWNER }}/abn-sample-backend:${{ env.VERSION }},${{ env.OWNER }}/abn-sample-backend:${{ env.MAJOR_MINOR_VERSION }},${{ env.OWNER }}/abn-sample-backend:latest
-        file: backend/Dockerfile
+        file: samples/abn-sample/backend/Dockerfile
         push: true
 
   build-and-push-frontends:
@@ -44,7 +45,7 @@ jobs:
       matrix:
         lang: [go, node, python]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Get version
@@ -61,14 +62,14 @@ jobs:
           owner=iter8
         fi
         echo "OWNER=$owner" >> $GITHUB_ENV
-    - uses: docker/setup-buildx-action@v1
-    - uses: docker/login-action@v1
+    - uses: docker/setup-buildx-action@v2
+    - uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SECRET }}
-    - uses: docker/build-push-action@v2
+    - uses: docker/build-push-action@v3
       with:
         tags: ${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:${{ env.VERSION }},${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:${{ env.MAJOR_MINOR_VERSION }},${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:latest
-        file: frontend/${{ matrix.lang }}/Dockerfile
+        file: samples/abn-sample/frontend/${{ matrix.lang }}/Dockerfile
         push: true
 
