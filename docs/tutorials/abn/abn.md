@@ -44,23 +44,20 @@ Deploy both the frontend and backend components of the application as described 
 
     === "node"
         ```shell
-        curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/frontend/deploy.yaml \
-        | sed -e "s#\$IMAGE#kalantar/abn-sample-frontend-node:latest#" \
-        | kubectl apply -f -
+        kubectl create deployment frontend --image=kalantar/abn-sample-frontend-node:latest
+        kubectl expose deployment frontend --name=frontend --port=8090
         ```
 
     === "Python"
         ```shell
-        curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/frontend/deploy.yaml \
-        | sed -e "s#\$IMAGE#kalantar/abn-sample-frontend-python:latest#" \
-        | kubectl apply -f -
+        kubectl create deployment frontend --image=kalantar/abn-sample-frontend-python:latest
+        kubectl expose deployment frontend --name=frontend --port=8090
         ```
 
     === "Go"
         ```shell
-        curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/frontend/deploy.yaml \
-        | sed -e "s#\$IMAGE#kalantar/abn-sample-frontend-go:latest#" \
-        | kubectl apply -f -
+        kubectl create deployment frontend --image=kalantar/abn-sample-frontend-go:latest
+        kubectl expose deployment frontend --name=frontend --port=8090
         ```
     
     The frontend service is implemented to call **Lookup()** before each call to the backend service. It sends its request to the recommended backend service.
@@ -69,12 +66,12 @@ Deploy both the frontend and backend components of the application as described 
     Deploy the *v1* version of the *backend* component as track *default*.
 
     ```shell
-    curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/backend/deploy.yaml \
-    | sed -e "s#\$IMAGE#kalantar/abn-sample-backend:latest#" \
-    | sed -e "s#\$NAME#backend#" \
-    | sed -e "s#\$VERSION#v1#" \
-    | sed -e "s#\$TRACK#default#" \
-    | kubectl apply -f -
+    kubectl create deployment backend --image=kalantar/abn-sample-backend:latest
+    kubectl expose deployment backend --name=backend --port=8091
+
+    kubectl label deployment backend app.kubernetes.io/name=backend
+    kubectl label deployment backend app.kubernetes.io/version=v1
+    kubectl label deployment backend iter8.tools/track=default
     kubectl label deployment backend iter8.tools/abn=true
     ```
  
@@ -82,6 +79,9 @@ Deploy both the frontend and backend components of the application as described 
 Generate load. In separate shells, port-forward requests to the frontend service and generate load for multiple users.  For example:
     ```shell
     kubectl port-forward svc/frontend 8090:8090
+    ```
+    ```shell
+    curl localhost:8090/getRecommendation -H "X-User: foo"
     ```
     ```shell
     watch -x curl -s localhost:8090/buy -H "X-User: foo"
@@ -96,7 +96,7 @@ If not already deployed, deploy the Iter8 A/B(/n) service. This service implemen
 
 ```shell
 helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
---set image=iter8/iter8:0.12-pre --set logLevel=trace \
+--set image=kalantar/iter8:20221117-0815 --set logLevel=trace \
 --set "resources={deployments,services}" \
 --set "namespaces={default}"
 ```
@@ -110,12 +110,12 @@ helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
 Deploy the *v2* version of the *backend* component as track *candidate*.
 
 ```shell
-curl -qs https://raw.githubusercontent.com/kalantar/docs/abn-sample/samples/abn-sample/backend/deploy.yaml \
-| sed -e "s#\$IMAGE#kalantar/abn-sample-backend:latest#" \
-| sed -e "s#\$NAME#backend-candidate#" \
-| sed -e "s#\$VERSION#v2#" \
-| sed -e "s#\$TRACK#candidate#" \
-| kubectl apply -f -
+kubectl create deployment backend-candidate --image=kalantar/abn-sample-backend:latest
+kubectl expose deployment backend-candidate --name=backend-candidate --port=8091
+
+kubectl label deployment backend-candidate app.kubernetes.io/name=backend
+kubectl label deployment backend-candidate app.kubernetes.io/version=v2
+kubectl label deployment backend-candidate iter8.tools/track=candidate
 ```
 
 When version *v2* of the backend component is deployed, the frontend service continues to send requests only to version *v2* until the new version is marked as *ready* by adding the `iter8.tools/abn` label.
@@ -186,28 +186,6 @@ iter8 k report
 The output allows you to compare the versions against each other and select a winner. Since the experiment runs periodically, you should expect the values in the report to change over time.
 
 Once a winner is identified, it can be promoted and the canidiate versions can be deleted.
-
-<!--
-## Promote the candidate version [to be deleted]
-
-### Update the default version
-
-Redeploy the `backend` deployment using the new image (`v2`) as the `default` track:
-
-```shell
-curl -qs https://raw.githubusercontent.com/kalantar/ab-example/main/backend/deploy.yaml \
-| sed -e "s#\$NAME#backend#" \
-| sed -e "s#\$VERSION#v2#" \
-| sed -e "s#\$TRACK#default#" \
-| kubectl apply -f -
-```
-
-### Remove the candidate version
-
-```shell
-kubectl delete deployment backend-candidate
-```
--->
 
 ***
 
