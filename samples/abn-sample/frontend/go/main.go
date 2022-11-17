@@ -11,7 +11,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	pb "github.com/kalantar/ab-example/frontend/go/grpc"
+	// pb "github.com/kalantar/ab-example/frontend/go/grpc"
+	pb "github.com/iter8-tools/iter8/abn/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
