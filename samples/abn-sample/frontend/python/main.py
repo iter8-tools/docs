@@ -87,4 +87,4 @@ def buy():
         except Exception as e:
             pass
 
-    return ""
+    return "Purchase complete"

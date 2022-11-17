@@ -100,7 +100,7 @@ func buy(w http.ResponseWriter, req *http.Request) {
 			User:        user,
 		},
 	)
-	w.WriteHeader(http.StatusAccepted)
+	fmt.Fprintln(w, "Purchase complete")
 }
 
 func main() {

@@ -74,7 +74,7 @@ app.get('/buy', (req, res) => {
     mv.setApplication('default/backend');
     mv.setUser(user);
     client.writeMetric(mv, function(err, session) {});
-    res.sendStatus(200);
+    res.send(`Purchase complete`)
 });
 
 app.listen(8090, '0.0.0.0');
