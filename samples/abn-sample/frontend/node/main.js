@@ -1,6 +1,6 @@
+var grpc = require('@grpc/grpc-js');
 var messages = require('./abn_pb.js');
 var services = require('./abn_grpc_pb.js');
-var grpc = require('@grpc/grpc-js');
 var http = require('http');
 var random = require('random-number');
 
