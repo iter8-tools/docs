@@ -12,7 +12,7 @@ WORKDIR /
 COPY samples/abn-sample/frontend/go .
 # COPY samples/abn-sample/frontend/abn.proto .
 
-# # Generate interface to Iter8A/B(/n) service
+# # generate gRPC libraries from abn.proto
 # RUN mkdir -p grpc
 # RUN protoc --go_out=./grpc --go_opt=paths=source_relative --go-grpc_out=./grpc --go-grpc_opt=paths=source_relative  ./abn.proto
 

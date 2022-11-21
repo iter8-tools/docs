@@ -1,11 +1,10 @@
 name: Publish A/B/n Sample Docker images
 
 on:
-  workflow_dispatch:
-  # release:
-  #   types: [published]
-  #   paths:
-  #   - samples/abn-sample
+  release:
+    types: [published]
+    paths:
+    - samples/abn-sample
 
 jobs:
   build-and-push-backend:
