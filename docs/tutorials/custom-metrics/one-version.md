@@ -37,7 +37,7 @@ Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for 
 ```shell
 iter8 k launch \
 --set "tasks={custommetrics,assess}" \
---set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/v0.12.2-pre/testdata/custommetrics/istio-prom.tpl" \
+--set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/v0.12.0/testdata/custommetrics/istio-prom.tpl" \
 --set custommetrics.values.labels.namespace=default \
 --set custommetrics.values.labels.destination_app=httpbin \
 --set assess.SLOs.upper.istio-prom/error-rate=0 \
@@ -49,7 +49,7 @@ iter8 k launch \
 ??? note "About this experiment"
     This experiment consists of two [tasks](../../getting-started/concepts.md#iter8-experiment), namely, [custommetrics](../../user-guide/tasks/custommetrics.md), and [assess](../../user-guide/tasks/assess.md). 
     
-    The `custommetrics` task in this experiment [works](../../user-guide/tasks/custommetrics.md#how-it-works) by downloading a [provider template](../../user-guide/tasks/custommetrics.md#provider-template) named `istio-prom` from a URL, [substituting the template variables with values](../../user-guide/tasks/custommetrics.md#computing-variable-values), using the resulting [provider spec](../../user-guide/tasks/custommetrics.md#provider-spec) to query Prometheus for metrics, and [processing the response from Prometheus](../../user-guide/tasks/custommetrics.md#processing-response) to extract the metric values. Metrics defined by this template include `error-rate` and `latency-mean`; the [Prometheus labels](https://istio.io/latest/docs/reference/config/metrics/#labels) used by this template are stored in `labels`; all the metrics and variables associated with this template are [documented as part of the template](https://raw.githubusercontent.com/iter8-tools/iter8/v0.12.2-pre/testdata/custommetrics/istio-prom.tpl). 
+    The `custommetrics` task in this experiment [works](../../user-guide/tasks/custommetrics.md#how-it-works) by downloading a [provider template](../../user-guide/tasks/custommetrics.md#provider-template) named `istio-prom` from a URL, [substituting the template variables with values](../../user-guide/tasks/custommetrics.md#computing-variable-values), using the resulting [provider spec](../../user-guide/tasks/custommetrics.md#provider-spec) to query Prometheus for metrics, and [processing the response from Prometheus](../../user-guide/tasks/custommetrics.md#processing-response) to extract the metric values. Metrics defined by this template include `error-rate` and `latency-mean`; the [Prometheus labels](https://istio.io/latest/docs/reference/config/metrics/#labels) used by this template are stored in `labels`; all the metrics and variables associated with this template are [documented as part of the template](https://raw.githubusercontent.com/iter8-tools/iter8/v0.12.0/testdata/custommetrics/istio-prom.tpl). 
     
     The [assess](../../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, and ii) the mean latency of the app does not exceed 100 msec. 
 

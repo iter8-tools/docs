@@ -17,7 +17,7 @@ a. **Lookup()** - Identifies a version of a backend service to send a request to
 
 b. **WriteMetric()** - associates a metric with a backend
 
-This SDK, implemented using gRPC, can be used from a number of frontend implementation languages including *node*, *Python*, *Ruby* and *Go* among others. Details of the Iter8 SDK are documented in the [gRPC protoc file](https://github.com/iter8-tools/iter8/blob/v0.11.16/abn/grpc/abn.proto).
+This SDK, implemented using gRPC, can be used from a number of frontend implementation languages including *node*, *Python*, *Ruby* and *Go* among others. Details of the Iter8 SDK are documented in the [gRPC protoc file](https://github.com/iter8-tools/iter8/blob/v0.12.0/abn/grpc/abn.proto).
 
 This tutorial describes an A/B testing experiment for a backend component.
 Example frontends are provided in *node*, *Python* and *Go*.
@@ -140,7 +140,6 @@ To terminate traffic to the candidate version, simply remove the `iter8.tools/ab
 
 ```shell
 iter8 k launch \
---set iter8Image=iter8/iter8:0.12-pre --set majorMinor=v0.12 --set logLevel=trace --loglevel=trace \
 --set abnmetrics.application=default/backend \
 --set "tasks={abnmetrics}" \
 --set runner=cronjob \

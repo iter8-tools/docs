@@ -8,11 +8,11 @@ There are two ways that you can use Iter8 with GitHub Actions. You can [run Iter
 
 # Use Iter8 in a GitHub Actions workflow
 
-Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.11`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
+Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.12`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
 
 ```yaml linenums="1"
 # install Iter8 CLI
-- uses: iter8-tools/iter8@v0.11
+- uses: iter8-tools/iter8@v0.12
 # launch a local experiment
 - run: |
     iter8 launch --set "tasks={http}" --set http.url=http://httpbin.org/get
