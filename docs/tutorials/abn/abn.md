@@ -44,19 +44,19 @@ Deploy both the frontend and backend components of the application as described 
 
     === "node"
         ```shell
-        kubectl create deployment frontend --image=kalantar/abn-sample-frontend-node:latest
+        kubectl create deployment frontend --image=iter8/abn-sample-frontend-node:latest
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
 
     === "Python"
         ```shell
-        kubectl create deployment frontend --image=kalantar/abn-sample-frontend-python:latest
+        kubectl create deployment frontend --image=iter8/abn-sample-frontend-python:latest
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
 
     === "Go"
         ```shell
-        kubectl create deployment frontend --image=kalantar/abn-sample-frontend-go:latest
+        kubectl create deployment frontend --image=iter8/abn-sample-frontend-go:latest
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
     
@@ -66,7 +66,7 @@ Deploy both the frontend and backend components of the application as described 
     Deploy the *v1* version of the *backend* component as track *default*.
 
     ```shell
-    kubectl create deployment backend --image=kalantar/abn-sample-backend:latest
+    kubectl create deployment backend --image=iter8/abn-sample-backend:latest
     kubectl expose deployment backend --name=backend --port=8091
 
     kubectl label deployment backend app.kubernetes.io/name=backend
@@ -81,13 +81,10 @@ Generate load. In separate shells, port-forward requests to the frontend service
     kubectl port-forward svc/frontend 8090:8090
     ```
     ```shell
-    curl localhost:8090/getRecommendation -H "X-User: foo"
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh | sh -s -- -u foo
     ```
     ```shell
-    watch -x curl -s localhost:8090/buy -H "X-User: foo"
-    ```
-    ```shell
-    watch -x curl -s localhost:8090/buy -H "X-User: foobar"
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh | sh -s -- -u foobar
     ```
 
 ## Launch Iter8 A/B(/n) service
@@ -96,7 +93,6 @@ If not already deployed, deploy the Iter8 A/B(/n) service. This service implemen
 
 ```shell
 helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
---set image=kalantar/iter8:20221117-0815 --set logLevel=trace \
 --set "resources={deployments,services}" \
 --set "namespaces={default}"
 ```
@@ -110,7 +106,7 @@ helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
 Deploy the *v2* version of the *backend* component as track *candidate*.
 
 ```shell
-kubectl create deployment backend-candidate --image=kalantar/abn-sample-backend:latest
+kubectl create deployment backend-candidate --image=iter8/abn-sample-backend:latest
 kubectl expose deployment backend-candidate --name=backend-candidate --port=8091
 
 kubectl label deployment backend-candidate app.kubernetes.io/name=backend
