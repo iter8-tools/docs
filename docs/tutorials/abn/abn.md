@@ -27,7 +27,7 @@ Example frontends are provided in *node*, *Python* and *Go*.
     Traditional testing methods can be applied.
 
 <p align='center'>
-<img alt-text="A/B(/n) experiment" src="../images/abn.png" />
+<img alt-text="A/B/n experiment" src="../images/abn.png" />
 </p>
 
 ***
@@ -87,9 +87,9 @@ Generate load. In separate shells, port-forward requests to the frontend service
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh | sh -s -- -u foobar
     ```
 
-## Launch Iter8 A/B(/n) service
+## Launch Iter8 A/B/n service
 
-If not already deployed, deploy the Iter8 A/B(/n) service. This service implements the gRPC interfaces. Specify which Kubernetes resource types to watch in which namespaces:
+If not already deployed, deploy the Iter8 A/B/n service. This service implements the gRPC interfaces. Specify which Kubernetes resource types to watch in which namespaces:
 
 ```shell
 helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
@@ -118,7 +118,7 @@ When version *v2* of the backend component is deployed, the frontend service con
 
 ## Mark the candidate version ready
 
-Once the candidate version is ready to receive user traffic, for example, when the pods are `Ready`, label the deployment object as a valid participant in A/B(/n) experiments:
+Once the candidate version is ready to receive user traffic, for example, when the pods are `Ready`, label the deployment object as a valid participant in A/B/n experiments:
 
 ```shell
 kubectl label deployment backend-candidate iter8.tools/abn=true
@@ -128,7 +128,7 @@ Once labeled, subsequent `Lookup()` requests may return the candidate version.
 To terminate traffic to the candidate version, simply remove the `iter8.tools/abn` label.
 
 ??? note "How labels are used"
-    The Iter8 watches resources where the label `iter8-tools/abn` is set to `true`. On resources where this is the case, the following additional labels are expected to be present. They identify the role of the resource in an A/B(/n) experiment. Note that an application _version_ might be composed of multiple resources. Iter8 expects only one of these resources to be labeled.
+    The Iter8 watches resources where the label `iter8-tools/abn` is set to `true`. On resources where this is the case, the following additional labels are expected to be present. They identify the role of the resource in an A/B/n experiment. Note that an application _version_ might be composed of multiple resources. Iter8 expects only one of these resources to be labeled.
 
     1. `app.kubernetes.io/name`: the application (component) name
     2. `app.kubernetes.io/version`: the version name
@@ -192,7 +192,7 @@ Once a winner is identified, it can be promoted and the canidiate versions can b
 iter8 k delete
 ```
 
-### Delete the A/B(/n) service
+### Delete the A/B/n service
 
 ```shell
 helm delete iter8-abn
