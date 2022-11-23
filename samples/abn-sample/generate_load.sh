@@ -5,14 +5,13 @@ SERVICE="http://localhost:8090"
 GET_RECOMMENDATION="$SERVICE/getRecommendation"
 BUY="$SERVICE/buy"
 
-
 __num_recommendations=$(( ( RANDOM % 5 )  + 1 ))
 __user="unknown"
 
- while (( $# >  0 )); do
+while (( $# >  0 )); do
     case "$1" in
     -u) 
-         __user="$2"
+        __user="$2"
         shift
         shift
         ;;
@@ -24,7 +23,6 @@ __user="unknown"
 done
 
 while (( 1 )); do 
-
     # get some recommendations
     i=0
     while (( ${i} < ${__num_recommendations} )); do
@@ -38,4 +36,4 @@ while (( 1 )); do
     echo
 
     sleep 2
-    done
+done
