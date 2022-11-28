@@ -21,5 +21,5 @@ iter8 launch \
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| endpont  | string | Endpoint of the A/B/n service. Defaults to `iter8-abn:50051` |
+| endpoint  | string | Endpoint of the A/B/n service. Defaults to `iter8-abn:50051` |
 | application | string | Application name in form `namespace/name` |
