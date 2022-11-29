@@ -121,10 +121,10 @@ nav:
   - Load test HTTP with SLOs: tutorials/load-test-http.md
   - Load test gRPC with SLOs: tutorials/load-test-grpc.md
   - Chaos injection with SLOs: tutorials/chaos/slo-validation-chaos.md
+  - A/B experiments: tutorials/abn/abn.md
   - Custom metrics:
     - One version: tutorials/custom-metrics/one-version.md
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md
-  - A/B experiment: tutorials/abn/abn.md
   - Integrations:
     - Local environment: tutorials/integrations/local.md
     - GitHub Actions: tutorials/integrations/ghactions.md
