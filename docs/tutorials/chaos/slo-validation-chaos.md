@@ -137,7 +137,6 @@ Clean up the LitmusChaos and Iter8 experiments as described below.
 === "Iter8"
     ```shell
     iter8 k delete
-    rm -rf charts
     ```
 
 ***

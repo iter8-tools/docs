@@ -68,5 +68,4 @@ Remove the Iter8 experiment and the sample app from the Kubernetes cluster and t
 iter8 k delete
 kubectl delete svc/hello
 kubectl delete deploy/hello
-rm -rf charts
 ```

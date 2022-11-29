@@ -10,6 +10,7 @@ Iter8 supports the following use-cases.
 1.  Performance testing and SLO validation of HTTP services.
 2.  Performance testing and SLO validation of gRPC services.
 3.  SLO validation using custom metrics from any database(s) or REST API(s).
+4.  A/B/n experiments.
 
 
 ## Iter8 experiment

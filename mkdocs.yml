@@ -121,6 +121,7 @@ nav:
   - Load test HTTP with SLOs: tutorials/load-test-http.md
   - Load test gRPC with SLOs: tutorials/load-test-grpc.md
   - Chaos injection with SLOs: tutorials/chaos/slo-validation-chaos.md
+  - A/B experiments: tutorials/abn/abn.md
   - Custom metrics:
     - One version: tutorials/custom-metrics/one-version.md
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md
@@ -139,6 +140,7 @@ nav:
     - Docs for Iter8 v0.7: https://iter8-tools.github.io/iter8/0.7/
 - User guide:
   - Tasks:
+    - abnmetrics: user-guide/tasks/abnmetrics.md
     - assess: user-guide/tasks/assess.md
     - custommetrics: user-guide/tasks/custommetrics.md
     - github: user-guide/tasks/github.md
@@ -156,9 +158,6 @@ nav:
     - iter8 assert: user-guide/commands/iter8_assert.md
     - iter8 report: user-guide/commands/iter8_report.md
     - iter8 version: user-guide/commands/iter8_version.md
-    - iter8 hub: user-guide/commands/iter8_hub.md
-    - iter8 gen: user-guide/commands/iter8_gen.md
-    - iter8 run: user-guide/commands/iter8_run.md
     - iter8 k: user-guide/commands/iter8_k.md
     - iter8 k launch: user-guide/commands/iter8_k_launch.md
     - iter8 k assert: user-guide/commands/iter8_k_assert.md
