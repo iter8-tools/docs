@@ -127,7 +127,7 @@ Once labeled, subsequent `Lookup()` requests may return the candidate version.
 To terminate traffic to the candidate version, simply remove the `iter8.tools/abn` label.
 
 ??? note "How labels are used"
-    The Iter8 watches resources where the label `iter8-tools/abn` is set to `true`. On resources where this is the case, the following additional labels are expected to be present. They identify the role of the resource in an A/B/n experiment. Note that an application _version_ might be composed of multiple resources. Iter8 expects only one of these resources to be labeled.
+    The Iter8 service watches resources where the label `iter8-tools/abn` is set to `true`. On resources where this is the case, the following additional labels are expected to be present. They identify the role of the resource in an A/B/n experiment. Note that an application _version_ might be composed of multiple resources. Iter8 expects only one of these resources to be labeled.
 
     1. `app.kubernetes.io/name`: the application (component) name
     2. `app.kubernetes.io/version`: the version name
