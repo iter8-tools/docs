@@ -5,6 +5,8 @@ hide:
 ---
 
 # News and Announcements
+* **December 2022:** DZone article by Michael Kalantar. [Simplifying A/B/n Testing of Backend Services](https://dzone.com/articles/simplifying-abn-testing-of-backend-services)
+
 * **October 2022:** Iter8 at KubeCon. [Conference details](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/)
     * Presentation by Srinivasan Parthasarathy. Video coming soon
     * Lightning talk by Alan Cha. Video link [here](https://www.youtube.com/watch?v=CloYk6W_7Ns)
