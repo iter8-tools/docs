@@ -98,5 +98,3 @@ Congratulations! :tada: You completed your first Iter8 experiment.
     1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
     2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
     3. The [assess task](../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics).
-    4. This experiment can also be run in your [local environment](../tutorials/integrations/local.md) or run within a [GitHub Actions pipeline](../tutorials/integrations/ghactions.md).
-

@@ -11,9 +11,9 @@ A `repository_dispatch` will trigger workflows in the default branch of the GitH
 ## Usage Example
 
 ```shell
-iter8 launch \
+iter8 k launch \
 --set "tasks={http,assess,github}" \
---set http.url=http://127.0.0.1/get \
+--set http.url=http://httpbin.default/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
 --set assess.SLOs.upper.http/error-count=0 \
 --set github.owner=<GitHub owner> \
@@ -48,15 +48,15 @@ However, if you would like to use a different payload template, simply set a `pa
 The `if` parameter is used to control when the task is run in a [multi-looped experiment](../../getting-started/concepts.md#runner). For example, if you would like for the `github` task to only run at the 10th loop instead of every loop, you can do the following:
 
 ```diff
-  iter8 launch \
+  iter8 k launch \
   --set "tasks={http,assess,github}" \
-  --set http.url=http://127.0.0.1/get \
+  --set http.url=http://httpbin.default/get \
   --set assess.SLOs.upper.http/latency-mean=50 \
   --set assess.SLOs.upper.http/error-count=0 \
   --set github.owner=<GitHub owner> \
   --set github.repo=<GitHub repository> \
   --set github.token=<GitHub token> \
-+ --set github.if="Result.NumLoops == 10"
+  --set github.if="Result.NumLoops == 10"
   --set runner=job
 ```
 

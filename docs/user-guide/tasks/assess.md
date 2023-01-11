@@ -10,11 +10,12 @@ Assess if [service-level objectives (SLOs)](../../getting-started/concepts.md#se
 
 In this experiment, the `assess` task validates if the `http/latency-mean` metric has a value that does not exceed 50, and the `http/error-count` metric has a value that does not exceed 0.
 ```
-iter8 launch \
+iter8 k launch \
 --set "tasks={http,assess}" \
 --set http.url=https://httpbin.org/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
---set assess.SLOs.upper.http/error-count=0
+--set assess.SLOs.upper.http/error-count=0 \
+--set runner=job
 ```
 
 ## Parameters

@@ -11,14 +11,10 @@ There are two ways that you can use Iter8 with GitHub Actions. You can [run Iter
 Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.12`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
 
 ```yaml linenums="1"
-# install Iter8 CLI
+# Install Iter8 CLI
 - uses: iter8-tools/iter8@v0.12
-# launch a local experiment
-- run: |
-    iter8 launch --set "tasks={http}" --set http.url=http://httpbin.org/get
-# launch an experiment inside Kubernetes;
-# this assumes that your Kubernetes cluster is accessible 
-# from the GitHub Actions pipeline
+# Launch an experiment inside Kubernetes
+# This assumes that your Kubernetes cluster is accessible from the GitHub Actions pipeline
 - run: |
     iter8 k launch --set "tasks={http}" \
     --set http.url=http://httpbin.org/get \
@@ -66,9 +62,9 @@ kubectl expose deploy httpbin --port=80
 ```
 6. Launch the experiment with the `github` task with the appropriate values.
 ```shell
-iter8 launch \
+iter8 k launch \
 --set "tasks={http,assess,github}" \
---set http.url=http://127.0.0.1/get \
+--set http.url=http://httpbin.default/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
 --set assess.SLOs.upper.http/error-count=0 \
 --set github.owner=<GitHub owner> \
@@ -88,7 +84,7 @@ iter8 launch \
         ```shell
         iter8 k launch \
         --set "tasks={http,assess,github}" \
-        --set http.url=http://127.0.0.1/get \
+        --set http.url=http://httpbin.default/get \
         --set assess.SLOs.upper.http/latency-mean=50 \
         --set assess.SLOs.upper.http/error-count=0 \
         --set github.owner=<GitHub owner> \
@@ -103,13 +99,13 @@ iter8 launch \
         ```diff
           iter8 k launch \
           --set "tasks={http,assess,github}" \
-          --set http.url=http://127.0.0.1/get \
+          --set http.url=http://httpbin.default/get \
           --set assess.SLOs.upper.http/latency-mean=50 \
           --set assess.SLOs.upper.http/error-count=0 \
           --set github.owner=<GitHub owner> \
           --set github.repo=<GitHub repository> \
           --set github.token=<GitHub token> \
-        + --set github.if="Result.NumLoops == 10"
+          --set github.if="Result.NumLoops == 10"
           --set runner=cronjob \
           --set cronjobSchedule="*/1 * * * *"
         ```

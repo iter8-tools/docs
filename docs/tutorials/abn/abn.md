@@ -34,6 +34,23 @@ Example frontends are provided in *Node.js*, *Python* and *Go*.
 ???+ warning "Before you begin"
     1. Try [your first experiment](../../getting-started/your-first-experiment.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8 experiments.
  
+## Launch Iter8 A/B/n service
+
+If not already deployed, deploy the Iter8 A/B/n service. When deploying the service, specify which Kubernetes resources to watch for each application. To watch for versions of the _backend_ application in the _default_ namespace, watch for service and deployment resources:
+
+```shell
+helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
+--set "applications.default.backend.resources={service,deployment}"
+```
+
+??? warn "Assumptions"
+    To simplify specification, Iter8 assumes certain conventions:
+
+    - resources of all versions are deployed to the same namespace
+    - there is only one resource of each resource type among the resources of a version
+    - all resources that comprise the baseline version are named as: _&lt;application\_name&gt;_
+    - all resources that comprise the i<sup>th</sup> candidate version are named as: _&lt;application\_name&gt;-candidate-&lt;i&gt;_
+
 ## Deploy the sample application
 
 Deploy both the frontend and backend components of the application as described in each tab:
@@ -62,22 +79,21 @@ Deploy both the frontend and backend components of the application as described 
     The frontend service is implemented to call **Lookup()** before each call to the backend service. It sends its request to the recommended backend service.
 
 === "backend"
-    Deploy the *v1* version of the *backend* component as track *default*.
+    Deploy version *v1* of the *backend* component as track *backend*.
 
     ```shell
-    kubectl create deployment backend --image=iter8/abn-sample-backend:latest
-    kubectl expose deployment backend --name=backend --port=8091
-
-    kubectl label deployment backend app.kubernetes.io/name=backend
+    kubectl create deployment backend --image=iter8/abn-sample-backend:v1
     kubectl label deployment backend app.kubernetes.io/version=v1
-    kubectl label deployment backend iter8.tools/track=default
-    kubectl label deployment backend iter8.tools/abn=true
+
+    kubectl expose deployment backend --name=backend --port=8091
     ```
- 
+
+Before calling the backend, the frontend uses Lookup() to identify the track to send requests to. Since there is only one version of the backend deployed, all requests will be sent to it.
+
 ## Generate load
 Generate load. In separate shells, port-forward requests to the frontend service and generate load for multiple users.  For example:
     ```shell
-    kubectl port-forward svc/frontend 8090:8090
+    kubectl port-forward service/frontend 8090:8090
     ```
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh | sh -s -- -u foo
@@ -86,54 +102,19 @@ Generate load. In separate shells, port-forward requests to the frontend service
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh | sh -s -- -u foobar
     ```
 
-## Launch Iter8 A/B/n service
-
-If not already deployed, deploy the Iter8 A/B/n service. This service implements the gRPC interfaces. Specify which Kubernetes resource types to watch in which namespaces:
-
-```shell
-helm install --repo https://iter8-tools.github.io/hub iter8-abn iter8-abn \
---set "resources={deployments,services}" \
---set "namespaces={default}"
-```
-
-??? warn "Currently supported resource types"
-    Iter8 currently supports watching Kubernetes deployments and services as well as Knative services.
-    The Helm chart used to deploy the service can be easily extended to support additional resource types.
-
 ## Deploy a candidate version
 
-Deploy the *v2* version of the *backend* component as track *candidate*.
+Deploy veresion *v2* of the *backend* component as track *backend-candidate-1*.
 
 ```shell
-kubectl create deployment backend-candidate --image=iter8/abn-sample-backend:latest
-kubectl expose deployment backend-candidate --name=backend-candidate --port=8091
+kubectl create deployment backend --image=iter8/abn-sample-backend:v2
+kubectl label deployment backend app.kubernetes.io/version=v2
 
-kubectl label deployment backend-candidate app.kubernetes.io/name=backend
-kubectl label deployment backend-candidate app.kubernetes.io/version=v2
-kubectl label deployment backend-candidate iter8.tools/track=candidate
+kubectl expose deployment backend --name=backend --port=8091
 ```
 
-When version *v2* of the backend component is deployed, the frontend service continues to send requests only to version *v2* until the new version is marked as *ready* by adding the `iter8.tools/abn` label.
-
-## Mark the candidate version ready
-
-Once the candidate version is ready to receive user traffic, for example, when the pods are `Ready`, label the deployment object as a valid participant in A/B/n experiments:
-
-```shell
-kubectl label deployment backend-candidate iter8.tools/abn=true
-```
-
-Once labeled, subsequent `Lookup()` requests may return the candidate version. 
-To terminate traffic to the candidate version, simply remove the `iter8.tools/abn` label.
-
-??? note "How labels are used"
-    The Iter8 service watches resources where the label `iter8-tools/abn` is set to `true`. On resources where this is the case, the following additional labels are expected to be present. They identify the role of the resource in an A/B/n experiment. Note that an application _version_ might be composed of multiple resources. Iter8 expects only one of these resources to be labeled.
-
-    1. `app.kubernetes.io/name`: the application (component) name
-    2. `app.kubernetes.io/version`: the version name
-    3. `iter8-tools/track`: the track identifier (used by frontend service to route requests)
-
-    If any of these labels is missing, Iter8 will ignore the resource.
+Until the candidate version is ready; that is, until all expected resources are deployed and available, calls to *Lookup()* will continue to return only the *backend* track.
+Once the candidate version is ready, *Lookup()* will return both tracks so that requests will be distributed between them.
 
 ## Launch experiment
 
@@ -146,7 +127,7 @@ iter8 k launch \
 ```
 
 ??? note "About this experiment"
-    This experiment periodically (in this case, once a minute) reads the `abn` metrics associated with the `backend` application component in the `default` namespace. These metrics are written by the frontend service using the `WriteMetrics()` gRPC interface as a part of processing user requests.
+    This experiment periodically (in this case, once a minute) reads the `abn` metrics associated with the *backend* application component in the *default* namespace. These metrics are written by the frontend service using the *WriteMetrics()* interface as a part of processing user requests.
 
 ## Inspect experiment report
 
@@ -169,13 +150,13 @@ iter8 k report
     Latest observed values for metrics:
     ***********************************
 
-    Metric                   | candidate | default
-    -------                  | -----     | -----
-    abn/sample_metric/count  | 765.00    | 733.00
-    abn/sample_metric/max    | 100.00    | 100.00
-    abn/sample_metric/mean   | 50.11     | 49.64
-    abn/sample_metric/min    | 0.00      | 0.00
-    abn/sample_metric/stddev | 28.63     | 29.25
+    Metric                   | backend(v1) | backend-candidate-1 (v2)
+    -------                  | -----       | -----
+    abn/sample_metric/count  | 765.00      | 733.00
+    abn/sample_metric/max    | 100.00      | 100.00
+    abn/sample_metric/mean   | 50.11       | 49.64
+    abn/sample_metric/min    | 0.00        | 0.00
+    abn/sample_metric/stddev | 28.63       | 29.25
     ```
 The output allows you to compare the versions against each other and select a winner. Since the experiment runs periodically, you should expect the values in the report to change over time.
 
@@ -191,17 +172,16 @@ Once a winner is identified, it can be promoted and the canidiate versions can b
 iter8 k delete
 ```
 
-### Delete the A/B/n service
-
-```shell
-helm delete iter8-abn
-```
-
 ### Delete sample application
 
 ```shell
 kubectl delete \
-deploy/frontend deploy/backend deploy/backend-candidate \
-svc/frontend svc/backend svc/backend-candidate \
-secret/backend.iter8abnmetrics
+deploy/frontend deploy/backend deploy/backend-candidate-1 \
+service/frontend service/backend service/backend-candidate-1
+```
+
+### Delete the A/B/n service
+
+```shell
+helm delete iter8-abn
 ```
