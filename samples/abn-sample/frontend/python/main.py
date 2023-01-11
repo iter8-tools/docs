@@ -1,4 +1,5 @@
 import random
+import logging
 
 from http import HTTPStatus
 import os
@@ -12,11 +13,12 @@ from flask import Flask, request
 
 # map of track to route to backend service
 trackToRoute = {
-    "default": "http://backend:8091",
-	"candidate": "http://backend-candidate:8091"
+    "backend": "http://backend.default.svc.cluster.local:8091",
+	"backend-candidate-1": "http://backend-candidate-1.default.svc.cluster.local:8091"
 }
 
 app = Flask(__name__)
+app.logger.setLevel(logging.DEBUG)
 
 # implement /getRecommendation endpoint
 # calls backend service /recommend endpoint
@@ -30,7 +32,7 @@ def getRecommendation():
     # the user is assigned by the Iter8 SDK Lookup() method
 
     # start with default route
-    route = trackToRoute["default"]
+    route = trackToRoute["backend"]
 
     # establish connection to ABn service
     abnSvc = os.getenv('ABN_SERVICE', 'iter8-abn') + ":" + os.getenv('ABN_SERVICE_PORT', '50051')
@@ -48,7 +50,10 @@ def getRecommendation():
             route = trackToRoute[s.track]
         except Exception as e:
             # use default
+            app.logger.error("error: %s", e)
             pass
+
+    app.logger.info('lookup suggested track %s', route)
 
     # call backend service using url
     try:

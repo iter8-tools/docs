@@ -11,7 +11,6 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	// pb "github.com/kalantar/ab-example/frontend/go/grpc"
 	pb "github.com/iter8-tools/iter8/abn/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -22,8 +21,8 @@ import (
 var (
 	// map of track to route to backend service
 	trackToRoute = map[string]string{
-		"default":   "http://backend:8091",
-		"candidate": "http://backend-candidate:8091",
+		"backend":             "http://backend.default.svc.cluster.local:8091",
+		"backend-candidate-1": "http://backend-candidate-1.default.svc.cluster.local:8091",
 	}
 
 	// gRPC client connection
@@ -45,7 +44,7 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	// the user is assigned by the Iter8 SDK Lookup() method
 
 	// start with default route
-	route := trackToRoute["default"]
+	route := trackToRoute["backend"]
 
 	// call ABn service API Lookup() to get an assigned track for the user
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -57,13 +56,18 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 			User: user,
 		},
 	)
+	if err != nil {
+		Logger.Info("error: " + err.Error())
+	}
 	// if successful, use recommended track; otherwise will use default route
 	if err == nil && s != nil {
+		Logger.Info("successful call to lookup " + s.GetTrack())
 		r, ok := trackToRoute[s.GetTrack()]
 		if ok {
 			route = r
 		}
 	}
+	Logger.Info("lookup suggested track " + route)
 
 	// call backend service using url
 	resp, err := http.Get(route + "/recommend")

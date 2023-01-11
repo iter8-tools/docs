@@ -5,7 +5,6 @@ SERVICE="http://localhost:8090"
 GET_RECOMMENDATION="$SERVICE/getRecommendation"
 BUY="$SERVICE/buy"
 
-__num_recommendations=$(( ( RANDOM % 5 )  + 1 ))
 __user="unknown"
 
 while (( $# >  0 )); do
@@ -23,6 +22,7 @@ while (( $# >  0 )); do
 done
 
 while (( 1 )); do 
+    __num_recommendations=$(( ( RANDOM % 5 )  + 1 ))
     # get some recommendations
     i=0
     while (( ${i} < ${__num_recommendations} )); do
