@@ -5,23 +5,8 @@ SERVICE="http://localhost:8090"
 GET_RECOMMENDATION="$SERVICE/getRecommendation"
 BUY="$SERVICE/buy"
 
-__user="unknown"
-
-while (( $# >  0 )); do
-    case "$1" in
-    -u) 
-        __user="$2"
-        shift
-        shift
-        ;;
-    *) 
-        echo "Error: unknown option $1"
-        exit -1
-        ;;
-    esac
-done
-
 while (( 1 )); do 
+    __user=$(uuidgen)
     __num_recommendations=$(( ( RANDOM % 5 )  + 1 ))
     # get some recommendations
     i=0
@@ -35,5 +20,5 @@ while (( 1 )); do
     curl -s ${BUY} -H "X-User: ${__user}"
     echo
 
-    sleep 2
+    sleep 1
 done

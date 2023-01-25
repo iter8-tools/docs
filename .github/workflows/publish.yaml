@@ -33,3 +33,12 @@ jobs:
         git config --global user.email iter8tools@gmail.com
         pip install -r requirements.txt
         mike deploy ${{ env.MAJOR_MINOR_VERSION }} latest -p -u
+
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: samples/abn-sample/generate_load.sh
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true

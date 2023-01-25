@@ -3,7 +3,7 @@
 
     ```shell
     brew tap iter8-tools/iter8
-    brew install iter8@0.12
+    brew install iter8@0.13
     ```
     
 === "Binaries"
