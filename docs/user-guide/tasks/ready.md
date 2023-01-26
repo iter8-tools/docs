@@ -32,7 +32,7 @@ iter8 k launch \
 
 ## Extensions
 
-Iter8 can be easily extended to support readiness checks for any type of Kubernetes object (including objects with custom resource types). Please consider submitting a pull request for such extensions. Readiness checking in Iter8 involves two templates, namely, [`task.ready`](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.2/charts/iter8/templates/_task-ready.tpl) and [`k.role`](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.2/charts/iter8/templates/_k-role.tpl). Extending the readiness checks to new resource types involves modifying these templates.
+Iter8 can be easily extended to support readiness checks for any type of Kubernetes object (including objects with custom resource types). Please consider submitting a pull request for such extensions. Readiness checking in Iter8 involves two templates, namely, [`task.ready`](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/charts/iter8/templates/_task-ready.tpl) and [`k.role`](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/charts/iter8/templates/_k-role.tpl). Extending the readiness checks to new resource types involves modifying these templates.
 
 ### Example
 

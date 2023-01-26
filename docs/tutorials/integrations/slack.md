@@ -28,9 +28,9 @@ kubectl expose deploy httpbin --port=80
 ```
 5. Launch the experiment with the `slack` task with the appropriate values.
 ```shell
-iter8 launch \
+iter8 k launch \
 --set "tasks={http,assess,slack}" \
---set http.url=http://127.0.0.1/get \
+--set http.url=http://httpbin.default/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
 --set assess.SLOs.upper.http/error-count=0 \
 --set slack.url=<Slack webhook> \
@@ -40,7 +40,7 @@ iter8 launch \
 6. Verify that the message has been sent after the experiment has completed.
 
 ??? note "Some variations and extensions of the `slack` task"
-    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.12.2/templates/notify/_payload-slack.tpl) sends the entirety of the experiment report.
+    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/templates/notify/_payload-slack.tpl) sends the entirety of the experiment report.
 
         However, you do not need to use the default payload. You can provide your own payload by overriding the default of the `payloadTemplateURL`.
 
@@ -55,7 +55,7 @@ iter8 launch \
         ```shell
         iter8 k launch \
         --set "tasks={http,assess,slack}" \
-        --set http.url=http://127.0.0.1/get \
+        --set http.url=http://httpbin.default/get \
         --set assess.SLOs.upper.http/latency-mean=50 \
         --set assess.SLOs.upper.http/error-count=0 \
         --set slack.url=<Slack webhook> \
@@ -69,12 +69,12 @@ iter8 launch \
         ```diff
           iter8 k launch \
           --set "tasks={http,assess,slack}" \
-          --set http.url=http://127.0.0.1/get \
+          --set http.url=http://httpbin.default/get \
           --set assess.SLOs.upper.http/latency-mean=50 \
           --set assess.SLOs.upper.http/error-count=0 \
           --set slack.url=<Slack webhook> \
           --set slack.method=POST \
-        + --set slack.if="Result.NumLoops == 10"
+          --set slack.if="Result.NumLoops == 10"
           --set runner=cronjob \
           --set cronjobSchedule="*/1 * * * *"
         ```

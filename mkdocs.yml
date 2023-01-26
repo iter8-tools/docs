@@ -126,7 +126,6 @@ nav:
     - One version: tutorials/custom-metrics/one-version.md
     - Two or more versions: tutorials/custom-metrics/two-or-more-versions.md
   - Integrations:
-    - Local environment: tutorials/integrations/local.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Istio: tutorials/integrations/istio.md
     - Knative: tutorials/integrations/knative.md
@@ -154,9 +153,6 @@ nav:
     - Namespace and group: user-guide/topics/group.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
-    - iter8 launch: user-guide/commands/iter8_launch.md
-    - iter8 assert: user-guide/commands/iter8_assert.md
-    - iter8 report: user-guide/commands/iter8_report.md
     - iter8 version: user-guide/commands/iter8_version.md
     - iter8 k: user-guide/commands/iter8_k.md
     - iter8 k launch: user-guide/commands/iter8_k_launch.md

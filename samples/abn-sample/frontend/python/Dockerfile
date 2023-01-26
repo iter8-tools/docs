@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 # RUN python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./abn.proto 
 
 ENV FLASK_APP main.py
-ENTRYPOINT ["flask", "run", "--port", "8090"]
+ENTRYPOINT ["flask", "run", "--debugger", "--port", "8090"]

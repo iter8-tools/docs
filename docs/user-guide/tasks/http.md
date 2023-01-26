@@ -11,11 +11,12 @@ Generate requests for an HTTP service and and collect [latency and error-related
 In this experiment, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. The metrics are used by the `assess` task to validate SLOs.
 
 ```
-iter8 launch \
+iter8 k launch \
 --set "tasks={http,assess}" \
 --set http.url=https://httpbin.org/get \
 --set assess.SLOs.upper.http/latency-mean=50 \
---set assess.SLOs.upper.http/error-count=0
+--set assess.SLOs.upper.http/error-count=0 \
+--set runner=job
 ```
 
 ## Parameters

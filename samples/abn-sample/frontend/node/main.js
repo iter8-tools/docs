@@ -8,13 +8,14 @@ var random = require('random-number');
 const express = require('express');
 const { registerChannelzSubchannel } = require('@grpc/grpc-js/build/src/channelz.js');
 const { application } = require('express');
+const { getLogger } = require('@grpc/grpc-js/build/src/logging.js');
 
 const app  = express();
 
 // define map of track to route to backend service
 const trackToRoute = {
-    "default":   "http://backend:8091",
-    "candidate": "http://backend-candidate:8091",
+    "backend":   "http://backend.default.svc.cluster.local:8091",
+    "backend-candidate-1": "http://backend-candidate-1.default.svc.cluster.local:8091",
 }
 
 // establish connection to ABn service
@@ -25,21 +26,26 @@ var client = new services.ABNClient(abnEndpoint, grpc.credentials.createInsecure
 
 // /getRecommendation endpoint; calls backend service /recommend endpoint
 app.get('/getRecommendation', (req, res) => {
+    console.info('/getRecommendation')
+
     // identify default route
-    route = trackToRoute['default'];
+    route = trackToRoute['backend'];
 
     // call ABn service API Lookup() to get an assigned track for the user
     var application = new messages.Application();
     application.setName('default/backend');
     application.setUser(req.header('X-User'));
     client.lookup(application, function(err, session) {
-        if (err) {
+        if (err || (session.getTrack() == '')) {
             // use default route (see above)
-            console.error("ERROR: " + err.details);
+            console.warn("error or null")
         } else {
             // use route determined by recommended track
+            console.info('lookup suggested track %s', session.getTrack())
             route = trackToRoute[session.getTrack()];
         }
+
+        console.info('lookup suggested route %s', route)
 
         // call backend service using route
         http.get(route + '/recommend', (resp) => {

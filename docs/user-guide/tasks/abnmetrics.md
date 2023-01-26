@@ -10,9 +10,9 @@ Fetch metrics from the Iter8 A/B/n service.
 In this experiment, the `abnmetrics` task fetches metrics from the A/B/n service for the application `default/backend`. The task is run periodically (as defined by `cronjobSchedule`).
 
 ```
-iter8 launch \
+iter8 k launch \
 --set "tasks={abnmetrics}" \
---set abnmetrics.application=default/backend
+--set abnmetrics.application=default/backend \
 --set runner=cronjob \
 --set cronjobSchedule="*/1 * * * *"
 ```
