@@ -40,7 +40,7 @@ Deploy the Iter8 A/B/n service. When deploying the service, specify which Kubern
 
 ```shell
 helm install --repo https://iter8-tools.github.io/hub iter8-abn abn \
---set "applications.default.backend.resources={service,deployment}"
+--set "apps.default.backend.resources={service,deployment}"
 ```
 
 ??? warn "Assumptions"
