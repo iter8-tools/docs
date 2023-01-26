@@ -4,32 +4,11 @@ template: main.html
 
 # AutoX: Auto Experimentation
 
-AutoX, short for "auto experimentation", allows Iter8 to detect new versions of your services and automatically trigger new experiments, allowing you to tests your services as soon as you push out a new version.
+AutoX, short for "auto experimentation", allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your services as soon as you push out a new version.
 
 ![AutoX](images/autox.png)
 
-To be more exact, AutoX detects changes to a particular set of labels from a particular Kubernetes resource and will execute experiments based on those labels. For example, when a deployment is updated and its version label is bumped, AutoX can spin up a new SLO test to see if the new version satisifies requirements.
-
-<!-- 
-Is it clear: trigger vs trigger labels? Should triggers be called trigger resource instead?
--->
-
-In order for AutoX to function, you must specify a trigger and a set of experiment charts. The trigger specifies the Kubernetes resource object that AutoX should watch and the experiment charts specify the Iter8 experiments AutoX should launch. 
-
-The trigger is a combination of name, namespace, and GVR (group, version, resource). When a particular set of labels of a matching resource is changed **and** the resource continues to have an `iter8.tools/autox-group` label (referred to as the AutoX label for the remainder of the article) then AutoX will launch the experiments. The labels that need to be changed are the following: `app.kubernetes.io/name"`, `app.kubernetes.io/version"`, and `iter8.tools/track"` (referred to as the trigger labels for the remainder of the article).
-
-<!-- 
-For trigger labels, do we really expect users to change any of the 3?
-Name label is immutable? Do we expect users to change the track label?
-
-If so, then it's really just the version label, right?
--->
-
-The experiment charts come from [Iter8 Hub](https://github.com/iter8-tools/hub). Iter8 Hub primarily contains Iter8 experiments but it also contains other experiments such as Litmus-based chaos injection experiments.
-
-<p align='center'>
-  <img alt-text="AutoX flowchart" src="../images/flowchart.png" width="50%" />
-</p>
+Releasing a new version of an application typically involves the creation of new Kubernetes resource objects and/or updates to existing ones. AutoX can be configured to watch for such changes and automatically launch new experiments. You can configure AutoX with multiple experiment groups and, for each group, you specify the Kubernetes resource object that you expect AutoX to watch and one or more experiments to be performed in response to new versions of this object. Let us now see this in action using a Kubernetes HTTP service and configuring AutoX so that whenever a new version of the service is released, AutoX will start a new HTTP performance test that will validate if the service meets latency and error-related requirements.
 
 ***
 
@@ -38,44 +17,18 @@ The experiment charts come from [Iter8 Hub](https://github.com/iter8-tools/hub).
 
 ## Setup Kubernetes cluster with ArgoCD
 
+AutoX uses [Argo CD](https://argo-cd.readthedocs.io), a popular continuous delivery tool, in order to launch the experiments.
+
 ```bash
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-See [here](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd) for more information.
+See [here](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd) for more information about installation.
 
-## Setup Kubernetes cluster with Iter8 AutoX
+## Deploy application
 
-```bash
-helm repo add iter8 https://iter8-tools.github.io/hub/
-helm install autox-httpbin iter8/autox \
---set 'releaseGroupSpecs.httpbin.trigger.name=httpbin' \
---set 'releaseGroupSpecs.httpbin.trigger.namespace=default' \
---set 'releaseGroupSpecs.httpbin.trigger.group=apps' \
---set 'releaseGroupSpecs.httpbin.trigger.version=v1' \
---set 'releaseGroupSpecs.httpbin.trigger.resource=deployments' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.name=iter8' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.values.tasks={ready,http,assess}' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.values.ready.deploy=httpbin' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.values.ready.service=httpbin' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.values.ready.timeout=60s' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.values.http.url=http://httpbin.default/get' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.values.assess.SLOs.upper.http/latency-mean=50' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.values.assess.SLOs.upper.http/error-count=0' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.version=0.12.2' \
---set 'releaseGroupSpecs.httpbin.releaseSpecs.iter8.values.runner=job'
-```
-
-As mentioned previously, the input to AutoX is a trigger and a set of experiment charts. Here, the trigger is a Kubernetes resource object with the name `httpbin`, namespace `default`, and GVR `apps`, `deployments`, and `v1`, meaning that AutoX will watch any resource that meets the description. When a changed is made to the trigger labels of a matching resource and the resource continues to have the AutoX label, then AutoX will install the Helm charts.
-
-In this case, there is only one experiment chart to install. The specified experiment chart is pointing to an Iter8 experiment, specifically an HTTP SLO validation test on the `httpbin` service. 
-
-This experiment is composed of three tasks, `ready`, `http`, and `assess`. The `ready` task will ensure that the `httpbin` deployment and service are running. The `http` task will make requests to the specified URL and will collect latency and error-related metrics. Lastly, the `assess` task will ensure that the mean latency is less than 50 milliseconds and the error count is 0. In addition, the runner is set to job as this will be a [single-loop experiment](https://iter8.tools/0.11/getting-started/concepts/#iter8-experiment).
-
-## Create application
-
-Now, we will create the `httpbin` deployment and service.
+Now, we will create an `httpbin` deployment and service.
 
 ```bash
 kubectl create deployment httpbin --image=kennethreitz/httpbin --port=80
@@ -84,19 +37,57 @@ kubectl expose deployment httpbin --port=80
 
 ## Apply labels
 
-In the previous step, we created an `apps/v1` deployment with the name `httpbin` in the `default` namespace, which matches the trigger that we configured for AutoX. However, to enable AutoX for the Kubernetes resource object, we need to assign it the AutoX label.
+Currently, AutoX will not respond to changes to the `httpbin` deployment. In order to turn the deployment into a *trigger object*, we will assign it the `iter8.tools/autox=true` label (AutoX label). Otherwise, AutoX will not relaunch experiments on behalf of this resource object.
 
 ```bash
 kubectl label deployment httpbin iter8.tools/autox=true
 ```
 
-## Observe automatic experiment
+Next, we will assign it the `app.kubernetes.io/version` label (version label). AutoX will relaunch experiments when the version label changes.
 
-After you have assigned the AutoX label, an experiment should start.
+The purpose of this *version label check* is to ensure that AutoX does not relaunch experiments with every update to the trigger object. For example, AutoX should not relaunch experiments when only the `status` of a deployment changes.
 
-You can now use `iter8` commands in order to check the status and the results of the experiment. Note that you need to specify an experiment group via the `-g` option. The experiment group for AutoX experiments is in the form `autox-<release group spec name>-<release spec name>`. In this case, it would be `autox-httpbin-iter8`. 
+```bash
+kubectl label deployment httpbin app.kubernetes.io/version=1.0.0
+```
 
-The following command allows you to check the status of the experiment. If the experiment does not immediately start, try waiting a minute.
+## Setup Kubernetes cluster with Iter8 AutoX
+
+Next, we will configure and install the AutoX controller.
+
+```bash
+helm install --repo https://iter8-tools.github.io/hub/
+helm install autox iter8/autox --version 0.1.6 \
+--set 'groups.httpbin.trigger.name=httpbin' \
+--set 'groups.httpbin.trigger.namespace=default' \
+--set 'groups.httpbin.trigger.group=apps' \
+--set 'groups.httpbin.trigger.version=v1' \
+--set 'groups.httpbin.trigger.resource=deployments' \
+--set 'groups.httpbin.specs.iter8.name=iter8' \
+--set 'groups.httpbin.specs.iter8.values.tasks={ready,http,assess}' \
+--set 'groups.httpbin.specs.iter8.values.ready.deploy=httpbin' \
+--set 'groups.httpbin.specs.iter8.values.ready.service=httpbin' \
+--set 'groups.httpbin.specs.iter8.values.ready.timeout=60s' \
+--set 'groups.httpbin.specs.iter8.values.http.url=http://httpbin.default/get' \
+--set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/latency-mean=50' \
+--set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/error-count=0' \
+--set 'groups.httpbin.specs.iter8.version=0.13.0' \
+--set 'groups.httpbin.specs.iter8.values.runner=job'
+```
+
+The configuration of the AutoX controller is composed of a *trigger object definition* and a set of *experiment specifications*. In this case, the trigger object is the `httpbin` deployment and there is only one experiment, an HTTP performance test with SLO validation associated with this trigger.
+
+To go into more detail, the configuration is a set of *groups*, and each group is composed of a trigger object definition and a set of *experiment specs*. This enables AutoX to manage one or more trigger objects, each associated with one or more experiments. In this tutorial, there is only one group named `httpbin` (`groups.httpbin...`), and within that group, there is the trigger object definition (`groups.httpbin.trigger...`) and a single experiment spec named `iter8` (`groups.httpbin.specs.iter8...`). 
+
+The trigger object definition is a combination of the name, namespace, and the group-version-resource (GVR) metadata of the trigger object, in this case `httpbin`, `default`, and GVR `apps`, `deployments`, and `v1`, respectively. 
+
+The experiment is an HTTP SLO validation test on the `httpbin` service that is described in greater detail [here](../../getting-started/your-first-experiment/). This Iter8 experiment is composed of three tasks, `ready`, `http`, and `assess`. The `ready` task will ensure that the `httpbin` deployment and service are running. The `http` task will make requests to the specified URL and will collect latency and error-related metrics. Lastly, the `assess` task will ensure that the mean latency is less than 50 milliseconds and the error count is 0. In addition, the runner is set to job as this will be a [single-loop experiment](../../getting-started/concepts#iter8-experiment).
+
+## Observe experiment
+
+After starting AutoX, the HTTP SLO validation test should quickly follow. You can now use the Iter8 CLI in order to check the status and see the results of the test. 
+
+The following command allows you to check the status of the test. Note that you need to specify an experiment group via the `-g` option. The *experiment group* for experiments started by AutoX is in the form `autox-<group name>-<experiment spec name>` so in this case, it would be `autox-httpbin-iter8`.
 
 ```bash
 iter8 k assert -c nofailure -c slos -g autox-httpbin-iter8
@@ -118,7 +109,7 @@ And the following command allows you to check the results of the experiment.
 iter8 k report -g autox-httpbin-iter8
 ```
 
-??? note "Sample output from assert"
+??? note "Sample output from report"
     ```
     Experiment summary:
     *******************
@@ -159,31 +150,46 @@ iter8 k report -g autox-httpbin-iter8
 
     In the sample output, we can see an experiment summary, a list of SLOs and whether they were satisfied or not, as well as any additional metrics that were collected as part of the experiment.
 
-## Push new version of the application
-
-Now that AutoX is watching the `httpbin` deployment, any change that we make to its trigger labels will cause AutoX to trigger a new experiment.
-
-We will trigger a new experiment by adding a new trigger label to the `httpbin` deployment.
+You can also produce an HTML report that you can view in the browser.
 
 ```bash
-kubectl label deployment httpbin app.kubernetes.io/version=1.0.0
+iter8 k report -g autox-httpbin-iter8 -o html > report.html
 ```
 
-## Observe new automatic experiment
+??? note "Sample output from HTTP report"
+    ![HTML report](images/htmlreport.png)
 
-Check to see if a new experiment should have started. Refer to [Observe automatic experiment](#observe-automatic-experiment) for the necessary commands.
+##### Continuous and automated experimentation
+
+Now that AutoX is watching the `httpbin` deployment, a new version of this deployment will relaunch the HTTP SLO validation test. However, the version update must be accompanied by a change to its *version label* (specifically, the `app.kubernetes.io/version` label).
+
+For simplicity, we will simply change the version label to the deployment in order to relaunch the HTTP SLO validation test. In the real world, a new version would typically involve a change to the deployment spec (e.g., the container image) and this change should be accompanied by a change to the version label.
+
+```bash
+kubectl label deployment httpbin app.kubernetes.io/version=2.0.0 --overwrite
+```
+
+## Observe new experiment
+
+Check if a new experiment has been launched. Refer to [Observe experiment](#observe-experiment) for the necessary commands.
+
+If we were to continue to update the deployment (and change its version label), then AutoX would relaunch the experiment for each such change.
 
 ## Next steps
 
-You can continue to modify the trigger labels of the `httpbin` deployment to trigger new experiments. For example, you can continue to bump the `app.kubernetes.io/version` label to trigger the HTTP SLO validation test. Now it is easy to know if your app meets basic HTTP performance requirements.
+Firstly, the HTTP SLO validation test is flexible, and you can augment it a number of ways, such as adding headers, providing a payload, or modulating the query rate. To learn more, see the [documentation](../../user-guide/tasks/http) for the `httpbin` task.
 
-It is possible to use AutoX to conduct more complex experiments. Iter8 experiments are composed from discrete tasks so you can design an experiment that best fits your use case. For example, instead of using the `httpbin` task, you can use `abn` task in order to run an A/B/n experiment. You can also run experiments that are not from Iter8. For example, there is also a experiment chart for a Litmus Chaos chaos experiment. Lastly, you can supply multiple experiments charts so AutoX will deploy a suite of experiments to run whenever you update your trigger resource.
+AutoX is designed to use any Kubernetes resource object (including those with a custom resource type) as a trigger object in AutoX. For example, the trigger object can be a Knative service, a KServe inference service, or a Seldon deployment.
 
-Note that if you delete the AutoX label or if you delete the `httpbin` development, then AutoX will also delete the respective experiments.
+AutoX is designed to automate a variety of experiments. For example, instead of using the `http` task, you can use `grpc` task in order to run an GRPC SLO validation test. Here is the [documentation](../../user-guide/tasks/grpc) for the `grpc` task as well as a [tutorial](../../tutorials/load-test-grpc) for GRPC SLO Validation.
+
+Furthermore, you can add additional tasks that ship out-of-the-box with Iter8, in order to enrich the experiments. For example, you can add a `slack` task so that your experiment results will be posted on Slack. That way, you can automatically have the lastest performance statistics after every update. Here is the [documentation](../../user-guide/tasks/slack) for the `slack` task as well as a [tutorial](../../tutorials/integrations/slack) for using the Slack task.
+
+You can also automate experiments that are not from Iter8. For example, a Litmus Chaos chaos experiment is available on Iter8 hub (link here), which can also be configured with AutoX.
+
+Lastly, recall that you can provide multiple groups and experiment specs so AutoX can launch and manage a whole suite of experiments for multiple Kubernetes applications and namespaces.
 
 ## Clean up
-
-<!-- What about deleting Argo CD? -->
 
 ```bash
 helm delete autox-httpbin
