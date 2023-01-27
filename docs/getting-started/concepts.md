@@ -61,7 +61,7 @@ The trigger object is specified by providing the name, namespace, and the group-
 See the following example:
 
 ```bash
-helm install autox iter8/autox --version 0.1.6 \
+helm install autox autox --repo https://iter8-tools.github.io/hub/ --version 0.1.6 \
 --set 'groups.httpbin.trigger.name=httpbin' \
 --set 'groups.httpbin.trigger.namespace=default' \
 --set 'groups.httpbin.trigger.group=apps' \
