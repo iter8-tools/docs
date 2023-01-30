@@ -153,6 +153,7 @@ nav:
     - Experiment parameters: user-guide/topics/parameters.md
     - Metrics: user-guide/topics/metrics.md
     - Namespace and group: user-guide/topics/group.md
+    - Automated experiments: user-guide/topics/autox.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 launch: user-guide/commands/iter8_launch.md

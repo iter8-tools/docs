@@ -2,9 +2,9 @@
 template: main.html
 ---
 
-# AutoX: Auto Experimentation
+# AutoX: Automatic Experiments
 
-AutoX, short for "auto experimentation", allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your services as soon as you push out a new version.
+AutoX, short for "automatic experiments", allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your services as soon as you release a new version.
 
 ![AutoX](images/autox.png)
 
@@ -68,8 +68,8 @@ helm install autox autox --repo https://iter8-tools.github.io/hub/ --version 0.1
 --set 'groups.httpbin.specs.iter8.values.ready.service=httpbin' \
 --set 'groups.httpbin.specs.iter8.values.ready.timeout=60s' \
 --set 'groups.httpbin.specs.iter8.values.http.url=http://httpbin.default/get' \
---set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/latency-mean=50' \
 --set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/error-count=0' \
+--set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/latency-mean=50' \
 --set 'groups.httpbin.specs.iter8.version=0.13.0' \
 --set 'groups.httpbin.specs.iter8.values.runner=job'
 ```
@@ -184,7 +184,7 @@ AutoX is designed to automate a variety of experiments. For example, instead of 
 
 Furthermore, you can add additional tasks that ship out-of-the-box with Iter8, in order to enrich the experiments. For example, you can add a `slack` task so that your experiment results will be posted on Slack. That way, you can automatically have the lastest performance statistics after every update. Here is the [documentation](../../user-guide/tasks/slack) for the `slack` task as well as a [tutorial](../../tutorials/integrations/slack) for using the Slack task.
 
-You can also automate experiments that are not from Iter8. For example, a Litmus Chaos chaos experiment is available on Iter8 hub (link here), which can also be configured with AutoX.
+You can also automate experiments that are not from Iter8. For example, a [Litmus Chaos chaos experiment](https://github.com/iter8-tools/hub/tree/8e40c740a33afba4afd5623588128da49b7f08f1/charts/litmuschaos) is available on Iter8 hub, which can also be configured with AutoX.
 
 Lastly, recall that you can provide multiple groups and experiment specs so AutoX can launch and manage a whole suite of experiments for multiple Kubernetes applications and namespaces.
 
