@@ -6,7 +6,7 @@ template: main.html
 
 AutoX, short for "automatic experiments", allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your applications as soon as you release a new version.
 
-To configure AutoX, you will need to specify a set of experiment groups and, for each group, the Kubernetes resource object (a.k.a. trigger object) that you expect AutoX to watch and one or more experiments to be performed in response to new versions of this object.
+To configure AutoX, you will need to specify a set of experiment groups and, for each group, the Kubernetes resource object (trigger object) that you expect AutoX to watch and one or more experiments to be performed in response to new versions of this object.
 
 The trigger object is specified by providing the name, namespace, and the group-version-resource (GVR) metadata of the trigger object.
 

@@ -8,7 +8,9 @@ AutoX, short for "automatic experiments", allows Iter8 to detect changes to your
 
 ![AutoX](images/autox.png)
 
-Releasing a new version of an application typically involves the creation of new Kubernetes resource objects and/or updates to existing ones. AutoX can be configured to watch for such changes and automatically launch new experiments. You can configure AutoX with multiple experiment groups and, for each group, you specify the Kubernetes resource object that you expect AutoX to watch and one or more experiments to be performed in response to new versions of this object. Let us now see this in action using a Kubernetes HTTP service and configuring AutoX so that whenever a new version of the service is released, AutoX will start a new HTTP performance test that will validate if the service meets latency and error-related requirements.
+Releasing a new version of an application typically involves the creation of new Kubernetes resource objects and/or updates to existing ones. AutoX can be configured to watch for such changes and automatically launch new experiments. You can configure AutoX with multiple experiment groups and, for each group, specify the Kubernetes resource object that AutoX will watch and one or more experiments to be performed in response to new versions of this object. 
+
+Let us now see this in action using a Kubernetes HTTP service and configuring AutoX so that whenever a new version of the service is released, AutoX will start a new HTTP performance test that will validate if the service meets latency and error-related requirements.
 
 ***
 
@@ -18,6 +20,8 @@ Releasing a new version of an application typically involves the creation of new
 ## Setup Kubernetes cluster with ArgoCD
 
 AutoX uses [Argo CD](https://argo-cd.readthedocs.io), a popular continuous delivery tool, in order to launch the experiments.
+
+A basic install of Argo CD can be done as follows:
 
 ```bash
 kubectl create namespace argocd
@@ -35,15 +39,9 @@ kubectl create deployment httpbin --image=kennethreitz/httpbin --port=80
 kubectl expose deployment httpbin --port=80
 ```
 
-## Apply labels
+## Apply version label
 
-Currently, AutoX will not respond to changes to the `httpbin` deployment. In order to turn the deployment into a *trigger object*, we will assign it the `iter8.tools/autox=true` label (AutoX label). Otherwise, AutoX will not relaunch experiments on behalf of this resource object.
-
-```bash
-kubectl label deployment httpbin iter8.tools/autox=true
-```
-
-Next, we will assign it the `app.kubernetes.io/version` label (version label). AutoX will relaunch experiments when the version label changes.
+Next, we will assign `httpbin` deployment the `app.kubernetes.io/version` label (version label). AutoX will relaunch experiments when the version label changes.
 
 The purpose of this *version label check* is to ensure that AutoX does not relaunch experiments with every update to the trigger object. For example, AutoX should not relaunch experiments when only the `status` of a deployment changes.
 
@@ -76,7 +74,7 @@ helm install autox autox --repo https://iter8-tools.github.io/hub/ --version 0.1
 
 The configuration of the AutoX controller is composed of a *trigger object definition* and a set of *experiment specifications*. In this case, the trigger object is the `httpbin` deployment and there is only one experiment, an HTTP performance test with SLO validation associated with this trigger.
 
-To go into more detail, the configuration is a set of *groups*, and each group is composed of a trigger object definition and a set of *experiment specs*. This enables AutoX to manage one or more trigger objects, each associated with one or more experiments. In this tutorial, there is only one group named `httpbin` (`groups.httpbin...`), and within that group, there is the trigger object definition (`groups.httpbin.trigger...`) and a single experiment spec named `iter8` (`groups.httpbin.specs.iter8...`). 
+To go into more detail, the configuration is a set of *groups*, and each group is composed of a trigger object definition and a set of *experiment specifications*. This enables AutoX to manage one or more trigger objects, each associated with one or more experiments. In this tutorial, there is only one group named `httpbin` (`groups.httpbin...`), and within that group, there is the trigger object definition (`groups.httpbin.trigger...`) and a single experiment spec named `iter8` (`groups.httpbin.specs.iter8...`). 
 
 The trigger object definition is a combination of the name, namespace, and the group-version-resource (GVR) metadata of the trigger object, in this case `httpbin`, `default`, and GVR `apps`, `deployments`, and `v1`, respectively. 
 
@@ -89,7 +87,7 @@ After starting AutoX, the HTTP SLO validation test should quickly follow. You ca
 The following command allows you to check the status of the test. Note that you need to specify an experiment group via the `-g` option. The *experiment group* for experiments started by AutoX is in the form `autox-<group name>-<experiment spec name>` so in this case, it would be `autox-httpbin-iter8`.
 
 ```bash
-iter8 k assert -c nofailure -c slos -g autox-httpbin-iter8
+iter8 k assert -c completed -c nofailure -c slos -g autox-httpbin-iter8
 ```
 
 ??? note "Sample output from assert"
@@ -100,7 +98,7 @@ iter8 k assert -c nofailure -c slos -g autox-httpbin-iter8
     INFO[2023-01-11 14:43:45] all conditions were satisfied  
     ```
 
-    We can see in the sample output that the experiment has completed and all SLOs and conditions were satisfied.
+    We can see in the sample output that the test has completed, there were no failures, and all SLOs and conditions were satisfied.
 
 And the following command allows you to check the results of the experiment.
 
@@ -158,9 +156,9 @@ iter8 k report -g autox-httpbin-iter8 -o html > report.html
 ??? note "Sample output from HTTP report"
     ![HTML report](images/htmlreport.png)
 
-##### Continuous and automated experimentation
+## Continuous and automated experimentation
 
-Now that AutoX is watching the `httpbin` deployment, a new version will relaunch the HTTP SLO validation test. The version update must be accompanied by a change to the deployment's *version label* (specifically, the `app.kubernetes.io/version` label); otherwise, AutoX will not do anything.
+Now that AutoX is watching the `httpbin` deployment, release a new version will relaunch the HTTP SLO validation test. The version update must be accompanied by a change to the deployment's `app.kubernetes.io/version` label (version label); otherwise, AutoX will not do anything.
 
 For simplicity, we will simply change the version label to the deployment in order to relaunch the HTTP SLO validation test. In the real world, a new version would typically involve a change to the deployment spec (e.g., the container image) and this change should be accompanied by a change to the version label.
 
@@ -176,7 +174,7 @@ If we were to continue to update the deployment (and change its version label), 
 
 ## Next steps
 
-Firstly, the HTTP SLO validation test is flexible, and you can augment it a number of ways, such as adding headers, providing a payload, or modulating the query rate. To learn more, see the [documentation](../../user-guide/tasks/http) for the `httpbin` task.
+Firstly, the HTTP SLO validation test is flexible, and you can augment it in a number of ways, such as adding headers, providing a payload, or modulating the query rate. To learn more, see the [documentation](../../user-guide/tasks/http) for the `httpbin` task.
 
 AutoX is designed to use any Kubernetes resource object (including those with a custom resource type) as a trigger object in AutoX. For example, the trigger object can be a Knative service, a KServe inference service, or a Seldon deployment.
 
@@ -191,7 +189,13 @@ Lastly, recall that you can provide multiple groups and experiment specs so Auto
 ## Clean up
 
 ```bash
-helm delete autox-httpbin
+# delete AutoX controller and any experiments started by AutoX
+helm delete autox
+
+# delete trigger and service
 kubectl delete deployment/httpbin
 kubectl delete service/httpbin
+
+# delete ArgoCD
+kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
