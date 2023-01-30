@@ -160,7 +160,7 @@ iter8 k report -g autox-httpbin-iter8 -o html > report.html
 
 ##### Continuous and automated experimentation
 
-Now that AutoX is watching the `httpbin` deployment, a new version of this deployment will relaunch the HTTP SLO validation test. However, the version update must be accompanied by a change to its *version label* (specifically, the `app.kubernetes.io/version` label).
+Now that AutoX is watching the `httpbin` deployment, a new version will relaunch the HTTP SLO validation test. The version update must be accompanied by a change to the deployment's *version label* (specifically, the `app.kubernetes.io/version` label); otherwise, AutoX will not do anything.
 
 For simplicity, we will simply change the version label to the deployment in order to relaunch the HTTP SLO validation test. In the real world, a new version would typically involve a change to the deployment spec (e.g., the container image) and this change should be accompanied by a change to the version label.
 
