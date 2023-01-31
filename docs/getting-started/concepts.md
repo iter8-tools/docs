@@ -32,8 +32,11 @@ In addition to pre-defined tasks, Iter8 packs a number of powerful features that
 1.  **HTML/text reports** that promote end-user understanding of experiment results through visual insights.
 2.  **Assertions** that verify whether the target app satisfies the specified SLOs or not during/after an experiment.
 3.  **Multi-loop experiments** that can be executed periodically instead of just once (single-loop).
-4.  **Local experiments** that enable you to run experiments in your local environment.
-5.  **Iter8 GitHub Action** that enables you to invoke the Iter8 CLI within a GitHub Actions workflow.
+4.  **Iter8 GitHub Action** that enables you to invoke the Iter8 CLI within a GitHub Actions workflow.
+
+## Imperative and declarative experiments
+
+You can use the Iter8 CLI to launch and manage experiments through the command line. This is the imperative style of experimentation. You can also use the Iter8 Autox controller to launch and manage experiments declaratively. [AutoX](../user-guide/topics/autox.md), short for “automatic experiments”, allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your applications as soon as you release a new version.
 
 ## Under the covers
 In order to execute an experiment inside Kubernetes, Iter8 uses a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) (single-loop) or a Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) (multi-loop) workload, along with a Kubernetes secret. Iter8 instantiates all experiments using a Helm chart, that is also pre-defined and provided by Iter8.
