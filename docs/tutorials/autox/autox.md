@@ -41,9 +41,7 @@ kubectl expose deployment httpbin --port=80
 
 ## Apply version label
 
-Next, we will assign `httpbin` deployment the `app.kubernetes.io/version` label (version label). AutoX will relaunch experiments when the version label changes.
-
-The purpose of this *version label check* is to ensure that AutoX does not relaunch experiments with every update to the trigger object. For example, AutoX should not relaunch experiments when only the `status` of a deployment changes.
+Next, we will assign `httpbin` deployment the `app.kubernetes.io/version` label (version label). AutoX will launch experiments only when this label is present on your trigger object. It will relaunch experiments whenever this version label is modified.
 
 ```bash
 kubectl label deployment httpbin app.kubernetes.io/version=1.0.0
