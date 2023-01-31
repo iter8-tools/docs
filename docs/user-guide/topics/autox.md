@@ -2,9 +2,9 @@
 template: main.html
 ---
 
-# AutoX
+# Automated Experiments: AutoX
 
-AutoX, short for "automatic experiments", allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your applications as soon as you release a new version.
+AutoX, short for "automated experiments", allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your applications as soon as you release a new version.
 
 To configure AutoX, you will need to specify a set of experiment groups and, for each group, the Kubernetes resource object (trigger object) that you expect AutoX to watch and one or more experiments to be performed in response to new versions of this object.
 
@@ -52,16 +52,16 @@ In this next example, we have augmented the previous example with an additional 
   --set 'groups.myApp.specs.iter8-http.values.assess.SLOs.upper.http/latency-mean=50' \
   --set 'groups.myApp.specs.iter8-http.version=0.13.0' \
   --set 'groups.myApp.specs.iter8-http.values.runner=job' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.tasks={ready,grpc,assess}' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.ready.deploy=myApp' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.ready.service=myApp' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.ready.timeout=60s' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.grpc.host=...' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.grpc.call=...' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.grpc.protoURL=...' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.assess.SLOs.upper.grpc/error-rate=0' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.assess.SLOs.upper.grpc/latency/latency-mean=50' \
-+  --set 'groups.myApp.specs.iter8-grpc.values.runner=job'
+  --set 'groups.myApp.specs.iter8-grpc.values.tasks={ready,grpc,assess}' \
+  --set 'groups.myApp.specs.iter8-grpc.values.ready.deploy=myApp' \
+  --set 'groups.myApp.specs.iter8-grpc.values.ready.service=myApp' \
+  --set 'groups.myApp.specs.iter8-grpc.values.ready.timeout=60s' \
+  --set 'groups.myApp.specs.iter8-grpc.values.grpc.host=...' \
+  --set 'groups.myApp.specs.iter8-grpc.values.grpc.call=...' \
+  --set 'groups.myApp.specs.iter8-grpc.values.grpc.protoURL=...' \
+  --set 'groups.myApp.specs.iter8-grpc.values.assess.SLOs.upper.grpc/error-rate=0' \
+  --set 'groups.myApp.specs.iter8-grpc.values.assess.SLOs.upper.grpc/latency/latency-mean=50' \
+  --set 'groups.myApp.specs.iter8-grpc.values.runner=job'
 ```
 
 Now, when a new version of the trigger is released, AutoX will relaunch not only an HTTP SLO validation test but also a GRPC SLO validation test.

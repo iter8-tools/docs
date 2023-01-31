@@ -2,9 +2,9 @@
 template: main.html
 ---
 
-# AutoX: Automatic Experiments
+# Automated Experiments: AutoX
 
-AutoX, short for "automatic experiments", allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your services as soon as you release a new version.
+AutoX, short for "automated experiments", allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your services as soon as you release a new version.
 
 ![AutoX](images/autox.png)
 
