@@ -64,7 +64,7 @@ In this next example, we have augmented the previous example with an additional 
   --set 'groups.myApp.specs.iter8-grpc.values.runner=job'
 ```
 
-Now, when a new version of the trigger is released, AutoX will relaunch not only an HTTP SLO validation test but also a GRPC SLO validation test.
+Now, when a new version of the trigger is released, AutoX will relaunch not only an HTTP SLO validation test but also a gRPC SLO validation test.
 
 ***
 
