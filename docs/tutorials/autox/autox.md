@@ -176,7 +176,7 @@ Firstly, the HTTP SLO validation test is flexible, and you can augment it in a n
 
 AutoX is designed to use any Kubernetes resource object (including those with a custom resource type) as a trigger object in AutoX. For example, the trigger object can be a Knative service, a KServe inference service, or a Seldon deployment.
 
-AutoX is designed to automate a variety of experiments. For example, instead of using the `http` task, you can use `grpc` task in order to run an GRPC SLO validation test. Here is the [documentation](../../user-guide/tasks/grpc) for the `grpc` task as well as a [tutorial](../../tutorials/load-test-grpc) for GRPC SLO Validation.
+AutoX is designed to automate a variety of experiments. For example, instead of using the `http` task, you can use `grpc` task in order to run an gRPC SLO validation test. Here is the [documentation](../../user-guide/tasks/grpc) for the `grpc` task as well as a [tutorial](../../tutorials/load-test-grpc) for gRPC SLO Validation.
 
 Furthermore, you can add additional tasks that ship out-of-the-box with Iter8, in order to enrich the experiments. For example, you can add a `slack` task so that your experiment results will be posted on Slack. That way, you can automatically have the lastest performance statistics after every update. Here is the [documentation](../../user-guide/tasks/slack) for the `slack` task as well as a [tutorial](../../tutorials/integrations/slack) for using the Slack task.
 
