@@ -20,4 +20,4 @@ Iter8 Slack workspace is [here](https://join.slack.com/t/iter8-tools/shared_invi
 
 ## GitHub Issues
 
-GitHub issues for all Iter8 repos are managed [here](https://github.com/iter8-tools/iter8/issues).
+GitHub issues for all Iter8 repositories are managed [here](https://github.com/iter8-tools/iter8/issues).

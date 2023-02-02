@@ -178,7 +178,7 @@ AutoX is designed to use any Kubernetes resource object (including those with a 
 
 AutoX is designed to automate a variety of experiments. For example, instead of using the `http` task, you can use `grpc` task in order to run an gRPC SLO validation test. Here is the [documentation](../../user-guide/tasks/grpc) for the `grpc` task as well as a [tutorial](../../tutorials/load-test-grpc) for gRPC SLO Validation.
 
-Furthermore, you can add additional tasks that ship out-of-the-box with Iter8, in order to enrich the experiments. For example, you can add a `slack` task so that your experiment results will be posted on Slack. That way, you can automatically have the lastest performance statistics after every update. Here is the [documentation](../../user-guide/tasks/slack) for the `slack` task as well as a [tutorial](../../tutorials/integrations/slack) for using the Slack task.
+Furthermore, you can add additional tasks that ship out-of-the-box with Iter8, in order to enrich the experiments. For example, you can add a `slack` task so that your experiment results will be posted on Slack. That way, you can automatically have the latest performance statistics after every update. Here is the [documentation](../../user-guide/tasks/slack) for the `slack` task as well as a [tutorial](../../tutorials/integrations/slack) for using the Slack task.
 
 You can also automate experiments that are not from Iter8. For example, a [Litmus Chaos chaos experiment](https://github.com/iter8-tools/hub/tree/8e40c740a33afba4afd5623588128da49b7f08f1/charts/litmuschaos) is available on Iter8 hub, which can also be configured with AutoX.
 

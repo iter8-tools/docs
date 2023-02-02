@@ -153,6 +153,7 @@ nav:
     - Metrics: user-guide/topics/metrics.md
     - Namespace and group: user-guide/topics/group.md
     - Automated experiments: user-guide/topics/autox.md
+    - A/B/n testing: user-guide/topics/ab_testing.md
   - Commands:
     - iter8: user-guide/commands/iter8.md
     - iter8 version: user-guide/commands/iter8_version.md

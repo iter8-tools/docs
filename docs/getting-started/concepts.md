@@ -27,7 +27,7 @@ Iter8 provides a variety of configurable tasks. Authoring an experiment is as si
 3.  A task for fetching **custom metrics** from any database(s) or REST API(s).
 4.  A task for checking if an object **exists** in the Kubernetes cluster and is **ready**.
 
-In addition to pre-defined tasks, Iter8 packs a number of powerful features that facilitate experimentation. They include the following.
+In addition to predefined tasks, Iter8 packs a number of powerful features that facilitate experimentation. They include the following.
 
 1.  **HTML/text reports** that promote end-user understanding of experiment results through visual insights.
 2.  **Assertions** that verify whether the target app satisfies the specified SLOs or not during/after an experiment.
@@ -39,7 +39,7 @@ In addition to pre-defined tasks, Iter8 packs a number of powerful features that
 You can use the Iter8 CLI to launch and manage experiments through the command line. This is the imperative style of experimentation. You can also use the Iter8 Autox controller to launch and manage experiments declaratively. [AutoX](../user-guide/topics/autox.md), short for “automated experiments”, allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your applications as soon as you release a new version.
 
 ## Under the covers
-In order to execute an experiment inside Kubernetes, Iter8 uses a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) (single-loop) or a Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) (multi-loop) workload, along with a Kubernetes secret. Iter8 instantiates all experiments using a Helm chart, that is also pre-defined and provided by Iter8.
+In order to execute an experiment inside Kubernetes, Iter8 uses a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) (single-loop) or a Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) (multi-loop) workload, along with a Kubernetes secret. Iter8 instantiates all experiments using a Helm chart, that is also predefined and provided by Iter8.
 
 <p align='center'>
   <img alt-text="Iter8 experiment" src="../../images/underthecovers.png" width="100%" />

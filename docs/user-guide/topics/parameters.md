@@ -17,5 +17,5 @@ iter8 k launch \
 --set runner=job
 ```
 
-All the parameters of a task or an experiment are optional unless indicated otherwise in the documentation of the task or expereiment.
+All the parameters of a task or an experiment are optional unless indicated otherwise in the documentation of the task or experiment.
 
