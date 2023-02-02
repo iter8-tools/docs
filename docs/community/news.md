@@ -5,6 +5,8 @@ hide:
 ---
 
 # News and Announcements
+* **February 2022:** DZone article by Alan Cha. [Automated Performance Testing With ArgoCD and Iter8](https://dzone.com/articles/automated-performance-testing-with-argocd-and-iter8)
+
 * **December 2022:** DZone article by Michael Kalantar. [Simplifying A/B/n Testing of Backend Services](https://dzone.com/articles/simplifying-abn-testing-of-backend-services)
 
 * **October 2022:** Iter8 at KubeCon. [Conference details](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/)
