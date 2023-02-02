@@ -11,6 +11,7 @@ chaosengine
 CLI
 cronjob
 crontab
+default_encoding
 declaratively
 DevOps
 DevSecOps
@@ -22,6 +23,7 @@ GitOps
 gRPC
 GitHub
 GVR
+Homebrew
 http
 httpbin
 https
@@ -59,6 +61,7 @@ roadmap
 SDK
 sed
 Seldon
+sexualized
 SHA
 SLO
 SLOs
@@ -86,17 +89,20 @@ getRecommendation
 GetTrack
 GitCommit
 githubusercontent
+gmail
 golang
 GoVersion
 installbrewbins
 installghaction
 ksvc
 lastupdatetime
+lifecycle
 linenums
 lut
 metricname
 nofailure
 repo
+repos
 req
 setName
 setUser
