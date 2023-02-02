@@ -12,7 +12,7 @@ A/B/n testing relies on business metrics typically computed by a frontend, user-
 
 Metric values often depend on one or more interactions with backend (not user-facing) components. To run an A/B/n test on a backend component, it is necessary to be able to associate a metric value (computed by the frontend component) to the version of the backend component that contributed to its computation. The challenge is that the frontend component often does not know which version of the backend component processed a given request. To address this challenge, Iter8 introduces an A/B/n SDK which provides a frontend component with two APIs:
 
-a. **Lookup()** - Identifies a version of a backend component to send a request to. Given a user session, *Lookup()* returns a track identifier that can be used to route requests. So long as there are no changes in configuration, the track identifier (and hence route) will be same for the same user session, guaranteeing session stickiness. Note that the track identifier is not a version identifier; the version associated with a track changes over time as the versions being tested chanage.
+a. **Lookup()** - Identifies a version of a backend component to send a request to. Given a user session, *Lookup()* returns a track identifier that can be used to route requests. So long as there are no changes in configuration, the track identifier (and hence route) will be same for the same user session, guaranteeing session stickiness. Note that the track identifier is not a version identifier; the version associated with a track changes over time as the versions being tested change.
 
 b. **WriteMetric()** - Associates a metric value with a backend component. Given a user session, *WriteMetric()* identifies the implementing version and writes the metric to a metric store associated with that version. By default, Iter8 uses a Kubernetes secret to store the metrics. The [abnmetrics](../tasks/abnmetrics.md) experiment task can be used to read the metrics stored by *WriteMetric()*.
 
@@ -20,13 +20,13 @@ The Iter8 SDK is implemented using gRPC. The formal definition of the API is in 
 
 ## Configuring the Iter8 A/B/n Service
 
-An Iter8 A/B/n service implements the gRPC API. This service is configured, at deployment, to watch the resoruce objects for a set of applications so that it can identify new versions and their mapping to a track label.
+An Iter8 A/B/n service implements the gRPC API. This service is configured, at deployment, to watch the resource objects for a set of applications so that it can identify new versions and their mapping to a track label.
 
 To watch for versions of an application, specify the list of the types of the objects that must be present and ready for a version to be considered ready:
 
 `--set "apps.<namespace>.<application_name>.resources={<comma separated list resoure types>}"`
 
-Valid resource types are corresponding Kubenetes resource types (specified by group, version and resource) are listed below. When the required condition value is `true`, the resource object is considered ready.
+Valid resource types are corresponding Kubernetes resource types (specified by group, version and resource) are listed below. When the required condition value is `true`, the resource object is considered ready.
 
 | Type Name | Kubernetes Resource Type (GVR) | Required Condition |
 | ---- | ---- | ----------- |
@@ -49,20 +49,20 @@ From the above configuration, Iter8 infers the names of the expected resource ob
 
 ## Deployment Time Configuration of Backend Components
 
-As versions of the backend component are deployed or deleted, the Iter8 A/B/n service maintains a mapping of track label to available version. Using this runtime mapping it is then able to respond appropriately to *Lookup()* and *WriteMetric()* requests.
+As versions of the backend component are deployed or deleted, the Iter8 A/B/n service maintains a mapping of track label to available version. Using this run time mapping it is then able to respond appropriately to *Lookup()* and *WriteMetric()* requests.
 
 To build and maintain it's mapping, the A/B/n service watches the resource objects specified as part of the A/B/n service configuration (see above). 
-In particular, the configuraiton requires that the Kubernetes objects comprising the backend component adhere to a naming convention: all Kubernetes objects that comprise the new version deployed for a particular track should be named using the track label (ie, `<application_name>-candidate-<index>`) and should have the label `app.kubernetes.io/version` set to the version label.
+In particular, the configuration requires that the Kubernetes objects comprising the backend component adhere to a naming convention: all Kubernetes objects that comprise the new version deployed for a particular track should be named using the track label (ie, `<application_name>-candidate-<index>`) and should have the label `app.kubernetes.io/version` set to the version label.
 
 For example, for an application `foo` where we will test up to 2 candidate versions at a time, the tracks will be `foo`, `foo-candidate-1`, and `foo-candidate-2`. To deploy a candidate version `ver` as track `foo-candidate-2`, the resource objects must all be named `foo-candidate-2` and have label `app.kubernetes.io/version: ver`.
 
 ## Developing Frontend Components: Using the SDK
 
-The basic steps to author a frontend application component using the Iter8 SDK are outlined below for *Node.js* and *Go*. Similar steps would be required for any gRPC supported langauge.
+The basic steps to author a frontend application component using the Iter8 SDK are outlined below for *Node.js* and *Go*. Similar steps would be required for any gRPC supported language.
 
 ### Use/Import language specific libraries
 
-The gRPC protocol buffer definition is used to generate language specific implementation. These files can be used directly or packaged and imported as a library. As examples, the Node.js sample uses manually generated files directly. The Go sample imports the library provided by the core Iter8 implementation. In addition to the API specific methods, some general gRPC libaries are required.
+The gRPC protocol buffer definition is used to generate language specific implementation. These files can be used directly or packaged and imported as a library. As examples, the Node.js sample uses manually generated files directly. The Go sample imports the library provided by the core Iter8 implementation. In addition to the API specific methods, some general gRPC libraries are required.
 
 === "Node.js"
     The manually generated node files [`abn_pd.js`](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/frontend/node/abn_pb.js) and [`abn_grpc_pb.js`](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/frontend/node/abn_grpc_pb.js) used in the sample application can be copied and used without modification in other projects.
@@ -172,7 +172,7 @@ Given a user session identifier, *Lookup()* returns a track identifier that can 
 
 ### Using *WriteMetric()*
 
-As an exmple, a single metric named *sample_metric* is assigned a random value between 0 and 100 and written to the metric store.
+As an example, a single metric named *sample_metric* is assigned a random value between 0 and 100 and written to the metric store.
 
 === "Node.js"
     ```javascript

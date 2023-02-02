@@ -29,11 +29,11 @@ Iter8 provides a [`github` task](../..user-guide/tasks/github) that sends a [rep
 
 In this example, you will run the [Your First Experiment](../../getting-started/your-first-experiment.md) but at the end of the experiment, Iter8 will trigger a workflow on GitHub.
 
-In this simple example, the workflow will simply print out the experiment report that it will receive with the `repository_dispatch`. In a more sophisticated scenario, the workflow could, for example, read from the experiment report and based on whether or not task failured or metrics did not meet SLOs, determine what to do next. In a GitOps scenario, it could make changes to the Git repo, promote winners, or restart pipelines among other things.
+In this simple example, the workflow will simply print out the experiment report that it will receive with the `repository_dispatch`. In a more sophisticated scenario, the workflow could, for example, read from the experiment report and based on whether or not task failured or metrics did not meet SLOs, determine what to do next. In a GitOps scenario, it could make changes to the Git repository, promote winners, or restart pipelines among other things.
 
-To summarize what will happen, you will create a new GitHub repo, add a workflow that will respond to the `github` task, set up and run an experiment, and check if the workflow was triggered.
+To summarize what will happen, you will create a new GitHub repository, add a workflow that will respond to the `github` task, set up and run an experiment, and check if the workflow was triggered.
 
-The `github` task requires the name of a repo, the name of the owner, as well as an authentication token in order to send the `repository_dispatch`. To see a full list of the `github` task parameters, see [here](../../user-guide/tasks/github.md#parameters).
+The `github` task requires the name of a repository, the name of the owner, as well as an authentication token in order to send the `repository_dispatch`. To see a full list of the `github` task parameters, see [here](../../user-guide/tasks/github.md#parameters).
 
 1. Create a new repository on GitHub.
 2. Add the following workflow.

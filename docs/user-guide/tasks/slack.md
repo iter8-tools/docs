@@ -32,7 +32,7 @@ See [here](../../tutorials/integrations/slack.md#use-iter8-to-send-a-message-to-
 
 ## Default payload
 
-The payload will determine what will be contained in the Slack message. The [default payload templae](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/templates/notify/_payload-slack.tpl) of the `slack` task is to send the experiment report in text form.
+The payload will determine what will be contained in the Slack message. The [default payload template](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/templates/notify/_payload-slack.tpl) of the `slack` task is to send the experiment report in text form.
 
 However, if you would like to use a different payload template, simply set a `payloadTemplateURL` and Iter8 will not use the default.
 
