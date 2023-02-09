@@ -130,7 +130,9 @@ nav:
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Istio: tutorials/integrations/istio.md
     - Knative: tutorials/integrations/knative.md
-    - Kserve: tutorials/integrations/kserve.md
+    - Kserve: 
+      - Load test KServe (HTTP): tutorials/integrations/kserve/kserve-http.md
+      - Other (Iter8 v0.7): tutorials/integrations/kserve/kserve.md
     - Seldon: tutorials/integrations/seldon.md
     - Slack:  tutorials/integrations/slack.md
     - Litmus: tutorials/integrations/litmus.md
