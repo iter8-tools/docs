@@ -29,6 +29,7 @@ http
 httpbin
 https
 iCalendar
+InferenceService
 integrations
 io
 Istio
@@ -58,7 +59,9 @@ png
 PRs
 protobuf
 protoc
+quickstart
 roadmap
+scikit
 SDK
 sed
 Seldon
@@ -129,3 +132,4 @@ binaryDataURL
 dataURL
 metadataURL
 protoURL
+irisv
