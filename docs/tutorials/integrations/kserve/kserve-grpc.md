@@ -45,25 +45,23 @@ EOF
 Launch the Iter8 experiment inside the Kubernetes cluster:
 
 ```shell
-ISVC=sklearn-irisv2
-INGRESS_HOST=$(kubectl get isvc $ISVC -o jsonpath='{.status.components.predictor.address.url}' | sed 's#.*//##')
-INGRESS_PORT=80
+GRPC_HOST=$(kubectl get isvc sklearn-irisv2 -o jsonpath='{.status.components.predictor.address.url}' | sed 's#.*//##')
+GRPC_PORT=80
 ```
 
 ```shell
-iter8 -l trace k launch --localChart --chartName /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/hub/charts/iter8 \
 iter8 -l trace k launch \
 --set "tasks={ready,grpc,assess}" \
 --set ready.isvc=sklearn-irisv2 \
 --set ready.timeout=180s \
 --set grpc.protoURL=https://raw.githubusercontent.com/kserve/kserve/master/docs/predict-api/v2/grpc_predict_v2.proto \
---set grpc.host=${INGRESS_HOST}:${INGRESS_PORT} \
+--set grpc.host=${GRPC_HOST}:${GRPC_PORT} \
 --set grpc.call=inference.GRPCInferenceService.ModelInfer \
 --set grpc.dataURL=https://gist.githubusercontent.com/kalantar/6e9eaa03cad8f4e86b20eeb712efef45/raw/56496ed5fa9078b8c9cdad590d275ab93beaaee4/sklearn-irisv2-input-grpc.json \
 --set assess.SLOs.upper.grpc/error-rate=0 \
 --set assess.SLOs.upper.grpc/latency/mean=5000 \
 --set assess.SLOs.upper.grpc/latency/p'97\.5'=7500 \
---set runner=job --set logLevel=trace
+--set runner=job
 ```
 
 ??? note "About this experiment"

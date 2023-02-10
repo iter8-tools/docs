@@ -66,7 +66,7 @@ iter8 k launch \
 
 ***
 
-You can assert experiment outcomes, view an experiment report, and view experiment logs as described in your first experiment.
+You can assert experiment outcomes, view an experiment report, and view experiment logs as described in [your first experiment](../../../getting-started/your-first-experiment.md).
 
 ??? note "Some variations and extensions of this experiment" 
     1. The [http task](../../../user-guide/tasks/http/) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
