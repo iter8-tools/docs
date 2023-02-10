@@ -4,7 +4,7 @@ template: main.html
 
 # Load Test a KServe Model (via HTTP)
 
-This tutorial shows how easy it is to run a load test for KServe when using HTTP to make requests. We use an scikit-learn model to demonstrate. The same approach works for any model type. 
+This tutorial shows how easy it is to run a load test for KServe when using HTTP to make requests. We use a scikit-learn model to demonstrate. The same approach works for any model type. 
 
 ???+ warning "Before you begin"
     1. Try [your first experiment](../../../getting-started/your-first-experiment.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
@@ -66,7 +66,7 @@ iter8 k launch \
 
 ***
 
-You can assert experiment outcomes, view an experiment report, and view experiment logs as described in your first experiment.
+You can assert experiment outcomes, view an experiment report, and view experiment logs as described in [your first experiment](../../../getting-started/your-first-experiment.md).
 
 ??? note "Some variations and extensions of this experiment" 
     1. The [http task](../../../user-guide/tasks/http/) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.

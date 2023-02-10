@@ -132,6 +132,7 @@ nav:
     - Knative: tutorials/integrations/knative.md
     - Kserve: 
       - Load test KServe (HTTP): tutorials/integrations/kserve/kserve-http.md
+      - Load test KServe (gRPC): tutorials/integrations/kserve/kserve-grpc.md
       - Other (Iter8 v0.7): tutorials/integrations/kserve/kserve.md
     - Seldon: tutorials/integrations/seldon.md
     - Slack:  tutorials/integrations/slack.md
