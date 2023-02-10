@@ -4,7 +4,7 @@ template: main.html
 
 # Load Test a KServe Model (via gRPC)
 
-This tutorial shows how easy it is to run a load test for KServe when using gRPC to make requests. We use a scikit-learn model to demonstrate. The same approach works for any model type. 
+This tutorial shows how easy it is to run a load test for KServe when using gRPC to make requests. We use a sklearn model to demonstrate. The same approach works for any model type. 
 
 ???+ "Before you begin"
     1. Try [your first experiment](../../../getting-started/your-first-experiment.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
@@ -12,10 +12,11 @@ This tutorial shows how easy it is to run a load test for KServe when using gRPC
     3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.10/hack/quick_install.sh" | bash
+    ```
 
 ## Deploy an InferenceService
 
-Create an InferenceService which exposes a gRPC port. The following serves the SciKit [irisv2 model](https://kserve.github.io/website/0.10/modelserving/v1beta1/sklearn/v2/#deploy-with-inferenceservice):
+Create an InferenceService which exposes a gRPC port. The following serves the sklearn [irisv2 model](https://kserve.github.io/website/0.10/modelserving/v1beta1/sklearn/v2/#deploy-with-inferenceservice):
 
 ```shell
 cat <<EOF | kubectl create -f -
@@ -50,7 +51,7 @@ GRPC_PORT=80
 ```
 
 ```shell
-iter8 -l trace k launch \
+iter8 k launch \
 --set "tasks={ready,grpc,assess}" \
 --set ready.isvc=sklearn-irisv2 \
 --set ready.timeout=180s \
@@ -69,7 +70,7 @@ iter8 -l trace k launch \
     
     The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
 
-    The [grpc](../../../user-guide/tasks/grpc.md) task sends call requests to the `inference.GRPCInferenceService.ModelInfer` method of the cluster-local gRPC service with host address `${INGRESS_HOST}:${INGRESS_PORT}`, and collects Iter8's built-in gRPC load test metrics.
+    The [grpc](../../../user-guide/tasks/grpc.md) task sends call requests to the `inference.GRPCInferenceService.ModelInfer` method of the cluster-local gRPC service with host address `${GRPC_HOST}:${GRPC_PORT}`, and collects Iter8's built-in gRPC load test metrics.
 
     The assess task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the 97.5th percentile latency does not exceed 200 msec. 
     
