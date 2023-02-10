@@ -151,6 +151,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://iter8.tools/latest/0.13/tutorials/integrations/kserve/kserve-grpc/</loc>
+         <lastmod>2023-02-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://iter8.tools/latest/0.13/tutorials/integrations/kserve/kserve-http/</loc>
          <lastmod>2023-02-10</lastmod>
          <changefreq>daily</changefreq>
