@@ -67,6 +67,7 @@ sed
 Seldon
 sexualized
 SHA
+sklearn
 SLO
 SLOs
 SRE

@@ -4,7 +4,7 @@ template: main.html
 
 # Load Test a KServe Model (via HTTP)
 
-This tutorial shows how easy it is to run a load test for KServe when using HTTP to make requests. We use a scikit-learn model to demonstrate. The same approach works for any model type. 
+This tutorial shows how easy it is to run a load test for KServe when using HTTP to make requests. We use a sklearn model to demonstrate. The same approach works for any model type. 
 
 ???+ warning "Before you begin"
     1. Try [your first experiment](../../../getting-started/your-first-experiment.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
@@ -16,7 +16,7 @@ This tutorial shows how easy it is to run a load test for KServe when using HTTP
 
 ## Deploy an InferenceService
 
-Create an InferenceService which exposes an HTTP port. The following serves the SciKit [irisv2 model](https://kserve.github.io/website/0.10/modelserving/v1beta1/sklearn/v2/#deploy-with-inferenceservice):
+Create an InferenceService which exposes an HTTP port. The following serves the sklearn [irisv2 model](https://kserve.github.io/website/0.10/modelserving/v1beta1/sklearn/v2/#deploy-with-inferenceservice):
 
 ```shell
 cat <<EOF | kubectl apply -f -
