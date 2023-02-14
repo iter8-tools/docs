@@ -74,7 +74,7 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
         
         The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
         
-        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.ListFeatures` method of the cluster-local gRPC service with host address `routeguide.default:50051`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). 
+        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.ListFeatures` server streaming method of the cluster-local gRPC service with host address `routeguide.default:50051` using the payload provided by `dataURL`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics) from the stream results. 
         
         The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
         
@@ -102,7 +102,7 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
         
         The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
         
-        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.RecordRoute` method of the cluster-local gRPC service with host address `routeguide.default:50051`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). 
+        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.RecordRoute` client streaming method of the cluster-local gRPC service with host address `routeguide.default:50051`, streams the data provided by `dataURL`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). 
         
         The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
         
@@ -130,7 +130,7 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
         
         The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
         
-        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.RouteChat` method of the cluster-local gRPC service with host address `routeguide.default:50051`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). 
+        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.RouteChat` bi-directional streaming method of the cluster-local gRPC service with host address `routeguide.default:50051`, streams the data provided by `dataURL`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics) from the stream results. 
         
         The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
         

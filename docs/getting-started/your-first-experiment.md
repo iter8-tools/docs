@@ -71,7 +71,7 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
         
         The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
         
-        The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/post` with a string payload, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). 
+        The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/post` with a string payload of value `hello`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). 
         
         The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
         
