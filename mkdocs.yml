@@ -119,7 +119,9 @@ nav:
   - Get help: getting-started/help.md
 - Tutorials:
   - Load test HTTP with SLOs: tutorials/load-test-http.md
+  - Load test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
   - Load test gRPC with SLOs: tutorials/load-test-grpc.md
+  - Load test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
   - Chaos injection with SLOs: tutorials/chaos/slo-validation-chaos.md
   - A/B experiments: tutorials/abn/abn.md
   - Automated experiments: tutorials/autox/autox.md

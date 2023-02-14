@@ -6,6 +6,8 @@ template: main.html
 
 Load test a Kubernetes gRPC service and validate its [service-level objectives (SLOs)](../getting-started/concepts.md#service-level-objectives). This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments).
 
+See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tutorial that describes how to load test multiple methods from an gRPC service.
+
 <p align='center'>
   <img alt-text="load-test-grpc" src="../images/grpc.png" />
 </p>
@@ -116,6 +118,7 @@ Assert experiment outcomes, view experiment report, view experiment logs, and cl
 
 ## Cleanup
 Remove the Iter8 experiment and the sample app from the Kubernetes cluster and the local Iter8 `charts` folder.
+
 ```shell
 iter8 k delete
 kubectl delete svc/routeguide
