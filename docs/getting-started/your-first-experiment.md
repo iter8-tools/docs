@@ -28,7 +28,7 @@ Run your first [Iter8 experiment](concepts.md#iter8-experiment) by load testing 
 ## Launch experiment
 Launch the Iter8 experiment inside the Kubernetes cluster.
 
-=== "Get example"
+=== "GET example"
     ```shell
     iter8 k launch \
     --set "tasks={ready,http,assess}" \
@@ -41,18 +41,7 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
     --set runner=job
     ```
 
-    ??? note "About this experiment"
-        This experiment consists of three [tasks](concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
-        
-        The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
-        
-        The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). 
-        
-        The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
-        
-        This is a [single-loop](concepts.md#iter8-experiment) [Kubernetes experiment](concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`.
-
-=== "Post example"
+=== "POST example"
     ```shell
     iter8 k launch \
     --set "tasks={ready,http,assess}" \
@@ -66,16 +55,16 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
     --set runner=job
     ```
 
-    ??? note "About this experiment"
-        This experiment consists of three [tasks](concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
-        
-        The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
-        
-        The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/post` with a string payload of value `hello`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). 
-        
-        The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
-        
-        This is a [single-loop](concepts.md#iter8-experiment) [Kubernetes experiment](concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`.
+??? note "About this experiment"
+    This experiment consists of three [tasks](concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
+    
+    The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
+    
+    The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service using the specified `url`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). This tasks supports both GET and POST requests, and for POST requests, a payload can be provided by using either `payloadStr` or `payloadURL`.
+    
+    The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
+    
+    This is a [single-loop](concepts.md#iter8-experiment) [Kubernetes experiment](concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`.
 
 ***
 

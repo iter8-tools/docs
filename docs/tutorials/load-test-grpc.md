@@ -16,7 +16,8 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
     1. Try [your first experiment](../getting-started/your-first-experiment.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
     2. Deploy the sample gRPC service in the Kubernetes cluster.
     ```shell
-    kubectl create deployment routeguide  --image=golang --port=50051 -- bash -c "git clone -b v1.52.0 --depth 1 https://github.com/grpc/grpc-go; cd grpc-go/examples/route_guide; go run server/server.go"
+    kubectl create deployment routeguide --image=golang --port=50051 \
+    -- bash -c "git clone -b v1.52.0 --depth 1 https://github.com/grpc/grpc-go; cd grpc-go/examples/route_guide; go run server/server.go"
     kubectl expose deployment routeguide --port=50051
     ```
 
@@ -41,17 +42,6 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
     --set runner=job
     ```
 
-    ??? note "About this experiment"
-        This experiment consists of three [tasks](../getting-started/concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
-        
-        The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
-        
-        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.GetFeature` method of the cluster-local gRPC service with host address `routeguide.default:50051`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). 
-        
-        The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
-        
-        This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
-
 === "Server streaming example"
     ```shell
     iter8 k launch \
@@ -68,17 +58,6 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
     --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
     --set runner=job
     ```
-
-    ??? note "About this experiment"
-        This experiment consists of three [tasks](../getting-started/concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
-        
-        The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
-        
-        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.ListFeatures` server streaming method of the cluster-local gRPC service with host address `routeguide.default:50051` using the payload provided by `dataURL`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics) from the stream results. 
-        
-        The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
-        
-        This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
 
 === "Client streaming example"
     ```shell
@@ -97,18 +76,7 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
     --set runner=job
     ```
 
-    ??? note "About this experiment"
-        This experiment consists of three [tasks](../getting-started/concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
-        
-        The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
-        
-        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.RecordRoute` client streaming method of the cluster-local gRPC service with host address `routeguide.default:50051`, streams the data provided by `dataURL`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). 
-        
-        The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
-        
-        This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
-
-=== "Bi-directional example"
+=== "Bidirectional example"
     ```shell
     iter8 k launch \
     --set "tasks={ready,grpc,assess}" \
@@ -125,16 +93,16 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
     --set runner=job
     ```
 
-    ??? note "About this experiment"
-        This experiment consists of three [tasks](../getting-started/concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
-        
-        The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
-        
-        The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the `routeguide.RouteGuide.RouteChat` bi-directional streaming method of the cluster-local gRPC service with host address `routeguide.default:50051`, streams the data provided by `dataURL`, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics) from the stream results. 
-        
-        The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
-        
-        This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
+??? note "About this experiment"
+    This experiment consists of three [tasks](../getting-started/concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
+    
+    The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
+    
+    The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the specified method of the cluster-local gRPC service with host address `routeguide.default:50051` and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). This task supports all four gRPC service methods: unary, server streaming, client streaming, and bidirectional streaming, and will provide payload in the appropriate manner using `dataURL`. 
+    
+    The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
+    
+    This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
 
 ??? note "Some variations and extensions of this experiment"
     1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.
