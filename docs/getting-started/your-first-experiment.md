@@ -28,24 +28,39 @@ Run your first [Iter8 experiment](concepts.md#iter8-experiment) by load testing 
 ## Launch experiment
 Launch the Iter8 experiment inside the Kubernetes cluster.
 
-```shell
-iter8 k launch \
---set "tasks={ready,http,assess}" \
---set ready.deploy=httpbin \
---set ready.service=httpbin \
---set ready.timeout=60s \
---set http.url=http://httpbin.default/get \
---set assess.SLOs.upper.http/latency-mean=50 \
---set assess.SLOs.upper.http/error-count=0 \
---set runner=job
-```
+=== "GET example"
+    ```shell
+    iter8 k launch \
+    --set "tasks={ready,http,assess}" \
+    --set ready.deploy=httpbin \
+    --set ready.service=httpbin \
+    --set ready.timeout=60s \
+    --set http.url=http://httpbin.default/get \
+    --set assess.SLOs.upper.http/latency-mean=50 \
+    --set assess.SLOs.upper.http/error-count=0 \
+    --set runner=job
+    ```
+
+=== "POST example"
+    ```shell
+    iter8 k launch \
+    --set "tasks={ready,http,assess}" \
+    --set ready.deploy=httpbin \
+    --set ready.service=httpbin \
+    --set ready.timeout=60s \
+    --set http.url=http://httpbin.default/post \
+    --set http.payloadStr=hello \
+    --set assess.SLOs.upper.http/latency-mean=50 \
+    --set assess.SLOs.upper.http/error-count=0 \
+    --set runner=job
+    ```
 
 ??? note "About this experiment"
     This experiment consists of three [tasks](concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
-    The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL is `http://httpbin.default/get`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). 
+    The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service using the specified `url`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). This tasks supports both GET and POST requests, and for POST requests, a payload can be provided by using either `payloadStr` or `payloadURL`.
     
     The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
     
