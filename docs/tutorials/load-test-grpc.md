@@ -53,8 +53,8 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set ready.timeout=60s \
     --set grpc.host="routeguide.default:50051" \
     --set grpc.call="routeguide.RouteGuide.ListFeatures" \
-    --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
     --set grpc.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+    --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
     --set assess.SLOs.upper.grpc/error-rate=0 \
     --set assess.SLOs.upper.grpc/latency/mean=200 \
     --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
@@ -70,8 +70,8 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set ready.timeout=60s \
     --set grpc.host="routeguide.default:50051" \
     --set grpc.call="routeguide.RouteGuide.RecordRoute" \
-    --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
     --set grpc.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
+    --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
     --set assess.SLOs.upper.grpc/error-rate=0 \
     --set assess.SLOs.upper.grpc/latency/mean=200 \
     --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
@@ -87,8 +87,8 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set ready.timeout=60s \
     --set grpc.host="routeguide.default:50051" \
     --set grpc.call="routeguide.RouteGuide.RouteChat" \
-    --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
     --set grpc.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/bidirectional.json" \
+    --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
     --set assess.SLOs.upper.grpc/error-rate=0 \
     --set assess.SLOs.upper.grpc/latency/mean=200 \
     --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \

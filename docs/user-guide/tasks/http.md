@@ -10,7 +10,8 @@ Generate requests for an HTTP service and and collect [latency and error-related
 
 In this experiment, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. The metrics are used by the `assess` task to validate SLOs.
 
-```
+Single endpoint:
+```bash
 iter8 k launch \
 --set "tasks={http,assess}" \
 --set http.url=https://httpbin.org/get \
@@ -19,21 +20,36 @@ iter8 k launch \
 --set runner=job
 ```
 
+Multiple endpoints:
+```bash
+iter8 k launch \
+--set "tasks={http,assess}" \
+--set http.endpoints.getit.url=http://httpbin.default/get \
+--set http.endpoints.postit.url=http://httpbin.default/post \
+--set http.endpoints.postit.payloadStr=hello \
+--set assess.SLOs.upper.http/getit/latency-mean=50 \
+--set assess.SLOs.upper.http/getit/error-count=0 \
+--set assess.SLOs.upper.http/postit/latency-mean=150 \
+--set assess.SLOs.upper.http/postit/error-count=0 \
+--set runner=job
+```
+
 ## Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| url  | string (URL) | HTTP URL where requests are sent. |
-| headers  | map[string]string | HTTP headers to use in the requests. |
-| numRequests  | int | Number of requests to be sent to the app. Default value is 100. |
-| duration  | string | Duration of this task. Specified in the [Go duration string format](https://pkg.go.dev/maze.io/x/duration#ParseDuration) (example, `5s`). If both duration and numRequests are specified, then duration is ignored. |
-| qps  | float | qps stands for queries-per-second. Number of requests per second sent to the app. Default value is 8.0. |
-| connections  | int | Number of parallel connections used to send requests. Default value is 4. |
-| payloadURL  | string (URL) | URL from which to download the content that will be used as the request payload. If this field is specified, Iter8 will send HTTP POST requests to the app using this content as the payload. |
-| payloadStr  | string | String data to be used as the request payload. If this field is specified, Iter8 will send HTTP POST requests to the app using this string as the payload. |
-| contentType  | string | Content type of the payload. This is intended to be used in conjunction with one of the `payload*` fields. If this field is specified, Iter8 will send HTTP POST requests to the app using this as the Content-Type header value. |
+| url | string (URL) | URL where requests are sent. |
+| headers | map[string]string | HTTP headers to use in the requests. |
+| numRequests | int | Number of requests to be sent to the app. Default value is 100. |
+| duration | string | Duration of this task. Specified in the [Go duration string format](https://pkg.go.dev/maze.io/x/duration#ParseDuration) (example, `5s`). If both duration and numRequests are specified, then duration is ignored. |
+| qps | float | qps stands for queries-per-second. Number of requests per second sent to the app. Default value is 8.0. |
+| connections | int | Number of parallel connections used to send requests. Default value is 4. |
+| payloadURL | string (URL) | URL from which to download the content that will be used as the request payload. If this field is specified, Iter8 will send HTTP POST requests to the app using this content as the payload. |
+| payloadStr | string | String data to be used as the request payload. If this field is specified, Iter8 will send HTTP POST requests to the app using this string as the payload. |
+| contentType | string | Content type of the payload. This is intended to be used in conjunction with one of the `payload*` fields. If this field is specified, Iter8 will send HTTP POST requests to the app using this as the Content-Type header value. |
 | warmupNumRequests | int | Number of requests to be sent in a warmup task (results are ignored). |
 | warmupDuration | string | Duration of warmup task (results are ignored). Specified in the [Go duration string format](https://pkg.go.dev/maze.io/x/duration#ParseDuration) (example, 5s). If both warmupDuration and warmupNumRequests are specified, then warmupDuration is ignored. |
+| endpoints | map[string]interface | Used to test multiple HTTP endpoints. |
 
 ## Metrics
 

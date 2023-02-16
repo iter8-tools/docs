@@ -10,14 +10,39 @@ Generate requests for a gRPC service and and collect [latency and error-related 
 
 In this experiment, the `grpc` task generates call requests for a gRPC service hosted at `hello.default:50051`, defined in the [protobuf](https://developers.google.com/protocol-buffers) file located at `grpc.protoURL`, with a gRPC method named `helloworld.Greeter.SayHello`. Metrics collected by this task are used by the `assess` task to validate SLOs.
 
-```
+Single method:
+```bash
 iter8 k launch \
---set "tasks={grpc,assess}" \
---set grpc.host="hello.default:50051" \
---set grpc.call="helloworld.Greeter.SayHello" \
---set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/helloworld/helloworld/helloworld.proto" \
+--set "tasks={ready,grpc,assess}" \
+--set ready.deploy=routeguide \
+--set ready.service=routeguide \
+--set ready.timeout=60s \
+--set grpc.host="routeguide.default:50051" \
+--set grpc.call="routeguide.RouteGuide.GetFeature" \
+--set grpc.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
+--set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
 --set assess.SLOs.upper.grpc/error-rate=0 \
---set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
+--set assess.SLOs.upper.grpc/latency/mean=200 \
+--set runner=job
+```
+
+Multiple methods:
+```bash
+iter8 k launch \
+--set "tasks={ready,grpc,assess}" \
+--set ready.deploy=routeguide \
+--set ready.service=routeguide \
+--set ready.timeout=60s \
+--set grpc.host="routeguide.default:50051" \
+--set grpc.endpoints.getFeature.call="routeguide.RouteGuide.GetFeature" \
+--set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
+--set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
+--set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+--set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
+--set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/getFeature/latency/mean=200 \
+--set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/listFeature/latency/mean=200 \
 --set runner=job
 ```
 
@@ -29,12 +54,13 @@ In addition, the following fields are defined by this task.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| protoURL  | string (URL) | URL where the [protobuf file](https://developers.google.com/protocol-buffers) that defines the gRPC service is located. |
-| dataURL  | string (URL) | URL where JSON data to be used in call requests is located. |
-| binaryDataURL  | string (URL) | URL where binary data to be used in call requests is located. |
-| metadataURL  | string (URL) | URL where the JSON metadata data to be used in call requests is located. |
+| protoURL | string (URL) | URL where the [protobuf file](https://developers.google.com/protocol-buffers) that defines the gRPC service is located. |
+| dataURL | string (URL) | URL where JSON data to be used in call requests is located. |
+| binaryDataURL | string (URL) | URL where binary data to be used in call requests is located. |
+| metadataURL | string (URL) | URL where the JSON metadata data to be used in call requests is located. |
 | warmupNumRequests | int | Number of requests to be sent in a warmup task (results are ignored).  |
 | warmupDuration | string | Duration of warmup task (results are ignored). Specified in the [Go duration string format](https://pkg.go.dev/maze.io/x/duration#ParseDuration) (example, 5s). If both warmupDuration and warmupNumRequests are specified, then warmupDuration is ignored. |
+| endpoints | map[string]interface | Used to define multiple gRPC methods to test. |
 
 ## Metrics
 

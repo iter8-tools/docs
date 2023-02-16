@@ -24,30 +24,19 @@ template: main.html
 Launch the Iter8 experiment inside the Kubernetes cluster.
 
 ```bash
-helm install autox autox --repo https://iter8-tools.github.io/hub/ --version 0.1.6 \
---set 'groups.httpbin.trigger.name=httpbin' \
---set 'groups.httpbin.trigger.namespace=default' \
---set 'groups.httpbin.trigger.group=apps' \
---set 'groups.httpbin.trigger.version=v1' \
---set 'groups.httpbin.trigger.resource=deployments' \
---set 'groups.httpbin.specs.iter8.name=iter8' \
---set 'groups.httpbin.specs.iter8.values.tasks={ready,http,assess}' \
---set 'groups.httpbin.specs.iter8.values.ready.deploy=httpbin' \
---set 'groups.httpbin.specs.iter8.values.ready.service=httpbin' \
---set 'groups.httpbin.specs.iter8.values.ready.timeout=60s' \
---set 'groups.httpbin.specs.iter8.values.http.numRequests=200' \
---set 'groups.httpbin.specs.iter8.values.http.endpoints.get.url=http://httpbin.default/get' \
---set 'groups.httpbin.specs.iter8.values.http.endpoints.getAnything.url=http://httpbin.default/anything' \
---set 'groups.httpbin.specs.iter8.values.http.endpoints.post.url=http://httpbin.default/post' \
---set 'groups.httpbin.specs.iter8.values.http.endpoints.post.payloadStr=hello' \
---set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/get/error-count=0' \
---set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/get/latency-mean=50' \
---set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/getAnything/error-count=0' \
---set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/getAnything/latency-mean=75' \
---set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/post/error-count=0' \
---set 'groups.httpbin.specs.iter8.values.assess.SLOs.upper.http/post/latency-mean=100' \
---set 'groups.httpbin.specs.iter8.version=0.13.0' \
---set 'groups.httpbin.specs.iter8.values.runner=job'
+iter8 k launch \
+--set "tasks={ready,http,assess}" \
+--set ready.deploy=httpbin \
+--set ready.service=httpbin \
+--set ready.timeout=60s \
+--set http.endpoints.getit.url=http://httpbin.default/get \
+--set http.endpoints.postit.url=http://httpbin.default/post \
+--set http.endpoints.postit.payloadStr=hello \
+--set assess.SLOs.upper.http/getit/latency-mean=50 \
+--set assess.SLOs.upper.http/getit/error-count=0 \
+--set assess.SLOs.upper.http/postit/latency-mean=150 \
+--set assess.SLOs.upper.http/postit/error-count=0 \
+--set runner=job
 ```
 
 ??? note "About this experiment"
