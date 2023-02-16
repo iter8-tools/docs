@@ -49,7 +49,67 @@ iter8 k launch \
 | contentType | string | Content type of the payload. This is intended to be used in conjunction with one of the `payload*` fields. If this field is specified, Iter8 will send HTTP POST requests to the app using this as the Content-Type header value. |
 | warmupNumRequests | int | Number of requests to be sent in a warmup task (results are ignored). |
 | warmupDuration | string | Duration of warmup task (results are ignored). Specified in the [Go duration string format](https://pkg.go.dev/maze.io/x/duration#ParseDuration) (example, 5s). If both warmupDuration and warmupNumRequests are specified, then warmupDuration is ignored. |
-| endpoints | map[string]interface | Used to test multiple HTTP endpoints. |
+| endpoints | map[string]EndPoint | Used to specify multiple endpoints and their configuration. The `string` is the name of the endpoint and the `EndPoint` struct includes all the parameters described above. Load testing and metric collection will be conducted separately for each endpoint. |
+
+## Precedence
+
+With the `endpoints` parameter, it is possible to override the parameter defaults and to do so on an per endpoint level. For example, the default `qps` (queries-per-second) for the `http` task is 8, but this can be overridden.
+
+```bash
+iter8 k launch \
+--set "tasks={http,assess}" \
+--set http.qps=10 \
+--set http.endpoints.get.url=http://httpbin.default/get \
+--set http.endpoints.getAnything.url=http://httpbin.default/anything \
+--set http.endpoints.post.url=http://httpbin.default/post \
+--set http.endpoints.post.payloadStr=hello \
+--set assess.SLOs.upper.http/get/error-count=0 \
+--set assess.SLOs.upper.http/getAnything/error-count=0 \
+--set assess.SLOs.upper.http/post/error-count=0 \
+--set runner=job
+```
+
+In this example, each endpoint will have a `qps` of 10. However, this can be overridden by a per endpoint setting.
+
+***
+
+```bash
+iter8 k launch \
+--set "tasks={http,assess}" \
+--set http.qps=10 \
+--set http.endpoints.get.url=http://httpbin.default/get \
+--set http.endpoints.getAnything.url=http://httpbin.default/anything \
+--set http.endpoints.post.url=http://httpbin.default/post \
+--set http.endpoints.post.payloadStr=hello \
+--set http.endpoints.post.qps=15 \
+--set assess.SLOs.upper.http/get/error-count=0 \
+--set assess.SLOs.upper.http/getAnything/error-count=0 \
+--set assess.SLOs.upper.http/post/error-count=0 \
+--set runner=job
+```
+
+In this example, the `get` and `getAnything` endpoints will have a `qps` of 10, but the `post` endpoint will have a `qps` of 15.
+
+***
+
+Additionally, set parameters will trickle down to the endpoints.
+
+```bash
+iter8 k launch \
+--set "tasks={http,assess}" \
+--set http.numRequests=50 \
+--set http.endpoints.get.url=http://httpbin.default/get \
+--set http.endpoints.getAnything.url=http://httpbin.default/anything \
+--set http.endpoints.post.url=http://httpbin.default/post \
+--set http.endpoints.post.payloadStr=hello \
+--set http.endpoints.post.qps=15 \
+--set assess.SLOs.upper.http/get/error-count=0 \
+--set assess.SLOs.upper.http/getAnything/error-count=0 \
+--set assess.SLOs.upper.http/post/error-count=0 \
+--set runner=job
+```
+
+In this example, all three endpoints will be sent 50 requests.
 
 ## Metrics
 

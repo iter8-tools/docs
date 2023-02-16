@@ -38,11 +38,15 @@ iter8 k launch \
 --set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
 --set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
 --set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+--set grpc.endpoints.recourdRoute.call="routeguide.RouteGuide.RecordRoute" \
+--set grpc.endpoints.recourdRoute.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
+--set grpc.endpoints.routeChat.call="routeguide.RouteGuide.RouteChat" \
+--set grpc.endpoints.routeChat.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/bidirectional.json" \
 --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
 --set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/getFeature/latency/mean=200 \
 --set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/listFeature/latency/mean=200 \
+--set assess.SLOs.upper.grpc/recourdRoute/error-rate=0 \
+--set assess.SLOs.upper.grpc/routeChat/error-rate=0 \
 --set runner=job
 ```
 
@@ -60,7 +64,29 @@ In addition, the following fields are defined by this task.
 | metadataURL | string (URL) | URL where the JSON metadata data to be used in call requests is located. |
 | warmupNumRequests | int | Number of requests to be sent in a warmup task (results are ignored).  |
 | warmupDuration | string | Duration of warmup task (results are ignored). Specified in the [Go duration string format](https://pkg.go.dev/maze.io/x/duration#ParseDuration) (example, 5s). If both warmupDuration and warmupNumRequests are specified, then warmupDuration is ignored. |
-| endpoints | map[string]interface | Used to define multiple gRPC methods to test. |
+| endpoints | map[string]EndPoint | Used to specify multiple endpoints and their configuration. The `string` is the name of the endpoint and the `EndPoint` struct includes all the parameters described above as well as those from the `Config` struct. Load testing and metric collection will be conducted separately for each endpoint. |
+
+## Precedence
+
+With the `endpoints` parameter, it is possible to configure parameters on a task level as well as on a per endpoint level.
+
+```bash
+iter8 k launch \
+--set "tasks={grpc,assess}" \
+--set grpc.host="routeguide.default:50051" \
+--set grpc.endpoints.getFeature.call="routeguide.RouteGuide.GetFeature" \
+--set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
+--set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
+--set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+--set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
+--set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
+--set runner=job
+```
+
+In this example, each endpoint has a different `call` and `dataURL` but they have the same `host`.
+
+If the same task and endpoint parameter is set, then the endpoint parameter will have precedence.
 
 ## Metrics
 
