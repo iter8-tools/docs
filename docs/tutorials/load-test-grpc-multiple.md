@@ -49,9 +49,9 @@ iter8 k launch \
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
 
-    The [grpc](../user-guide/tasks/grpc.md) task sends call requests to two methods of the cluster-local gRPC service, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). The two methods are `routeguide.RouteGuide.GetFeature` and `routeguide.RouteGuide.ListFeatures`. Note that each method also has their own `dataURL` for the request payload.
+    The [grpc](../user-guide/tasks/grpc.md) task sends call requests to two methods of the cluster-local gRPC service, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). The two methods are `routeguide.RouteGuide.GetFeature` and `routeguide.RouteGuide.ListFeatures`. Note that each method also has its own `dataURL` for the request payload.
 
-    The [assess](../user-guide/tasks/assess.md) task verifies if each method satisfy their respective error rate and mean latency SLOs. Both methods must have an error rate of 0 but the `getFeature` and `listFeatures` methods are allowed a maximum mean latency of 50 and 100 msecs, respectively.
+    The [assess](../user-guide/tasks/assess.md) task verifies if each method satisfies their respective error rate and mean latency SLOs. Both methods must have an error rate of 0 but the `getFeature` and `listFeatures` methods are allowed a maximum mean latency of 50 and 100 msecs, respectively.
     
     This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
 
