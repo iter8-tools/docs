@@ -109,6 +109,8 @@ nofailure
 repo
 repos
 req
+rollout
+rollouts
 setName
 setUser
 trackToRoute
@@ -134,3 +136,6 @@ dataURL
 metadataURL
 protoURL
 irisv
+EOF
+HOSTNAME
+jsonpath
