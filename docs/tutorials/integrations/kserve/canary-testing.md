@@ -2,18 +2,18 @@
 template: main.html
 ---
 
-# Two Model Validation (for Canary Testing)
+# Canary Testing
 
 This tutorial shows how easy it is validate SLOs for multiple versions of a model in [KServe](https://kserve.github.io/website/0.10/) when fetching metrics from a metrics database like Prometheus. We show this using the `sklearn-iris` model used to describe [canary rollouts](https://kserve.github.io/website/0.10/modelserving/v1beta1/rollout/canary-example/) in KServe. 
 
 ???+ "Before you begin"
     1. Try [your first experiment](../../../getting-started/your-first-experiment.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
     2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLI.
-    3. Have access to a cluster running [KServe](https://kserve.github.io/website) and Prometheus. You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
+    3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.10/hack/quick_install.sh" | bash
     ```
-    These instructions can be used to [install Prometheus](https://github.com/kserve/kserve/tree/master/docs/samples/metrics-and-monitoring#install-prometheus).
+    4. Install Prometheus monitoring for KServe [using these instructions](https://github.com/kserve/kserve/tree/master/docs/samples/metrics-and-monitoring#install-prometheus).
 
 ## Experiment Setup
 
@@ -63,7 +63,7 @@ INGRESS_GATEWAY=$(kubectl get svc --namespace istio-system --selector="app=istio
 kubectl port-forward --namespace istio-system svc/$INGRESS_GATEWAY 8080:80
 ```
 
-Finally, request predictions. Here we make a request about once a second.
+Send prediction requests to the inference service. The following script generates about one request a second. In a production cluster, this step is not required since your inference service will receive requests from real users.
 
 ```shell
 SERVICE_HOSTNAME="sklearn-iris.default.example.com"
@@ -135,8 +135,16 @@ You can assert experiment outcomes, view an experiment report, and view experime
 
 ## Clean up
 
+To clean up, delete the Iter8 experiment:
+
 ```shell
 iter8 k delete
+```
+
+Remove the `InferenceService` and the request data:
+```shell
 kubectl delete inferenceservice sklearn-iris
 rm ./iris-input.json
 ```
+
+You can remove Prometheus using [these instructions](https://github.com/kserve/kserve/tree/master/docs/samples/metrics-and-monitoring#removal).
