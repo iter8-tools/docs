@@ -34,6 +34,7 @@ iter8 k launch \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
 --set http.endpoints.post.qps=10 \
+--set http.numRequests=200
 --set assess.SLOs.upper.http/get/error-count=0 \
 --set assess.SLOs.upper.http/get/latency-mean=50 \
 --set assess.SLOs.upper.http/getAnything/error-count=0 \
@@ -48,7 +49,7 @@ iter8 k launch \
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
-    The [http](../user-guide/tasks/http.md) task sends requests to three endpoints from the cluster-local HTTP service, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). The three endpoints are `http://httpbin.default/get`, `http://httpbin.default/anything`, and `http://httpbin.default/post`. The last endpoint also has a payload string `hello`. Furthermore, by default, the endpoints are queried at a rate of 8 qps (queries-per-second), but the last endpoint will be queried at 10 qps.
+    The [http](../user-guide/tasks/http.md) task sends requests to three endpoints from the cluster-local HTTP service, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). The three endpoints are `http://httpbin.default/get`, `http://httpbin.default/anything`, and `http://httpbin.default/post`. The last endpoint also has a payload string `hello`. Furthermore, each endpoint will be set 200 requests and will be queried at the default rate of 8 qps (queries-per-second) except the last endpoint, which will be queried at 10 qps.
     
     The [assess](../user-guide/tasks/assess.md) task verifies if each endpoint satisfies their respective error count and mean latency SLOs. All three must have an error count of 0 but the `get`, `getAnything`, and `post` endpoints are allowed a maximum mean latency of 50, 75, and 100 msecs, respectively.
     
