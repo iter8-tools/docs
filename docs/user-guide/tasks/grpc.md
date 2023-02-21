@@ -13,10 +13,7 @@ In this experiment, the `grpc` task generates call requests for a gRPC service h
 Single method:
 ```bash
 iter8 k launch \
---set "tasks={ready,grpc,assess}" \
---set ready.deploy=routeguide \
---set ready.service=routeguide \
---set ready.timeout=60s \
+--set "tasks={grpc,assess}" \
 --set grpc.host="routeguide.default:50051" \
 --set grpc.call="routeguide.RouteGuide.GetFeature" \
 --set grpc.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
@@ -29,26 +26,25 @@ iter8 k launch \
 Multiple methods:
 ```bash
 iter8 k launch \
---set "tasks={ready,grpc,assess}" \
---set ready.deploy=routeguide \
---set ready.service=routeguide \
---set ready.timeout=60s \
+--set "tasks={grpc,assess}" \
 --set grpc.host="routeguide.default:50051" \
 --set grpc.endpoints.getFeature.call="routeguide.RouteGuide.GetFeature" \
 --set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
 --set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
 --set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
---set grpc.endpoints.recourdRoute.call="routeguide.RouteGuide.RecordRoute" \
---set grpc.endpoints.recourdRoute.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
+--set grpc.endpoints.recordRoute.call="routeguide.RouteGuide.RecordRoute" \
+--set grpc.endpoints.recordRoute.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
 --set grpc.endpoints.routeChat.call="routeguide.RouteGuide.RouteChat" \
 --set grpc.endpoints.routeChat.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/bidirectional.json" \
 --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
 --set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
 --set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/recourdRoute/error-rate=0 \
+--set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
 --set assess.SLOs.upper.grpc/routeChat/error-rate=0 \
 --set runner=job
 ```
+
+Note that the metric names are different for single and multiple endpoints. For single endpoints, the metric name is in the form `<task>/<metric>`, but for multiple endpoints, the metric name is in the form `<task>/<endpoint>/<metric>`.
 
 ## Parameters
 
@@ -68,7 +64,9 @@ In addition, the following fields are defined by this task.
 
 ## Precedence
 
-With the `endpoints` parameter, it is possible to configure parameters on a task level as well as on a per endpoint level.
+Some parameters have a default value, which can be overwritten. In addition, with the `endpoints` parameter, you can test multiple endpoints and configure parameters for each of those endpoint. In these cases, the priority order is the default value, the value set at the base level, and the value set at the endpoint value.
+
+In the following example, all three endpoints will use the default `timeout` of `20s` (from `Config` struct).
 
 ```bash
 iter8 k launch \
@@ -78,15 +76,101 @@ iter8 k launch \
 --set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
 --set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
 --set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+--set grpc.endpoints.recordRoute.call="routeguide.RouteGuide.RecordRoute" \
+--set grpc.endpoints.recordRoute.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
 --set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
 --set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
 --set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
 --set runner=job
 ```
 
-In this example, each endpoint has a different `call` and `dataURL` but they have the same `host`.
+In the following example, the `getFeature` and `listFeature` endpoints will use the default `timeout` of `20s` and the `recordRoute` endpoint will use a `timeout` of `30s`.
 
-If the same task and endpoint parameter is set, then the endpoint parameter will have precedence.
+```bash
+iter8 k launch \
+--set "tasks={grpc,assess}" \
+--set grpc.host="routeguide.default:50051" \
+--set grpc.endpoints.getFeature.call="routeguide.RouteGuide.GetFeature" \
+--set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
+--set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
+--set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+--set grpc.endpoints.recordRoute.call="routeguide.RouteGuide.RecordRoute" \
+--set grpc.endpoints.recordRoute.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
+--set grpc.endpoints.recordRoute.timeout=30s \
+--set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
+--set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set runner=job
+```
+
+In the following example, all three endpoints will use a `qps` of `40s`.
+
+```bash
+iter8 k launch \
+--set "tasks={grpc,assess}" \
+--set grpc.host="routeguide.default:50051" \
+--set grpc.timeout=40s \
+--set grpc.endpoints.getFeature.call="routeguide.RouteGuide.GetFeature" \
+--set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
+--set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
+--set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+--set grpc.endpoints.recordRoute.call="routeguide.RouteGuide.RecordRoute" \
+--set grpc.endpoints.recordRoute.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
+--set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
+--set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set runner=job
+```
+
+In the following example, the `getFeature` and `listFeature` endpoints will use a `timeout` of `40s` and the `listFeature` endpoint will use a `timeout` of `30s`.
+
+```bash
+iter8 k launch \
+--set "tasks={grpc,assess}" \
+--set grpc.host="routeguide.default:50051" \
+--set grpc.timeout=40s \
+--set grpc.endpoints.getFeature.call="routeguide.RouteGuide.GetFeature" \
+--set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
+--set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
+--set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+--set grpc.endpoints.listFeature.timeout=30s \
+--set grpc.endpoints.recordRoute.call="routeguide.RouteGuide.RecordRoute" \
+--set grpc.endpoints.recordRoute.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
+--set grpc.endpoints.recordRoute.timeout=30s \
+--set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
+--set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set runner=job
+```
+
+***
+
+Further more, set parameters will trickle down to the endpoints.
+
+```bash
+iter8 k launch \
+--set "tasks={grpc,assess}" \
+--set grpc.host="routeguide.default:50051" \
+--set grpc.skipFirst=5 \
+--set grpc.endpoints.getFeature.call="routeguide.RouteGuide.GetFeature" \
+--set grpc.endpoints.getFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json" \
+--set grpc.endpoints.listFeature.call="routeguide.RouteGuide.ListFeatures" \
+--set grpc.endpoints.listFeature.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json" \
+--set grpc.endpoints.listFeature.timeout=30s \
+--set grpc.endpoints.recordRoute.call="routeguide.RouteGuide.RecordRoute" \
+--set grpc.endpoints.recordRoute.dataURL="https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json" \
+--set grpc.protoURL="https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto" \
+--set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set runner=job
+```
+
+In this example, all three endpoints will have a `skipFirst` of 5.
 
 ## Metrics
 

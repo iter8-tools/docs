@@ -34,6 +34,8 @@ iter8 k launch \
 --set runner=job
 ```
 
+Note that the metric names are different for single and multiple endpoints. For single endpoints, the metric name is in the form `<task>/<metric>`, but for multiple endpoints, the metric name is in the form `<task>/<endpoint>/<metric>`.
+
 ## Parameters
 
 | Name | Type | Description |
@@ -53,7 +55,40 @@ iter8 k launch \
 
 ## Precedence
 
-With the `endpoints` parameter, it is possible to override the parameter defaults and to do so on an per endpoint level. For example, the default `qps` (queries-per-second) for the `http` task is 8, but this can be overridden.
+Some parameters have a default value, which can be overwritten. In addition, with the `endpoints` parameter, you can test multiple endpoints and configure parameters for each of those endpoint. In these cases, the priority order is the default value, the value set at the base level, and the value set at the endpoint value.
+
+In the following example, all three endpoints will use the default `qps` (queries-per-second) of 8.
+
+```bash
+iter8 k launch \
+--set "tasks={http,assess}" \
+--set http.endpoints.get.url=http://httpbin.default/get \
+--set http.endpoints.getAnything.url=http://httpbin.default/anything \
+--set http.endpoints.post.url=http://httpbin.default/post \
+--set http.endpoints.post.payloadStr=hello \
+--set assess.SLOs.upper.http/get/error-count=0 \
+--set assess.SLOs.upper.http/getAnything/error-count=0 \
+--set assess.SLOs.upper.http/post/error-count=0 \
+--set runner=job
+```
+
+In the following example, the `get` and `getAnything` endpoints will use the default `qps` of 8 and the `post` endpoint will use a `qps` of 15.
+
+```bash
+iter8 k launch \
+--set "tasks={http,assess}" \
+--set http.endpoints.get.url=http://httpbin.default/get \
+--set http.endpoints.getAnything.url=http://httpbin.default/anything \
+--set http.endpoints.post.url=http://httpbin.default/post \
+--set http.endpoints.post.payloadStr=hello \
+--set http.endpoints.post.qps=15 \
+--set assess.SLOs.upper.http/get/error-count=0 \
+--set assess.SLOs.upper.http/getAnything/error-count=0 \
+--set assess.SLOs.upper.http/post/error-count=0 \
+--set runner=job
+```
+
+In the following example, all three endpoints will use a `qps` (queries-per-second) of 10.
 
 ```bash
 iter8 k launch \
@@ -69,9 +104,7 @@ iter8 k launch \
 --set runner=job
 ```
 
-In this example, each endpoint will have a `qps` of 10. However, this can be overridden by a per endpoint setting.
-
-***
+In the following example, the `get` and `getAnything` endpoints will use a `qps` of 10 and the `post` endpoint will use a `qps` of 15.
 
 ```bash
 iter8 k launch \
@@ -88,11 +121,9 @@ iter8 k launch \
 --set runner=job
 ```
 
-In this example, the `get` and `getAnything` endpoints will have a `qps` of 10, but the `post` endpoint will have a `qps` of 15.
-
 ***
 
-Additionally, set parameters will trickle down to the endpoints.
+Further more, set parameters will trickle down to the endpoints.
 
 ```bash
 iter8 k launch \
@@ -102,14 +133,13 @@ iter8 k launch \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set http.endpoints.post.qps=15 \
 --set assess.SLOs.upper.http/get/error-count=0 \
 --set assess.SLOs.upper.http/getAnything/error-count=0 \
 --set assess.SLOs.upper.http/post/error-count=0 \
 --set runner=job
 ```
 
-In this example, all three endpoints will be sent 50 requests.
+In this example, all three endpoints will have a `numRequests` of 50.
 
 ## Metrics
 
