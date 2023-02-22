@@ -37,10 +37,10 @@ iter8 k launch \
 --set grpc.endpoints.listFeature.call=routeguide.RouteGuide.ListFeatures \
 --set grpc.endpoints.listFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto \
---set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/getFeature/latency/mean=50 \
---set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/listFeature/latency/mean=100 \
+--set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-getFeature/latency/mean=50 \
+--set assess.SLOs.upper.grpc-listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-listFeature/latency/mean=100 \
 --set runner=job
 ```
 

@@ -24,17 +24,15 @@ Multiple endpoints:
 ```bash
 iter8 k launch \
 --set "tasks={http,assess}" \
---set http.endpoints.getit.url=http://httpbin.default/get \
---set http.endpoints.postit.url=http://httpbin.default/post \
---set http.endpoints.postit.payloadStr=hello \
---set assess.SLOs.upper.http/getit/latency-mean=50 \
---set assess.SLOs.upper.http/getit/error-count=0 \
---set assess.SLOs.upper.http/postit/latency-mean=150 \
---set assess.SLOs.upper.http/postit/error-count=0 \
+--set http.endpoints.get.url=http://httpbin.default/get \
+--set http.endpoints.getAnything.url=http://httpbin.default/anything \
+--set http.endpoints.post.url=http://httpbin.default/post \
+--set http.endpoints.post.payloadStr=hello \
+--set assess.SLOs.upper.http-get/error-count=0 \
+--set assess.SLOs.upper.http-getAnything/error-count=0 \
+--set assess.SLOs.upper.http-post/error-count=0 \
 --set runner=job
 ```
-
-Note that the metric names are different for single and multiple endpoints. For single endpoints, the metric name is in the form `<task>/<metric>`, but for multiple endpoints, the metric name is in the form `<task>/<endpoint>/<metric>`.
 
 ## Parameters
 
@@ -66,9 +64,9 @@ iter8 k launch \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http/get/error-count=0 \
---set assess.SLOs.upper.http/getAnything/error-count=0 \
---set assess.SLOs.upper.http/post/error-count=0 \
+--set assess.SLOs.upper.http-get/error-count=0 \
+--set assess.SLOs.upper.http-getAnything/error-count=0 \
+--set assess.SLOs.upper.http-post/error-count=0 \
 --set runner=job
 ```
 
@@ -82,9 +80,9 @@ iter8 k launch \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
 --set http.endpoints.post.qps=15 \
---set assess.SLOs.upper.http/get/error-count=0 \
---set assess.SLOs.upper.http/getAnything/error-count=0 \
---set assess.SLOs.upper.http/post/error-count=0 \
+--set assess.SLOs.upper.http-get/error-count=0 \
+--set assess.SLOs.upper.http-getAnything/error-count=0 \
+--set assess.SLOs.upper.http-post/error-count=0 \
 --set runner=job
 ```
 
@@ -98,9 +96,9 @@ iter8 k launch \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http/get/error-count=0 \
---set assess.SLOs.upper.http/getAnything/error-count=0 \
---set assess.SLOs.upper.http/post/error-count=0 \
+--set assess.SLOs.upper.http-get/error-count=0 \
+--set assess.SLOs.upper.http-getAnything/error-count=0 \
+--set assess.SLOs.upper.http-post/error-count=0 \
 --set runner=job
 ```
 
@@ -115,9 +113,9 @@ iter8 k launch \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
 --set http.endpoints.post.qps=15 \
---set assess.SLOs.upper.http/get/error-count=0 \
---set assess.SLOs.upper.http/getAnything/error-count=0 \
---set assess.SLOs.upper.http/post/error-count=0 \
+--set assess.SLOs.upper.http-get/error-count=0 \
+--set assess.SLOs.upper.http-getAnything/error-count=0 \
+--set assess.SLOs.upper.http-post/error-count=0 \
 --set runner=job
 ```
 
@@ -133,9 +131,9 @@ iter8 k launch \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http/get/error-count=0 \
---set assess.SLOs.upper.http/getAnything/error-count=0 \
---set assess.SLOs.upper.http/post/error-count=0 \
+--set assess.SLOs.upper.http-get/error-count=0 \
+--set assess.SLOs.upper.http-getAnything/error-count=0 \
+--set assess.SLOs.upper.http-post/error-count=0 \
 --set runner=job
 ```
 

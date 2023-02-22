@@ -37,14 +37,12 @@ iter8 k launch \
 --set grpc.endpoints.routeChat.call=routeguide.RouteGuide.RouteChat \
 --set grpc.endpoints.routeChat.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/bidirectional.json \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto \
---set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
---set assess.SLOs.upper.grpc/routeChat/error-rate=0 \
+--set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
+--set assess.SLOs.upper.grpc-routeChat/error-rate=0 \
 --set runner=job
 ```
-
-Note that the metric names are different for single and multiple endpoints. For single endpoints, the metric name is in the form `<task>/<metric>`, but for multiple endpoints, the metric name is in the form `<task>/<endpoint>/<metric>`.
 
 ## Parameters
 
@@ -79,9 +77,9 @@ iter8 k launch \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
 --set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto \
---set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
 --set runner=job
 ```
 
@@ -99,9 +97,9 @@ iter8 k launch \
 --set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json \
 --set grpc.endpoints.recordRoute.timeout=30s \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto \
---set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
 --set runner=job
 ```
 
@@ -119,9 +117,9 @@ iter8 k launch \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
 --set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto \
---set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
 --set runner=job
 ```
 
@@ -141,9 +139,9 @@ iter8 k launch \
 --set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json \
 --set grpc.endpoints.recordRoute.timeout=30s \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto \
---set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
 --set runner=job
 ```
 
@@ -164,9 +162,9 @@ iter8 k launch \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
 --set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/client.json \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto \
---set assess.SLOs.upper.grpc/getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/listFeature/error-rate=0 \
---set assess.SLOs.upper.grpc/recordRoute/error-rate=0 \
+--set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-listFeature/error-rate=0 \
+--set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
 --set runner=job
 ```
 

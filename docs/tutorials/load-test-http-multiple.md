@@ -33,12 +33,12 @@ iter8 k launch \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http/get/error-count=0 \
---set assess.SLOs.upper.http/get/latency-mean=50 \
---set assess.SLOs.upper.http/getAnything/error-count=0 \
---set assess.SLOs.upper.http/getAnything/latency-mean=100 \
---set assess.SLOs.upper.http/post/error-count=0 \
---set assess.SLOs.upper.http/post/latency-mean=150 \
+--set assess.SLOs.upper.http-get/error-count=0 \
+--set assess.SLOs.upper.http-get/latency-mean=50 \
+--set assess.SLOs.upper.http-getAnything/error-count=0 \
+--set assess.SLOs.upper.http-getAnything/latency-mean=100 \
+--set assess.SLOs.upper.http-post/error-count=0 \
+--set assess.SLOs.upper.http-post/latency-mean=150 \
 --set runner=job
 ```
 

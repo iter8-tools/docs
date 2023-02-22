@@ -10,13 +10,14 @@ A **provider** in Iter8 is a data source that supplies metric values.
 
 ## Fully qualified names
 
-Metrics are scoped by providers. Providers have unique names, and within the scope of a provider, metrics have unique names. The fully qualified name of a metric refers to the string of the form `<provider name>/<metric name>`.
+Metrics are scoped by providers. Providers have unique names, and within the scope of a provider, metrics have unique names. In addition, multiple endpoints and metric aggregation will determine the metric name. The fully qualified metric name will be in the form `provider[-endpoint]/metric[/aggregation]`.
 
-Following are some examples of fully qualified metric names that appear in Iter8 tutorials.
-
-1. `http/latency-mean`
-2. `grpc/error-rate`
-3. `istio-prom/latency-mean`
+Following are some examples of fully qualified metric names:
+1. `http/latency-mean` 
+2. `grpc/latency/mean`
+3. `http-httpbin/latency-mean`
+4. `grpc-getFeature/latency/mean`
+5. `abn/sample_metric/count`
 
 ## Built-in metrics provider
 
@@ -41,3 +42,15 @@ Iter8 defines `counter` and `gauge` metric types which are analogous to the corr
     
     Gauges are typically used for measured values like temperatures or current memory usage, but also "counts" that can go up and down, like the number of concurrent requests.
 
+???+ note "Histogram"
+<!-- TODO -->
+
+???+ note "Sample"
+<!-- TODO -->
+
+???+ note "Summary"
+<!-- TODO -->
+
+## Multiple endpoints
+
+Some built-in metrics providers, such as [`http`](../tasks/http.md#metrics) and [`grpc`](../tasks/grpc.md#metrics), allow you to specify and test multiple endpoints. In these cases, the endpoint name will be appended to the provider name in the metric name. See the documentation for examples.
