@@ -33,6 +33,8 @@ In addition, the following fields are defined by this task.
 | dataURL  | string (URL) | URL where JSON data to be used in call requests is located. |
 | binaryDataURL  | string (URL) | URL where binary data to be used in call requests is located. |
 | metadataURL  | string (URL) | URL where the JSON metadata data to be used in call requests is located. |
+| warmupNumRequests | int | Number of requests to be sent in a warmup task (results are ignored).  |
+| warmupDuration | string | Duration of warmup task (results are ignored). Specified in the [Go duration string format](https://pkg.go.dev/maze.io/x/duration#ParseDuration) (example, 5s). If both warmupDuration and warmupNumRequests are specified, then warmupDuration is ignored. |
 
 ## Metrics
 
