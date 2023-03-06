@@ -78,6 +78,9 @@ tada
 Tekton
 toc
 unary
+warmup
+warmupDuration
+warmupNumRequests
 webhook
 webhooks
 yaml
