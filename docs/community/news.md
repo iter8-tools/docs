@@ -5,7 +5,7 @@ hide:
 ---
 
 # News and Announcements
-* **March 2023:** New Stack blog article by Michael Kalantar. [Iter8: Simple A/B/n Testing of Kubernets Apps, ML Models](https://thenewstack.io/iter8-simple-a-b-n-testing-of-kubernetes-apps-ml-models/)
+* **March 2023:** New Stack blog article by Michael Kalantar. [Iter8: Simple A/B/n Testing of Kubernetes Apps, ML Models](https://thenewstack.io/iter8-simple-a-b-n-testing-of-kubernetes-apps-ml-models/)
 
 * **February 2023:** DZone article by Alan Cha. [Automated Performance Testing With ArgoCD and Iter8](https://dzone.com/articles/automated-performance-testing-with-argocd-and-iter8)
 
