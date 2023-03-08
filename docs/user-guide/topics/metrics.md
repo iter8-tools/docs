@@ -41,16 +41,7 @@ Iter8 defines `counter` and `gauge` metric types which are analogous to the corr
     A gauge is a metric that represents a single numerical value that can arbitrarily go up and down. 
     
     Gauges are typically used for measured values like temperatures or current memory usage, but also "counts" that can go up and down, like the number of concurrent requests.
-
-???+ note "Histogram"
-<!-- TODO -->
-
-???+ note "Sample"
-<!-- TODO -->
-
-???+ note "Summary"
-<!-- TODO -->
-
+    
 ## Multiple endpoints
 
 Some built-in metrics providers, such as [`http`](../tasks/http.md#metrics) and [`grpc`](../tasks/grpc.md#metrics), allow you to specify and test multiple endpoints. In these cases, the endpoint name will be appended to the provider name in the metric name. See the documentation for examples.
