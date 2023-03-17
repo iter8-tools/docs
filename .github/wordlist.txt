@@ -142,3 +142,6 @@ irisv
 EOF
 HOSTNAME
 jsonpath
+cronjobSchedule
+logLevel
+serviceAccountName
