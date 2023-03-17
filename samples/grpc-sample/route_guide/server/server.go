@@ -42,7 +42,7 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	pb "github.com/alan-cha/docs/samples/route_guide/routeguide"
+	pb "github.com/alan-cha/docs/samples/grpc-sample/route_guide/routeguide"
 )
 
 var (

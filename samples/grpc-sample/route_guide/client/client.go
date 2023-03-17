@@ -31,7 +31,7 @@ import (
 	"time"
 
 	"github.com/alan-cha/docs/samples/grpc-sample"
-	pb "github.com/alan-cha/docs/samples/route_guide/routeguide"
+	pb "github.com/alan-cha/docs/samples/grpc-sample/route_guide/routeguide"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
