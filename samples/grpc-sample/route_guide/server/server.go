@@ -42,7 +42,7 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	pb "github.com/alan-cha/docs/samples/testdata/route_guide/routeguide"
+	pb "github.com/alan-cha/docs/samples/route_guide/routeguide"
 )
 
 var (
@@ -242,7 +242,7 @@ func main() {
 	grpcServer.Serve(lis)
 }
 
-// exampleData is a copy of testdata/route_guide_db.json. It's to avoid
+// exampleData is a copy of route_guide_db.json. It's to avoid
 // specifying file path with `go run`.
 var exampleData = []byte(`[{
     "location": {
