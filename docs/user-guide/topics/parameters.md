@@ -26,6 +26,6 @@ Global experiment parameters are described here. Task specific parameters are do
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | serviceAccountName  | string | Optional name of a service account to use. If specified, it is assumed the service account has the necessary permissions to run an experiment. If not specified, Iter8 will create a service account. |
-| runner | string | One of `job` or `cronjob` indicating whether the experiment should run once or multiple times, respectively. |
-| cronjobSchedule | string | Specified frequency with which an experiment should be run. Required if `runner` is `cronjob`. Ignored otherwise. Expressed using Unix cronjob notation. |
+| runner | string | One of `job` or `cronjob` indicating whether the experiment has a single loop or multiple loops, respectively. |
+| cronjobSchedule | string | Schedule for a multi-loop experiment. Required if `runner` is `cronjob`. Ignored otherwise. Expressed using Unix cronjob notation. |
 | logLevel | string | Log level. Must be one of `trace`, `debug`, `info` (default), `warning`, or `error`. |
