@@ -19,3 +19,13 @@ iter8 k launch \
 
 All the parameters of a task or an experiment are optional unless indicated otherwise in the documentation of the task or experiment.
 
+## Parameters
+
+Global experiment parameters are described here. Task specific parameters are documented in each task description.
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| serviceAccountName  | string | Optional name of a service account to use. If specified, it is assumed the service account has the necessary permissions to run an experiment. If not specified, Iter8 will create a service account. |
+| runner | string | One of `job` or `cronjob` indicating whether the experiment has a single loop or multiple loops, respectively. |
+| cronjobSchedule | string | Schedule for a multi-loop experiment. Required if `runner` is `cronjob`. Ignored otherwise. Expressed using Unix cronjob notation. |
+| logLevel | string | Log level. Must be one of `trace`, `debug`, `info` (default), `warning`, or `error`. |
