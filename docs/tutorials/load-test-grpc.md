@@ -19,7 +19,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     2. Deploy the sample gRPC service in the Kubernetes cluster.
     ```shell
     kubectl create deployment routeguide --image=golang --port=50051 \
-    -- bash -c "git clone -b v1.52.0 --depth 1 https://github.com/grpc/grpc-go; cd grpc-go/examples/route_guide; go run server/server.go"
+    -- bash -c "git clone -b v0.13.13 --depth 1 https://github.com/iter8-tools/docs; cd docs/samples/route_guide; go run server/server.go"
     kubectl expose deployment routeguide --port=50051
     ```
 

@@ -16,8 +16,8 @@ template: main.html
     1. Try [your first experiment](../getting-started/your-first-experiment.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
     2. Deploy the sample gRPC service in the Kubernetes cluster.
     ```shell
-    kubectl create deployment routeguide  --image=golang --port=50051 \
-    -- bash -c "git clone -b v1.52.0 --depth 1 https://github.com/grpc/grpc-go; cd grpc-go/examples/route_guide; go run server/server.go"
+    kubectl create deployment routeguide --image=golang --port=50051 \
+    -- bash -c "git clone -b v0.13.13 --depth 1 https://github.com/iter8-tools/docs; cd docs/samples/route_guide; go run server/server.go"
     kubectl expose deployment routeguide --port=50051
     ```
 
