@@ -37,12 +37,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/alan-cha/docs/samples/grpc-sample"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/examples/data"
 
 	"github.com/golang/protobuf/proto"
 
-	pb "github.com/alan-cha/docs/samples/grpc-sample/route_guide/routeguide"
+	pb "google.golang.org/grpc/examples/route_guide/routeguide"
 )
 
 var (
@@ -219,7 +219,7 @@ func newServer() *routeGuideServer {
 
 func main() {
 	flag.Parse()
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -242,7 +242,7 @@ func main() {
 	grpcServer.Serve(lis)
 }
 
-// exampleData is a copy of route_guide_db.json. It's to avoid
+// exampleData is a copy of testdata/route_guide_db.json. It's to avoid
 // specifying file path with `go run`.
 var exampleData = []byte(`[{
     "location": {
