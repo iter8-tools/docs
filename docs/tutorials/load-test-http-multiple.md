@@ -49,7 +49,7 @@ iter8 k launch \
     
     The [http](../user-guide/tasks/http.md) task sends requests to three endpoints from the cluster-local HTTP service, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). The three endpoints are `http://httpbin.default/get`, `http://httpbin.default/anything`, and `http://httpbin.default/post`. The last endpoint also has a payload string `hello`.
     
-    The [assess](../user-guide/tasks/assess.md) task verifies if each endpoint satisfies their respective error count and mean latency SLOs. All three must have an error count of 0 but the `get`, `getAnything`, and `post` endpoints are allowed a maximum mean latency of 50, 75, and 100 msecs, respectively.
+    The [assess](../user-guide/tasks/assess.md) task verifies if each endpoint satisfies their respective error count and mean latency SLOs. All three must have an error count of 0 but the `get`, `getAnything`, and `post` endpoints are allowed a maximum mean latency of 50, 100, and 150 msecs, respectively.
     
     This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
 
