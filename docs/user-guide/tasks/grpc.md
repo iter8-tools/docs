@@ -187,3 +187,18 @@ The following latency metrics are also supported by this task.
 - `grpc/latency/pX`: X^th^ percentile latency, for any X in the range 0.0 to 100.0
 
 All latency metrics have `msec` units.
+
+***
+
+In the case of multiple endpoints, the name of the endpoint will be appended to the name of the provider. For example, if the endpoint name is `routeguide`, then the following metrics would be collected by this task:
+
+- `grpc-routeguide/request-count`: total number of requests sent
+- `grpc-routeguide/error-count`: number of error responses
+- `grpc-routeguide/error-rate`: fraction of error responses
+- `grpc-routeguide/latency/mean`: mean latency
+- `grpc-routeguide/latency/stddev`: standard deviation of latency
+- `grpc-routeguide/latency/min`: min latency
+- `grpc-routeguide/latency/max`: max latency
+- `grpc-routeguide/latency/pX`: X^th^ percentile latency, for any X in the range 0.0 to 100.0
+
+To learn more about the names of metrics, please see [here](../topics/metrics.md#fully-qualified-names).

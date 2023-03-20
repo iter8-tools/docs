@@ -153,3 +153,18 @@ This task creates a built-in [provider](../topics/metrics.md#fully-qualified-nam
 - `http/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
 
 All latency metrics have `msec` units.
+
+***
+
+In the case of multiple endpoints, the name of the endpoint will be appended to the name of the provider. For example, if the endpoint name is `httpbin`, then the following metrics would be collected by this task:
+
+- `http-httpbin/request-count`: total number of requests sent
+- `http-httpbin/error-count`: number of error responses
+- `http-httpbin/error-rate`: fraction of error responses
+- `http-httpbin/latency-mean`: mean of observed latency values
+- `http-httpbin/latency-stddev`: standard deviation of observed latency values
+- `http-httpbin/latency-min`: min of observed latency values
+- `http-httpbin/latency-max`: max of observed latency values
+- `http-httpbin/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
+
+To learn more about the names of metrics, please see [here](../topics/metrics.md#fully-qualified-names).
