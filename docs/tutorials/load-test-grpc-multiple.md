@@ -33,10 +33,10 @@ iter8 k launch \
 --set ready.timeout=60s \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
---set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/unary.json \
+--set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeature.call=routeguide.RouteGuide.ListFeatures \
---set grpc.endpoints.listFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/main/samples/grpc-payload/server.json \
---set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/master/examples/route_guide/routeguide/route_guide.proto \
+--set grpc.endpoints.listFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
+--set grpc.protoURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/route_guide/routeguide/route_guide.proto \
 --set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
 --set assess.SLOs.upper.grpc-getFeature/latency/mean=50 \
 --set assess.SLOs.upper.grpc-listFeature/error-rate=0 \
