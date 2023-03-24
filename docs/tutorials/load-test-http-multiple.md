@@ -6,7 +6,7 @@ template: main.html
 
 [Your first experiment](../getting-started/your-first-experiment.md) describes how to load test a single endpoint from an HTTP service inside Kubernetes. This tutorial expands on the previous tutorial and describes how to load test multiple endpoints from an HTTP service.
 
-![load-test-http](./../getting-started/images/http.png)
+![load-test-http](../getting-started/images/http.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
