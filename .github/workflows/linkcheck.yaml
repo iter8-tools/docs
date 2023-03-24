@@ -29,11 +29,3 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           args: -v '**/*.md'
-
-      - name: Create issue from file
-        if: env.lychee_exit_code != 0
-        uses: peter-evans/create-issue-from-file@v4
-        with:
-          title: Link checker report
-          content-filepath: ./lychee/out.md
-          labels: report, automated issue
