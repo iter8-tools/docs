@@ -16,7 +16,7 @@ Iter8 supports the following use-cases.
 ## Iter8 experiment
 Iter8 introduces the notion of an *experiment*. An experiment is simply a list of tasks that are executed in a specific sequence.
 
-[Iter8 experiment](../../docs/images/authoring.png)
+![Iter8 experiment](../../docs/images/authoring.png)
 
 Iter8 provides a variety of configurable tasks. Authoring an experiment is as simple as specifying the names of the tasks and specifying their parameter values. The following are some examples of tasks provided by Iter8.
 
