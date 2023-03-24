@@ -23,7 +23,7 @@ Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.13`. Onc
 
 # Trigger a GitHub Actions workflow from an Iter8 experiment
 
-Iter8 provides a [`github` task](../..user-guide/tasks/github) that sends a [repository_dispatch](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
+Iter8 provides a [`github` task](../../user-guide/tasks/github.md) that sends a [repository_dispatch](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
 
 ## Example
 

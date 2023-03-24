@@ -76,7 +76,7 @@ To go into more detail, the configuration is a set of *groups*, and each group i
 
 The trigger object definition is a combination of the name, namespace, and the group-version-resource (GVR) metadata of the trigger object, in this case `httpbin`, `default`, and GVR `apps`, `deployments`, and `v1`, respectively. 
 
-The experiment is an HTTP SLO validation test on the `httpbin` service that is described in greater detail [here](../../getting-started/your-first-experiment/). This Iter8 experiment is composed of three tasks, `ready`, `http`, and `assess`. The `ready` task will ensure that the `httpbin` deployment and service are running. The `http` task will make requests to the specified URL and will collect latency and error-related metrics. Lastly, the `assess` task will ensure that the mean latency is less than 50 milliseconds and the error count is 0. In addition, the runner is set to job as this will be a [single-loop experiment](../../getting-started/concepts#iter8-experiment).
+The experiment is an HTTP SLO validation test on the `httpbin` service that is described in greater detail [here](../../getting-started/your-first-experiment.md). This Iter8 experiment is composed of three tasks, `ready`, `http`, and `assess`. The `ready` task will ensure that the `httpbin` deployment and service are running. The `http` task will make requests to the specified URL and will collect latency and error-related metrics. Lastly, the `assess` task will ensure that the mean latency is less than 50 milliseconds and the error count is 0. In addition, the runner is set to job as this will be a [single-loop experiment](../../getting-started/concepts.md#iter8-experiment).
 
 ## Observe experiment
 
@@ -172,13 +172,13 @@ If we were to continue to update the deployment (and change its version label), 
 
 ## Next steps
 
-Firstly, the HTTP SLO validation test is flexible, and you can augment it in a number of ways, such as adding headers, providing a payload, or modulating the query rate. To learn more, see the [documentation](../../user-guide/tasks/http) for the `httpbin` task.
+Firstly, the HTTP SLO validation test is flexible, and you can augment it in a number of ways, such as adding headers, providing a payload, or modulating the query rate. To learn more, see the [documentation](../../user-guide/tasks/http.md) for the `httpbin` task.
 
 AutoX is designed to use any Kubernetes resource object (including those with a custom resource type) as a trigger object in AutoX. For example, the trigger object can be a Knative service, a KServe inference service, or a Seldon deployment.
 
-AutoX is designed to automate a variety of experiments. For example, instead of using the `http` task, you can use `grpc` task in order to run an gRPC SLO validation test. Here is the [documentation](../../user-guide/tasks/grpc) for the `grpc` task as well as a [tutorial](../../tutorials/load-test-grpc) for gRPC SLO Validation.
+AutoX is designed to automate a variety of experiments. For example, instead of using the `http` task, you can use `grpc` task in order to run an gRPC SLO validation test. Here is the [documentation](../../user-guide/tasks/grpc.md) for the `grpc` task as well as a [tutorial](../../tutorials/load-test-grpc.md) for gRPC SLO Validation.
 
-Furthermore, you can add additional tasks that ship out-of-the-box with Iter8, in order to enrich the experiments. For example, you can add a `slack` task so that your experiment results will be posted on Slack. That way, you can automatically have the latest performance statistics after every update. Here is the [documentation](../../user-guide/tasks/slack) for the `slack` task as well as a [tutorial](../../tutorials/integrations/slack) for using the Slack task.
+Furthermore, you can add additional tasks that ship out-of-the-box with Iter8, in order to enrich the experiments. For example, you can add a `slack` task so that your experiment results will be posted on Slack. That way, you can automatically have the latest performance statistics after every update. Here is the [documentation](../../user-guide/tasks/slack.md) for the `slack` task as well as a [tutorial](../../tutorials/integrations/slack.md) for using the Slack task.
 
 You can also automate experiments that are not from Iter8. For example, a [Litmus Chaos chaos experiment](https://github.com/iter8-tools/hub/tree/8e40c740a33afba4afd5623588128da49b7f08f1/charts/litmuschaos) is available on Iter8 hub, which can also be configured with AutoX.
 
