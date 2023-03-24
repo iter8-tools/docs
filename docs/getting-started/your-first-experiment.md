@@ -6,7 +6,7 @@ template: main.html
 
 Run your first [Iter8 experiment](concepts.md#iter8-experiment) by load testing a Kubernetes HTTP service and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives). This is a [single-loop](concepts.md#iter8-experiment) [Kubernetes experiment](concepts.md#kubernetes-experiments).
 
-![Load test HTTP](./images/http.png)
+![Load test HTTP](images/http.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).

@@ -6,7 +6,7 @@ template: main.html
 
 [Load Test gRPC with SLOs](./load-test-grpc.md) describes how to load test a single method from a gRPC service inside Kubernetes. This tutorial expands on the previous tutorial and describes how to load test multiple endpoints from an HTTP service.
 
-![load-test-grpc](./images/grpc.png)
+![load-test-grpc](images/grpc.png)
 
 ***
 

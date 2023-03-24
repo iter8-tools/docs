@@ -8,7 +8,7 @@ Load test a Kubernetes gRPC service and validate its [service-level objectives (
 
 See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tutorial that describes how to load test multiple methods from an gRPC service.
 
-![load-test-grpc](./images/grpc.png)
+![load-test-grpc](images/grpc.png)
 
 ***
 

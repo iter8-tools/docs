@@ -6,7 +6,7 @@ template: main.html
 
 Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for an app by fetching the app's metrics from a database (like Prometheus). This is a [multi-loop](../../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../../getting-started/concepts.md#kubernetes-experiments).
 
-![Custom metrics with one versions](./images/one-version.png)
+![Custom metrics with one versions](images/one-version.png)
 
 ***
 
