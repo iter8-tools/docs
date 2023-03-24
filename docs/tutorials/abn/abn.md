@@ -6,9 +6,7 @@ template: main.html
 
 This tutorial describes an [A/B testing](../../user-guide/topics/ab_testing.md) experiment for a backend component.
 
-<p align='center'>
-<img alt-text="A/B/n experiment" src="../images/abn.png" />
-</p>
+![A/B/n experiment](images/abn.png)
 
 ***
 

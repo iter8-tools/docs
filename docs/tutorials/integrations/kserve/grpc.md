@@ -81,8 +81,8 @@ iter8 k launch \
 You can assert experiment outcomes, view an experiment report, and view experiment logs as described in [your first experiment](../../../getting-started/your-first-experiment.md).
 
 ??? note "Some variations and extensions of this experiment" 
-    1. The [grpc task](../../../user-guide/tasks/grpc/) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.
-    2. The [assess task](../../../user-guide/tasks/assess/) can be configured with SLOs for any of [Iter8's built-in gRPC load test metrics](../../../../user-guide/tasks/grpc#metrics).
+    1. The [grpc task](../../../user-guide/tasks/grpc.md) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.
+    2. The [assess task](../../../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in gRPC load test metrics](../../../user-guide/tasks/grpc.md#metrics).
 
 
 ## Clean up

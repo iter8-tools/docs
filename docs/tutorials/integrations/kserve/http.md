@@ -69,8 +69,8 @@ iter8 k launch \
 You can assert experiment outcomes, view an experiment report, and view experiment logs as described in [your first experiment](../../../getting-started/your-first-experiment.md).
 
 ??? note "Some variations and extensions of this experiment" 
-    1. The [http task](../../../user-guide/tasks/http/) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
-    2. The [assess task](../../../user-guide/tasks/assess/) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](../../../user-guide/tasks/http/#metrics).
+    1. The [http task](../../../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+    2. The [assess task](../../../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](../../../user-guide/tasks/http.md#metrics).
 
 ## Clean up
 

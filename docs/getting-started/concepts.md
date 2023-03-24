@@ -16,9 +16,7 @@ Iter8 supports the following use-cases.
 ## Iter8 experiment
 Iter8 introduces the notion of an *experiment*. An experiment is simply a list of tasks that are executed in a specific sequence.
 
-<p align='center'>
-  <img alt-text="Iter8 experiment" src="../../images/authoring.png" width="40%" />
-</p>
+![Iter8 experiment](../images/authoring.png)
 
 Iter8 provides a variety of configurable tasks. Authoring an experiment is as simple as specifying the names of the tasks and specifying their parameter values. The following are some examples of tasks provided by Iter8.
 
@@ -41,9 +39,7 @@ You can use the Iter8 CLI to launch and manage experiments through the command l
 ## Under the covers
 In order to execute an experiment inside Kubernetes, Iter8 uses a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) (single-loop) or a Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) (multi-loop) workload, along with a Kubernetes secret. Iter8 instantiates all experiments using a Helm chart, that is also predefined and provided by Iter8.
 
-<p align='center'>
-  <img alt-text="Iter8 experiment" src="../../images/underthecovers.png" width="100%" />
-</p>
+![Iter8 experiment](../images/underthecovers.png)
 
 ## Implementation
 Iter8 is written in `go` and builds on a few awesome open source projects including:

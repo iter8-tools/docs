@@ -72,6 +72,4 @@ A trigger object must have a `app.kubernetes.io/version` label (version label. T
 
 If the trigger does not have a version label, the AutoX will attempt to remove any preexisting experiments.
 
-<p align='center'>
-  <img alt-text="AutoX flowchart" src="../images/flowchart.png" width="60%" />
-</p>
+![AutoX flowchart](images/flowchart.png)
