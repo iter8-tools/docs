@@ -8,8 +8,7 @@ hide:
 # Roadmap
 
 1. Comparing multiple versions based on business rewards
-2. AutoX service for automatically launching and managing Iter8 experiments
-3. DevSecOps experiments
-4. MLOps concept drift detection experiments
-5. Iter8 Tekton task
-6. Spike/ramp testing
+2. DevSecOps experiments
+3. MLOps concept drift detection experiments
+4. Iter8 Tekton task
+5. Spike/ramp testing

@@ -17,7 +17,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     2. Deploy the sample gRPC service in the Kubernetes cluster.
     ```shell
     kubectl create deployment routeguide --image=golang --port=50051 \
-    -- bash -c "git clone -b v0.13.13 --depth 1 https://github.com/iter8-tools/docs; cd docs/samples/route_guide; go run server/server.go"
+    -- bash -c "git clone -b v1.52.0 --depth 1 https://github.com/grpc/grpc-go; cd grpc-go/examples/route_guide; sed -i '' 's/localhost//' server/server.go; go run server/server.go"
     kubectl expose deployment routeguide --port=50051
     ```
 
@@ -33,9 +33,9 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set ready.service=routeguide \
     --set ready.timeout=60s \
     --set grpc.host=routeguide.default:50051 \
+    --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
     --set grpc.call=routeguide.RouteGuide.GetFeature \
     --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
-    --set grpc.protoURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/route_guide/routeguide/route_guide.proto \
     --set assess.SLOs.upper.grpc/error-rate=0 \
     --set assess.SLOs.upper.grpc/latency/mean=200 \
     --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
@@ -50,9 +50,9 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set ready.service=routeguide \
     --set ready.timeout=60s \
     --set grpc.host=routeguide.default:50051 \
+    --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
     --set grpc.call=routeguide.RouteGuide.ListFeatures \
     --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
-    --set grpc.protoURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/route_guide/routeguide/route_guide.proto \
     --set assess.SLOs.upper.grpc/error-rate=0 \
     --set assess.SLOs.upper.grpc/latency/mean=200 \
     --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
@@ -67,9 +67,9 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set ready.service=routeguide \
     --set ready.timeout=60s \
     --set grpc.host=routeguide.default:50051 \
+    --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
     --set grpc.call=routeguide.RouteGuide.RecordRoute \
     --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
-    --set grpc.protoURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/route_guide/routeguide/route_guide.proto \
     --set assess.SLOs.upper.grpc/error-rate=0 \
     --set assess.SLOs.upper.grpc/latency/mean=200 \
     --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
@@ -84,9 +84,9 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set ready.service=routeguide \
     --set ready.timeout=60s \
     --set grpc.host=routeguide.default:50051 \
+    --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
     --set grpc.call=routeguide.RouteGuide.RouteChat \
     --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/bidirectional.json \
-    --set grpc.protoURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/route_guide/routeguide/route_guide.proto \
     --set assess.SLOs.upper.grpc/error-rate=0 \
     --set assess.SLOs.upper.grpc/latency/mean=200 \
     --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
