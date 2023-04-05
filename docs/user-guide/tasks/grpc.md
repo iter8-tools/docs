@@ -15,7 +15,7 @@ Single method:
 iter8 k launch \
 --set "tasks={grpc,assess}" \
 --set grpc.host=routeguide.default:50051 \
---set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
+--set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.call=routeguide.RouteGuide.GetFeature \
 --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
 --set assess.SLOs.upper.grpc/error-rate=0 \
@@ -28,7 +28,7 @@ Multiple methods:
 iter8 k launch \
 --set "tasks={grpc,assess}" \
 --set grpc.host=routeguide.default:50051 \
---set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
+--set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
 --set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
@@ -70,7 +70,7 @@ In the following example, all three endpoints will use the default `timeout` of 
 iter8 k launch \
 --set "tasks={grpc,assess}" \
 --set grpc.host=routeguide.default:50051 \
---set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
+--set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
 --set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
@@ -89,7 +89,7 @@ In the following example, the `getFeature` and `listFeatures` endpoints will use
 iter8 k launch \
 --set "tasks={grpc,assess}" \
 --set grpc.host=routeguide.default:50051 \
---set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
+--set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
 --set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
@@ -109,7 +109,7 @@ In the following example, all three endpoints will use a `qps` of `40s`.
 iter8 k launch \
 --set "tasks={grpc,assess}" \
 --set grpc.host=routeguide.default:50051 \
---set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
+--set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.timeout=40s \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
 --set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
@@ -129,7 +129,7 @@ In the following example, the `getFeature` and `listFeatures` endpoints will use
 iter8 k launch \
 --set "tasks={grpc,assess}" \
 --set grpc.host=routeguide.default:50051 \
---set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
+--set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.timeout=40s \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
 --set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
@@ -153,7 +153,7 @@ Further more, set parameters will trickle down to the endpoints.
 iter8 k launch \
 --set "tasks={grpc,assess}" \
 --set grpc.host=routeguide.default:50051 \
---set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto\
+--set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.skipFirst=5 \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
 --set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
