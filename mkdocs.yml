@@ -138,6 +138,10 @@ nav:
       - Canary testing: tutorials/integrations/kserve/canary-testing.md
       - Continuous validation: tutorials/integrations/kserve/continuous-validation.md
       - Other (Iter8 v0.7): tutorials/integrations/kserve/kserve.md
+    - Kserve (modelmesh):
+      - Blue-Green: tutorials/integrations/kserve-mm/blue-green.md
+      - Canary: tutorials/integrations/kserve-mm/canary.md
+      - Mirroring: tutorials/integrations/kserve-mm/mirror.md
     - Seldon: tutorials/integrations/seldon.md
     - Slack:  tutorials/integrations/slack.md
     - Litmus: tutorials/integrations/litmus.md
