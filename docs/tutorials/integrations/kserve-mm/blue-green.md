@@ -25,6 +25,18 @@ helm install --repo https://iter8-tools.github.io/hub iter8-traffic traffic --va
 ??? note "About controller configuration"
     The configuration file specifies a list resources types to watch. The default list is suitable for KServe modelmesh supported ML models. 
 
+## Configure External Routing
+
+```shell
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+templateName: external
+targetEnv: kserve-modelmesh
+EOF
+```
+
+???+ warning "TODO"
+    fix template chart location (all calls)
+
 ## Deploy Initial InferenceService
 
 Deploy the initial version the infernce service:
@@ -34,7 +46,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
-  name: wisdom-primary
+  name: wisdom-0
   namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
@@ -53,42 +65,39 @@ EOF
 ```
 
 ??? note "Some observations on the InferenceService"
-    Naming the model with the suffix `-primary` (and any candidate with the suffix `-candidate`) simplifies configuration of any experiments. However, it is not strictly required.
+    Naming the model with the suffix `-0` (and the candidate with the suffix `-1`) simplifies configuration of any experiments. Iter8 assumes this convention by default. However, any names can be specified.
     
-    The label `iter8.tools/watch: "true"` lets Iter8 know that it should pay attention to changes to the InferenceService.
-
+    The label `iter8.tools/watch: "true"` lets Iter8 know that it should pay attention to changes to this InferenceService.
 
 ## Initialize Routing
 
 ```shell
-cat << EOF | helm template --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+templateName: bg-initialize
 targetEnv: kserve-modelmesh
-externalAccess: true
 trafficStrategy: blue-green
 modelName: wisdom
-- versions: wisdom-primary
-- versions: wisdom-candidate
+modelVersions:
+- weight: 50
+- weight: 50
 EOF
 ```
-
-???+ warning "Question"
-    Did we intend to have 2 steps for externalizing and starting
 
 ??? note "Initialization details"
     The initialization step does two things:
 
-    1. Configure Istio 
-    2. Associates the models associated with the name (prefix) `wisdom` with the blue-green rollout strategy.
+    1. Configure Istio to route requests to the primary model.
 
-    By default, traffic will be split 50-50 between the primary and candidate versions. 
+    2. Associates the `modelName` (`wisdom`) models (`wisdom-0` and `wisdom-1`) with the blue-green rollout strategy. The blue-green traffic strategy is configured to send 50% of requests to each of a primary and candidate version when both are present.
 
 ## Deploy a Candidate Model
 
+```shell
 cat <<EOF | kubectl apply -f -
 apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
-  name: wisdom-candidate
+  name: wisdom-1
   namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
@@ -103,41 +112,46 @@ spec:
       modelFormat:
         name: sklearn
       storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wisdom-candidate-weight
-  labels:
-    iter8.tools/watch: "true"
 EOF
-
-???+ warning "Question"
-    How does the user know to create the configmap?
-
-## Optionally modify inference requets distribution
-
-Modify the weight distribution to the candidate model; the weight distributed to the primary model can be determined by this. For example, to send 80% of the inference requests to the candidate model:
-
-```shell
-kubectl annotate --overwrite \
-configmap wisdom-candidate-weight-config \
-iter8.tools/weight='80'
 ```
 
-???+ warning "Question"
-    How does the user know the name of the configmap?
+```shell
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+templateName: deploy-candidate
+targetEnv: kserve-modelmesh
+trafficStrategy: blue-green
+modelName: wisdom
+EOF
+```
+
+## Optionally modify inference request distribution
+
+Modify the distribution weight for inference requests.
+
+```shell
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+templateName: modify-weights
+targetEnv: kserve-modelmesh
+trafficStrategy: blue-green
+modelName: wisdom
+modelVersions:
+  - weight: 20
+  - weight: 80
+EOF
+```
 
 ## Promote the Candidate Model
 
-Promotion is two steps: (a) redefine the primary model using the new version and (b) delete the candidate version:
+Promotion is two steps: (a) redefine the primary model using the new version and (b) delete the candidate version.
+
+### Redefine the deployed primary model
 
 ```shell
 cat <<EOF | kubectl replace -f -
 apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
-  name: wisdom-primary
+  name: wisdom-0
   namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
@@ -156,11 +170,28 @@ EOF
 ```
 
 ```shell
-kubectl delete isvc/wisdom-candidate cm/wisdom-candidate-weight
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+templateName: promote-candidate
+targetEnv: kserve-modelmesh
+trafficStrategy: blue-green
+modelName: wisdom
+EOF
 ```
 
-???+ warning "Question"
-    How does the user know to delete the configmap?
+### Delete candidate model
+
+```shell
+kubectl delete isvc wisdom-1
+```
+
+```shell
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl delete -f -
+templateName: deploy-candidate
+targetEnv: kserve-modelmesh
+trafficStrategy: blue-green
+modelName: wisdom
+EOF
+```
 
 ## 
 
@@ -173,19 +204,23 @@ kubectl delete isvc/wisdom-candidate cm/wisdom-candidate-weight
 Delete all artifacts:
 
 ```shell
-kubectl delete isvc/wisdom-candidate cm/wisdom-candidate-weight-config
-
-cat << EOF | helm template --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl delete -f -
-targetEnv: blue-green
-modelName: wisdom
-- versions: wisdom-primary
-- versions: wisdom-candidate
-EOF
-
-kubectl delete isvc/wisdom-primary
+kubectl delete \
+  isvc/wisdom-0 \
+  isvc/wisdom-1 \
+  virtualservice.networking.istio.io/wisdom \
+  gateway.networking.istio.io/mm-external-gateway \
+  service/mm-external \
+  configmap/wisdom-0-weight-config \
+  configmap/wisdom-1-weight-config \
+  configmap/wisdom-routemap \
+  deployment/sleep \
+  configmap/wisdom-input
 ```
 
-Delete the Iter8 controller:
+???+ warning "TODO"
+    Should we use a template for cleanup too?
+
+Uninstall the Iter8 controller:
 
 ```shell
 helm delete iter8-traffic
