@@ -80,25 +80,71 @@ EOF
     kubectl -n modelmesh-serving get inferenceservice wisdom-0
     ```
 
-## Initialize Routing
+## Initialize Rollout Traffic Pattern
 
-```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
-templateName: bg-initialize
-targetEnv: kserve-modelmesh
-trafficStrategy: blue-green
-modelName: wisdom
-modelVersions:
-- weight: 50
-- weight: 50
-EOF
-```
+=== "Blue-Green"
+    Initialize the model rollout with a blue-green traffic pattern as follows.
 
-??? note "What Happended?"
-    The `bg-initialize` step does two things. First, it configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Second, it defines a routing policy that will be used by Iter8 when it observes new/candidate versions (or their promotion). This routing policy splits inferences requests 50-50 between the primary and candidate versions when both are present.
+    ```shell
+    cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+    templateName: initialize
+    targetEnv: kserve-modelmesh
+    trafficStrategy: blue-green
+    modelName: wisdom
+    modelVersions:
+    - weight: 50
+    - weight: 50
+    EOF
+    ```
+    ??? note "What Happended?"
+        The `initialize` template for `trafficStrategy: blue-green` does two things. First, it configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Second, it defines a routing policy that will be used by Iter8 when it observes new/candidate versions (or their promotion). This routing policy splits inferences requests 50-50 between the primary and candidate versions when both are present.
+
+=== "Canary"
+    Initialize the model rollout with a canary traffic pattern as follows.
+
+    ```shell
+    cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+    templateName: initialize
+    targetEnv: kserve-modelmesh
+    trafficStrategy: canary
+    modelName: wisdom
+    modelVersions:
+    - name: wisdom-0
+    - name: wisdom-1
+      match:
+      - headers:
+          traffic:
+            exact: test
+    EOF
+    ```
+
+    ???+ warning "Question"
+        Canary weight in list of variants should be 100?
+
+    ??? note "What Happended?"
+        The `initialize` template for `trafficStrategy: canary`. First, it configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Second, it defines a routing policy that will be used by Iter8 when it observes new/candidate versions (or their promotion). This routing policy sends traffic matching a particular pattern to the candidate version while remaining traffic is sent to the primary version.
+
+=== "Mirroring"
+    Initialize the model rollout with a mirroring traffic pattern as follows.
+
+    ```shell
+    cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - > init.yaml
+    templateName: initialize
+    targetEnv: kserve-modelmesh
+    trafficStrategy: mirror
+    modelName: wisdom
+    modelVersions:
+      # can only mirror to a single candidate version
+      - name: wisdom-0
+      - name: wisdom-1
+    EOF
+    ```
+
+    ??? note "What Happended?"
+        The `initialize` template for `trafficStrategy: mirror`. First, it configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Second, it defines a routing policy that will be used by Iter8 when it observes new/candidate versions (or their promotion). This routing policy continutes to send all traffic to the primary version, but also mirrors it to the candidate version. Responses from the candidate are ignored.
 
 ??? note "Verifying Network Configuration"
-    How to send a message using `grpcurl`
+    In all cases, when just the primary model is deployed, all inference requests should be sent to it. Ypu can test using a tool such as `grpcurl`.
 
 ## Deploy a Candidate Model
 
@@ -136,7 +182,9 @@ modelName: wisdom
 EOF
 ```
 
-## Optionally modify inference request distribution
+## Modify Inference Request Distribution
+
+??? note "Optional; Applies only to the blue-green traffic pattern"
 
 You can modify the weight distribution of inference requests by annotating the model objects with the desired weights. The Iter8 `traffic-template` chart can be used to simplify doing so:
 
@@ -213,8 +261,6 @@ trafficStrategy: blue-green
 modelName: wisdom
 EOF
 ```
-
-## 
 
 ??? note "Some variations and extensions of this experiment" 
     1. Modify the default inference weight distribution when initializing the routing policy.
