@@ -25,7 +25,7 @@ helm install --repo https://iter8-tools.github.io/hub iter8-traffic traffic --va
 ??? note "About controller configuration"
     The configuration file specifies a list resources types to watch. The default list is suitable for KServe modelmesh supported ML models. 
 
-## Configure External Routing
+## Configure External Routing (Optional)
 
 ```shell
 cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
@@ -36,6 +36,8 @@ EOF
 
 ???+ warning "TODO"
     fix template chart location (all calls)
+
+    how to validate traffic pattern
 
 ## Deploy Initial InferenceService
 
@@ -65,9 +67,18 @@ EOF
 ```
 
 ??? note "Some observations on the InferenceService"
+    **Something about target namespace?**
+
     Naming the model with the suffix `-0` (and the candidate with the suffix `-1`) simplifies configuration of any experiments. Iter8 assumes this convention by default. However, any names can be specified.
     
     The label `iter8.tools/watch: "true"` lets Iter8 know that it should pay attention to changes to this InferenceService.
+
+??? note "Verifying Deployment of InferenceService"
+    Inspect the output of `kubectl get` to see that the `READY` field becomes `True`.
+    
+    ```shell
+    kubectl -n modelmesh-serving get inferenceservice wisdom-0
+    ```
 
 ## Initialize Routing
 
@@ -83,14 +94,15 @@ modelVersions:
 EOF
 ```
 
-??? note "Initialization details"
-    The initialization step does two things:
+??? note "What Happended?"
+    The `bg-initialize` step does two things. First, it configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Second, it defines a routing policy that will be used by Iter8 when it observes new/candidate versions (or their promotion). This routing policy splits inferences requests 50-50 between the primary and candidate versions when both are present.
 
-    1. Configure Istio to route requests to the primary model.
-
-    2. Associates the `modelName` (`wisdom`) models (`wisdom-0` and `wisdom-1`) with the blue-green rollout strategy. The blue-green traffic strategy is configured to send 50% of requests to each of a primary and candidate version when both are present.
+??? note "Verifying Network Configuration"
+    How to send a message using `grpcurl`
 
 ## Deploy a Candidate Model
+
+Deploy a candidate model using a second `InferenceService`:
 
 ```shell
 cat <<EOF | kubectl apply -f -
@@ -126,7 +138,7 @@ EOF
 
 ## Optionally modify inference request distribution
 
-Modify the distribution weight for inference requests.
+You can modify the weight distribution of inference requests by annotating the model objects with the desired weights. The Iter8 `traffic-template` chart can be used to simplify doing so:
 
 ```shell
 cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
@@ -140,11 +152,20 @@ modelVersions:
 EOF
 ```
 
+??? note "Verifying the change"
+    You can verify the change in inference request distribution by inspecting the `VirtualService`:
+
+    ```shell
+    kubectl get virtualservice wisdom -o yaml
+    ```
+
+    As you continue to send requests, you should see the distribution change (see theh `modelName` field in inference responses).
+
 ## Promote the Candidate Model
 
-Promotion is two steps: (a) redefine the primary model using the new version and (b) delete the candidate version.
+Promoting the candidate is a two step process. First, redefine the primary `InferenceService` using the new model. Second, delete the candidate `InferenceService`.
 
-### Redefine the deployed primary model
+### Redefine the primary `InferenceService`
 
 ```shell
 cat <<EOF | kubectl replace -f -
@@ -178,10 +199,10 @@ modelName: wisdom
 EOF
 ```
 
-### Delete candidate model
+### Delete the candidate `InferenceService`
 
 ```shell
-kubectl delete isvc wisdom-1
+kubectl delete inferenceservice wisdom-1
 ```
 
 ```shell
@@ -196,8 +217,8 @@ EOF
 ## 
 
 ??? note "Some variations and extensions of this experiment" 
-    1. Modify the inference weight distribution
-    2. 
+    1. Modify the default inference weight distribution when initializing the routing policy.
+    2. Try a canary routing policy.
 
 ## Clean up
 
