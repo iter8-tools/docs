@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Model Rollouts: Blue-Green, Canary, and Mirroring
+# Blue-Green Rollout of a Model
 
 ???+ warning "TODO"
     1. fix template chart location (all calls) to use repository
@@ -70,8 +70,8 @@ spec:
 EOF
 ```
 
-??? note "Some observations on the InferenceService"
-    **Something about target namespace?**
+??? note "About the primary `InferenceService`"
+    *Something about target namespace?*
 
     Naming the model with the suffix `-0` (and the candidate with the suffix `-1`) simplifies configuration of any experiments. Iter8 assumes this convention by default. However, any names can be specified.
     
@@ -86,66 +86,24 @@ EOF
 
 ## Initialize Rollout Traffic Pattern
 
-=== "Blue-Green"
-    Initialize the model rollout with a blue-green traffic pattern as follows.
+Initialize the model rollout with a blue-green traffic pattern as follows.
 
-    ```shell
-    cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
-    templateName: initialize
-    targetEnv: kserve-modelmesh
-    trafficStrategy: blue-green
-    modelName: wisdom
-    modelVersions:
-    - weight: 50
-    - weight: 50
-    EOF
-    ```
-    ??? note "What Happended?"
-        The `initialize` template for `trafficStrategy: blue-green` does two things. First, it configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Second, it defines a routing policy that will be used by Iter8 when it observes new/candidate versions (or their promotion). This routing policy splits inferences requests 50-50 between the primary and candidate versions when both are present.
+```shell
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+templateName: initialize
+targetEnv: kserve-modelmesh
+trafficStrategy: blue-green
+modelName: wisdom
+EOF
+```
 
-=== "Canary"
-    Initialize the model rollout with a canary traffic pattern as follows.
+The `initialize` template for `trafficStrategy: blue-green` configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Further, it defines a routing policy that will be used by Iter8 when it observes new candidate versions (or their promotion). By default, this routing policy splits inferences requests 50-50 between the primary and candidate versions when both are present. You can specify a different default with a `modelVersions` field. For example to define a `30`-70` split:
 
-    ```shell
-    cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
-    templateName: initialize
-    targetEnv: kserve-modelmesh
-    trafficStrategy: canary
-    modelName: wisdom
-    modelVersions:
-    - name: wisdom-0
-    - name: wisdom-1
-      match:
-      - headers:
-          traffic:
-            exact: test
-    EOF
-    ```
-
-    ???+ warning "Question"
-        Canary weight in list of variants should be 100?
-
-    ??? note "What Happended?"
-        The `initialize` template for `trafficStrategy: canary`. First, it configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Second, it defines a routing policy that will be used by Iter8 when it observes new/candidate versions (or their promotion). This routing policy sends traffic matching a particular pattern to the candidate version while remaining traffic is sent to the primary version.
-
-=== "Mirroring"
-    Initialize the model rollout with a mirroring traffic pattern as follows.
-
-    ```shell
-    cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - > init.yaml
-    templateName: initialize
-    targetEnv: kserve-modelmesh
-    trafficStrategy: mirror
-    modelName: wisdom
-    modelVersions:
-      # can only mirror to a single candidate version
-      - name: wisdom-0
-      - name: wisdom-1
-    EOF
-    ```
-
-    ??? note "What Happended?"
-        The `initialize` template for `trafficStrategy: mirror`. First, it configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Second, it defines a routing policy that will be used by Iter8 when it observes new/candidate versions (or their promotion). This routing policy continutes to send all traffic to the primary version, but also mirrors it to the candidate version. Responses from the candidate are ignored.
+```yaml
+modelVersions:
+- weight: 30
+- weight: 70
+```
 
 ??? note "Verifying Network Configuration"
     In all cases, when just the primary model is deployed, all inference requests should be sent to it. You can test using a tool such as `grpcurl`.
@@ -177,25 +135,14 @@ spec:
 EOF
 ```
 
-??? note "Comments on the candiate `InferenceService`"
+??? note "About the candiate `InferenceService`"
     The model name (`wisdom`) and version (`v2`) are recorded using the labels `app.kubernets.io/name` and `app.kubernets.io.version`.
 
     In this tutorial, the model source (see the field `spec.predictor.model.storageUri`) is the same as for the primary. In a real example, this would be different.
 
-```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
-templateName: deploy-candidate
-targetEnv: kserve-modelmesh
-trafficStrategy: blue-green
-modelName: wisdom
-EOF
-```
+## (Optional) Modify Inference Request Distribution
 
-## Modify Inference Request Distribution
-
-??? note "Optional; Applies only to the blue-green traffic pattern"
-
-You can modify the weight distribution of inference requests by annotating the model objects with the desired weights. The Iter8 `traffic-template` chart can be used to simplify doing so:
+You can modify the weight distribution of inference requests using the Iter8 `traffic-template` chart:
 
 ```shell
 cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
@@ -209,18 +156,18 @@ modelVersions:
 EOF
 ```
 
-??? note "Verifying the change"
+Note that using the `modify-weights` modifies the default traffic split of all future candidate deployments.
+
+??? note "Verifying Network Configuration Change"
     You can verify the change in inference request distribution by inspecting the `VirtualService`:
 
     ```shell
     kubectl get virtualservice wisdom -o yaml
     ```
 
-    As you continue to send requests, you should see the distribution change (see the `modelName` field in inference responses).
-
 ## Promote the Candidate Model
 
-Promoting the candidate is a two step process. First, redefine the primary `InferenceService` using the new model. Second, delete the candidate `InferenceService`.
+Promoting the candidate involves redefining the primary `InferenceService` using the new model and deleting the candidate `InferenceService`.
 
 ### Redefine the primary `InferenceService`
 
@@ -250,28 +197,10 @@ EOF
 ??? note "What changed?"
     The version label (`app.kubernets.io/version`) and `spec.predictor.model.storageUri` are updated.
 
-```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
-templateName: promote-candidate
-targetEnv: kserve-modelmesh
-trafficStrategy: blue-green
-modelName: wisdom
-EOF
-```
-
 ### Delete the candidate `InferenceService`
 
 ```shell
 kubectl delete inferenceservice wisdom-1
-```
-
-```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl delete -f -
-templateName: deploy-candidate
-targetEnv: kserve-modelmesh
-trafficStrategy: blue-green
-modelName: wisdom
-EOF
 ```
 
 ??? note "Some variations and extensions to try" 
