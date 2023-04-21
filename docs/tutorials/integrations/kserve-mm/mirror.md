@@ -150,7 +150,7 @@ spec:
 EOF
 ```
 
-??? note "About the candiate `InferenceService`"
+??? note "About the candidate `InferenceService`"
     The model name (`wisdom`) and version (`v2`) are recorded using the labels `app.kubernets.io/name` and `app.kubernets.io.version`.
 
     In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.

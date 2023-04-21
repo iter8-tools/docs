@@ -50,6 +50,7 @@ LitmusChaos
 localhost
 minikube
 MLOps
+modelmesh
 namespace
 namespaces
 NewRelic
@@ -91,6 +92,7 @@ custommetrics
 ctx
 dev
 encodedmetric
+execintosleep
 expreport
 failured
 getRecommendation
