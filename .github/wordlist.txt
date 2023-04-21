@@ -105,6 +105,7 @@ GoVersion
 installbrewbins
 installghaction
 ksvc
+kustomize
 lastupdatetime
 lifecycle
 linenums
