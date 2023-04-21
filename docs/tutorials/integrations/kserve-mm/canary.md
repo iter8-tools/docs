@@ -22,10 +22,10 @@ The Iter8 controller can be installed using a helm chart as follows:
 helm install --repo https://iter8-tools.github.io/hub iter8-traffic traffic
 ```
 
-## Configure External Routing (optional)
+## ~~Configure External Routing (optional)~~
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
 templateName: external
 targetEnv: kserve-modelmesh
 EOF
@@ -76,7 +76,7 @@ When the `READY` field becomes `True`, the model is fully deployed.
 Initialize model rollout with a canary traffic pattern as follows:
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
 templateName: initialize
 targetEnv: kserve-modelmesh
 trafficStrategy: canary
@@ -157,6 +157,21 @@ EOF
 
     In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real example, this would be different.
 
+## Verify network configuration changes
+
+The deployment of the candidate model triggers an automatic reconfiguration by Iter8. Inspect the `VirtualService` to see that inference requests are now distributed between the primary model and the secondary model according to a header matching rule.
+
+```shell
+kubectl get virtualservice wisdom -o yaml
+```
+
+You can also send inference requests from the sleep pod in the cluster to verify the distribution:
+
+```shell
+. wisdom.sh
+. wisdom-test.sh
+```
+
 ## Promote the candidate model
 
 Promoting the candidate involves redefining the primary `InferenceService` using the new model and deleting the candidate `InferenceService`.
@@ -195,6 +210,10 @@ EOF
 kubectl delete inferenceservice wisdom-1
 ```
 
+### Verify network configuration changes
+
+Inspect the `VirtualService` to see that the it has been automaticaly reconfigured to send requests only to the primary model.
+
 ## Clean up
 
 Delete the candidate model:
@@ -206,10 +225,10 @@ kubectl delete --force isvc/wisdom-1
 Delete routing artifacts:
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
 templateName: initialize
 targetEnv: kserve-modelmesh
-trafficStrategy: blue-green
+trafficStrategy: canary
 modelName: wisdom
 EOF
 ```
@@ -223,7 +242,7 @@ kubectl delete --force isvc/wisdom-0
 Delete artifacts created to configure external routing (if created):
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
 templateName: external
 targetEnv: kserve-modelmesh
 EOF

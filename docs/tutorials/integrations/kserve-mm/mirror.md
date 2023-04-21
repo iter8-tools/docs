@@ -22,10 +22,10 @@ The Iter8 controller can be installed using a helm chart as follows:
 helm install --repo https://iter8-tools.github.io/hub iter8-traffic traffic
 ```
 
-## Configure external routing (optional)
+## ~~Configure external routing (optional)~~
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
 templateName: external
 targetEnv: kserve-modelmesh
 EOF
@@ -76,7 +76,7 @@ When the `READY` field becomes `True`, the model is fully deployed.
 Initialize the model rollout with a mirror traffic pattern as follows:
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
 templateName: initialize
 targetEnv: kserve-modelmesh
 trafficStrategy: mirror
@@ -155,12 +155,20 @@ EOF
 
     In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.
 
+## Verify network configuration changes
+
+The deployment of the candidate model triggers an automatic reconfiguration by Iter8. Inspect the `VirtualService` to see that inference requests are now distributed between the primary model and the secondary model:
+
+```shell
+kubectl get virtualservice wisdom -o yaml
+```
+
 ## Modify the percentage of mirrored traffic (optional)
 
 You can modify the percentage of inference requests that are mirrored (send to the candidate version) using the Iter8 `traffic-template` chart. For example, to change the mirrored percentage to 20%, use:
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
 templateName: modify-weights
 targetEnv: kserve-modelmesh
 trafficStrategy: mirror
@@ -171,13 +179,7 @@ EOF
 
 Note that using the `modify-weights` modifies the default behavior for all future candidate deployments.
 
-??? note "Verifying Network Configuration Change
-
-    You can verify the change in inference request distribution by inspecting the `VirtualService`:
-
-    ```shell
-    kubectl get virtualservice wisdom -o yaml
-    ```
+As above, you can verify the network configuration changes.
 
 ## Promote the candidate model
 
@@ -217,6 +219,10 @@ EOF
 kubectl delete inferenceservice wisdom-1
 ```
 
+### Verify network configuration changes
+
+Inspect the `VirtualService` to see that the it has been automaticaly reconfigured to send requests only to the primary model.
+
 ## Clean up
 
 Delete the candidate model:
@@ -228,10 +234,10 @@ kubectl delete --force isvc/wisdom-1
 Delete routing artifacts:
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
 templateName: initialize
 targetEnv: kserve-modelmesh
-trafficStrategy: blue-green
+trafficStrategy: mirror
 modelName: wisdom
 EOF
 ```
@@ -245,7 +251,7 @@ kubectl delete --force isvc/wisdom-0
 Delete artifacts created to configure external routing (if created):
 
 ```shell
-cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
+cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
 templateName: external
 targetEnv: kserve-modelmesh
 EOF
