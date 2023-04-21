@@ -2,39 +2,38 @@
 template: main.html
 ---
 
-# Blue-Green Rollout of a Model
+# Blue-Green Rollout of a ML Model
 
-???+ warning "TODO"
-    1. fix template chart location (all calls) to use repository
-    2. do we have an example where we really have two versions with different values for `storageUri`
-    3. make this work with mesh gateway
-    4. make this work for multiple models
-    5. picture(s)
-    6. template for cleanup?
-    7. should we include sleep.sh, execintosleep.sh? These are tied to the example model. Is this a standard example that will be available long term?
+???+ warning "Doc TODO"
+    1. fix template chart location (all calls) to use repository after merging chart
+    2. picture(s)
+    3. verify sleep.sh and execintosleep.sh location
+    4. error checking for required values in traffic-template
 
-This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models. In a blue-green rollout, a percentage of inference requests are directed to a candidate version. The remaining requests go to the primary, or initial, version. Iter8 enables a blue-green rollout by automatically configuring the network to distribute inference requests.
+???+ warning "Demo TODO"
+    1. multiple models - issues with canary
+    2. kustomize
+    3. mesh and external gateway
 
-After a one time initialization step, the end user merely deploys candidate models, evaluates them and either promotes the candiate or deletes it. Optionally, the end user can modify the percentage of inference requests being sent to the candidate. Iter8 automatically handles the underlying network configuration.
+This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models hosted in a KServe modelmesh serving environment. In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a blue-green rollout by automatically configuring the network to distribute inference requests.
+
+After a one time initialization step, the end user merely deploys candidate models, evaluates them and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying network configuration.
 
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
 ???+ "Before you begin"
-    1. Install the Iter8 controller.
-    2. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
-    3. Have access to a cluster running [ModleMesh Serving](https://github.com/kserve/modelmesh-serving) and [Istio](https://istio.io). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment and install a [demo version](https://istio.io/latest/docs/setup/getting-started/) of Istio.
+    1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
+    2. Have access to a cluster running [KServe ModleMesh Serving](https://github.com/kserve/modelmesh-serving) and [Istio](https://istio.io). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment and install a [demo version](https://istio.io/latest/docs/setup/getting-started/) of Istio.
 
 ## Install the Iter8 controller
 
+The Iter8 contoller can be installed using a helm chart as follows:
+
 ```shell
-curl -s https://raw.githubusercontent.com/iter8-tools/iter8/v0.13.13/testdata/controllers/config.yaml | \
-helm install --repo https://iter8-tools.github.io/hub iter8-traffic traffic -f -
+helm install --repo https://iter8-tools.github.io/hub iter8-traffic traffic
 ```
 
-??? note "About controller configuration"
-    The configuration file specifies a list resources types to watch. The default list is suitable for KServe modelmesh supported ML models. 
-
-## Configure External Routing (Optional)
+## Configure external routing (optional)
 
 ```shell
 cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
@@ -43,9 +42,9 @@ targetEnv: kserve-modelmesh
 EOF
 ```
 
-## Deploy Initial InferenceService
+## Deploy a primary model
 
-Deploy the initial version the infernce service:
+Deploy the primary version of a model using an `InferenceService`:
 
 ```shell
 cat <<EOF | kubectl apply -f -
@@ -53,7 +52,6 @@ apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
   name: wisdom-0
-  namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
     app.kubernetes.io/version: v1
@@ -71,22 +69,21 @@ EOF
 ```
 
 ??? note "About the primary `InferenceService`"
-    *Something about target namespace?*
-
-    Naming the model with the suffix `-0` (and the candidate with the suffix `-1`) simplifies configuration of any experiments. Iter8 assumes this convention by default. However, any names can be specified.
+    Naming the model with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the rollout initialization. However, any names can be specified.
     
     The label `iter8.tools/watch: "true"` lets Iter8 know that it should pay attention to changes to this InferenceService.
 
-??? note "Verifying Deployment of InferenceService"
-    Inspect the output of `kubectl get` to see that the `READY` field becomes `True`.
+Inspect the deployed `InferenceService`:
+
+```shell
+kubectl get inferenceservice wisdom-0 -o yaml
+```
+
+When the `READY` field becomes `True`, the model is fully deployed.
     
-    ```shell
-    kubectl -n modelmesh-serving get inferenceservice wisdom-0
-    ```
+## Initialize the Blue-Green traffic pattern
 
-## Initialize Rollout Traffic Pattern
-
-Initialize the model rollout with a blue-green traffic pattern as follows.
+Initialize model rollout with a blue-green traffic pattern as follows:
 
 ```shell
 cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl apply -f -
@@ -97,18 +94,46 @@ modelName: wisdom
 EOF
 ```
 
-The `initialize` template for `trafficStrategy: blue-green` configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Further, it defines a routing policy that will be used by Iter8 when it observes new candidate versions (or their promotion). By default, this routing policy splits inferences requests 50-50 between the primary and candidate versions when both are present. You can specify a different default with a `modelVersions` field. For example to define a `30`-70` split:
+The `initialize` template (with `trafficStrategy: blue-green`) configures the Istio service mesh to route all requests to the primary version of the model (`wisdom-0`). Further, it defines the routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy splits inference requests 50-50 between the primary and candidate versions. For detailed configuration options, see the helm chart.
 
-```yaml
-modelVersions:
-- weight: 30
-- weight: 70
+## Verify network configuration
+
+You can inspect the network configuration:
+
+```shell
+get virtualservice -o yaml wisdom
 ```
 
-??? note "Verifying Network Configuration"
-    In all cases, when just the primary model is deployed, all inference requests should be sent to it. You can test using a tool such as `grpcurl`.
+You can also run tests by sending inference requests from a pod in the cluster. For the models in this tutorual you can deploy a pod with the necessary artifacts as follows:
 
-## Deploy a Candidate Model
+```shell
+curl -s https://raw.githubusercontent.com/iter8-tools/doc/master/samples/controllers/canary-mm/sleep.sh | \
+sh - 
+```
+
+In a separate terminal, exec into the pod:
+
+```shell
+curl -sO https://raw.githubusercontent.com/kalantar/iter8/mm-demos/testdata/controllers/canary-mm/execintosleep.sh | \
+sh -
+```
+
+The necessary artifacts are in the directory wisdom:
+
+```shell
+cd widsom
+ls -l
+```
+
+Run inference requests using `grpcurl` via the scripts `wisdom.sh` and `wisdom-test.sh`:
+
+```shell
+. wisdom.sh
+```
+
+Note that the model version responding to each inference request can be determined from the `modelName` field of the response.
+
+## Deploy a candidate model
 
 Deploy a candidate model using a second `InferenceService`:
 
@@ -118,7 +143,6 @@ apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
   name: wisdom-1
-  namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
     app.kubernetes.io/version: v2
@@ -138,9 +162,9 @@ EOF
 ??? note "About the candiate `InferenceService`"
     The model name (`wisdom`) and version (`v2`) are recorded using the labels `app.kubernets.io/name` and `app.kubernets.io.version`.
 
-    In this tutorial, the model source (see the field `spec.predictor.model.storageUri`) is the same as for the primary. In a real example, this would be different.
+    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.
 
-## (Optional) Modify Inference Request Distribution
+## Modify inference request distribution (optional)
 
 You can modify the weight distribution of inference requests using the Iter8 `traffic-template` chart:
 
@@ -156,7 +180,7 @@ modelVersions:
 EOF
 ```
 
-Note that using the `modify-weights` modifies the default traffic split of all future candidate deployments.
+Note that using the `modify-weights` modifies the default traffic split for all future candidate deployments.
 
 ??? note "Verifying Network Configuration Change"
     You can verify the change in inference request distribution by inspecting the `VirtualService`:
@@ -165,7 +189,9 @@ Note that using the `modify-weights` modifies the default traffic split of all f
     kubectl get virtualservice wisdom -o yaml
     ```
 
-## Promote the Candidate Model
+    You can also send additonal requests from the `sleep` pod and observe the change in distribution.
+
+## Promote the candidate model
 
 Promoting the candidate involves redefining the primary `InferenceService` using the new model and deleting the candidate `InferenceService`.
 
@@ -194,8 +220,8 @@ spec:
 EOF
 ```
 
-??? note "What changed?"
-    The version label (`app.kubernets.io/version`) and `spec.predictor.model.storageUri` are updated.
+??? note "What is different?"
+    The version label (`app.kubernets.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
 
 ### Delete the candidate `InferenceService`
 
@@ -203,25 +229,44 @@ EOF
 kubectl delete inferenceservice wisdom-1
 ```
 
-??? note "Some variations and extensions to try" 
-    1. 
-
 ## Clean up
 
-Delete all artifacts:
+Delete the candidate model:
 
 ```shell
-kubectl delete \
-  isvc/wisdom-0 \
-  isvc/wisdom-1 \
-  virtualservice.networking.istio.io/wisdom \
-  gateway.networking.istio.io/mm-external-gateway \
-  service/mm-external \
-  configmap/wisdom-0-weight-config \
-  configmap/wisdom-1-weight-config \
-  configmap/wisdom-routemap \
-  deployment/sleep \
-  configmap/wisdom-input
+kubectl delete --force isvc/wisdom-1
+```
+
+Delete routing artifacts:
+
+```shell
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
+templateName: initialize
+targetEnv: kserve-modelmesh
+trafficStrategy: blue-green
+modelName: wisdom
+EOF
+```
+
+Delete the primary model:
+
+```shell
+kubectl delete --force isvc/wisdom-0
+```
+
+Delete artifacts created to configure external routing (if created):
+
+```shell
+cat <<EOF | helm template traffic ../../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
+templateName: external
+targetEnv: kserve-modelmesh
+EOF
+```
+
+Delete the sleep pod:
+
+```shell
+kubectl delete --force deploy/sleep configmap/wisdom-input
 ```
 
 Uninstall the Iter8 controller:
