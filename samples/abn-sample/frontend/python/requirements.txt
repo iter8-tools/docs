@@ -1,4 +1,4 @@
-Flask==2.1.2
+Flask==2.3.2
 grpcio==1.46.3
 grpcio-tools==1.46.3
 requests==2.28.0
