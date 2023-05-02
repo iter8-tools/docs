@@ -26,20 +26,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ## Install the Iter8 controller
 
-The Iter8 controller can be installed using a helm chart as follows:
-
-```shell
-helm install --repo https://iter8-tools.github.io/hub iter8-traffic traffic
-```
-
-## ~~Configure external routing (optional)~~
-
-```shell
-cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
-templateName: external
-targetEnv: kserve-modelmesh
-EOF
-```
+--8<-- "docs/tutorials/integrations/kserve-mm/installiter8controller.md"
 
 ## Deploy a primary model
 
@@ -264,15 +251,6 @@ Delete the primary model:
 kubectl delete --force isvc/wisdom-0
 ```
 
-Delete artifacts created to configure external routing (if created):
-
-```shell
-cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
-templateName: external
-targetEnv: kserve-modelmesh
-EOF
-```
-
 Delete the sleep pod:
 
 ```shell
@@ -281,6 +259,4 @@ kubectl delete --force deploy/sleep configmap/wisdom-input
 
 Uninstall the Iter8 controller:
 
-```shell
-helm delete iter8-traffic
-```
+--8<-- "docs/tutorials/integrations/kserve-mm/deleteiter8controller.md"
