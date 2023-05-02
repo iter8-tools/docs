@@ -7,22 +7,19 @@ template: main.html
 ???+ warning "Doc - to do"
     1. fix template chart location (all calls) to use repository after merging chart
     2. picture(s)
-    3. verify sleep.sh and execintosleep.sh location
-    4. error checking for required values in traffic-template
-
-???+ warning "Demo - to do"
-    1. kustomize
-    2. mesh and external gateway
+    3. error checking for required values in traffic-template
 
 This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models hosted in a KServe modelmesh serving environment. In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a blue-green rollout by automatically configuring the network to distribute inference requests.
 
 After a one time initialization step, the end user merely deploys candidate models, evaluates them and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying network configuration.
 
+![Blue-Green rollout](images/blue-green.png)
+
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
 ???+ "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
-    2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving) and [Istio](https://istio.io). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment and install a [demo version](https://istio.io/latest/docs/setup/getting-started/) of Istio.
+    2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving) and [Istio](https://istio.io). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment and install a [demo version](https://istio.io/latest/docs/setup/getting-started/) of Istio. Ensure `istioctl` is in your path.
 
 ## Install the Iter8 controller
 
@@ -62,7 +59,7 @@ EOF
 Inspect the deployed `InferenceService`:
 
 ```shell
-kubectl get inferenceservice wisdom-0 -o yaml
+kubectl get inferenceservice wisdom-0
 ```
 
 When the `READY` field becomes `True`, the model is fully deployed.
@@ -87,27 +84,27 @@ The `initialize` template (with `trafficStrategy: blue-green`) configures the Is
 You can inspect the network configuration:
 
 ```shell
-get virtualservice -o yaml wisdom
+kubectl get virtualservice -o yaml wisdom
 ```
 
 You can also run tests by sending inference requests from a pod in the cluster. For the models in this tutorial you can deploy a pod with the necessary artifacts as follows:
 
 ```shell
-curl -s https://raw.githubusercontent.com/iter8-tools/doc/master/samples/controllers/canary-mm/sleep.sh | \
+curl -s https://raw.githubusercontent.com/kalantar/docs/mm/samples/modelmesh-serving/sleep.sh | \
 sh - 
 ```
 
 In a separate terminal, exec into the pod:
 
 ```shell
-curl -sO https://raw.githubusercontent.com/kalantar/iter8/mm-demos/testdata/controllers/canary-mm/execintosleep.sh | \
-sh -
+curl -sO https://raw.githubusercontent.com/kalantar/docs/mm/samples/modelmesh-serving/execintosleep.sh
+source execintosleep.sh
 ```
 
 The necessary artifacts are in the directory wisdom:
 
 ```shell
-cd widsom
+cd wisdom
 ls -l
 ```
 

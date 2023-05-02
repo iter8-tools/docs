@@ -12,7 +12,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ???+ "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
-    2. Have access to a cluster running [ModelMesh Serving](https://github.com/kserve/modelmesh-serving) and [Istio](https://istio.io). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment and install a [demo version](https://istio.io/latest/docs/setup/getting-started/) of Istio.
+    2. Have access to a cluster running [ModelMesh Serving](https://github.com/kserve/modelmesh-serving) and [Istio](https://istio.io). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment and install a [demo version](https://istio.io/latest/docs/setup/getting-started/) of Istio. Ensure `istioctl` is in your path.
 
 ## Install the Iter8 controller
 
@@ -53,7 +53,7 @@ EOF
 Inspect the deployed `InferenceService`:
 
 ```shell
-kubectl get inferenceservice wisdom-0 -o yaml
+kubectl get inferenceservice wisdom-0
 ```
 
 When the `READY` field becomes `True`, the model is fully deployed.
@@ -78,27 +78,27 @@ The `initialize` template (with `trafficStrategy: canary`) configures the Istio 
 You can inspect the network configuration:
 
 ```shell
-get virtualservice -o yaml wisdom
+kubectl get virtualservice -o yaml wisdom
 ```
 
 You can also run tests by sending inference requests from a pod in the cluster. For the models in this tutorial you can deploy a pod with the necessary artifacts as follows:
 
 ```shell
-curl -s https://raw.githubusercontent.com/iter8-tools/doc/master/samples/controllers/canary-mm/sleep.sh | \
+curl -s https://raw.githubusercontent.com/kalantar/docs/mm/samples/modelmesh-serving/sleep.sh | \
 sh - 
 ```
 
 In a separate terminal, exec into the pod:
 
 ```shell
-curl -sO https://raw.githubusercontent.com/kalantar/iter8/mm-demos/testdata/controllers/canary-mm/execintosleep.sh | \
-sh -
+curl -sO https://raw.githubusercontent.com/kalantar/docs/mm/samples/modelmesh-serving/execintosleep.sh
+source execintosleep.sh
 ```
 
 The necessary artifacts are in the directory wisdom:
 
 ```shell
-cd widsom
+cd wisdom
 ls -l
 ```
 
