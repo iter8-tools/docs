@@ -8,6 +8,8 @@ This tutorial shows how Iter8 can be used to implement a canary rollout of ML mo
 
 After a one time initialization step, the end user merely deploys candidate models, evaluates them and either promotes deletes them. Iter8 automatically handles the underlying network configuration.
 
+![Canary rollout](images/canary.png)
+
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
 ???+ "Before you begin"

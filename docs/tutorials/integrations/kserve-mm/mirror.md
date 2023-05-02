@@ -8,6 +8,8 @@ This tutorial shows how Iter8 can be used to implement a mirrored rollout of ML 
 
 After a one time initialization step, the end user merely deploys candidate models, evaluates them and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate version of the model. Iter8 automatically handles the underlying network configuration.
 
+![Mirror rollout](images/mirror.png)
+
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
 ???+ "Before you begin"

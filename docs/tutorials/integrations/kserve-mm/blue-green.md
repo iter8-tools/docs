@@ -4,11 +4,6 @@ template: main.html
 
 # Blue-Green Rollout of a ML Model
 
-???+ warning "Doc - to do"
-    1. fix template chart location (all calls) to use repository after merging chart
-    2. picture(s)
-    3. error checking for required values in traffic-template
-
 This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models hosted in a KServe modelmesh serving environment. In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a blue-green rollout by automatically configuring the network to distribute inference requests.
 
 After a one time initialization step, the end user merely deploys candidate models, evaluates them and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying network configuration.
