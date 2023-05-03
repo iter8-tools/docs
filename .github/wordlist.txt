@@ -90,6 +90,7 @@ auth
 argoproj
 custommetrics
 ctx
+deleteiter
 dev
 encodedmetric
 execintosleep
@@ -104,6 +105,7 @@ golang
 GoVersion
 installbrewbins
 installghaction
+installiter
 ksvc
 kustomize
 lastupdatetime
