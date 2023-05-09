@@ -225,12 +225,6 @@ Delete the primary model:
 kubectl delete --force isvc/wisdom-0
 ```
 
-Delete the sleep pod:
-
-```shell
-kubectl delete --force deploy/sleep configmap/wisdom-input
-```
-
 Uninstall the Iter8 controller:
 
 --8<-- "docs/tutorials/integrations/kserve-mm/deleteiter8controller.md"
