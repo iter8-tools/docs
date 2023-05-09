@@ -65,15 +65,15 @@ When the `READY` field becomes `True`, the model is fully deployed.
 Initialize the model rollout with a mirror traffic pattern as follows:
 
 ```shell
-cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
-templateName: initialize
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
+templateName: initialize-rollout
 targetEnv: kserve-modelmesh
 trafficStrategy: mirror
 modelName: wisdom
 EOF
 ```
 
-The `initialize` template ( with `trafficStrategy: mirror`) configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Further, it defines a routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy sends all inference requests to the primary version of the model. It also sends them all of them (100 %) to the candidate version of the model. Responses from the candidate are ignored.
+The `initialize-rollout` template ( with `trafficStrategy: mirror`) configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Further, it defines a routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy sends all inference requests to the primary version of the model. It also sends them all of them (100 %) to the candidate version of the model. Responses from the candidate are ignored.
 
 ## Verify network configuration
 
@@ -86,14 +86,14 @@ kubectl get virtualservice -o yaml wisdom
 You can also run tests by sending inference requests from a pod in the cluster. For the models in this tutorial you can deploy a pod with the necessary artifacts as follows:
 
 ```shell
-curl -s https://raw.githubusercontent.com/kalantar/docs/mm/samples/modelmesh-serving/sleep.sh | \
+curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.13.17/samples/modelmesh-serving/sleep.sh | \
 sh - 
 ```
 
 In a separate terminal, exec into the pod:
 
 ```shell
-curl -sO https://raw.githubusercontent.com/kalantar/docs/mm/samples/modelmesh-serving/execintosleep.sh
+curl -sO https://raw.githubusercontent.com/iter8-tools/docs/main/samples/modelmesh-serving/execintosleep.sh
 source execintosleep.sh
 ```
 
@@ -157,7 +157,7 @@ kubectl get virtualservice wisdom -o yaml
 You can modify the percentage of inference requests that are mirrored (send to the candidate version) using the Iter8 `traffic-template` chart. For example, to change the mirrored percentage to 20%, use:
 
 ```shell
-cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
 templateName: modify-weights
 targetEnv: kserve-modelmesh
 trafficStrategy: mirror
@@ -223,8 +223,8 @@ kubectl delete --force isvc/wisdom-1
 Delete routing artifacts:
 
 ```shell
-cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
-templateName: initialize
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl delete --force -f -
+templateName: initialize-rollout
 targetEnv: kserve-modelmesh
 trafficStrategy: mirror
 modelName: wisdom

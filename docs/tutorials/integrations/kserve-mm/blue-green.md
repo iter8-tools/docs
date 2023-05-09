@@ -64,15 +64,15 @@ When the `READY` field becomes `True`, the model is fully deployed.
 Initialize model rollout with a blue-green traffic pattern as follows:
 
 ```shell
-cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
-templateName: initialize
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
+templateName: initialize-rollout
 targetEnv: kserve-modelmesh
 trafficStrategy: blue-green
 modelName: wisdom
 EOF
 ```
 
-The `initialize` template (with `trafficStrategy: blue-green`) configures the Istio service mesh to route all requests to the primary version of the model (`wisdom-0`). Further, it defines the routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy splits inference requests 50-50 between the primary and candidate versions. For detailed configuration options, see the helm chart.
+The `initialize-rollout` template (with `trafficStrategy: blue-green`) configures the Istio service mesh to route all requests to the primary version of the model (`wisdom-0`). Further, it defines the routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy splits inference requests 50-50 between the primary and candidate versions. For detailed configuration options, see the helm chart.
 
 ## Verify network configuration
 
@@ -85,14 +85,14 @@ kubectl get virtualservice -o yaml wisdom
 You can also run tests by sending inference requests from a pod in the cluster. For the models in this tutorial you can deploy a pod with the necessary artifacts as follows:
 
 ```shell
-curl -s https://raw.githubusercontent.com/kalantar/docs/mm/samples/modelmesh-serving/sleep.sh | \
+curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.13.17/samples/modelmesh-serving/sleep.sh | \
 sh - 
 ```
 
 In a separate terminal, exec into the pod:
 
 ```shell
-curl -sO https://raw.githubusercontent.com/kalantar/docs/mm/samples/modelmesh-serving/execintosleep.sh
+curl -sO https://raw.githubusercontent.com/iter8-tools/docs/main/samples/modelmesh-serving/execintosleep.sh
 source execintosleep.sh
 ```
 
@@ -161,7 +161,7 @@ You can also send inference requests from the sleep pod in the cluster to verify
 You can modify the weight distribution of inference requests using the Iter8 `traffic-template` chart:
 
 ```shell
-cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
 templateName: modify-weights
 targetEnv: kserve-modelmesh
 trafficStrategy: blue-green
@@ -229,8 +229,8 @@ kubectl delete --force isvc/wisdom-1
 Delete routing artifacts:
 
 ```shell
-cat <<EOF | helm template traffic ../../../hub/charts/traffic-templates -f - | kubectl delete --force -f -
-templateName: initialize
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl delete --force -f -
+templateName: initialize-rollout
 targetEnv: kserve-modelmesh
 trafficStrategy: blue-green
 modelName: wisdom
