@@ -76,38 +76,32 @@ The `initialize-rollout` template (with `trafficStrategy: blue-green`) configure
 
 ## Verify network configuration
 
-You can inspect the network configuration:
+To verify the network configuration, you can inspect the network configuration:
 
 ```shell
 kubectl get virtualservice -o yaml wisdom
 ```
 
-You can also run tests by sending inference requests from a pod in the cluster. For the models in this tutorial you can deploy a pod with the necessary artifacts as follows:
+To send inference requests to the model:
 
-```shell
-curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.13.17/samples/modelmesh-serving/sleep.sh | \
-sh - 
-```
+1. In a separate terminal, port-forward the ingress gateway:
+  ```shell
+  kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
+  ```
 
-In a separate terminal, exec into the pod:
+2. Download the proto file and a sample input:
+  ```shell
+  curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/kserve.proto
+  curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/grpc_input.json
+  ```
 
-```shell
-curl -sO https://raw.githubusercontent.com/iter8-tools/docs/main/samples/modelmesh-serving/execintosleep.sh
-source execintosleep.sh
-```
-
-The necessary artifacts are in the directory wisdom:
-
-```shell
-cd wisdom
-ls -l
-```
-
-Run inference requests using `grpcurl` via the scripts `wisdom.sh` and `wisdom-test.sh`:
-
-```shell
-. wisdom.sh
-```
+3. Send inference requests:
+  ```shell
+  cat grpc_input.json | \
+  grpcurl -plaintext -proto kserve.proto -d @ \
+  -authority wisdom.modelmesh-serving \
+  localhost:8080 inference.GRPCInferenceService.ModelInfer
+  ```
 
 Note that the model version responding to each inference request can be determined from the `modelName` field of the response.
 
@@ -150,11 +144,7 @@ The deployment of the candidate model triggers an automatic reconfiguration by I
 kubectl get virtualservice wisdom -o yaml
 ```
 
-You can also send inference requests from the sleep pod in the cluster to verify the distribution:
-
-```shell
-. wisdom.sh
-```
+Send additional inference requests as described above.
 
 ## Modify inference request distribution (optional)
 
