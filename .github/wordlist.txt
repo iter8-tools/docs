@@ -129,6 +129,7 @@ contentType
 numRequests
 payloadStr
 payloadURL
+proto
 qps
 bool
 payloadTemplateURL
