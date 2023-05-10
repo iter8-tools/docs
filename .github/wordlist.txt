@@ -50,6 +50,7 @@ LitmusChaos
 localhost
 minikube
 MLOps
+modelmesh
 namespace
 namespaces
 NewRelic
@@ -89,8 +90,10 @@ auth
 argoproj
 custommetrics
 ctx
+deleteiter
 dev
 encodedmetric
+execintosleep
 expreport
 failured
 getRecommendation
@@ -102,7 +105,9 @@ golang
 GoVersion
 installbrewbins
 installghaction
+installiter
 ksvc
+kustomize
 lastupdatetime
 lifecycle
 linenums
@@ -124,6 +129,7 @@ contentType
 numRequests
 payloadStr
 payloadURL
+proto
 qps
 bool
 payloadTemplateURL
