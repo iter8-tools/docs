@@ -6,7 +6,7 @@ template: main.html
 
 This tutorial shows how Iter8 can be used to implement a mirrored rollout of ML models in a KServe modelmesh serving environment. In a mirrored rollout, all inference requests are sent to the primary version of the model. In addition, a portion of the requests are also sent to the candidate version of the model. The responses from the candidate version are ignored. Iter8 enables a mirrored rollout by automatically configuring the network to distribute inference requests.
 
-After a one time initialization step, the end user merely deploys candidate models, evaluates them and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate version of the model. Iter8 automatically handles the underlying network configuration.
+After a one time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate version of the model. Iter8 automatically handles the underlying network configuration.
 
 ![Mirror rollout](images/mirror.png)
 
@@ -14,7 +14,8 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ???+ "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
-    2. Have access to a cluster running [ModelMesh Serving](https://github.com/kserve/modelmesh-serving) and [Istio](https://istio.io). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment and install a [demo version](https://istio.io/latest/docs/setup/getting-started/) of Istio. Ensure `istioctl` is in your path.
+    2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment.
+    3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
 
 ## Install the Iter8 controller
 
@@ -48,9 +49,9 @@ EOF
 ```
 
 ??? note "About the primary `InferenceService`"
-    Naming the model with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the rollout initialization. However, any names can be specified.
+    Naming the model with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the rollout initialization. However, any name can be specified.
     
-    The label `iter8.tools/watch: "true"` lets Iter8 know that it should pay attention to changes to this InferenceService.
+    The label `iter8.tools/watch: "true"` lets Iter8 know that it should pay attention to changes to this `InferenceService`.
 
 Inspect the deployed `InferenceService`:
 
@@ -60,7 +61,7 @@ kubectl get inferenceservice wisdom-0
 
 When the `READY` field becomes `True`, the model is fully deployed.
     
-## Initialize the Mirror traffic pattern
+## Initialize the Mirroring routing policy
 
 Initialize the model rollout with a mirror traffic pattern as follows:
 
@@ -73,7 +74,7 @@ modelName: wisdom
 EOF
 ```
 
-The `initialize-rollout` template ( with `trafficStrategy: mirror`) configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Further, it defines a routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy sends all inference requests to the primary version of the model. It also sends them all of them (100 %) to the candidate version of the model. Responses from the candidate are ignored.
+The `initialize-rollout` template ( with `trafficStrategy: mirror`) configures the Istio service mesh to route all requests to the primary model (`wisdom-0`). Further, it defines a routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy sends all inference requests to the primary version of the model. It also sends them all of them (100%) to the candidate version of the model. Responses from the candidate are ignored.
 
 ## Verify network configuration
 
@@ -160,7 +161,7 @@ mirrorPercentage: 20
 EOF
 ```
 
-Note that using the `modify-weights` modifies the default behavior for all future candidate deployments.
+Note that using the `modify-weights` overrides the default behavior for all future candidate deployments.
 
 As above, you can verify the network configuration changes.
 
