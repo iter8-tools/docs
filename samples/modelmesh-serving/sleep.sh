@@ -21,16 +21,16 @@ spec:
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: config-volume
-          mountPath: /wisdom
+          mountPath: /demo
       volumes:
       - name: config-volume
         configMap:
-          name: wisdom-input
+          name: demo-input
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wisdom-input
+  name: demo-input
 data:
   kserve.proto: |
     syntax = "proto3";
@@ -362,11 +362,29 @@ data:
       ]
     }
   wisdom.sh: |
-    cat grpc_input.json | grpcurl -plaintext -proto kserve.proto -d @ -H 'mm-model: wisdom' modelmesh-serving.modelmesh-serving:8033 inference.GRPCInferenceService.ModelInfer
-  lightspeed.sh: |
-    cat grpc_input.json | grpcurl -plaintext -proto kserve.proto -d @ -H 'mm-model: lightspeed' modelmesh-serving.modelmesh-serving:8033 inference.GRPCInferenceService.ModelInfer
+    cat grpc_input.json | \
+    grpcurl -plaintext -proto kserve.proto -d @ \
+    -authority wisdom.modelmesh-serving \
+    modelmesh-serving.modelmesh-serving:8033 \
+    inference.GRPCInferenceService.ModelInfer
   wisdom-test.sh: |
-    cat grpc_input.json | grpcurl -plaintext -proto kserve.proto -d @ -H 'mm-model: wisdom' -H 'traffic: test' modelmesh-serving.modelmesh-serving:8033 inference.GRPCInferenceService.ModelInfer
+   cat grpc_input.json | \
+    grpcurl -plaintext -proto kserve.proto -d @ \
+    -authority wisdom.modelmesh-serving \
+    -H 'traffic: test' \
+    modelmesh-serving.modelmesh-serving:8033 \
+    inference.GRPCInferenceService.ModelInfer
+  lightspeed.sh: |
+    cat grpc_input.json | \
+    grpcurl -plaintext -proto kserve.proto -d @ \
+    -authority lightspeed.modelmesh-serving \
+    modelmesh-serving.modelmesh-serving:8033 \
+    inference.GRPCInferenceService.ModelInfer
   lightspeed-test.sh: |
-    cat grpc_input.json | grpcurl -plaintext -proto kserve.proto -d @ -H 'mm-model: lightspeed' -H 'traffic: test' modelmesh-serving.modelmesh-serving:8033 inference.GRPCInferenceService.ModelInfer
+    cat grpc_input.json | \
+    grpcurl -plaintext -proto kserve.proto -d @ \
+    -authority lightspeed.modelmesh-serving \
+    -H 'traffic: test' \
+    modelmesh-serving.modelmesh-serving:8033 \
+    inference.GRPCInferenceService.ModelInfer
 EOF
