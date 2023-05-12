@@ -52,7 +52,7 @@ kubectl label deployment httpbin app.kubernetes.io/version=1.0.0
 Next, we will configure and install the AutoX controller.
 
 ```bash
-helm install autox autox --repo https://iter8-tools.github.io/iter8/ --version 0.1.6 \
+helm install autox autox --repo https://iter8-tools.github.io/iter8 --version 0.1.6 \
 --set 'groups.httpbin.trigger.name=httpbin' \
 --set 'groups.httpbin.trigger.namespace=default' \
 --set 'groups.httpbin.trigger.group=apps' \

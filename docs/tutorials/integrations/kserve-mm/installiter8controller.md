@@ -10,10 +10,10 @@
 
     === "cluster scoped"
         ```shell
-        kubectl apply -k 'https://github.com/iter8-tools/hub.git/kustomize/traffic/clusterScoped?ref=traffic-templates-0.1.1'
+        kubectl apply -k 'https://github.com/iter8-tools/iter8.git/kustomize/traffic/clusterScoped?ref=iter8-0.13.7'
         ```
 
     === "namespace scoped"
         ```shell
-        kubectl apply -k 'https://github.com/iter8-tools/hub.git/kustomize/traffic/namespaceScoped?ref=traffic-templates-0.1.1'
+        kubectl apply -k 'https://github.com/iter8-tools/iter8.git/kustomize/traffic/namespaceScoped?ref=iter8-0.13.7'
         ```
