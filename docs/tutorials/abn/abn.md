@@ -30,7 +30,7 @@ helm install --repo https://iter8-tools.github.io/hub iter8-abn abn \
     - All resource objects for all versions are deployed in the same namespace
     - There is only 1 resource object of a given type in each version
     - The name of each object in the version associated with the baseline track is the application name
-    - The name of each object in the version associate with a candidate track is of the form  `<application_name>-candidate-<index>` where index is 1, 2, etc.
+    - The name of each object in the version associated with a candidate track is of the form  `<application_name>-candidate-<index>` where index is 1, 2, etc.
 
 
 ## Deploy the sample application
