@@ -86,34 +86,57 @@ kubectl get virtualservice -o yaml wisdom
 
 To send inference requests to the model:
 
-1. In a separate terminal, port-forward the ingress gateway:
-  ```shell
-  kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
-  ```
+=== "From within the cluster"
+    1. Create a "sleep" pod in the cluster from which requests can be made:
+    ```shell
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/sleep.sh | sh -
+    ```
 
-2. Download the proto file and a sample input:
-  ```shell
-  curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/kserve.proto
-  curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/grpc_input.json
-  ```
+    2. exec into the sleep pod:
+    ```shell
+    kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
+    ```
 
-3. Send inference requests:
-  ```shell
-  cat grpc_input.json | \
-  grpcurl -plaintext -proto kserve.proto -d @ \
-  -authority wisdom.modelmesh-serving \
-  localhost:8080 inference.GRPCInferenceService.ModelInfer
-  ```
+    3. Make inference requests:
+    ```shell
+    cd demo
+    cat wisdom.sh
+    . wisdom.sh
+    . wisdom-test.sh
+    ```
+    or, to send a request with header `traffic: test`:
+    ```shell
+    cat wisdom-test.sh
+    . wisdom-test.sh
+    ```
 
-  or, send request with header `traffic: test`:
+=== "From outside the cluster"
+    1. In a separate terminal, port-forward the ingress gateway:
+      ```shell
+      kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
+      ```
 
-  ```shell
-  cat grpc_input.json | \
-  grpcurl -plaintext -proto kserve.proto -d @ \
-  -H 'traffic: test' \
-  -authority wisdom.modelmesh-serving \
-  localhost:8080 inference.GRPCInferenceService.ModelInfer
-  ```
+    2. Download the proto file and a sample input:
+      ```shell
+      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/kserve.proto
+      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/grpc_input.json
+      ```
+
+    3. Send inference requests:
+      ```shell
+      cat grpc_input.json | \
+      grpcurl -plaintext -proto kserve.proto -d @ \
+      -authority wisdom.modelmesh-serving \
+      localhost:8080 inference.GRPCInferenceService.ModelInfer
+      ```
+      or, to send a request with header `traffic: test`:
+      ```shell
+      cat grpc_input.json | \
+      grpcurl -plaintext -proto kserve.proto -d @ \
+      -H 'traffic: test' \
+      -authority wisdom.modelmesh-serving \
+      localhost:8080 inference.GRPCInferenceService.ModelInfer
+      ```
 
 Note that the model version responding to each inference request can be determined from the `modelName` field of the response.
 

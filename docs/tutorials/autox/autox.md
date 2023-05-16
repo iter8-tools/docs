@@ -52,7 +52,7 @@ kubectl label deployment httpbin app.kubernetes.io/version=1.0.0
 Next, we will configure and install the AutoX controller.
 
 ```bash
-helm install autox autox --repo https://iter8-tools.github.io/iter8/ --version 0.1.6 \
+helm install autox autox --repo https://iter8-tools.github.io/iter8 --version 0.1.6 \
 --set 'groups.httpbin.trigger.name=httpbin' \
 --set 'groups.httpbin.trigger.namespace=default' \
 --set 'groups.httpbin.trigger.group=apps' \
@@ -179,8 +179,6 @@ AutoX is designed to use any Kubernetes resource object (including those with a 
 AutoX is designed to automate a variety of experiments. For example, instead of using the `http` task, you can use `grpc` task in order to run an gRPC SLO validation test. Here is the [documentation](../../user-guide/tasks/grpc.md) for the `grpc` task as well as a [tutorial](../../tutorials/load-test-grpc.md) for gRPC SLO Validation.
 
 Furthermore, you can add additional tasks that ship out-of-the-box with Iter8, in order to enrich the experiments. For example, you can add a `slack` task so that your experiment results will be posted on Slack. That way, you can automatically have the latest performance statistics after every update. Here is the [documentation](../../user-guide/tasks/slack.md) for the `slack` task as well as a [tutorial](../../tutorials/integrations/slack.md) for using the Slack task.
-
-You can also automate experiments that are not from Iter8. For example, a [Litmus Chaos chaos experiment](https://github.com/iter8-tools/iter8/tree/v0.14.5/charts/litmuschaos) is available, which can also be configured with AutoX.
 
 Lastly, recall that you can provide multiple groups and experiment specs so AutoX can launch and manage a whole suite of experiments for multiple Kubernetes applications and namespaces.
 
