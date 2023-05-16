@@ -72,10 +72,8 @@ repository, you can amend your commit with the sign-off by running:
 
 The Iter8 project consists of the following repos.
 
-1. [iter8-tools/iter8](https://github.com/iter8-tools/iter8): source for the Iter8 CLI
-2. [iter8-tools/hub](https://github.com/iter8-tools/hub): source for Iter8 experiment and supplementary charts
-3. [iter8-tools/docs](https://github.com/iter8-tools/docs): source for Iter8 docs
-4. [iter8-tools/homebrew-iter8](https://github.com/iter8-tools/homebrew-iter8): Homebrew formula for the Iter8 CLI
+1. [iter8-tools/iter8](https://github.com/iter8-tools/iter8): source for the Iter8 CLI, experiment, and controller charts
+2. [iter8-tools/docs](https://github.com/iter8-tools/docs): source for Iter8 docs
 
 ### iter8-tools/iter8
 
@@ -121,6 +119,23 @@ IMG=[Docker image name]
 Build and push Iter8 image to Docker
 
 ```shell
+cat << EOF > Dockerfile.dev
+# Small linux image with iter8 binary
+FROM debian:buster-slim
+
+# Install curl
+RUN apt-get update && apt-get install -y curl
+
+# Download iter8 compressed binary
+# use COPY instead of wget
+COPY _dist/iter8-linux-amd64.tar.gz iter8-linux-amd64.tar.gz
+
+# Extract iter8
+RUN tar -xvf iter8-linux-amd64.tar.gz
+
+# Extract iter8
+RUN mv linux-amd64/iter8 /bin/iter8
+EOF
 make dist
 docker build -f Dockerfile.dev -t $IMG .
 docker push $IMG

@@ -103,6 +103,7 @@ githubusercontent
 gmail
 golang
 GoVersion
+GOBIN
 installbrewbins
 installghaction
 installiter
@@ -133,8 +134,9 @@ proto
 qps
 bool
 payloadTemplateURL
-softFailure
 tpl
+usr
+softFailure
 struct
 versionValues
 ProviderSpec
@@ -151,3 +153,8 @@ jsonpath
 cronjobSchedule
 logLevel
 serviceAccountName
+wget
+gz
+xvf
+IMG
+mv

@@ -13,7 +13,7 @@ The trigger object is specified by providing the name, namespace, and the group-
 See the following example:
 
 ```bash
-helm install autox autox --repo https://iter8-tools.github.io/hub/ --version 0.1.6 \
+helm install autox autox --repo https://iter8-tools.github.io/iter8/ --version 0.1.6 \
 --set 'groups.myApp.trigger.name=myApp' \
 --set 'groups.myApp.trigger.namespace=default' \
 --set 'groups.myApp.trigger.group=apps' \
@@ -36,7 +36,7 @@ In this example, there is only one experiment group named `myApp` (`groups.myApp
 In this next example, we have augmented the previous example with an additional experiment spec.
 
 ```bash
-  helm install autox autox --repo https://iter8-tools.github.io/hub/ --version 0.1.6 \
+  helm install autox autox --repo https://iter8-tools.github.io/iter8/ --version 0.1.6 \
   --set 'groups.myApp.trigger.name=myApp' \
   --set 'groups.myApp.trigger.namespace=default' \
   --set 'groups.myApp.trigger.group=apps' \

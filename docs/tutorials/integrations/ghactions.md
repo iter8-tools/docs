@@ -8,11 +8,12 @@ There are two ways that you can use Iter8 with GitHub Actions. You can [run Iter
 
 # Use Iter8 in a GitHub Actions workflow
 
-Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.13`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
+Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.14`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
 
 ```yaml linenums="1"
-# Install Iter8 CLI
-- uses: iter8-tools/iter8@v0.13
+- name: Install Iter8
+  run: GOBIN=/usr/local/bin go install github.com/iter8-tools/iter8@v0.14
+
 # Launch an experiment inside Kubernetes
 # This assumes that your Kubernetes cluster is accessible from the GitHub Actions pipeline
 - run: |
@@ -49,9 +50,9 @@ jobs:
       - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
 ```
 
-    Note that this workflow has one job that will print out the `client_payload`. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/templates/notify/_payload-github.tpl) is configured with `client_payload` set to experiment report. This means that this job will simply print out the entire experiment report.
+    Note that this workflow has one job that will print out the `client_payload`. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-github.tpl) is configured with `client_payload` set to experiment report. This means that this job will simply print out the entire experiment report.
 
-    Also note that the `on.repository_dispatch.types` is set to `iter8`. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/templates/notify/_payload-github.tpl) is configured with `event_type` set to `iter8`. This indicates that once the `repository_dispatch` has been sent, only workflows on the default branch with `on.repository_dispatch.types` set to `iter8` will be triggered.
+    Also note that the `on.repository_dispatch.types` is set to `iter8`. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-github.tpl) is configured with `event_type` set to `iter8`. This indicates that once the `repository_dispatch` has been sent, only workflows on the default branch with `on.repository_dispatch.types` set to `iter8` will be triggered.
 
 3. Create a GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for the `token` parameter.
 4. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
@@ -75,8 +76,8 @@ iter8 k launch \
 7. Verify that the workflow has been triggered after the experiment has completed.
 
 ??? note "Some variations and extensions of the `github` task"
-    1. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/templates/notify/_payload-github.tpl) sends the entirety of the experiment report. In your workflow, you can read from the report and use that data for control flow or use snippets of that data in different actions. For example, you can check to see if there have been any task failures during the experiment and perform different actions.
-    2. You do not need to use the default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/hub/iter8-0.13.0/templates/notify/_payload-github.tpl). You can provide your own payload by overriding the default of the `payloadTemplateURL`. For example, instead of sending the entirety of the experiment report, you can create a payload template that only sends a subset.
+    1. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-github.tpl) sends the entirety of the experiment report. In your workflow, you can read from the report and use that data for control flow or use snippets of that data in different actions. For example, you can check to see if there have been any task failures during the experiment and perform different actions.
+    2. You do not need to use the default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-github.tpl). You can provide your own payload by overriding the default of the `payloadTemplateURL`. For example, instead of sending the entirety of the experiment report, you can create a payload template that only sends a subset.
     3. Try a [multi-loop experiment](../../getting-started/concepts.md#runner) with an [`if` parameter](../../user-guide/tasks/github.md#if-parameter) to control when the `github` task is run. 
     
         A multi-loop experiment will allow you to run the tasks on a recurring basis, allowing you to monitor your app over a course of time. For example:

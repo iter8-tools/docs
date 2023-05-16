@@ -1,7 +1,9 @@
-name: build and serve local docs
+name: Build and serve local docs
 
 on:
   pull_request:
+    branches:
+    - main
 
 env:
   PYTHON_VERSION: 3.9

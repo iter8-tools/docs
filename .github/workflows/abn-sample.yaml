@@ -1,4 +1,4 @@
-name: Publish A/B/n Sample Docker images
+name: Publish A/B/n sample Docker images
 
 on:
   release:

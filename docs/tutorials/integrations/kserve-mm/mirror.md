@@ -66,7 +66,7 @@ When the `READY` field becomes `True`, the model is fully deployed.
 Initialize the model rollout with a mirror traffic pattern as follows:
 
 ```shell
-cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -
 templateName: initialize-rollout
 targetEnv: kserve-modelmesh
 trafficStrategy: mirror
@@ -152,7 +152,7 @@ kubectl get virtualservice wisdom -o yaml
 You can modify the percentage of inference requests that are mirrored (send to the candidate version) using the Iter8 `traffic-template` chart. For example, to change the mirrored percentage to 20%, use:
 
 ```shell
-cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -
 templateName: modify-weights
 targetEnv: kserve-modelmesh
 trafficStrategy: mirror
@@ -218,7 +218,7 @@ kubectl delete --force isvc/wisdom-1
 Delete routing artifacts:
 
 ```shell
-cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl delete --force -f -
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl delete --force -f -
 templateName: initialize-rollout
 targetEnv: kserve-modelmesh
 trafficStrategy: mirror
