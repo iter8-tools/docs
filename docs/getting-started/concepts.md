@@ -30,7 +30,6 @@ In addition to predefined tasks, Iter8 packs a number of powerful features that 
 1.  **HTML/text reports** that promote end-user understanding of experiment results through visual insights.
 2.  **Assertions** that verify whether the target app satisfies the specified SLOs or not during/after an experiment.
 3.  **Multi-loop experiments** that can be executed periodically instead of just once (single-loop).
-4.  **Iter8 GitHub Action** that enables you to invoke the Iter8 CLI within a GitHub Actions workflow.
 
 ## Imperative and declarative experiments
 

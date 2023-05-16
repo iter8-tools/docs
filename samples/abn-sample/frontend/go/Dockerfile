@@ -23,7 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o fe main.go
 ### Multi-stage Docker build
 ### New image below
 
-# Small linux image with iter8 binary
+# Small Linux image with Iter8 binary
 FROM debian:buster-slim
 WORKDIR /
 COPY --from=builder /fe /frontend

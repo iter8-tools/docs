@@ -19,7 +19,7 @@ Run your first [Iter8 experiment](concepts.md#iter8-experiment) by load testing 
 ***
 
 ## Install Iter8 CLI
---8<-- "docs/getting-started/installbrewbins.md"
+--8<-- "docs/getting-started/install.md"
 
 ***
 

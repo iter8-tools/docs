@@ -1,12 +1,5 @@
----
-template: main.html
-title: Install Iter8
-hide:
-- toc
----
+Install the latest stable release of the Iter8 CLI as follows.
 
-# Install Iter8 CLI
-
---8<-- "docs/getting-started/installbrewbins.md"
-
---8<-- "docs/getting-started/installghaction.md"
+```shell
+go install github.com/iter8-tools/iter8@v0.14
+```
