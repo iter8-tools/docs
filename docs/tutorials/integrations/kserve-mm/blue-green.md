@@ -65,7 +65,7 @@ When the `READY` field becomes `True`, the model is fully deployed.
 Initialize model rollout with a blue-green traffic pattern as follows:
 
 ```shell
-cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -
 templateName: initialize-rollout
 targetEnv: kserve-modelmesh
 trafficStrategy: blue-green
@@ -152,7 +152,7 @@ Send additional inference requests as described above.
 You can modify the weight distribution of inference requests using the Iter8 `traffic-template` chart:
 
 ```shell
-cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -
 templateName: modify-weights
 targetEnv: kserve-modelmesh
 trafficStrategy: blue-green
@@ -220,7 +220,7 @@ kubectl delete --force isvc/wisdom-1
 Delete routing artifacts:
 
 ```shell
-cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/hub traffic-templates -f - | kubectl delete --force -f -
+cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl delete --force -f -
 templateName: initialize-rollout
 targetEnv: kserve-modelmesh
 trafficStrategy: blue-green

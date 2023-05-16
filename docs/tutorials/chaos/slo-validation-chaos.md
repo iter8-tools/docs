@@ -57,7 +57,7 @@ Launch the LitmusChaos and Iter8 experiments as described below.
 === "LitmusChaos"
     ```shell
     helm install httpbin litmuschaos \
-    --repo https://iter8-tools.github.io/hub/ \
+    --repo https://iter8-tools.github.io/iter8/ \
     --set applabel='app=httpbin' \
     --set totalChaosDuration=3600 \
     --set chaosInterval=5

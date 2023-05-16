@@ -25,7 +25,7 @@ Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for 
 ```shell
 iter8 k launch \
 --set "tasks={custommetrics,assess}" \
---set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/hub/main/templates/custommetrics/istio-prom.tpl" \
+--set custommetrics.templates.istio-prom="https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/templates/custommetrics/istio-prom.tpl" \
 --set custommetrics.values.labels.namespace=default \
 --set custommetrics.values.labels.destination_app=httpbin \
 --set custommetrics.values.labels.reporter=destination \

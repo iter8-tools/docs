@@ -2,7 +2,7 @@
     Install the Iter8 controller using `helm` as follows.
 
     ```shell
-    helm install --repo https://iter8-tools.github.io/hub iter8-traffic traffic
+    helm install --repo https://iter8-tools.github.io/iter8 iter8-traffic traffic
     ```
     
 === "Kustomize"
