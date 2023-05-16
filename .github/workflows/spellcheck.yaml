@@ -2,6 +2,8 @@ name: Spell check markdown
 
 on:
   pull_request:
+    branches:
+    - main
 
 jobs:
   spell-check:
