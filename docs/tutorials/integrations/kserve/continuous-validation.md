@@ -90,7 +90,7 @@ iter8 k launch \
 ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](../../../getting-started/concepts.md#iter8-experiment), namely, [ready](../../../user-guide/tasks/ready.md), [custommetrics](../../../user-guide/tasks/custommetrics.md) and [assess](../../../user-guide/tasks/assess.md). 
+    This experiment consists of three [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md), [custommetrics](../../../user-guide/tasks/custommetrics.md) and [assess](../../../user-guide/tasks/assess.md). 
 
     The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-iris` InferenceService exists and is `Ready`. 
 
@@ -102,7 +102,7 @@ iter8 k launch \
     - the mean latency of the prediction does not exceed 25 msec, and
     - the 90th percentile latency for prediction does not exceed 40 msec. 
     
-    This is a [multi-loop](../../../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../../../getting-started/concepts.md#kubernetes-experiments); its [runner](../../../getting-started/concepts.md#runners) is `cronjob`. The `cronjobSchedule` expression specifies the frequency of the experiment execution -- periodically refreshing the metric values and performing SLO validation using the updated values.
+    This is a [multi-loop](../../../getting-started/concepts.md#design) [Kubernetes experiment](../../../getting-started/concepts.md#kubernetes-experiments); its [runner](../../../getting-started/concepts.md#runners) is `cronjob`. The `cronjobSchedule` expression specifies the frequency of the experiment execution -- periodically refreshing the metric values and performing SLO validation using the updated values.
 
 ***
 
