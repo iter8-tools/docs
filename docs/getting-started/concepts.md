@@ -3,7 +3,7 @@ template: main.html
 ---
 
 # Iter8
-Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 detects new versions of Kubernetes apps and ML inference services in the cluster, and validates that they perform well and maximize business value.
+Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 automates traffic control for new versions of apps/ML inferences services in the cluster, and automates validation of their performance and business metrics.
 
 ## Use-cases
 
