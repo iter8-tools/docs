@@ -43,7 +43,7 @@ iter8 k launch \
 ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](../getting-started/concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
+    This experiment consists of three [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
 
@@ -51,7 +51,7 @@ iter8 k launch \
 
     The [assess](../user-guide/tasks/assess.md) task verifies if each method satisfies their respective error rate and mean latency SLOs. Both methods must have an error rate of 0 but the `getFeature` and `listFeatures` methods are allowed a maximum mean latency of 50 and 100 msecs, respectively.
     
-    This is a [single-loop](../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
+    This is a [single-loop](../getting-started/concepts.md#design) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
 
 ??? note "Some variations and extensions of this experiment"
     1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.

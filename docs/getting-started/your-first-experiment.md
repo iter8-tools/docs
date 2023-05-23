@@ -4,7 +4,7 @@ template: main.html
 
 # Your First Experiment
 
-Run your first [Iter8 experiment](concepts.md#iter8-experiment) by load testing a Kubernetes HTTP service and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives). This is a [single-loop](concepts.md#iter8-experiment) [Kubernetes experiment](concepts.md#kubernetes-experiments).
+Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives). This is a [single-loop](concepts.md#design) [Kubernetes experiment](concepts.md#kubernetes-experiments).
 
 ![Load test HTTP](images/http.png)
 
@@ -54,7 +54,7 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
     ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](concepts.md#iter8-experiment), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
+    This experiment consists of three [tasks](concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
@@ -62,7 +62,7 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
     
     The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
     
-    This is a [single-loop](concepts.md#iter8-experiment) [Kubernetes experiment](concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`.
+    This is a [single-loop](concepts.md#design) [Kubernetes experiment](concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`.
 
 ***
 

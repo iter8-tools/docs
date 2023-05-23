@@ -4,7 +4,7 @@ template: main.html
 
 # SLO validation using custom metrics (multiple versions)
 
-Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for multiple versions of an app by fetching metrics for each app version from a database (like Prometheus). This is a [multi-loop](../../getting-started/concepts.md#iter8-experiment) [Kubernetes experiment](../../getting-started/concepts.md#kubernetes-experiments).
+Validate [SLOs](../../getting-started/concepts.md#service-level-objectives) for multiple versions of an app by fetching metrics for each app version from a database (like Prometheus). This is a [multi-loop](../../getting-started/concepts.md#design) [Kubernetes experiment](../../getting-started/concepts.md#kubernetes-experiments).
 
 ![Custom metrics with two or more versions](images/two-or-more-versions.png)
 

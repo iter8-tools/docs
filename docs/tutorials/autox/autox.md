@@ -76,7 +76,7 @@ To go into more detail, the configuration is a set of *groups*, and each group i
 
 The trigger object definition is a combination of the name, namespace, and the group-version-resource (GVR) metadata of the trigger object, in this case `httpbin`, `default`, and GVR `apps`, `deployments`, and `v1`, respectively. 
 
-The experiment is an HTTP SLO validation test on the `httpbin` service that is described in greater detail [here](../../getting-started/your-first-experiment.md). This Iter8 experiment is composed of three tasks, `ready`, `http`, and `assess`. The `ready` task will ensure that the `httpbin` deployment and service are running. The `http` task will make requests to the specified URL and will collect latency and error-related metrics. Lastly, the `assess` task will ensure that the mean latency is less than 50 milliseconds and the error count is 0. In addition, the runner is set to job as this will be a [single-loop experiment](../../getting-started/concepts.md#iter8-experiment).
+The experiment is an HTTP SLO validation test on the `httpbin` service that is described in greater detail [here](../../getting-started/your-first-experiment.md). This Iter8 experiment is composed of three tasks, `ready`, `http`, and `assess`. The `ready` task will ensure that the `httpbin` deployment and service are running. The `http` task will make requests to the specified URL and will collect latency and error-related metrics. Lastly, the `assess` task will ensure that the mean latency is less than 50 milliseconds and the error count is 0. In addition, the runner is set to job as this will be a [single-loop experiment](../../getting-started/concepts.md#design).
 
 ## Observe experiment
 
