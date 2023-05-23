@@ -3,47 +3,52 @@ template: main.html
 ---
 
 # Iter8
-Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 makes it easy to ensure that Kubernetes apps and ML models perform well and maximize business value.
+Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 automates traffic control for new versions of apps/ML models in the cluster, and automates validation of their performance and business metrics.
 
-Iter8 supports the following use-cases.
+## Use-cases
 
-1.  Performance testing and SLO validation of HTTP services.
-2.  Performance testing and SLO validation of gRPC services.
-3.  SLO validation using custom metrics from any database(s) or REST API(s).
-4.  A/B/n experiments.
+Iter8 simplifies a variety of traffic engineering and metrics-driven validation use-cases. They are illustrated below.
 
+![Iter8 use-cases](images/iter8usecases.png)
 
-## Iter8 experiment
-Iter8 introduces the notion of an *experiment*. An experiment is simply a list of tasks that are executed in a specific sequence.
+## Design
 
-![Iter8 experiment](../images/authoring.png)
+Iter8 provides three inter-related components to support the above use-cases.
 
-Iter8 provides a variety of configurable tasks. Authoring an experiment is as simple as specifying the names of the tasks and specifying their parameter values. The following are some examples of tasks provided by Iter8.
+1. CLI for experiments
+2. Traffic controller
+3. Client SDK
 
-1.  Tasks for **generating load and collecting built-in metrics** for HTTP and gRPC services.
-2.  A task for verifying **service-level objectives (SLOs)** for apps or app versions.
-3.  A task for fetching **custom metrics** from any database(s) or REST API(s).
-4.  A task for checking if an object **exists** in the Kubernetes cluster and is **ready**.
+=== "CLI for experiments"
+    Iter8 introduces the notion of an *experiment*, and provides a CLI for executing experiments and retrieving their results. An experiment is simply a list of tasks that are executed in a specific sequence. The following picture illustrates a performance testing and SLO validation experiment for a Kubernetes app/ML model (inference service); this experiment consists of three tasks.
 
-In addition to predefined tasks, Iter8 packs a number of powerful features that facilitate experimentation. They include the following.
+    ![Iter8 experiment](images/kubernetesusage.png)
 
-1.  **HTML/text reports** that promote end-user understanding of experiment results through visual insights.
-2.  **Assertions** that verify whether the target app satisfies the specified SLOs or not during/after an experiment.
-3.  **Multi-loop experiments** that can be executed periodically instead of just once (single-loop).
+    In addition to performance testing and SLO validation for HTTP and gRPC services, Iter8 experiments can also be used to compare versions of an app/ML model in terms of their business metrics, and perform SLO validation using metrics from custom databases (such as Prometheus).
 
-## Imperative and declarative experiments
+=== "Traffic controller"
 
-You can use the Iter8 CLI to launch and manage experiments through the command line. This is the imperative style of experimentation. You can also use the Iter8 Autox controller to launch and manage experiments declaratively. [AutoX](../user-guide/topics/autox.md), short for “automated experiments”, allows Iter8 to detect changes to your Kubernetes resources objects and automatically start new experiments, allowing you to test your applications as soon as you release a new version.
+    Iter8 provides a traffic controller that automatically and dynamically reconfigures routing resources based on the state of Kubernetes apps/ML models. The following picture illustrates a Blue-Green rollout scenario that is orchestrated by this traffic controller.
 
-## Under the covers
-In order to execute an experiment inside Kubernetes, Iter8 uses a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) (single-loop) or a Kubernetes [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) (multi-loop) workload, along with a Kubernetes secret. Iter8 instantiates all experiments using a Helm chart, that is also predefined and provided by Iter8.
+    ![Blue-Green](../tutorials/integrations/kserve-mm/images/blue-green.png)
+    
+    As part of the dynamic reconfiguration of route resources, the Iter8 controller also looks into readiness (for e.g., in KServe modelmesh), availability (for e.g., in Kubernetes deployments) and other relevant status conditions before configuring traffic splits to candidate versions. Similarly, before candidate versions are deleted, the Iter8 controller uses finalizers to first ensure that all traffic flows to the primary version of the ML model. This makes for a very high-degree of reliability and zero-downtime/loss-less rollouts of new app/ML model versions. Users do not get this level of reliability out-of-the-box with a vanilla service mesh.
 
-![Iter8 experiment](../images/underthecovers.png)
+    With Iter8, the barrier to entry for end-users is significantly reduced. In particular, by just providing names of their ML serving resources, and (optional) traffic weights/labels, end users can get started with their release optimization use cases rapidly. Further, Iter8 does not limit the capabilities of the underlying service mesh in anyway. This means more advanced teams still get to use all the power of the service-mesh alongside the reliability and ease-of-use that Iter8 brings.
+
+=== "Client SDK"
+
+    Iter8 provides a client-side SDK to facilitate routing as well as metrics collection task associated with distributed (i.e., client-server architecture-based) A/B/n testing in Kubernetes. The following picture illustrates the use of the SDK for A/B testing.
+
+    ![A/B testing](../tutorials/abn/images/abn.png)
+
+    Iter8's SDK is designed to handle user stickiness, collection of business metrics, and decoupling of front-end and back-end releases processes during A/B/n testing.
 
 ## Implementation
 Iter8 is written in `go` and builds on a few awesome open source projects including:
 
 - [Helm](https://helm.sh)
+- [Istio](https://istio.io)
+- [plotly.js](https://github.com/plotly/plotly.js)
 - [Fortio](https://github.com/fortio/fortio)
 - [ghz](https://ghz.sh)
-- [plotly.js](https://github.com/plotly/plotly.js)
