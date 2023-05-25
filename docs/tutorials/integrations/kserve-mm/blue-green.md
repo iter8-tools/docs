@@ -88,7 +88,7 @@ To send inference requests to the model:
 === "From within the cluster"
     1. Create a "sleep" pod in the cluster from which requests can be made:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.14.1/samples/modelmesh-serving/sleep.sh | sh -
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.14.3/samples/modelmesh-serving/sleep.sh | sh -
     ```
 
     2. exec into the sleep pod:
