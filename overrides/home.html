@@ -11,6 +11,21 @@
     position: initial;
   }
 
+  /* gray out roadmap items */
+  .roadmap {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* background fill for container in home page */
+  .md-container {
+  background:
+    linear-gradient(
+      to bottom,
+      hsla(0, 96%, 41%),
+      rgb(67, 1, 149)
+    );
+  }
+
   /* Remove spacing, as we cannot hide it completely */
   .md-main__inner {
     margin: 0;
@@ -67,10 +82,32 @@
         </a>
 
       </div>
+    </div>
+
+    <div class="mdx-hero">
+      <div class="mdx-hero__content">
+        <h1>
+          <strong>Use-cases</strong>
+        </h1>
+
+        <h3>
+          <ul>
+            <li>
+              Reliable and automated traffic engineering: blue-green, canary, and mirroring
+            </li>
+            <li>
+              Metrics-driven validation: A/B/n testing, performance testing
+            </li>
+            <li class="roadmap">
+              Metrics-driven validation (roadmap): drift detection, golden testing
+            </li>
+          </ul>  
+        </h3>
+      </div>
 
       <!-- Hero image -->
       <div class="mdx-hero__image">
-        <img src="{{ base_url }}/images/iter8-intro-light.png" alt="Iter8 experiment" draggable="false">
+        <img src="{{ base_url }}/images/iter8-intro-dark.png" alt="Iter8 experiment" draggable="false">
       </div>
 
     </div>
