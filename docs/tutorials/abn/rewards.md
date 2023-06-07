@@ -84,7 +84,15 @@ iter8 k launch \
 This experiment executes in a loop (`runner=cronjob`), once every minute (see `cronjobSchedule`). It uses the `custommetrics` task to read metrics from the (mocked) Prometheus provider. Finally, the `assess` task verifies that the `latency-mean` is below 50 msec and identifies which version provides the greatest reward; that is, the greater mean profit.
 
 ## Inspect experiment report
---8<-- "docs/getting-started/expreport.md"
+
+=== "Text"
+    ```shell
+    iter8 k report
+    ```
+=== "HTML"
+    ```shell
+    iter8 k report -o html > report.html # view in a browser
+    ```
 
 Because the experiment loops, the reported results will change over time.
 
