@@ -26,7 +26,7 @@ kubectl create deploy prometheus-mock \
 --port 9090 \
 -- mockoon-cli start --daemon-off \
 --port 9090 \
---data https://gist.githubusercontent.com/kalantar/2efbbdc4ac753e47399e9e1976655397/raw/e4e4a690a6e98eb9f230b6b9978b15ae2f3c7c8e/model-prometheus-abn-tutorial.json
+--data https://raw.githubusercontent.com/kalantar/docs/rewards/samples/abn/model-prometheus-abn-tutorial.json
 kubectl expose deploy prometheus-mock --port 9090
 ```
 
