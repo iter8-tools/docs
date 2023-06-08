@@ -56,7 +56,7 @@ metric:
   jqExpression: .data.result[0].value[1] | tonumber
 ```
 
-Note that the template is parameterized. Values are provided by the Iter8 experiment at runtime.
+Note that the template is parameterized. Values are provided by the Iter8 experiment at run time.
 
 A sample provider specification for Prometheus is provided [here](https://gist.githubusercontent.com/kalantar/80c9efc0fd4cc34572d893cc82bdc4d2/raw/f3629aa62cdc9fd7e39ee2b6b113a8bf7b6b4463/model-prometheus-abn-tutorial.tpl).
 
