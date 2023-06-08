@@ -4,7 +4,7 @@ template: main.html
 
 # A/B/n Experiments with Rewards
 
-This tutorial describes how to to use Iter8 to evaluate two or more versions on an application or ML model to identify the "best" version according to some reward metrics(s).
+This tutorial describes how to use Iter8 to evaluate two or more versions on an application or ML model to identify the "best" version according to some reward metric(s).
 
 ## Assumptions
 
@@ -32,12 +32,12 @@ kubectl expose deploy prometheus-mock --port 9090
 
 ## Define template
 
-It is necessary to create a [_provider specification_](../../user-guide/tasks/custommetrics.md#provider-spec) that describes, for each metric, how Iter8 should fetch the metric value from the metrics store. Common to all metrics, is information about the provider url, the HTTP method to be used and any common headers. Further, for each metric, there is:
+Create a [_provider specification_](../../user-guide/tasks/custommetrics.md#provider-spec) that describes how Iter8 should fetch each metric value from the metrics store. The specification provides information about the provider URL, the HTTP method to be used, and any common headers. Furthermore, for each metric, there is:
 - metadata, such as name, type and description, 
 - HTTP query parameters, and 
 - a jq expression describing how to extract the metric value from the response.
 
-For example, a specificaytion for the mean latency metric is: 
+For example, a specification for the mean latency metric from Prometheus can look like the following: 
 
 ```
 metric:
@@ -58,7 +58,7 @@ metric:
 
 Note that the template is parameterized. Values are provided by the Iter8 experiment at runtime.
 
-A sample provider specification for our reward metrics is provider [here](https://gist.githubusercontent.com/kalantar/80c9efc0fd4cc34572d893cc82bdc4d2/raw/f3629aa62cdc9fd7e39ee2b6b113a8bf7b6b4463/model-prometheus-abn-tutorial.tpl).
+A sample provider specification for Prometheus is provided [here](https://gist.githubusercontent.com/kalantar/80c9efc0fd4cc34572d893cc82bdc4d2/raw/f3629aa62cdc9fd7e39ee2b6b113a8bf7b6b4463/model-prometheus-abn-tutorial.tpl).
 
 It describes the following metrics:
 
@@ -81,7 +81,7 @@ iter8 k launch \
 --set cronjobSchedule="*/1 * * * *"
 ```
 
-This experiment executes in a loop (`runner=cronjob`), once every minute (see `cronjobSchedule`). It uses the `custommetrics` task to read metrics from the (mocked) Prometheus provider. Finally, the `assess` task verifies that the `latency-mean` is below 50 msec and identifies which version provides the greatest reward; that is, the greater mean profit.
+This experiment executes in a loop (`runner=cronjob`), once every minute (see `cronjobSchedule`). It uses the `custommetrics` task to read metrics from the (mocked) Prometheus provider. Finally, the `assess` task verifies that the `latency-mean` is below 50 msec and identifies which version provides the greatest reward; that is, the greatest mean profit.
 
 ## Inspect experiment report
 
