@@ -6,6 +6,8 @@ template: main.html
 
 This tutorial describes how to use Iter8 to evaluate two or more versions on an application or ML model to identify the "best" version according to some reward metric(s).
 
+A reward metric is a metric that measures the benefit or profit of a version of an application or ML model.  Reward metrics are usually application or model specific.  User engagement, sales, and net profit are examples.
+
 ## Assumptions
 
 We assume that you have deployed multiple versions of an application (or ML model) with the following characteristics:
