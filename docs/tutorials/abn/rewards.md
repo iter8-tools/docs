@@ -81,7 +81,7 @@ iter8 k launch \
 --set cronjobSchedule="*/1 * * * *"
 ```
 
-This experiment executes in a loop (`runner=cronjob`), once every minute (see `cronjobSchedule`). It uses the `custommetrics` task to read metrics from the (mocked) Prometheus provider. Finally, the `assess` task verifies that the `latency-mean` is below 50 msec and identifies which version provides the greatest reward; that is, the greatest mean profit.
+This experiment executes in a [loop](../../user-guide/topics/parameters.md), once every minute. It uses the [`custommetrics` task](../../user-guide/tasks/custommetrics.md) to read metrics from the (mocked) Prometheus provider. Finally, the [`assess` task](../../user-guide/tasks/assess.md) verifies that the `latency-mean` is below 50 msec and identifies which version provides the greatest reward; that is, the greatest mean profit.
 
 ## Inspect experiment report
 
