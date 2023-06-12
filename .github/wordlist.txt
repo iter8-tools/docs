@@ -50,7 +50,9 @@ LitmusChaos
 localhost
 minikube
 MLOps
+mockoon
 modelmesh
+msec
 namespace
 namespaces
 NewRelic

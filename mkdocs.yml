@@ -122,7 +122,9 @@ nav:
   - Load test gRPC with SLOs: tutorials/load-test-grpc.md
   - Load test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
   - Chaos injection with SLOs: tutorials/chaos/slo-validation-chaos.md
-  - A/B experiments: tutorials/abn/abn.md
+  - A/B experiments:
+    - Iter8 SDK: tutorials/abn/abn.md
+    - Evaluating rewards: tutorials/abn/rewards.md
   - Automated experiments: tutorials/autox/autox.md
   - Custom metrics:
     - One version: tutorials/custom-metrics/one-version.md
