@@ -28,7 +28,7 @@ kubectl create deploy prometheus-mock \
 --port 9090 \
 -- mockoon-cli start --daemon-off \
 --port 9090 \
---data https://raw.githubusercontent.com/kalantar/docs/rewards/samples/abn/model-prometheus-abn-tutorial.json
+--data https://raw.githubusercontent.com/iter8-tools/docs/v0.14.6/samples/abn/model-prometheus-abn-tutorial.json
 kubectl expose deploy prometheus-mock --port 9090
 ```
 
@@ -91,10 +91,40 @@ This experiment executes in a [loop](../../user-guide/topics/parameters.md), onc
     ```shell
     iter8 k report
     ```
+    ??? note "The text report looks like this"
+        ```shell
+        Experiment summary:
+        *******************
+
+          Experiment completed: true
+          No task failures: true
+          Total number of tasks: 2
+          Number of completed tasks: 2
+          Number of completed loops: 2
+
+        Whether or not service level objectives (SLOs) are satisfied:
+        *************************************************************
+
+          SLO Conditions                      | version 0 | version 1
+          --------------                      | --------- | ---------
+          model-prometheus/latency-mean <= 50 | true      | true
+
+
+        Latest observed values for metrics:
+        ***********************************
+
+          Metric                        | version 0 | version 1 | Best
+          -------                       | -----     | -----     | ----
+          model-prometheus/latency-mean | 19.00     | 43.00     | n/a
+          model-prometheus/profit-mean  | 71.00     | 92.00     | version 1
+        ```
+
 === "HTML"
     ```shell
     iter8 k report -o html > report.html # view in a browser
     ```
+    ??? note "The HTML report looks like this"
+        ![HTML report](images/report.html.png)
 
 Because the experiment loops, the reported results will change over time.
 

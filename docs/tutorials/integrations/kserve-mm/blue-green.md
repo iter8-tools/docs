@@ -33,7 +33,7 @@ metadata:
   name: wisdom-0
   labels:
     app.kubernetes.io/name: wisdom
-    app.kubernetes.io/version: v1
+    app.kubernetes.io/version: v0
     iter8.tools/watch: "true"
   annotations:
     serving.kserve.io/deploymentMode: ModelMesh
@@ -137,7 +137,7 @@ metadata:
   name: wisdom-1
   labels:
     app.kubernetes.io/name: wisdom
-    app.kubernetes.io/version: v2
+    app.kubernetes.io/version: v1
     iter8.tools/watch: "true"
   annotations:
     serving.kserve.io/deploymentMode: ModelMesh
@@ -152,7 +152,7 @@ EOF
 ```
 
 ??? note "About the candidate `InferenceService`"
-    The model name (`wisdom`) and version (`v2`) are recorded using the labels `app.kubernets.io/name` and `app.kubernets.io.version`.
+    The model name (`wisdom`) and version (`v1`) are recorded using the labels `app.kubernets.io/name` and `app.kubernets.io.version`.
 
     In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.
 
@@ -198,10 +198,9 @@ apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
   name: wisdom-0
-  namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
-    app.kubernetes.io/version: v2
+    app.kubernetes.io/version: v1
     iter8.tools/watch: "true"
   annotations:
     serving.kserve.io/deploymentMode: ModelMesh
