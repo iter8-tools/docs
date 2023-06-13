@@ -31,10 +31,9 @@ apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
   name: wisdom-0
-  namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
-    app.kubernetes.io/version: v1
+    app.kubernetes.io/version: v0
     iter8.tools/watch: "true"
   annotations:
     serving.kserve.io/deploymentMode: ModelMesh
@@ -136,10 +135,9 @@ apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
   name: wisdom-1
-  namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
-    app.kubernetes.io/version: v2
+    app.kubernetes.io/version: v1
     iter8.tools/watch: "true"
   annotations:
     serving.kserve.io/deploymentMode: ModelMesh
@@ -196,10 +194,9 @@ apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
   name: wisdom-0
-  namespace: modelmesh-serving
   labels:
     app.kubernetes.io/name: wisdom
-    app.kubernetes.io/version: v2
+    app.kubernetes.io/version: v1
     iter8.tools/watch: "true"
   annotations:
     serving.kserve.io/deploymentMode: ModelMesh
