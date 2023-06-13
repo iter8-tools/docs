@@ -8,7 +8,7 @@
 <span class=s>  name: wisdom-0</span>
 <span class=s>  labels:</span>
 <span class=s>    app.kubernetes.io/name: wisdom</span>
-<span class=s>    app.kubernetes.io/version: v1</span>
+<span class=s>    app.kubernetes.io/version: v0</span>
 <span class=s>    iter8.tools/watch: &quot;true&quot;</span>
 <span class=s>  annotations:</span>
 <span class=s>    serving.kserve.io/deploymentMode: ModelMesh</span>
@@ -47,7 +47,7 @@ localhost:8080<span class=w> </span>inference.GRPCInferenceService.ModelInfer
 <span class=s>  name: wisdom-1</span>
 <span class=s>  labels:</span>
 <span class=s>    app.kubernetes.io/name: wisdom</span>
-<span class=s>    app.kubernetes.io/version: v2</span>
+<span class=s>    app.kubernetes.io/version: v1</span>
 <span class=s>    iter8.tools/watch: &quot;true&quot;</span>
 <span class=s>  annotations:</span>
 <span class=s>    serving.kserve.io/deploymentMode: ModelMesh</span>
@@ -59,7 +59,7 @@ localhost:8080<span class=w> </span>inference.GRPCInferenceService.ModelInfer
 <span class=s>        name: sklearn</span>
 <span class=s>      storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib</span>
 <span class=s>EOF</span>
-</code></pre></div> <details class=note> <summary>About the candidate <code>InferenceService</code></summary> <p>The model name (<code>wisdom</code>) and version (<code>v2</code>) are recorded using the labels <code>app.kubernets.io/name</code> and <code>app.kubernets.io.version</code>.</p> <p>In this tutorial, the model source (field <code>spec.predictor.model.storageUri</code>) is the same as for the primary version of the model. In a real world example, this would be different.</p> </details> <h2 id=verify-network-configuration-changes>Verify network configuration changes<a class=headerlink href=#verify-network-configuration-changes title="Permanent link">&para;</a></h2> <p>The deployment of the candidate model triggers an automatic reconfiguration by Iter8. Inspect the <code>VirtualService</code> to see that inference requests are now distributed between the primary model and the secondary model:</p> <div class=highlight><pre><span></span><code>kubectl<span class=w> </span>get<span class=w> </span>virtualservice<span class=w> </span>wisdom<span class=w> </span>-o<span class=w> </span>yaml
+</code></pre></div> <details class=note> <summary>About the candidate <code>InferenceService</code></summary> <p>The model name (<code>wisdom</code>) and version (<code>v1</code>) are recorded using the labels <code>app.kubernets.io/name</code> and <code>app.kubernets.io.version</code>.</p> <p>In this tutorial, the model source (field <code>spec.predictor.model.storageUri</code>) is the same as for the primary version of the model. In a real world example, this would be different.</p> </details> <h2 id=verify-network-configuration-changes>Verify network configuration changes<a class=headerlink href=#verify-network-configuration-changes title="Permanent link">&para;</a></h2> <p>The deployment of the candidate model triggers an automatic reconfiguration by Iter8. Inspect the <code>VirtualService</code> to see that inference requests are now distributed between the primary model and the secondary model:</p> <div class=highlight><pre><span></span><code>kubectl<span class=w> </span>get<span class=w> </span>virtualservice<span class=w> </span>wisdom<span class=w> </span>-o<span class=w> </span>yaml
 </code></pre></div> <p>Send additional inference requests as described above.</p> <h2 id=modify-weights-optional>Modify weights (optional)<a class=headerlink href=#modify-weights-optional title="Permanent link">&para;</a></h2> <p>You can modify the weight distribution of inference requests using the Iter8 <code>traffic-template</code> chart:</p> <div class=highlight><pre><span></span><code>cat<span class=w> </span><span class=s>&lt;&lt;EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -</span>
 <span class=s>templateName: modify-weights</span>
 <span class=s>targetEnv: kserve-modelmesh</span>
@@ -74,10 +74,9 @@ localhost:8080<span class=w> </span>inference.GRPCInferenceService.ModelInfer
 <span class=s>kind: &quot;InferenceService&quot;</span>
 <span class=s>metadata:</span>
 <span class=s>  name: wisdom-0</span>
-<span class=s>  namespace: modelmesh-serving</span>
 <span class=s>  labels:</span>
 <span class=s>    app.kubernetes.io/name: wisdom</span>
-<span class=s>    app.kubernetes.io/version: v2</span>
+<span class=s>    app.kubernetes.io/version: v1</span>
 <span class=s>    iter8.tools/watch: &quot;true&quot;</span>
 <span class=s>  annotations:</span>
 <span class=s>    serving.kserve.io/deploymentMode: ModelMesh</span>
