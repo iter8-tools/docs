@@ -94,7 +94,7 @@ data:
 EOF
 ```
 
-In this case, versions of the applciation are composed of a `Service` and a `Deployment`. In the primary version, both named `backend`. In the candidate version they are named `backend-candidate-1`. 
+In this case, versions of the application are composed of a `Service` and a `Deployment`. In the primary version, both named `backend`. In the candidate version they are named `backend-candidate-1`. 
 
 ## Generate load
 
