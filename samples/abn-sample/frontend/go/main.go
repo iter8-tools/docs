@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -20,9 +21,9 @@ import (
 
 var (
 	// map of track to route to backend service
-	trackToRoute = map[string]string{
-		"backend":             "http://backend.default.svc.cluster.local:8091",
-		"backend-candidate-1": "http://backend-candidate-1.default.svc.cluster.local:8091",
+	trackToRoute = []string{
+		"http://backend.default.svc.cluster.local:8091",
+		"http://backend-candidate-1.default.svc.cluster.local:8091",
 	}
 
 	// gRPC client connection
@@ -44,7 +45,7 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	// the user is assigned by the Iter8 SDK Lookup() method
 
 	// start with default route
-	route := trackToRoute["backend"]
+	route := trackToRoute[0]
 
 	// call ABn service API Lookup() to get an assigned track for the user
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -62,10 +63,10 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	// if successful, use recommended track; otherwise will use default route
 	if err == nil && s != nil {
 		Logger.Info("successful call to lookup " + s.GetTrack())
-		r, ok := trackToRoute[s.GetTrack()]
-		if ok {
-			route = r
-		}
+		track, err := strconv.Atoi(s.GetTrack())
+		if err == nil && 0 <= track && track < len(trackToRoute) {
+			route = trackToRoute[track]
+		} // else use default value for route
 	}
 	Logger.Info("lookup suggested track " + route)
 
@@ -137,7 +138,7 @@ func getAbnService() string {
 	if value, ok := os.LookupEnv("ABN_SERVICE"); ok {
 		return value
 	}
-	return "iter8-abn"
+	return "iter8"
 }
 
 func getAbnServicePort() string {

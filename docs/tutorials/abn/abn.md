@@ -18,20 +18,13 @@ This tutorial describes an [A/B testing](../../user-guide/topics/ab_testing.md) 
 Deploy the Iter8 A/B/n service. When deploying the service, specify which Kubernetes resource types to watch for each application. To watch for versions of the *backend* application in the *default* namespace, configure the service to watch for Kubernetes service and deployment resources:
 
 ```shell
-helm install --repo https://iter8-tools.github.io/iter8 iter8-abn abn \
---set "apps.default.backend.resources={service,deployment}"
+helm install --repo https://iter8-tools.github.io/iter8  iter8 traffic \
+export IMG=kalantar/iter8:20230619-1430
+export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
+helm install iter8 $CHARTS/traffic \
+--set persist="true" \
+--set logLevel=trace --set image=$IMG
 ```
-
-??? warn "Assumptions"
-    To simplify specification, Iter8 assumes certain conventions:
-
-    - The baseline track identifier is the application name
-    - Track identifiers associated with candidate versions are of the form `<application_name>-candidate-<index>`
-    - All resource objects for all versions are deployed in the same namespace
-    - There is only 1 resource object of a given type in each version
-    - The name of each object in the version associated with the baseline track is the application name
-    - The name of each object in the version associated with a candidate track is of the form  `<application_name>-candidate-<index>` where index is 1, 2, etc.
-
 
 ## Deploy the sample application
 
@@ -42,13 +35,15 @@ Deploy both the frontend and backend components of the application as described 
 
     === "node"
         ```shell
-        kubectl create deployment frontend --image=iter8/abn-sample-frontend-node:0.13
+        # kubectl create deployment frontend --image=iter8/abn-sample-frontend-node:0.13
+        kubectl create deployment frontend --image=kalantar/frontend-node:20230620-0945
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
 
     === "Go"
         ```shell
-        kubectl create deployment frontend --image=iter8/abn-sample-frontend-go:0.13
+        # kubectl create deployment frontend --image=iter8/abn-sample-frontend-go:0.13
+        kubectl create deployment frontend --image=kalantar/frontend:20230619-1510
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
     
@@ -59,10 +54,47 @@ Deploy both the frontend and backend components of the application as described 
 
     ```shell
     kubectl create deployment backend --image=iter8/abn-sample-backend:0.13-v1
-    kubectl label deployment backend app.kubernetes.io/version=v1
+    kubectl label deployment backend iter8.tools/watch="true"
 
     kubectl expose deployment backend --name=backend --port=8091
     ```
+
+## Describe Application
+
+Iter8 needs to know what an application looks like. Describe the components of an application using a `ConfigMap`:
+
+```shell
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend
+  labels:
+    app.kubernetes.io/managed-by: iter8
+    iter8.tools/kind: routemap
+    iter8.tools/version: "v0.14"
+immutable: true
+data:
+  strSpec: |
+    versions:
+    - resources:
+      - gvrShort: svc
+        name: backend
+        namespace: default
+      - gvrShort: deploy
+        name: backend
+        namespace: default
+    - resources:
+      - gvrShort: svc
+        name: backend-candidate-1
+        namespace: default
+      - gvrShort: deploy
+        name: backend-candidate-1
+        namespace: default
+EOF
+```
+
+In this case, versions of the applciation are composed of a `Service` and a `Deployment`. In the primary version, both named `backend`. In the candidate version they are named `backend-candidate-1`. 
 
 ## Generate load
 
@@ -80,7 +112,7 @@ Deploy version *v2* of the *backend* component, associating it with the track id
 
 ```shell
 kubectl create deployment backend-candidate-1 --image=iter8/abn-sample-backend:0.13-v2
-kubectl label deployment backend-candidate-1 app.kubernetes.io/version=v2
+kubectl label deployment backend-candidate-1 iter8.tools/watch="true"
 
 kubectl expose deployment backend-candidate-1 --name=backend-candidate-1 --port=8091
 ```
@@ -93,6 +125,7 @@ Once the candidate version is ready, *Lookup()* will return both track identifie
 ```shell
 iter8 k launch \
 --set abnmetrics.application=default/backend \
+--set abnmetrics.endpoint="iter8:50051" \
 --set "tasks={abnmetrics}" \
 --set runner=cronjob \
 --set cronjobSchedule="*/1 * * * *"
@@ -170,5 +203,5 @@ service/frontend service/backend service/backend-candidate-1
 ### Uninstall the A/B/n service
 
 ```shell
-helm delete iter8-abn
+helm delete iter8
 ```

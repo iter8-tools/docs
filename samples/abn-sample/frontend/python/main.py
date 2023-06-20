@@ -12,10 +12,10 @@ import abn_pb2_grpc
 from flask import Flask, request
 
 # map of track to route to backend service
-trackToRoute = {
-    "backend": "http://backend.default.svc.cluster.local:8091",
-	"backend-candidate-1": "http://backend-candidate-1.default.svc.cluster.local:8091"
-}
+trackToRoute = [
+    "http://backend.default.svc.cluster.local:8091",
+	"http://backend-candidate-1.default.svc.cluster.local:8091"
+]
 
 app = Flask(__name__)
 app.logger.setLevel(logging.DEBUG)
@@ -32,7 +32,7 @@ def getRecommendation():
     # the user is assigned by the Iter8 SDK Lookup() method
 
     # start with default route
-    route = trackToRoute["backend"]
+    route = trackToRoute[0]
 
     # establish connection to ABn service
     abnSvc = os.getenv('ABN_SERVICE', 'iter8-abn') + ":" + os.getenv('ABN_SERVICE_PORT', '50051')
@@ -47,7 +47,7 @@ def getRecommendation():
             )
 
             # lookup route using track
-            route = trackToRoute[s.track]
+            route = trackToRoute[int(s.track)]
         except Exception as e:
             # use default
             app.logger.error("error: %s", e)
@@ -76,7 +76,7 @@ def buy():
 	# this is best effort; we ignore any failure
 
     # establish connection to ABn service
-    abnSvc = os.getenv('ABN_SERVICE', 'iter8-abn') + ":" + os.getenv('ABN_SERVICE_PORT', '50051')
+    abnSvc = os.getenv('ABN_SERVICE', 'iter8') + ":" + os.getenv('ABN_SERVICE_PORT', '50051')
     with grpc.insecure_channel(abnSvc) as channel:
         stub = abn_pb2_grpc.ABNStub(channel)
 
