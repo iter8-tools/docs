@@ -19,10 +19,9 @@ Deploy the Iter8 A/B/n service. When deploying the service, specify which Kubern
 
 ```shell
 helm install --repo https://iter8-tools.github.io/iter8  iter8 traffic \
-export IMG=kalantar/iter8:20230619-1430
+export IMG=kalantar/iter8:20230627-1930
 export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
 helm install iter8 $CHARTS/traffic \
---set persist="true" \
 --set logLevel=trace --set image=$IMG
 ```
 
