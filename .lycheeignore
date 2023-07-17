@@ -6,3 +6,7 @@ https://twitter.com/Iter8Tools
 https://raw.githubusercontent.com/*
 https://kserve.github.io/*
 https://docs.litmuschaos.io/docs/*
+
+http://localhost:3000
+http://localhost:3000/dashboards
+http://localhost:3000/connections/datasources/marcusolsson-json-datasource

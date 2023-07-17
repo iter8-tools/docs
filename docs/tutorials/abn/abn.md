@@ -12,7 +12,7 @@ This tutorial describes how to do A/B testing of a backend component using the [
 
 ???+ warning "Before you begin"
     1. Try [your first experiment](../../getting-started/your-first-experiment.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8 experiments.
-    2. Have Grafana available. For example, Grafana can be intalled on your cluster as follows:
+    2. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
     kubectl create deploy grafana --image=grafana/grafana
     kubectl expose deploy grafana --port=3000
@@ -129,7 +129,7 @@ Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-
 kubectl port-forward service/grafana 3000:3000
 ```
 
-Open Grafana in a broswer:
+Open Grafana in a browser:
 
 ```shell
 http://localhost:3000/

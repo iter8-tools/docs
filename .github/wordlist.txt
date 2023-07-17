@@ -23,6 +23,7 @@ frontend
 GitOps
 gRPC
 GitHub
+Grafana
 GVR
 Homebrew
 http
@@ -123,10 +124,18 @@ rollout
 rollouts
 setName
 setUser
-trackToRoute
+versionNumberToRoute
+GetVersionNumber
+getVersionnumber
+versionNumber
+versionRecommendation
 toJson
 versionname
 WriteMetric
+MetricValue
+setApplication
+setValue
+toString
 contentType
 numRequests
 payloadStr

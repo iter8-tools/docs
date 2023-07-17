@@ -11,7 +11,7 @@ A/B/n testing relies on business metrics typically computed by a frontend, user-
 Metric values often depend on one or more interactions with backend (not user-facing) application components. To run an A/B/n test on a backend component, it is necessary to be able to associate a metric value (computed by the frontend component) to the version of the backend component that contributed to its computation. 
 The challenge is that the frontend component often does not know which version of the backend component processed a given request. To address this challenge, Iter8 introduces an A/B/n SDK. 
 
-The Iter8 SDK uses a fixed set of versions numbers 0, 1, ... as a way to refer to the current set of versions of a Kubernetes application or ML model. The version of the application associated with a given version nunber changes over time as new versions are developed, deployed for testing and either promoted or deleted. Since the set of version numbers is fixed, they can be used to configure routing to the application.
+The Iter8 SDK uses a fixed set of versions numbers 0, 1, ... as a way to refer to the current set of versions of a Kubernetes application or ML model. The version of the application associated with a given version number changes over time as new versions are developed, deployed for testing and either promoted or deleted. Since the set of version numbers is fixed, they can be used to configure routing to the application.
 
 The Iter8 SDK provides two APIs to frontend application components:
 
