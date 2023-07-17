@@ -13,7 +13,7 @@ const { getLogger } = require('@grpc/grpc-js/build/src/logging.js');
 const app  = express();
 
 // define map of track to route to backend service
-const trackToRoute = [
+const versionNumberToRoute = [
     "http://backend.default.svc.cluster.local:8091",
     "http://backend-candidate-1.default.svc.cluster.local:8091",
 ]
@@ -29,22 +29,22 @@ app.get('/getRecommendation', (req, res) => {
     console.info('/getRecommendation')
 
     // identify default route
-    route = trackToRoute[0];
+    route = versionNumberToRoute[0];
 
     // call ABn service API Lookup() to get an assigned track for the user
     var application = new messages.Application();
     application.setName('default/backend');
     application.setUser(req.header('X-User'));
-    client.lookup(application, function(err, session) {
-        if (err || (session.getTrack() == '')) {
+    client.lookup(application, function(err, versionRecommendation) {
+        if (err) {
             // use default route (see above)
-            console.warn("error or null")
+            console.warn("error calling Lookup()")
         } else {
             // use route determined by recommended track
-            console.info('lookup suggested track %s', session.getTrack())
-            track = Number(session.getTrack())
-            if (track != NaN && 0 <= track && track < trackToRoute.length) {
-                route = trackToRoute[track]
+            console.info('lookup suggested track %d', versionRecommendation.getVersionnumber())
+            versionNumber = versionRecommendation.getVersionnumber()
+            if (versionNumber != NaN && 0 <= versionNumber && versionNumber < versionNumberToRoute.length) {
+                route = versionNumberToRoute[versionNumber]
             }
         }
 

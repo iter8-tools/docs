@@ -31,28 +31,6 @@ function deserialize_main_Application(buffer_arg) {
   return abn_pb.Application.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_main_ApplicationData(arg) {
-  if (!(arg instanceof abn_pb.ApplicationData)) {
-    throw new Error('Expected argument of type main.ApplicationData');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_main_ApplicationData(buffer_arg) {
-  return abn_pb.ApplicationData.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_main_ApplicationRequest(arg) {
-  if (!(arg instanceof abn_pb.ApplicationRequest)) {
-    throw new Error('Expected argument of type main.ApplicationRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_main_ApplicationRequest(buffer_arg) {
-  return abn_pb.ApplicationRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_main_MetricValue(arg) {
   if (!(arg instanceof abn_pb.MetricValue)) {
     throw new Error('Expected argument of type main.MetricValue');
@@ -64,33 +42,33 @@ function deserialize_main_MetricValue(buffer_arg) {
   return abn_pb.MetricValue.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_main_Session(arg) {
-  if (!(arg instanceof abn_pb.Session)) {
-    throw new Error('Expected argument of type main.Session');
+function serialize_main_VersionRecommendation(arg) {
+  if (!(arg instanceof abn_pb.VersionRecommendation)) {
+    throw new Error('Expected argument of type main.VersionRecommendation');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_main_Session(buffer_arg) {
-  return abn_pb.Session.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_main_VersionRecommendation(buffer_arg) {
+  return abn_pb.VersionRecommendation.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
 // for more information, see https://github.com/iter8-tools/iter8/issues/1257
 //
 var ABNService = exports.ABNService = {
-  // Identify a track the caller should send a request to.
+  // Identify a version (index) the caller should send a request to.
 // Should be called for each request (transaction).
 lookup: {
     path: '/main.ABN/Lookup',
     requestStream: false,
     responseStream: false,
     requestType: abn_pb.Application,
-    responseType: abn_pb.Session,
+    responseType: abn_pb.VersionRecommendation,
     requestSerialize: serialize_main_Application,
     requestDeserialize: deserialize_main_Application,
-    responseSerialize: serialize_main_Session,
-    responseDeserialize: deserialize_main_Session,
+    responseSerialize: serialize_main_VersionRecommendation,
+    responseDeserialize: deserialize_main_VersionRecommendation,
   },
   // Write a metric value to metrics database.
 // The metric value is explicitly associated with a list of transactions that contributed to its computation.
@@ -105,18 +83,6 @@ writeMetric: {
     requestDeserialize: deserialize_main_MetricValue,
     responseSerialize: serialize_google_protobuf_Empty,
     responseDeserialize: deserialize_google_protobuf_Empty,
-  },
-  // Get application data (tracks, versions and metrics for each)
-getApplicationData: {
-    path: '/main.ABN/GetApplicationData',
-    requestStream: false,
-    responseStream: false,
-    requestType: abn_pb.ApplicationRequest,
-    responseType: abn_pb.ApplicationData,
-    requestSerialize: serialize_main_ApplicationRequest,
-    requestDeserialize: deserialize_main_ApplicationRequest,
-    responseSerialize: serialize_main_ApplicationData,
-    responseDeserialize: deserialize_main_ApplicationData,
   },
 };
 

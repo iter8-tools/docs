@@ -87,7 +87,6 @@ warmupNumRequests
 webhook
 webhooks
 yaml
-abnmetrics
 auth
 argoproj
 custommetrics
