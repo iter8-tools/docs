@@ -108,7 +108,7 @@ In separate shells, port-forward requests to the frontend component and generate
 
 ## Deploy a candidate version
 
-Deploy a candidate version of the *backend* component, naming it *backend-candidate-1*.
+Deploy the candidate version of the *backend* component, naming it `backend-candidate-1`.
 
 ```shell
 kubectl create deployment backend-candidate-1 --image=iter8/abn-sample-backend:0.13-v2
