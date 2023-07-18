@@ -20,11 +20,9 @@ This tutorial describes how to do A/B testing of a backend component using the [
  
 ## Launch the Iter8 A/B/n service
 
-Deploy the Iter8 A/B/n service:
+Deploy the Iter8 A/B/n service using either `helm` or `kustomize`:
 
-```shell
-helm install --repo https://iter8-tools.github.io/iter8  iter8 traffic
-```
+--8<-- "docs/tutorials/installiter8controller.md"
 
 ## Deploy the sample application
 
@@ -47,7 +45,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
     
-    The frontend component is implemented to call `Lookup()` before each call to the backend component. The frontend componet uses the returned version number to route the request to the recommended version of the backend component.
+    The frontend component is implemented to call `Lookup()` before each call to the backend component. The frontend component uses the returned version number to route the request to the recommended version of the backend component.
 
 === "backend"
     Deploy an initial version of the *backend* component:
@@ -94,11 +92,11 @@ data:
 EOF
 ```
 
-In this definition, each version of the application is composed of a `Service` and a `Deployment`. In the primary version, both named `backend`. In any candidate version they are named `backend-candidate-1`. Iter8 uses this definition to identify when any of the versions of the application are available. It can then respond appropriate to `Lookup()` requests. 
+In this definition, each version of the application is composed of a `Service` and a `Deployment`. In the primary version, both are named `backend`. In any candidate version they are named `backend-candidate-1`. Iter8 uses this definition to identify when any of the versions of the application are available. It can then respond appropriate to `Lookup()` requests. 
 
 ## Generate load
 
-In separate shells, port-forward requests to the frontend component and generate load for multiple users.  A [script](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh) is provided to do this. To use it:
+In separate shells, port-forward requests to the frontend component and generate load for multiple users. A [script](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh) is provided to do this. To use it:
     ```shell
     kubectl port-forward service/frontend 8090:8090
     ```
@@ -109,7 +107,7 @@ In separate shells, port-forward requests to the frontend component and generate
 
 ## Deploy a candidate version
 
-Deploy a candidate version of the *backend* component, naming it *backend-candidate-1*.
+Deploy the candidate version of the *backend* component, naming it `backend-candidate-1`.
 
 ```shell
 kubectl create deployment backend-candidate-1 --image=iter8/abn-sample-backend:0.13-v2
@@ -142,13 +140,13 @@ http://localhost:3000/
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Do so by pasting the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/aa4ba259cc4631aafe9b43500502c60f/raw/034249f24e2c524ee4e326e860c06149ae7b2677/gistfile1.txt) into the box and *load* it. Associate it with the JSON API data source defined above.
 
-The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being by the load generation script, the values in the report may change over time.
+The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time.
 
 Once a winner is identified, the winner can be promoted, and the candidate version deleted.
 
 ## Promote candidate version
 
-To promote the candidate version (`backend-candidate-1`), first update the primary version, `backend` using the new image. You can also overwrite any metadata describing the version.
+To promote the candidate version (`backend-candidate-1`), first update the primary version, `backend`, using the new image. You can also overwrite any metadata describing the version.
 
 ```shell
 kubectl set image deployment/backend abn-sample-backend=iter8/abn-sample-backend:0.13-v2
@@ -160,7 +158,7 @@ Finally, delete the candidate version:
 kubectl delete svc/backend-candidate-1 deploy/backend-candidate-1
 ```
 
-Calls to `Lookup()` will now recommend that all traffic now be sent to the primary version `backend` (now serving the promoted version of the code).
+Calls to `Lookup()` will now recommend that all traffic be sent to the primary version `backend` (currently serving the promoted version of the code).
 
 ## Cleanup
 
@@ -181,6 +179,4 @@ kubectl delete cm/backend
 
 ### Uninstall the A/B/n service
 
-```shell
-helm delete iter8
-```
+--8<-- "docs/tutorials/deleteiter8controller.md"

@@ -19,7 +19,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/integrations/kserve-mm/installiter8controller.md"
+--8<-- "docs/tutorials/installiter8controller.md"
 
 ## Deploy a primary model
 
@@ -248,4 +248,4 @@ kubectl delete --force isvc/wisdom-0
 
 Uninstall the Iter8 controller:
 
---8<-- "docs/tutorials/integrations/kserve-mm/deleteiter8controller.md"
+--8<-- "docs/tutorials/deleteiter8controller.md"

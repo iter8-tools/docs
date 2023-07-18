@@ -11,7 +11,7 @@ A/B/n testing relies on business metrics typically computed by a frontend, user-
 Metric values often depend on one or more interactions with backend (not user-facing) application components. To run an A/B/n test on a backend component, it is necessary to be able to associate a metric value (computed by the frontend component) to the version of the backend component that contributed to its computation. 
 The challenge is that the frontend component often does not know which version of the backend component processed a given request. To address this challenge, Iter8 introduces an A/B/n SDK. 
 
-The Iter8 SDK uses a fixed set of versions numbers 0, 1, ... as a way to refer to the current set of versions of a Kubernetes application or ML model. The version of the application associated with a given version number changes over time as new versions are developed, deployed for testing and either promoted or deleted. Since the set of version numbers is fixed, they can be used to configure routing to the application.
+The Iter8 SDK uses a fixed set of versions numbers 0, 1, ... as a way to refer to the current set of versions of a Kubernetes application or ML model. The version of the application associated with a given version number changes over time as new versions are developed, deployed for testing, and either promoted or deleted. Since the set of version numbers is fixed, they can be used to configure routing to the application.
 
 The Iter8 SDK provides two APIs to frontend application components:
 
@@ -54,11 +54,11 @@ data:
         namespace: default
 ```
 
-This `ConfigMap` describes an application `backend`. It identifies 2 versions of the application. The first is comprised of a Kubernetes `Deployment` and a `Service` object both named `backend` in the `default` namespace.  The second is comprised of the same resource types named `backend-candidate-1` in the same namespace.
+This `ConfigMap` describes an application `backend`. It identifies two versions of the application. The first is comprised of a Kubernetes `Deployment` and a `Service` object both named `backend` in the `default` namespace.  The second is comprised of the same resource types named `backend-candidate-1` in the same namespace.
 
 ## Deployment Time Configuration of Backend Components
 
-As versions of a watched application are deployed or deleted, the Iter8 A/B/n service keeps track of which versions are available enabling it to respond appropriately to *Lookup()* and *WriteMetric()* requests.
+As versions of a watched application are deployed or deleted, the Iter8 A/B/n service keeps track of which versions are available enabling it to respond appropriately to `Lookup()` and `WriteMetric()` requests.
 
 ## Developing Frontend Components: Using the SDK
 
@@ -128,9 +128,9 @@ Track identifiers are mapped to a static set of endpoints. One approach is to ma
 	}
     ```
 
-### Using *Lookup()*
+### Using `Lookup()`
 
-Given a user session identifier, *Lookup()* returns a version number that can be used to route requests. In code sample below, the user session identifier is assumed to be passed in the `X-User` header of user requests. The version number is used as an index to the `versionNumberToRoute` map defined above. A default is used if the call to *Lookup()* fails for any reason.
+Given a user session identifier, `Lookup()` returns a version number that can be used to route requests. In code sample below, the user session identifier is assumed to be passed in the `X-User` header of user requests. The version number is used as an index to the `versionNumberToRoute` map defined above. A default is used if the call to `Lookup()` fails for any reason.
 
 === "Node.js"
     ```javascript

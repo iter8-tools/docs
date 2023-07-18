@@ -1,4 +1,4 @@
 Flask==2.3.2
-grpcio==1.46.3
-grpcio-tools==1.46.3
+grpcio==1.56.0
+grpcio-tools==1.56.0
 requests==2.31.0
