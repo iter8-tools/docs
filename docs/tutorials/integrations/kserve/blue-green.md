@@ -2,20 +2,26 @@
 template: main.html
 ---
 
-# Canary Rollout of a ML Model
+# Blue-Green Rollout of a KServe ML Model
 
-This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe modelmesh serving environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the network to distribute inference requests.
+This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models hosted in a KServe environment. In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a blue-green rollout by automatically configuring routing resources to distribute inference requests.
 
-After a one time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Iter8 automatically handles the underlying network configuration.
+After a one time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying network configuration.
 
-![Canary rollout](images/canary.png)
-
-In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
+![Blue-Green rollout](images/blue-green.png)
 
 ???+ "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
-    2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment.
+    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
+    ```shell
+    curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.10/hack/quick_install.sh" | bash
+    ```
+<!-- Istio 1.15 already installed 
     3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
+    ```shell
+    istioctl install --set profile=demo -y
+    ```
+-->
 
 ## Install the Iter8 controller
 
@@ -35,15 +41,14 @@ metadata:
     app.kubernetes.io/name: wisdom
     app.kubernetes.io/version: v0
     iter8.tools/watch: "true"
-  annotations:
-    serving.kserve.io/deploymentMode: ModelMesh
-    serving.kserve.io/secretKey: localMinIO
 spec:
   predictor:
+    minReplicas: 1
     model:
       modelFormat:
         name: sklearn
-      storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
+      runtime: kserve-mlserver
+      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
 
@@ -59,21 +64,22 @@ kubectl get inferenceservice wisdom-0
 ```
 
 When the `READY` field becomes `True`, the model is fully deployed.
+    
+## Initialize the Blue-Green routing policy
 
-## Initialize the Canary routing policy
-
-Initialize model rollout with a canary traffic pattern as follows:
+Initialize model rollout with a blue-green traffic pattern as follows:
 
 ```shell
-cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -
+#cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/traffic-templates -f - | kubectl apply -f -
 templateName: initialize-rollout
-targetEnv: kserve-modelmesh
-trafficStrategy: canary
+targetEnv: kserve
+trafficStrategy: blue-green
 modelName: wisdom
 EOF
 ```
 
-The `initialize-rollout` template (with `trafficStrategy: canary`) configures the Istio service mesh to route all requests to the primary version of the model (`wisdom-0`). Further, it defines a routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy sends inference requests with the header `traffic` set to the value `test` to the candidate version of the model and all remaining inference requests to the primary version of the model. For detailed configuration options, see the Helm chart.
+The `initialize-rollout` template (with `trafficStrategy: blue-green`) configures the Istio service mesh to route all requests to the primary version of the model (`wisdom-0`). Further, it defines the routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy splits inference requests 50-50 between the primary and candidate versions. For detailed configuration options, see the Helm chart.
 
 ## Verify network configuration
 
@@ -88,7 +94,8 @@ To send inference requests to the model:
 === "From within the cluster"
     1. Create a "sleep" pod in the cluster from which requests can be made:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.14.3/samples/modelmesh-serving/sleep.sh | sh -
+    # curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/kserve-serving/sleep.sh | sh -
+    source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/kserve-serving/sleep.sh
     ```
 
     2. exec into the sleep pod:
@@ -98,42 +105,25 @@ To send inference requests to the model:
 
     3. Make inference requests:
     ```shell
-    cd demo
     cat wisdom.sh
     . wisdom.sh
-    ```
-    or, to send a request with header `traffic: test`:
-    ```shell
-    cat wisdom-test.sh
-    . wisdom-test.sh
     ```
 
 === "From outside the cluster"
     1. In a separate terminal, port-forward the ingress gateway:
       ```shell
-      kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
+      kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
       ```
 
-    2. Download the proto file and a sample input:
+    2. Download the sample input:
       ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/kserve.proto
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.13.18/samples/modelmesh-serving/grpc_input.json
+      # curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/kserve-serving/input.json
       ```
 
     3. Send inference requests:
       ```shell
-      cat grpc_input.json | \
-      grpcurl -plaintext -proto kserve.proto -d @ \
-      -authority wisdom.modelmesh-serving \
-      localhost:8080 inference.GRPCInferenceService.ModelInfer
-      ```
-      or, to send a request with header `traffic: test`:
-      ```shell
-      cat grpc_input.json | \
-      grpcurl -plaintext -proto kserve.proto -d @ \
-      -H 'traffic: test' \
-      -authority wisdom.modelmesh-serving \
-      localhost:8080 inference.GRPCInferenceService.ModelInfer
+      curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
+      | grep -e HTTP -e mm-vmodel-id
       ```
 
 Note that the model version responding to each inference request is noted in the response header `mm-vmodel-id`. In the requests above, we display only the response code and this header.
@@ -152,32 +142,52 @@ metadata:
     app.kubernetes.io/name: wisdom
     app.kubernetes.io/version: v1
     iter8.tools/watch: "true"
-  annotations:
-    serving.kserve.io/deploymentMode: ModelMesh
-    serving.kserve.io/secretKey: localMinIO
 spec:
   predictor:
+    minReplicas: 1
     model:
       modelFormat:
         name: sklearn
-      storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
+      runtime: kserve-mlserver
+      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
 
 ??? note "About the candidate `InferenceService`"
     The model name (`wisdom`) and version (`v1`) are recorded using the labels `app.kubernets.io/name` and `app.kubernets.io.version`.
 
-    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real example, this would be different.
+    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.
 
 ## Verify network configuration changes
 
-The deployment of the candidate model triggers an automatic reconfiguration by Iter8. Inspect the `VirtualService` to see that inference requests are now distributed between the primary model and the secondary model according to a header matching rule:
+The deployment of the candidate model triggers an automatic reconfiguration by Iter8. Inspect the `VirtualService` to see that inference requests are now distributed between the primary model and the secondary model:
 
 ```shell
 kubectl get virtualservice wisdom -o yaml
 ```
 
 Further, you can send additional inference requests as described above. They will be handled by both versions of the model.
+
+## Modify weights (optional)
+
+You can modify the weight distribution of inference requests using the Iter8 `traffic-template` chart:
+
+```shell
+#cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -
+cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/traffic-templates -f - | kubectl apply -f -
+templateName: modify-weights
+targetEnv: kserve
+trafficStrategy: blue-green
+modelName: wisdom
+modelVersions:
+  - weight: 20
+  - weight: 80
+EOF
+```
+
+Note that using the `modify-weights` overrides the default traffic split for all future candidate deployments.
+
+As above, you can verify the network configuration changes.
 
 ## Promote the candidate model
 
@@ -195,15 +205,14 @@ metadata:
     app.kubernetes.io/name: wisdom
     app.kubernetes.io/version: v1
     iter8.tools/watch: "true"
-  annotations:
-    serving.kserve.io/deploymentMode: ModelMesh
-    serving.kserve.io/secretKey: localMinIO
 spec:
   predictor:
+    minReplicas: 1
     model:
       modelFormat:
         name: sklearn
-      storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
+      runtime: kserve-mlserver
+      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
 
@@ -233,10 +242,11 @@ kubectl delete --force isvc/wisdom-1
 Delete routing artifacts:
 
 ```shell
-cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl delete --force -f -
+#cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl delete --force -f -
+cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/traffic-templates -f - | kubectl apply -f -
 templateName: initialize-rollout
-targetEnv: kserve-modelmesh
-trafficStrategy: canary
+targetEnv: kserve
+trafficStrategy: blue-green
 modelName: wisdom
 EOF
 ```

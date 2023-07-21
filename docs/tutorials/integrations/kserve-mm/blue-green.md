@@ -123,7 +123,7 @@ To send inference requests to the model:
       localhost:8080 inference.GRPCInferenceService.ModelInfer
       ```
 
-Note that the model version responding to each inference request can be determined from the `modelName` field of the response.
+Note that the model version responding to each inference request is noted in the response header `mm-vmodel-id`. In the requests above, we display only the response code and this header.
 
 ## Deploy a candidate model
 
@@ -164,7 +164,7 @@ The deployment of the candidate model triggers an automatic reconfiguration by I
 kubectl get virtualservice wisdom -o yaml
 ```
 
-Send additional inference requests as described above.
+Further, you can send additional inference requests as described above. They will be handled by both versions of the model.
 
 ## Modify weights (optional)
 
@@ -218,6 +218,8 @@ EOF
     The version label (`app.kubernets.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
 
 ### Delete the candidate `InferenceService`
+
+Once the primary `InferenceService` has been redeployed, delete the candidate:
 
 ```shell
 kubectl delete inferenceservice wisdom-1
