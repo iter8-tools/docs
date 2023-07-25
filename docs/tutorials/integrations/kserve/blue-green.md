@@ -6,7 +6,7 @@ template: main.html
 
 This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models hosted in a KServe environment. In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a blue-green rollout by automatically configuring routing resources to distribute inference requests.
 
-After a one time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying network configuration.
+After a one-time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying network configuration.
 
 ![Blue-Green rollout](images/blue-green.png)
 
@@ -79,7 +79,7 @@ modelName: wisdom
 EOF
 ```
 
-The `initialize-rollout` template (with `trafficStrategy: blue-green`) configures the Istio service mesh to route all requests to the primary version of the model (`wisdom-0`). Further, it defines the routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy splits inference requests 50-50 between the primary and candidate versions. For detailed configuration options, see the Helm chart.
+The `initialize-rollout` template (with `trafficStrategy: blue-green`) configures the Istio service mesh to route all requests to the primary version of the model (`wisdom-0`). Further, it defines the routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy splits inference requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/kalantar/iter8/blob/v0.15/charts/traffic/values.yaml).
 
 ## Verify network configuration
 

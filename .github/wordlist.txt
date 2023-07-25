@@ -168,3 +168,9 @@ gz
 xvf
 IMG
 mv
+modelName
+src
+targetEnv
+templateName
+trafficStrategy
+modelVersions

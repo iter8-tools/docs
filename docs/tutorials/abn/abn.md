@@ -92,11 +92,11 @@ data:
 EOF
 ```
 
-In this definition, each version of the application is composed of a `Service` and a `Deployment`. In the primary version, both are named `backend`. In any candidate version they are named `backend-candidate-1`. Iter8 uses this definition to identify when any of the versions of the application are available. It can then respond appropriate to `Lookup()` requests. 
+In this definition, each version of the application is composed of a `Service` and a `Deployment`. In the primary version, both are named `backend`. In any candidate version they are named `backend-candidate-1`. Iter8 uses this definition to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
 
 ## Generate load
 
-In separate shells, port-forward requests to the frontend component and generate load for multiple users. A [script](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh) is provided to do this. To use it:
+In separate shells, port-forward requests to the frontend component and generate load for multiple users. A [script](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh) is provided for the latter.
     ```shell
     kubectl port-forward service/frontend 8090:8090
     ```
@@ -117,8 +117,8 @@ kubectl label deployment backend-candidate-1 iter8.tools/watch="true"
 kubectl expose deployment backend-candidate-1 --name=backend-candidate-1 --port=8091
 ```
 
-Until the candidate version is ready; that is, until all expected resources are deployed and available, calls to `Lookup()` will return only the index 0; the existing version.
-Once the candidate version is ready, `Lookup()` will return both indices (0 and 1) so that requests can be distributed across versions.
+Until the candidate version is ready; that is, until all expected resources are deployed and available, calls to `Lookup()` will return only the version number `0`; the existing version.
+Once the candidate version is ready, `Lookup()` will return both version numbers (`0` and `1`) so that requests can be distributed across versions.
 
 ## Compare versions using Grafana
 
@@ -128,24 +128,20 @@ Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-
 kubectl port-forward service/grafana 3000:3000
 ```
 
-Open Grafana in a browser:
-
-```shell
-http://localhost:3000/
-```
+Open Grafana in a browser by going to http://localhost:3000/
 
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with:
 
-- URL `http://iter8.default:8080/metrics` and 
-- query string `application=default%2Fbackend`
+- URL: `http://iter8.default:8080/metrics`
+- Query string: `application=default%2Fbackend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Do so by pasting the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/aa4ba259cc4631aafe9b43500502c60f/raw/034249f24e2c524ee4e326e860c06149ae7b2677/gistfile1.txt) into the box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/aa4ba259cc4631aafe9b43500502c60f/raw/034249f24e2c524ee4e326e860c06149ae7b2677/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source above.
 
 The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time.  The Iter8 dashboard may look like the following:
 
 ![A/B dashboard](images/dashboard.png)
 
-Once a winner is identified, the winner can be promoted, and the candidate version deleted.
+Once you identify a winner, it can be promoted, and the candidate version deleted.
 
 ## Promote candidate version
 
