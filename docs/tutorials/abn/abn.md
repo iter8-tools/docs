@@ -33,17 +33,17 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
     === "node"
         ```shell
-        # kubectl create deployment frontend --image=iter8/abn-sample-frontend-node:0.15
-        kubectl create deployment frontend --image=kalantar/frontend-node:20230717-1552
+        kubectl create deployment frontend --image=iter8/abn-sample-frontend-node:0.15.0
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
+        <!-- kubectl create deployment frontend --image=kalantar/frontend-node:20230717-1552 -->
 
     === "Go"
         ```shell
-        # kubectl create deployment frontend --image=iter8/abn-sample-frontend-go:0.15
-        kubectl create deployment frontend --image=kalantar/frontend-go:20230717-1339
+        kubectl create deployment frontend --image=iter8/abn-sample-frontend-go:0.15.0
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
+        <!-- kubectl create deployment frontend --image=kalantar/frontend-go:20230717-1339 -->
     
     The frontend component is implemented to call `Lookup()` before each call to the backend component. The frontend component uses the returned version number to route the request to the recommended version of the backend component.
 
@@ -102,8 +102,8 @@ In separate shells, port-forward requests to the frontend component and generate
     ```
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/abn-sample/generate_load.sh | sh -s --
-    # source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/abn-sample/generate_load.sh
     ```
+    <!-- # source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/abn-sample/generate_load.sh -->
 
 ## Deploy a candidate version
 
@@ -140,7 +140,9 @@ http://localhost:3000/
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Do so by pasting the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/aa4ba259cc4631aafe9b43500502c60f/raw/034249f24e2c524ee4e326e860c06149ae7b2677/gistfile1.txt) into the box and *load* it. Associate it with the JSON API data source defined above.
 
-The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time.
+The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time.  A sample dashboard is:
+
+![A/B dashboard](images/dashboard.png)
 
 Once a winner is identified, the winner can be promoted, and the candidate version deleted.
 
