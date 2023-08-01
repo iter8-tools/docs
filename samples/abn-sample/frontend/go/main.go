@@ -19,10 +19,10 @@ import (
 // var log *logrus.Logger
 
 var (
-	// map of track to route to backend service
-	trackToRoute = map[string]string{
-		"backend":             "http://backend.default.svc.cluster.local:8091",
-		"backend-candidate-1": "http://backend-candidate-1.default.svc.cluster.local:8091",
+	// map of version number to route to backend service
+	versionNumberToRoute = []string{
+		"http://backend.default.svc.cluster.local:8091",
+		"http://backend-candidate-1.default.svc.cluster.local:8091",
 	}
 
 	// gRPC client connection
@@ -40,13 +40,13 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	user := req.Header["X-User"][0]
 
 	// Get endpoint of backend endpoint "/recommend"
-	// In this example, the backend endpoint depends on the version (track) of the backend service
+	// In this example, the backend endpoint depends on the version of the backend service
 	// the user is assigned by the Iter8 SDK Lookup() method
 
 	// start with default route
-	route := trackToRoute["backend"]
+	route := versionNumberToRoute[0]
 
-	// call ABn service API Lookup() to get an assigned track for the user
+	// call ABn service API Lookup() to get a recommended version for the user
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	s, err := (*client).Lookup(
@@ -59,15 +59,15 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		Logger.Info("error: " + err.Error())
 	}
-	// if successful, use recommended track; otherwise will use default route
+	// if successful, use recommended version; otherwise will use default route
 	if err == nil && s != nil {
-		Logger.Info("successful call to lookup " + s.GetTrack())
-		r, ok := trackToRoute[s.GetTrack()]
-		if ok {
-			route = r
-		}
+		Logger.Infof("successful call to lookup %d", s.GetVersionNumber())
+		versionNumber := int(s.GetVersionNumber())
+		if err == nil && 0 <= versionNumber && versionNumber < len(versionNumberToRoute) {
+			route = versionNumberToRoute[versionNumber]
+		} // else use default value for route
 	}
-	Logger.Info("lookup suggested track " + route)
+	Logger.Info("lookup suggested route " + route)
 
 	// call backend service using url
 	resp, err := http.Get(route + "/recommend")
@@ -137,7 +137,7 @@ func getAbnService() string {
 	if value, ok := os.LookupEnv("ABN_SERVICE"); ok {
 		return value
 	}
-	return "iter8-abn"
+	return "iter8"
 }
 
 func getAbnServicePort() string {

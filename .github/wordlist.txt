@@ -23,6 +23,7 @@ frontend
 GitOps
 gRPC
 GitHub
+Grafana
 GVR
 Homebrew
 http
@@ -87,7 +88,6 @@ warmupNumRequests
 webhook
 webhooks
 yaml
-abnmetrics
 auth
 argoproj
 custommetrics
@@ -124,10 +124,18 @@ rollout
 rollouts
 setName
 setUser
-trackToRoute
+versionNumberToRoute
+GetVersionNumber
+getVersionnumber
+versionNumber
+versionRecommendation
 toJson
 versionname
 WriteMetric
+MetricValue
+setApplication
+setValue
+toString
 contentType
 numRequests
 payloadStr
