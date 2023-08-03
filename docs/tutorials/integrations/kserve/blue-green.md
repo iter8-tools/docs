@@ -91,7 +91,7 @@ To send inference requests to the model:
 === "From within the cluster"
     1. Create a "sleep" pod in the cluster from which requests can be made:
     ```shell
-    # curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/kserve-serving/sleep.sh | sh -
+    # curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/kserve-serving/sleep.sh | sh -
     source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/kserve-serving/sleep.sh
     ```
 
@@ -114,7 +114,7 @@ To send inference requests to the model:
 
     2. Download the sample input:
       ```shell
-      # curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/kserve-serving/input.json
+      # curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/kserve-serving/input.json
       ```
 
     3. Send inference requests:
@@ -123,7 +123,7 @@ To send inference requests to the model:
       | grep -e HTTP -e app-version
       ```
 
-Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display  only the response code and this header.
+Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only the response code and this header.
 
 ## Deploy candidate
 
@@ -155,7 +155,7 @@ EOF
 
 ## Verify routing changes
 
-The deployment of the candidate triggers an automatic routing reconfiguration by Iter8. Inspect the `VirtualService` to see that inference requests are now distributed between the primary model and the secondary model:
+The deployment of the candidate triggers an automatic routing reconfiguration by Iter8. Inspect the `VirtualService` to see that the routing has been changed. Inspect the `VirtualService` to see that the routing has been changed. Requests are now distributed between the primary model and the secondary model:
 
 ```shell
 kubectl get virtualservice wisdom -o yaml
@@ -246,7 +246,7 @@ strategy: blue-green
 EOF
 ```
 
-Delete the primary:
+Delete primary:
 
 ```shell
 kubectl delete isvc/wisdom-0

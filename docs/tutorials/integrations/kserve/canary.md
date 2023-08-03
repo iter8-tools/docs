@@ -76,7 +76,7 @@ strategy: canary
 EOF
 ```
 
-The `initialize` action (with strategy `canary`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It further defines the routing policy that will be used when changes in the application resources. By default, this routing policy sends requests with the header `traffic` set to the value `test` to the candidate version and all remaining requests to the primary version. For detailed configuration options, see the [Helm chart](https://github.com/kalantar/iter8/blob/v0.15/charts/routing-actions/values.yaml).
+The `initialize` action (with strategy `canary`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It futher defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy sends requests with the header `traffic` set to the value `test` to the candidate version and all remaining requests to the primary version. For detailed configuration options, see the [Helm chart](https://github.com/kalantar/iter8/blob/v0.15/charts/routing-actions/values.yaml).
 
 ## Verify routing
 
@@ -91,7 +91,7 @@ To send inference requests to the model:
 === "From within the cluster"
     1. Create a "sleep" pod in the cluster from which requests can be made:
     ```shell
-    # curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/kserve-serving/sleep.sh | sh -
+    # curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/kserve-serving/sleep.sh | sh -
     source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/kserve-serving/sleep.sh
     ```
 
@@ -119,7 +119,7 @@ To send inference requests to the model:
 
     2. Download the sample input:
       ```shell
-      # curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/kserve-serving/input.json
+      # curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/kserve-serving/input.json
       ```
 
     3. Send inference requests:
@@ -166,7 +166,7 @@ EOF
 
 ## Verify routing changes
 
-The deployment of the candidate triggers an automatic routing reconfiguration by Iter8. Inspect the `VirtualService` to see that inference requests are now distributed between the primary model and the secondary model:
+The deployment of the candidate triggers an automatic routing reconfiguration by Iter8. Inspect the `VirtualService` to see that the routing has been changed. Requests are now distributed between the primary model and the secondary model:
 
 ```shell
 kubectl get virtualservice wisdom -o yaml
@@ -236,7 +236,7 @@ strategy: canary
 EOF
 ```
 
-Delete the primary:
+Delete primary:
 
 ```shell
 kubectl delete isvc/wisdom-0
