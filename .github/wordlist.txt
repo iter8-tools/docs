@@ -171,4 +171,4 @@ mv
 appName
 src
 appType
-appVersion
+appVersions
