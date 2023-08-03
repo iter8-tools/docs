@@ -168,9 +168,7 @@ gz
 xvf
 IMG
 mv
-modelName
+appName
 src
-targetEnv
-templateName
-trafficStrategy
-modelVersions
+appType
+appVersion

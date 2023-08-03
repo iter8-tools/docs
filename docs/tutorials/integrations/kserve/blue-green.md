@@ -76,7 +76,7 @@ strategy: blue-green
 EOF
 ```
 
-The `initialize` action (with strategy `blue-green`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It futher defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy splits requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/kalantar/iter8/blob/v0.15/charts/routing-actions/values.yaml).
+The `initialize` action (with strategy `blue-green`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy splits requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/kalantar/iter8/blob/v0.15/charts/routing-actions/values.yaml).
 
 ## Verify routing
 
@@ -228,7 +228,7 @@ Inspect the `VirtualService` to see that the it has been automatically reconfigu
 
 ## Cleanup
 
-If not alredy deleted, delete the candidate:
+If not already deleted, delete the candidate:
 
 ```shell
 kubectl delete isvc/wisdom-1

@@ -14,7 +14,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ???+ "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
-    2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/release-0.11/docs/quickstart.md) environment.  If using the Quickstart environment, change your default namespece to `modelmesh-serving`: 
+    2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/release-0.11/docs/quickstart.md) environment.  If using the Quickstart environment, change your default namespace to `modelmesh-serving`: 
     ```shell
     kubectl config set-context --current --namespace=modelmesh-serving
     ```
@@ -79,7 +79,7 @@ strategy: canary
 EOF
 ```
 
-The `initialize` action (with strategy `canary`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It futher defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy sends requests with the header `traffic` set to the value `test` to the candidate version and all remaining requests to the primary version. For detailed configuration options, see the [Helm chart](https://github.com/kalantar/iter8/blob/v0.15/charts/routing-actions/values.yaml).
+The `initialize` action (with strategy `canary`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy sends requests with the header `traffic` set to the value `test` to the candidate version and all remaining requests to the primary version. For detailed configuration options, see the [Helm chart](https://github.com/kalantar/iter8/blob/v0.15/charts/routing-actions/values.yaml).
 
 ## Verify routing
 
