@@ -4,9 +4,9 @@ template: main.html
 
 # Canary Rollout of a KServe ML Model
 
-This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the network to distribute inference requests.
+This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the routing resources to distribute inference requests.
 
-After a one-time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Iter8 automatically handles the underlying network configuration.
+After a one-time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Iter8 automatically handles the underlying routing configuration.
 
 ![Canary rollout](images/canary.png)
 
@@ -16,20 +16,17 @@ After a one-time initialization step, the end user merely deploys candidate mode
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.10/hack/quick_install.sh" | bash
     ```
-<!-- Istio 1.15 already installed 
-    3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
-    ```shell
-    istioctl install --set profile=demo -y
-    ```
--->
+<!-- Istio 1.15 is installed as part of kserve install -->
 
-## Install the Iter8 controller
+## Install Iter8
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
-## Deploy a primary model
+## Initialize primary
 
-Deploy the primary version of a model using an `InferenceService`:
+### Application
+
+Deploy the primary version of the application. In this tutorial, the application is a KServe model. Initialize the resources for the primary version of the model (`v0`) by deploying an `InferenceService` as follows:
 
 ```shell
 cat <<EOF | kubectl apply -f -
@@ -53,37 +50,37 @@ EOF
 ```
 
 ??? note "About the primary `InferenceService`"
-    Naming the model with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the rollout initialization. However, any name can be specified.
-    
-    The label `iter8.tools/watch: "true"` lets Iter8 know that it should pay attention to changes to this `InferenceService`.
+    The base name (`wisdom`) and version (`v0`) are identified using the labels `app.kubernets.io/name` and `app.kubernets.io.version`, respectively. These labels are not required.
 
-Inspect the deployed `InferenceService`:
+    Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the routing initialization (see below). However, any name can be specified.
+    
+    The label `iter8.tools/watch: "true"` is required. It lets Iter8 know that it should pay attention to changes to this application resource.
+
+You can inspect the deployed `InferenceService`. When the `READY` field becomes `True`, the model is fully deployed.
 
 ```shell
 kubectl get inferenceservice wisdom-0
 ```
-
-When the `READY` field becomes `True`, the model is fully deployed.
     
-## Initialize the Canary routing policy
+### Routing
 
-Initialize model rollout with a canary traffic pattern as follows:
+Initialize the routing resources for the application to use a canary rollout strategy:
 
 ```shell
-#cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl apply -f -
-cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/traffic-templates -f - | kubectl apply -f -
-templateName: initialize-rollout
-targetEnv: kserve
-trafficStrategy: canary
-modelName: wisdom
+#cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl apply -f -
+cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/routing-actions -f - | kubectl apply -f -
+appType: kserve
+appName: wisdom
+action: initialize
+strategy: canary
 EOF
 ```
 
-The `initialize-rollout` template (with `trafficStrategy: canary`) configures the service mesh to route all requests to the primary version of the model (`wisdom-0`). Further, it defines the routing policy that will be used by Iter8 when it observes changes in the models. By default, this routing policy sends inference requests with the header `traffic` set to the value `test` to the candidate version of the model and all remaining inference requests to the primary version of the model. For detailed configuration options, see the Helm chart.
+The `initialize` action (with strategy `canary`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It further defines the routing policy that will be used when changes in the application resources. By default, this routing policy sends requests with the header `traffic` set to the value `test` to the candidate version and all remaining requests to the primary version. For detailed configuration options, see the [Helm chart](https://github.com/kalantar/iter8/blob/v0.15/charts/routing-actions/values.yaml).
 
-## Verify network configuration
+## Verify routing
 
-To verify the network configuration, you can inspect the network configuration:
+To verify the routing configuration, you can inspect the `VirtualService`:
 
 ```shell
 kubectl get virtualservice -o yaml wisdom
@@ -128,18 +125,18 @@ To send inference requests to the model:
     3. Send inference requests:
       ```shell
       curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
-      | grep -e HTTP -e mm-vmodel-id
+      | grep -e HTTP -e app-version
       ```
     or, to send a request with header `traffic: test`:
     ```shell
       curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
       -H 'traffic: test' \
-      | grep -e HTTP -e mm-vmodel-id
+      | grep -e HTTP -e app-version
     ```
 
-Note that the model version responding to each inference request is noted in the response header `mm-vmodel-id`. In the requests above, we display only the response code and this header.
+Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only the response code and this header.
 
-## Deploy a candidate model
+## Deploy candidate
 
 Deploy a candidate model using a second `InferenceService`:
 
@@ -165,25 +162,23 @@ EOF
 ```
 
 ??? note "About the candidate `InferenceService`"
-    The model name (`wisdom`) and version (`v1`) are recorded using the labels `app.kubernets.io/name` and `app.kubernets.io.version`.
-
     In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.
 
-## Verify network configuration changes
+## Verify routing changes
 
-The deployment of the candidate model triggers an automatic reconfiguration by Iter8. Inspect the `VirtualService` to see that inference requests are now distributed between the primary model and the secondary model:
+The deployment of the candidate triggers an automatic routing reconfiguration by Iter8. Inspect the `VirtualService` to see that inference requests are now distributed between the primary model and the secondary model:
 
 ```shell
 kubectl get virtualservice wisdom -o yaml
 ```
 
-Further, you can send additional inference requests as described above. They will be handled by both versions of the model.
+You can send additional inference requests as described above. They will be handled by both versions of the model.
 
-## Promote the candidate model
+## Promote candidate
 
-Promoting the candidate involves redefining the primary `InferenceService` using the new model and deleting the candidate `InferenceService`.
+Promoting the candidate involves redefining the primary version of the application and deleting the candidate version.
 
-### Redefine the primary `InferenceService`
+### Redefine primary
 
 ```shell
 cat <<EOF | kubectl replace -f -
@@ -209,7 +204,7 @@ EOF
 ??? note "What is different?"
     The version label (`app.kubernets.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
 
-### Delete the candidate `InferenceService`
+### Delete candidate
 
 Once the primary `InferenceService` has been redeployed, delete the candidate:
 
@@ -217,36 +212,36 @@ Once the primary `InferenceService` has been redeployed, delete the candidate:
 kubectl delete inferenceservice wisdom-1
 ```
 
-### Verify network configuration changes
+### Verify routing changes
 
-Inspect the `VirtualService` to see that the it has been automatically reconfigured to send requests only to the primary model.
+Inspect the `VirtualService` to see that the it has been automatically reconfigured to send requests only to the primary.
 
-## Clean up
+## Cleanup
 
-Delete the candidate model:
+If not already deleted, delete the candidate model:
 
 ```shell
-kubectl delete --force isvc/wisdom-1
+kubectl delete isvc/wisdom-1
 ```
 
-Delete routing artifacts:
+Delete routing:
 
 ```shell
-#cat <<EOF | helm template traffic --repo https://iter8-tools.github.io/iter8 traffic-templates -f - | kubectl delete --force -f -
-cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/traffic-templates -f - | kubectl delete -f -
-templateName: initialize-rollout
-targetEnv: kserve
-trafficStrategy: canary
-modelName: wisdom
+#cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl delete -f -
+cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/routing-actions -f - | kubectl delete -f -
+appType: kserve
+appName: wisdom
+action: initialize
+strategy: canary
 EOF
 ```
 
-Delete the primary model:
+Delete the primary:
 
 ```shell
-kubectl delete --force isvc/wisdom-0
+kubectl delete isvc/wisdom-0
 ```
 
-Uninstall the Iter8 controller:
+Uninstall Iter8:
 
 --8<-- "docs/tutorials/deleteiter8controller.md"

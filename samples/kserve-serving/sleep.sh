@@ -1,5 +1,14 @@
 #!/bin/sh
-cat <<EOF | kubectl apply -f -
+
+# to use with RedHat OpenShift Service Mesh, set
+# SERVICE_MESH=servicemesh
+
+if [ -z ${SERVICE_MESH+x} ]; then
+  SERVICE_MESH="istio"
+fi
+
+MANIFEST=/tmp/manifest.$$
+cat <<EOF > $MANIFEST
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,7 +22,18 @@ spec:
     metadata:
       labels:
         app: sleep
+EOF
+if [ "${SERVICE_MESH}" = "istio" ]; then
+cat <<EOF >> $MANIFEST
         sidecar.istio.io/inject: "true"
+EOF
+elif [ "${SERVICE_MESH}" = "servicemesh" ]; then
+cat <<EOF >> $MANIFEST
+      annotations:
+        sidecar.istio.io/inject: "true"
+EOF
+fi
+cat <<EOF >> $MANIFEST
     spec:
       containers:
       - name: sleep
@@ -54,9 +74,12 @@ data:
     }
   wisdom.sh: |
     curl -H 'Content-Type: application/json' http://wisdom.default -d @input.json -s -D - \
-    | grep -e HTTP -e mm-vmodel-id
+    | grep -e HTTP -e app-version
   wisdom-test.sh: |
     curl -H 'Content-Type: application/json' http://wisdom.default -d @input.json -s -D - \
     -H 'traffic: test' \
-    | grep -e HTTP -e mm-vmodel-id
+    | grep -e HTTP -e app-version
 EOF
+
+kubectl apply -f $MANIFEST
+rm -f $MANIFEST
