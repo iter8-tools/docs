@@ -70,8 +70,7 @@ kubectl get inferenceservice wisdom-0
 Initialize the routing resources for the application to use a canary rollout strategy:
 
 ```shell
-#cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl apply -f -
-cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/routing-actions -f - | kubectl apply -f -
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl apply -f -
 appType: kserve-modelmesh
 appName: wisdom
 action: initialize
@@ -240,8 +239,7 @@ kubectl delete isvc/wisdom-1
 Delete routing:
 
 ```shell
-#cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl delete -f -
-cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/routing-actions -f - | kubectl delete -f -
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl delete -f -
 appType: kserve-modelmesh
 appName: wisdom
 action: initialize
