@@ -14,8 +14,7 @@ iter8 k launch \
 --set "tasks={ready,http}" \
 --set ready.deploy=httpbin-prod \
 --set ready.service=httpbin \
---set http.url=http://httpbin.default/get \
---set runner=job
+--set http.url=http://httpbin.default/get
 ```
 
 ## Parameters
@@ -42,8 +41,7 @@ Consider the Knative extension for this task; this extension enables Iter8 exper
 iter8 k launch \
 --set "tasks={ready,http}" \
 --set ready.ksvc=httpbin \
---set http.url=http://httpbin.default/get \
---set runner=job
+--set http.url=http://httpbin.default/get
 ```
 
 The `task.ready` and `k.role` were changed in the following ways to create this extension.

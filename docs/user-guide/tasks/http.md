@@ -13,25 +13,18 @@ In this experiment, the `http` task generates requests for `https://httpbin.org/
 Single endpoint:
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
---set http.url=https://httpbin.org/get \
---set assess.SLOs.upper.http/latency-mean=50 \
---set assess.SLOs.upper.http/error-count=0 \
---set runner=job
+--set "tasks={http}" \
+--set http.url=https://httpbin.org/get
 ```
 
 Multiple endpoints:
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 ## Parameters
@@ -59,64 +52,48 @@ In the following example, all three endpoints will use the default `qps` (querie
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 In the following example, the `get` and `getAnything` endpoints will use the default `qps` of 8 and the `post` endpoint will use a `qps` of 15.
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set http.endpoints.post.qps=15 \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.qps=15
 ```
 
 In the following example, all three endpoints will use a `qps` (queries-per-second) of 10.
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.qps=10 \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 In the following example, the `get` and `getAnything` endpoints will use a `qps` of 10 and the `post` endpoint will use a `qps` of 15.
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.qps=10 \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set http.endpoints.post.qps=15 \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.qps=15
 ```
 
 ***
@@ -125,16 +102,12 @@ Further more, set parameters will trickle down to the endpoints.
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.numRequests=50 \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 In this example, all three endpoints will have a `numRequests` of 50.

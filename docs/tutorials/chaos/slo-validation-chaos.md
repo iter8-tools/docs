@@ -71,18 +71,14 @@ Launch the LitmusChaos and Iter8 experiments as described below.
 === "Iter8" 
     ```shell
     iter8 k launch \
-    --set "tasks={ready,http,assess}" \
+    --set "tasks={ready,http}" \
     --set ready.deploy=httpbin \
     --set ready.service=httpbin \
     --set ready.chaosengine=litmuschaos-httpbin \
     --set ready.timeout=60s \
     --set http.url=http://httpbin.default/get \
     --set http.duration=30s \
-    --set http.qps=20 \
-    --set assess.SLOs.upper.http/latency-mean=50 \
-    --set assess.SLOs.upper.http/latency-p99=100 \
-    --set assess.SLOs.upper.http/error-count=0 \
-    --set runner=job
+    --set http.qps=20
     ```
 
     ??? note "About this Iter8 experiment"

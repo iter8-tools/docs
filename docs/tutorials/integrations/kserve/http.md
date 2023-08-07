@@ -42,27 +42,22 @@ Launch an Iter8 experiment inside the Kubernetes cluster:
 
 ```shell
 iter8 k launch \
---set "tasks={ready,http,assess}" \
+--set "tasks={ready,http}" \
 --set ready.isvc=sklearn-irisv2 \
 --set ready.timeout=180s \
 --set http.url=http://sklearn-irisv2.default.svc.cluster.local/v2/models/sklearn-irisv2/infer \
 --set http.payloadURL=https://gist.githubusercontent.com/kalantar/d2dd03e8ebff2c57c3cfa992b44a54ad/raw/97a0480d0dfb1deef56af73a0dd31c80dc9b71f4/sklearn-irisv2-input.json \
 --set http.contentType="application/json" \
 --set assess.SLOs.upper.http/latency-mean=50 \
---set assess.SLOs.upper.http/error-count=0 \
---set runner=job
+--set assess.SLOs.upper.http/error-count=0
 ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md), [http](../../../user-guide/tasks/http.md), and [assess](../../../user-guide/tasks/assess.md). 
+    This experiment consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [http](../../../user-guide/tasks/http.md). 
     
     The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
 
-    The [http](../../../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL exposed by the InferenceService, `http://sklearn-irisv2.default.svc.cluster.local/v2/models/sklearn-irisv2/infer`, and collects [Iter8's built-in HTTP load test metrics](../../../user-guide/tasks/http.md#metrics). 
-    
-    The [assess](../../../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
-    
-    This is a [single-loop](../../../getting-started/concepts.md#design) [Kubernetes experiment](../../../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../../../getting-started/concepts.md#runners) value is set to `job`.
+    The [http](../../../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL exposed by the InferenceService, `http://sklearn-irisv2.default.svc.cluster.local/v2/models/sklearn-irisv2/infer`, and collects [Iter8's built-in HTTP load test metrics](../../../user-guide/tasks/http.md#metrics).
 
 ***
 

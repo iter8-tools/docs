@@ -52,29 +52,21 @@ GRPC_PORT=80
 
 ```shell
 iter8 k launch \
---set "tasks={ready,grpc,assess}" \
+--set "tasks={ready,grpc}" \
 --set ready.isvc=sklearn-irisv2 \
 --set ready.timeout=180s \
 --set grpc.protoURL=https://raw.githubusercontent.com/kserve/kserve/master/docs/predict-api/v2/grpc_predict_v2.proto \
 --set grpc.host=${GRPC_HOST}:${GRPC_PORT} \
 --set grpc.call=inference.GRPCInferenceService.ModelInfer \
---set grpc.dataURL=https://gist.githubusercontent.com/kalantar/6e9eaa03cad8f4e86b20eeb712efef45/raw/56496ed5fa9078b8c9cdad590d275ab93beaaee4/sklearn-irisv2-input-grpc.json \
---set assess.SLOs.upper.grpc/error-rate=0 \
---set assess.SLOs.upper.grpc/latency/mean=5000 \
---set assess.SLOs.upper.grpc/latency/p'97\.5'=7500 \
---set runner=job
+--set grpc.dataURL=https://gist.githubusercontent.com/kalantar/6e9eaa03cad8f4e86b20eeb712efef45/raw/56496ed5fa9078b8c9cdad590d275ab93beaaee4/sklearn-irisv2-input-grpc.json
 ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md), [grpc](../../../user-guide/tasks/grpc.md), and [assess](../../../user-guide/tasks/assess.md). 
+    This experiment consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [grpc](../../../user-guide/tasks/grpc.md). 
     
     The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
 
     The [grpc](../../../user-guide/tasks/grpc.md) task sends call requests to the `inference.GRPCInferenceService.ModelInfer` method of the cluster-local gRPC service with host address `${GRPC_HOST}:${GRPC_PORT}`, and collects Iter8's built-in gRPC load test metrics.
-
-    The assess task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the 97.5th percentile latency does not exceed 200 msec. 
-    
-    This is a [single-loop](../../../getting-started/concepts.md#design) [Kubernetes experiment](../../../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../../../getting-started/concepts.md#runners) value is set to `job`.
 
 ***
 

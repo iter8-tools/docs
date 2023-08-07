@@ -28,69 +28,53 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 === "Unary example"
     ```shell
     iter8 k launch \
-    --set "tasks={ready,grpc,assess}" \
+    --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
     --set ready.timeout=60s \
     --set grpc.host=routeguide.default:50051 \
     --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
     --set grpc.call=routeguide.RouteGuide.GetFeature \
-    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
-    --set assess.SLOs.upper.grpc/error-rate=0 \
-    --set assess.SLOs.upper.grpc/latency/mean=200 \
-    --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
-    --set runner=job
+    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json
     ```
 
 === "Server streaming example"
     ```shell
     iter8 k launch \
-    --set "tasks={ready,grpc,assess}" \
+    --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
     --set ready.timeout=60s \
     --set grpc.host=routeguide.default:50051 \
     --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
     --set grpc.call=routeguide.RouteGuide.ListFeatures \
-    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
-    --set assess.SLOs.upper.grpc/error-rate=0 \
-    --set assess.SLOs.upper.grpc/latency/mean=200 \
-    --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
-    --set runner=job
+    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json
     ```
 
 === "Client streaming example"
     ```shell
     iter8 k launch \
-    --set tasks={ready,grpc,assess} \
+    --set tasks={ready,grpc} \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
     --set ready.timeout=60s \
     --set grpc.host=routeguide.default:50051 \
     --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
     --set grpc.call=routeguide.RouteGuide.RecordRoute \
-    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
-    --set assess.SLOs.upper.grpc/error-rate=0 \
-    --set assess.SLOs.upper.grpc/latency/mean=200 \
-    --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
-    --set runner=job
+    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
     ```
 
 === "Bidirectional example"
     ```shell
     iter8 k launch \
-    --set "tasks={ready,grpc,assess}" \
+    --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
     --set ready.timeout=60s \
     --set grpc.host=routeguide.default:50051 \
     --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
     --set grpc.call=routeguide.RouteGuide.RouteChat \
-    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/bidirectional.json \
-    --set assess.SLOs.upper.grpc/error-rate=0 \
-    --set assess.SLOs.upper.grpc/latency/mean=200 \
-    --set assess.SLOs.upper.grpc/latency/p'97\.5'=800 \
-    --set runner=job
+    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/bidirectional.json
     ```
 
 ??? note "About this experiment"
@@ -98,11 +82,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
     
-    The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the specified method of the cluster-local gRPC service with host address `routeguide.default:50051` and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). This task supports all four gRPC service methods: unary, server streaming, client streaming, and bidirectional streaming, and will provide payload in the appropriate manner using `dataURL`. 
-    
-    The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the `97.5`th percentile latency does not exceed 200 msec. 
-    
-    This is a [single-loop](../getting-started/concepts.md#design) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
+    The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the specified method of the cluster-local gRPC service with host address `routeguide.default:50051` and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). This task supports all four gRPC service methods: unary, server streaming, client streaming, and bidirectional streaming, and will provide payload in the appropriate manner using `dataURL`.
 
 ??? note "Some variations and extensions of this experiment"
     1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.

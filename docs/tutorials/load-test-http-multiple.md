@@ -23,21 +23,14 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
 
 ```bash
 iter8 k launch \
---set "tasks={ready,http,assess}" \
+--set "tasks={ready,http}" \
 --set ready.deploy=httpbin \
 --set ready.service=httpbin \
 --set ready.timeout=60s \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-get/latency-mean=50 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-getAnything/latency-mean=100 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set assess.SLOs.upper.http-post/latency-mean=150 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 ??? note "About this experiment"
@@ -46,10 +39,6 @@ iter8 k launch \
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
     The [http](../user-guide/tasks/http.md) task sends requests to three endpoints from the cluster-local HTTP service, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). The three endpoints are `http://httpbin.default/get`, `http://httpbin.default/anything`, and `http://httpbin.default/post`. The last endpoint also has a payload string `hello`.
-    
-    The [assess](../user-guide/tasks/assess.md) task verifies if each endpoint satisfies their respective error count and mean latency SLOs. All three must have an error count of 0 but the `get`, `getAnything`, and `post` endpoints are allowed a maximum mean latency of 50, 100, and 150 msecs, respectively.
-    
-    This is a [single-loop](../getting-started/concepts.md#design) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
 
 ***
 

@@ -25,7 +25,7 @@ template: main.html
 
 ```shell
 iter8 k launch \
---set "tasks={ready,grpc,assess}" \
+--set "tasks={ready,grpc}" \
 --set ready.deploy=routeguide \
 --set ready.service=routeguide \
 --set ready.timeout=60s \
@@ -34,12 +34,7 @@ iter8 k launch \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
 --set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
---set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
---set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc-getFeature/latency/mean=50 \
---set assess.SLOs.upper.grpc-listFeatures/error-rate=0 \
---set assess.SLOs.upper.grpc-listFeatures/latency/mean=100 \
---set runner=job
+--set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json
 ```
 
 ??? note "About this experiment"
@@ -48,10 +43,6 @@ iter8 k launch \
     The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
 
     The [grpc](../user-guide/tasks/grpc.md) task sends call requests to two methods of the cluster-local gRPC service, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). The two methods are `routeguide.RouteGuide.GetFeature` and `routeguide.RouteGuide.ListFeatures`. Note that each method also has its own `dataURL` for the request payload.
-
-    The [assess](../user-guide/tasks/assess.md) task verifies if each method satisfies their respective error rate and mean latency SLOs. Both methods must have an error rate of 0 but the `getFeature` and `listFeatures` methods are allowed a maximum mean latency of 50 and 100 msecs, respectively.
-    
-    This is a [single-loop](../getting-started/concepts.md#design) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../getting-started/concepts.md#runners) value is set to `job`.
 
 ??? note "Some variations and extensions of this experiment"
     1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.
