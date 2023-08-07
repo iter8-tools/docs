@@ -96,13 +96,12 @@ In this definition, each version of the application is composed of a `Service` a
 
 ## Generate load
 
-In separate shells, port-forward requests to the frontend component and generate load for multiple users. A [script](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh) is provided for the latter.
+In separate shells, port-forward requests to the frontend component and generate load for multiple users. A [script](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh) is provided to do this. To use it:
     ```shell
     kubectl port-forward service/frontend 8090:8090
     ```
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/abn-sample/generate_load.sh | sh -s --
-    # source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/abn-sample/generate_load.sh
     ```
     <!-- # source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/abn-sample/generate_load.sh -->
 
@@ -128,7 +127,7 @@ Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-
 kubectl port-forward service/grafana 3000:3000
 ```
 
-Open Grafana in a browser by going to http://localhost:3000/
+Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3000)
 
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with:
 
