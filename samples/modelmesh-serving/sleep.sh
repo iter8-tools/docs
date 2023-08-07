@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 #!/bin/sh
 
 # To use with RedHat OpenShift Service Mesh, set
@@ -423,4 +421,3 @@ EOF
 
 kubectl apply -f $MANIFEST
 rm -f $MANIFEST
->>>>>>> 0d2649e (update kserver-modelmesh use cases)
