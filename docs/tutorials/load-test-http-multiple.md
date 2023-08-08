@@ -34,7 +34,7 @@ iter8 k launch \
 ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
+    This experiment consists of two [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md) and [http](../user-guide/tasks/http.md).
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
@@ -42,7 +42,7 @@ iter8 k launch \
 
 ***
 
-Assert experiment outcomes, view experiment report, view experiment logs, and cleanup as described in [your first experiment](../getting-started/your-first-experiment.md).
+View the experiment results by using the Iter8 Grafana dashboard, as described in [your first experiment](../getting-started/your-first-experiment.md).
 
 ***
 

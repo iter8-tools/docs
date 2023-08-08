@@ -120,33 +120,26 @@ nav:
   - Get help: getting-started/help.md
 - Tutorials:
   - Load test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
-  - Load test gRPC with SLOs: tutorials/load-test-grpc.md
+  - Load test gRPC: tutorials/load-test-grpc.md
   - Load test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
-  - Chaos injection with SLOs: tutorials/chaos/slo-validation-chaos.md
+  # - Chaos injection with SLOs: tutorials/chaos/slo-validation-chaos.md
   - A/B testing with Iter8 SDK: tutorials/abn/abn.md
   - Integrations:
     # - GitHub Actions: tutorials/integrations/ghactions.md
-    - Istio: tutorials/integrations/istio.md
-    - Knative: tutorials/integrations/knative.md
     - Kserve:
       - Performance testing:
         - HTTP: tutorials/integrations/kserve/http.md
         - gRPC: tutorials/integrations/kserve/grpc.md
         - Multiple Versions:  tutorials/integrations/kserve/canary-testing.md
       - Blue-Green testing: tutorials/integrations/kserve/blue-green.md
-      - Canary testing: tutorials/integrations/kserve/canary.md
-      - Continuous validation: tutorials/integrations/kserve/continuous-validation.md
-      - Other (Iter8 v0.7): tutorials/integrations/kserve/kserve.md
+      # - Canary testing: tutorials/integrations/kserve/canary.md
+      # - Continuous validation: tutorials/integrations/kserve/continuous-validation.md
+      # - Other (Iter8 v0.7): tutorials/integrations/kserve/kserve.md
     - Kserve (modelmesh):
       - Blue-Green: tutorials/integrations/kserve-mm/blue-green.md
       - Canary: tutorials/integrations/kserve-mm/canary.md
-    - Seldon: tutorials/integrations/seldon.md
     # - Slack:  tutorials/integrations/slack.md
-    - Litmus: tutorials/integrations/litmus.md
-    - Linkerd: tutorials/integrations/linkerd.md
-  - Earlier versions:
-    - Docs for Iter8 v0.8: https://iter8-tools.github.io/iter8/0.8/
-    - Docs for Iter8 v0.7: https://iter8-tools.github.io/iter8/0.7/
+    # - Litmus: tutorials/integrations/litmus.md
 - User guide:
   - Tasks:
     # - github: user-guide/tasks/github.md

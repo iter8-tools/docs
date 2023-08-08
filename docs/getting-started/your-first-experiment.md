@@ -4,7 +4,7 @@ template: main.html
 
 # Your First Experiment
 
-Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives).
+Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and interpreting the experiment results using an Iter8 Grafana dashboard.
 
 ![Load test HTTP](images/http.png)
 

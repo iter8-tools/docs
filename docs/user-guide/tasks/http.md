@@ -8,7 +8,7 @@ Generate requests for an HTTP service and and collect [latency and error-related
 
 ## Usage example
 
-In this experiment, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. The metrics are used by the `assess` task to validate SLOs.
+In this experiment, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. Metrics collected by this task are viewable with an Iter8 dashboard.
 
 Single endpoint:
 ```bash

@@ -7,8 +7,8 @@ Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data 
 
 Iter8 supports the following use-cases.
 
-1. Performance testing and SLO validation of HTTP services.
-2. Performance testing and SLO validation of gRPC services.
+1. Performance testing of HTTP services.
+2. Performance testing of gRPC services.
 
 ## :rocket: Iter8 experiment
 

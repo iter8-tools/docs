@@ -131,7 +131,7 @@ iter8 k launch \
 
 ***
 
-You can assert experiment outcomes, view an experiment report, and view experiment logs as described in [your first experiment](../../../getting-started/your-first-experiment.md).
+View the experiment results by using the Iter8 Grafana dashboard, as described in [your first experiment](../getting-started/your-first-experiment.md).
 
 ## Clean up
 

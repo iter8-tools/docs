@@ -111,7 +111,7 @@ Observe the LitmusChaos and Iter8 experiments as follows. The chaos and Iter8 ex
 
     ```shell
     # the SLOs assertion is expected to fail
-    iter8 k assert -c completed -c nofailure -c slos --timeout 30s
+    iter8 k assert -c completed -c nofailure --timeout 30s
     ```
 
     For a more detailed report of the Iter8 experiment, run the `report` command.

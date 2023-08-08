@@ -10,9 +10,8 @@ For example, consider the following invocation:
 
 ```shell
 iter8 k launch -g hbin \
---set "tasks={http,assess}" \
---set http.url=http://httpbin.default/get \
---set assess.SLOs.upper.http/latency-mean=50
+--set "tasks={http}" \
+--set http.url=http://httpbin.default/get
 ```
 
 In the above invocation, the `iter8 k launch` command implicitly specifies the namespace as `default`, and explicitly specifies the group as `hbin`. If the group name is not specified explicitly, then it is set to `default`. The namespace can be specified explicitly using the `-n` or `--namespace` flags (see [here](../commands/iter8_k_launch.md#options-inherited-from-parent-commands)).

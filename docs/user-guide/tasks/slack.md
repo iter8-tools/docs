@@ -10,13 +10,10 @@ Send the experiment report in a message to a Slack channel using a [incoming web
 
 ```shell
 iter8 k launch \
---set "tasks={http,assess,slack}" \
+--set "tasks={http,slack}" \
 --set http.url=http://httpbin.default/get \
---set assess.SLOs.upper.http/latency-mean=50 \
---set assess.SLOs.upper.http/error-count=0 \
 --set slack.url=<Slack webhook> \
---set slack.method=POST \
---set runner=job
+--set slack.method=POST
 ```
 
 See [here](../../tutorials/integrations/slack.md#use-iter8-to-send-a-message-to-a-slack-channel) for a more in-depth tutorial.
@@ -35,21 +32,3 @@ See [here](../../tutorials/integrations/slack.md#use-iter8-to-send-a-message-to-
 The payload will determine what will be contained in the Slack message. The [default payload template](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/templates/notify/_payload-slack.tpl) of the `slack` task is to send the experiment report in text form.
 
 However, if you would like to use a different payload template, simply set a `payloadTemplateURL` and Iter8 will not use the default.
-
-## `if` parameter
-
-The `if` parameter is used to control when the task is run in a [multi-looped experiment](../../getting-started/concepts.md#runner). For example, if you would like for the `slack` task to run only at the 10th loop instead of every loop, you can do the following:
-
-```diff
-  iter8 k launch \
-  --set "tasks={http,assess,slack}" \
-  --set http.url=http://httpbin.default/get \
-  --set assess.SLOs.upper.http/latency-mean=50 \
-  --set assess.SLOs.upper.http/error-count=0 \
-  --set slack.url=<Slack webhook> \
-  --set slack.method=POST \
-  --set github.if="Result.NumLoops == 10"
-  --set runner=job
-```
-
-You may use any field in the `Result` object for your logic.

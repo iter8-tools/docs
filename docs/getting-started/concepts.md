@@ -3,7 +3,7 @@ template: main.html
 ---
 
 # Iter8
-Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 automates traffic control for new versions of apps/ML models in the cluster, and automates validation of their performance and business metrics.
+Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 automates traffic control for new versions of apps/ML models in the cluster, and simplifies validation of their performance and business metrics.
 
 ## Use-cases
 
@@ -20,11 +20,11 @@ Iter8 provides three inter-related components to support the above use-cases.
 3. Client SDK
 
 === "CLI for experiments"
-    Iter8 introduces the notion of an *experiment*, and provides a CLI for executing experiments and retrieving their results. An experiment is simply a list of tasks that are executed in a specific sequence. The following picture illustrates a performance testing and SLO validation experiment for a Kubernetes app/ML model (inference service); this experiment consists of three tasks.
+    Iter8 introduces the notion of an *experiment*, and provides a CLI for executing experiments and retrieving their results. An experiment is simply a list of tasks that are executed in a specific sequence. The following picture illustrates a performance testing experiment for a Kubernetes app/ML model (inference service); this experiment consists of three tasks.
 
     ![Iter8 experiment](images/kubernetesusage.png)
 
-    In addition to performance testing and SLO validation for HTTP and gRPC services, Iter8 experiments can also be used to compare versions of an app/ML model in terms of their business metrics, and perform SLO validation using metrics from custom databases (such as Prometheus).
+    In addition to performance testing for HTTP and gRPC services, Iter8 experiments can also be used to compare versions of an app/ML model in terms of their business metrics.
 
 === "Traffic controller"
 

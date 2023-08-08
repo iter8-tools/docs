@@ -2,9 +2,9 @@
 template: main.html
 ---
 
-# Load Test gRPC with SLOs
+# Load Test gRPC
 
-Load test a Kubernetes gRPC service and validate its [service-level objectives (SLOs)](../getting-started/concepts.md#service-level-objectives). This is a [single-loop](../getting-started/concepts.md#design) [Kubernetes experiment](../getting-started/concepts.md#kubernetes-experiments).
+Load test a Kubernetes gRPC service and interpreting the experiment results using an Iter8 Grafana dashboard.
 
 See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tutorial that describes how to load test multiple methods from an gRPC service.
 
@@ -78,7 +78,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), [grpc](../user-guide/tasks/grpc.md), and [assess](../user-guide/tasks/assess.md). 
+    This experiment consists of two [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), and [grpc](../user-guide/tasks/grpc.md).
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
     
@@ -86,11 +86,10 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 
 ??? note "Some variations and extensions of this experiment"
     1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.
-    2. The [assess task](../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in grpc load test metrics](../user-guide/tasks/grpc.md#metrics).   
 
 ***
 
-Assert experiment outcomes, view experiment report, view experiment logs, and cleanup as described in [your first experiment](../getting-started/your-first-experiment.md).
+View the experiment results by using the Iter8 Grafana dashboard, as described in [your first experiment](../getting-started/your-first-experiment.md).
 
 ***
 
