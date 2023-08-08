@@ -2,23 +2,21 @@
 template: main.html
 ---
 
-# Canary Rollout of a ML Model
+# Canary Rollout of a KServe ML Model
 
-This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe modelmesh serving environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the routing resources to distribute inference requests.
+This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the routing resources to distribute inference requests.
 
-After a one time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Iter8 automatically handles the underlying routing configuration.
+After a one-time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Iter8 automatically handles the underlying routing configuration.
 
 ![Canary rollout](images/canary.png)
 
-In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
-
 ???+ "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
-    2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/release-0.11/docs/quickstart.md) environment.  If using the Quickstart environment, change your default namespace to `modelmesh-serving`: 
+    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
-    kubectl config set-context --current --namespace=modelmesh-serving
+    curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.10/hack/quick_install.sh" | bash
     ```
-    3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
+<!-- Istio 1.15 is installed as part of kserve install -->
 
 ## Install Iter8
 
@@ -28,7 +26,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ### Application
 
-Deploy the primary version of the application. In this tutorial, the application is an ML model. Initialize the resources for the primary version of the model (`v0`) by deploying an `InferenceService` as follows:
+Deploy the primary version of the application. In this tutorial, the application is a KServe model. Initialize the resources for the primary version of the model (`v0`) by deploying an `InferenceService` as follows:
 
 ```shell
 cat <<EOF | kubectl apply -f -
@@ -40,15 +38,14 @@ metadata:
     app.kubernetes.io/name: wisdom
     app.kubernetes.io/version: v0
     iter8.tools/watch: "true"
-  annotations:
-    serving.kserve.io/deploymentMode: ModelMesh
-    serving.kserve.io/secretKey: localMinIO
 spec:
   predictor:
+    minReplicas: 1
     model:
       modelFormat:
         name: sklearn
-      storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
+      runtime: kserve-mlserver
+      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
 
@@ -64,14 +61,14 @@ You can inspect the deployed `InferenceService`. When the `READY` field becomes 
 ```shell
 kubectl get inferenceservice wisdom-0
 ```
-
+    
 ### Routing
 
 Initialize the routing resources for the application to use a canary rollout strategy:
 
 ```shell
 cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl apply -f -
-appType: kserve-modelmesh
+appType: kserve
 appName: wisdom
 action: initialize
 strategy: canary
@@ -93,7 +90,7 @@ To send inference requests to the model:
 === "From within the cluster"
     1. Create a "sleep" pod in the cluster from which requests can be made:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/modelmesh-serving/sleep.sh | sh -
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/kserve-serving/sleep.sh | sh -
     ```
 
     2. exec into the sleep pod:
@@ -103,7 +100,6 @@ To send inference requests to the model:
 
     3. Make inference requests:
     ```shell
-    cd demo
     cat wisdom.sh
     . wisdom.sh
     ```
@@ -116,34 +112,27 @@ To send inference requests to the model:
 === "From outside the cluster"
     1. In a separate terminal, port-forward the ingress gateway:
       ```shell
-      kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
+      kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
       ```
 
-    2. Download the proto file and a sample input:
+    2. Download the sample input:
       ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/modelmesh-serving/kserve.proto
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/modelmesh-serving/grpc_input.json
+      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/kserve-serving/input.json
       ```
 
     3. Send inference requests:
       ```shell
-      cat grpc_input.json | \
-      grpcurl -vv -plaintext -proto kserve.proto -d @ \
-      -authority wisdom.modelmesh-serving \
-      localhost:8080 inference.GRPCInferenceService.ModelInfer \
-      | grep -e app-version
+      curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
+      | grep -e HTTP -e app-version
       ```
-      or, to send a request with header `traffic: test`:
-      ```shell
-      cat grpc_input.json | \
-      grpcurl -vv -plaintext -proto kserve.proto -d @ \
+    or, to send a request with header `traffic: test`:
+    ```shell
+      curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
       -H 'traffic: test' \
-      -authority wisdom.modelmesh-serving \
-      localhost:8080 inference.GRPCInferenceService.ModelInfer \
-      | grep -e app-version
-      ```
+      | grep -e HTTP -e app-version
+    ```
 
-Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only this header.
+Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only the response code and this header.
 
 ## Deploy candidate
 
@@ -159,24 +148,23 @@ metadata:
     app.kubernetes.io/name: wisdom
     app.kubernetes.io/version: v1
     iter8.tools/watch: "true"
-  annotations:
-    serving.kserve.io/deploymentMode: ModelMesh
-    serving.kserve.io/secretKey: localMinIO
 spec:
   predictor:
+    minReplicas: 1
     model:
       modelFormat:
         name: sklearn
-      storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
+      runtime: kserve-mlserver
+      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
 
 ??? note "About the candidate `InferenceService`"
-    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real example, this would be different.
+    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.
 
 ## Verify routing changes
 
-The deployment of the candidate model triggers an automatic reconfiguration by Iter8. Inspect the `VirtualService` to see that the routing has been changed. Requests are now distributed between the primary and candidate:
+The deployment of the candidate triggers an automatic routing reconfiguration by Iter8. Inspect the `VirtualService` to see that the routing has been changed. Requests are now distributed between the primary model and the secondary model:
 
 ```shell
 kubectl get virtualservice wisdom -o yaml
@@ -200,15 +188,14 @@ metadata:
     app.kubernetes.io/name: wisdom
     app.kubernetes.io/version: v1
     iter8.tools/watch: "true"
-  annotations:
-    serving.kserve.io/deploymentMode: ModelMesh
-    serving.kserve.io/secretKey: localMinIO
 spec:
   predictor:
+    minReplicas: 1
     model:
       modelFormat:
         name: sklearn
-      storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
+      runtime: kserve-mlserver
+      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
 
@@ -239,7 +226,7 @@ Delete routing:
 
 ```shell
 cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl delete -f -
-appType: kserve-modelmesh
+appType: kserve
 appName: wisdom
 action: initialize
 strategy: canary

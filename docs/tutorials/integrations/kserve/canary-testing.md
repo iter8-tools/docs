@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Canary Testing
+# Load Testing Multiple Model Versions
 
 This tutorial shows how easy it is validate SLOs for multiple versions of a model in [KServe](https://kserve.github.io/website/0.10/) when fetching metrics from a metrics database like Prometheus. We show this using the `sklearn-iris` model used to describe [canary rollouts](https://kserve.github.io/website/0.10/modelserving/v1beta1/rollout/canary-example/) in KServe. 
 
