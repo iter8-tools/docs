@@ -90,7 +90,7 @@ To send inference requests to the model:
 === "From within the cluster"
     1. Create a "sleep" pod in the cluster from which requests can be made:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/kserve-serving/sleep.sh | sh -
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/sleep.sh | sh -
     ```
 
     2. exec into the sleep pod:
@@ -117,7 +117,7 @@ To send inference requests to the model:
 
     2. Download the sample input:
       ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/kserve-serving/input.json
+      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
       ```
 
     3. Send inference requests:
