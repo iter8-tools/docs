@@ -103,7 +103,6 @@ To send inference requests to the model:
 
     3. Make inference requests:
     ```shell
-    cd demo
     cat wisdom.sh
     . wisdom.sh
     ```
@@ -116,8 +115,8 @@ To send inference requests to the model:
 
     2. Download the proto file and a sample input:
       ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/modelmesh-serving/kserve.proto
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.1/samples/modelmesh-serving/grpc_input.json
+      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/modelmesh-serving/kserve.proto
+      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/modelmesh-serving/grpc_input.json
       ```
 
     3. Send inference requests:
