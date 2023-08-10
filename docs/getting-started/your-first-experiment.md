@@ -6,7 +6,7 @@ template: main.html
 
 Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and interpreting the experiment results using an Iter8 Grafana dashboard.
 
-![Load test HTTP](images/kubernetes.png)
+![Load test HTTP](images/kubernetesusage.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).

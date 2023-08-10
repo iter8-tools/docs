@@ -59,7 +59,7 @@ iter8 k launch \
 
 ***
 
-View the experiment results by using the Iter8 Grafana dashboard, as described in [your first experiment](../getting-started/your-first-experiment.md).
+View the experiment results by using the Iter8 Grafana dashboard, as described in [your first experiment](../../../getting-started/your-first-experiment.md).
 
 ??? note "Some variations and extensions of this experiment" 
     1. The [http task](../../../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
