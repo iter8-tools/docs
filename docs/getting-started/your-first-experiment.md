@@ -88,7 +88,7 @@ http://localhost:3000/
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
-The Iter8 dashboard will look likethe following:
+The Iter8 dashboard will look like the following:
 
 ![`http` Iter8 dashboard](../user-guide/tasks/images/httpdashboard.png)
 

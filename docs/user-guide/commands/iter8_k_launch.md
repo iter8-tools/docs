@@ -10,19 +10,22 @@ Launch an experiment inside a Kubernetes cluster
 
 ### Synopsis
 
-
 Launch an experiment inside a Kubernetes cluster. 
 
-	iter8 k launch \
-  --set "tasks={http}" \
-  --set http.url=https://httpbin.org/get
+```
+iter8 k launch \
+--set "tasks={http}" \
+--set http.url=https://httpbin.org/get
+```
 
 Use the dry option to simulate a Kubernetes experiment. This creates the `manifest.yaml` file, but does not run the experiment, and does not deploy any experiment resource objects in the cluster.
 
-	iter8 k launch \
-  --set "tasks={http}" \
-	--set http.url=https://httpbin.org/get \
-	--dry
+```
+iter8 k launch \
+--set "tasks={http}" \
+--set http.url=https://httpbin.org/get \
+--dry
+```
 
 The launch command creates the 'charts' subdirectory under the current working directory, downloads the Iter8 experiment chart, and places it under 'charts'. This behavior can be controlled using various launch flags.
 

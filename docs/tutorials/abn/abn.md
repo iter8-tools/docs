@@ -136,7 +136,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/aa4ba259cc4631aafe9b43500502c60f/raw/034249f24e2c524ee4e326e860c06149ae7b2677/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source above.
 
-The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look likethe following:
+The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look like the following:
 
 ![A/B dashboard](images/dashboard.png)
 
