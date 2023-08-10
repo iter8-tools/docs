@@ -4,7 +4,7 @@ template: main.html
 
 # Your First Experiment
 
-Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and interpreting the experiment results using an Iter8 Grafana dashboard.
+Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and visualizing the experiment results with an Iter8 Grafana dashboard.
 
 ![Load test HTTP](images/kubernetesusage.png)
 
@@ -62,7 +62,7 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
 ***
 
 ## Assert experiment outcomes
-Assert that the experiment completed without failures. The timeout flag below specifies a period of 120 sec for assert conditions to be satisfied.
+Assert that the experiment completed without failures. The timeout flag below specifies a period of 120 seconds for assert conditions to be satisfied.
 
 ```shell
 iter8 k assert -c completed -c nofailure --timeout 120s
@@ -86,9 +86,9 @@ http://localhost:3000/
 * URL `http://iter8.default:8080/metrics` 
 * Query string `application=default%2Fbackend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Do so by pasting the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
-The Iter8 dashboard may look like the following:
+The Iter8 dashboard will look likethe following:
 
 ![`http` Iter8 dashboard](../user-guide/tasks/images/httpdashboard.png)
 

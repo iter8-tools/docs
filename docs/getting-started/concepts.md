@@ -20,7 +20,9 @@ Iter8 provides three inter-related components to support the above use-cases.
 3. Client SDK
 
 === "CLI for experiments"
-    Iter8 introduces the notion of an *experiment*, and provides a CLI for executing experiments and retrieving their results. An experiment is simply a list of tasks that are executed in a specific sequence. The following picture illustrates a performance testing experiment for a Kubernetes app/ML model (inference service); this experiment consists of three tasks.
+    Iter8 introduces the notion of an *experiment*, and provides a CLI for executing experiments and retrieving their results. An experiment is simply a list of tasks that are executed in a specific sequence. 
+    
+    The following picture illustrates a performance testing experiment for an HTTP application; this experiment consists of two tasks.
 
     ![Iter8 experiment](images/kubernetesusage.png)
 
