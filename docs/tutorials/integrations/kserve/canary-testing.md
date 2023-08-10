@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Load Testing Multiple Model Versions
+<!-- # Load Testing Multiple Model Versions
 
 This tutorial shows how easy it is validate SLOs for multiple versions of a model in [KServe](https://kserve.github.io/website/0.10/) when fetching metrics from a metrics database like Prometheus. We show this using the `sklearn-iris` model used to describe [canary rollouts](https://kserve.github.io/website/0.10/modelserving/v1beta1/rollout/canary-example/) in KServe. 
 
@@ -147,4 +147,4 @@ kubectl delete inferenceservice sklearn-iris
 rm ./iris-input.json
 ```
 
-You can remove Prometheus using [these instructions](https://github.com/kserve/kserve/tree/master/docs/samples/metrics-and-monitoring#removal).
+You can remove Prometheus using [these instructions](https://github.com/kserve/kserve/tree/master/docs/samples/metrics-and-monitoring#removal). -->
