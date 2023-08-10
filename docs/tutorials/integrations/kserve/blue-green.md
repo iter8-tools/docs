@@ -50,7 +50,7 @@ EOF
 ```
 
 ??? note "About the primary"
-    The base name (`wisdom`) and version (`v0`) are identified using the labels `app.kubernets.io/name` and `app.kubernets.io.version`, respectively. These labels are not required.
+    The base name (`wisdom`) and version (`v0`) are identified using the labels `app.kubernets.io/name` and `app.kubernets.io/version`, respectively. These labels are not required.
 
     Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the routing initialization (see below). However, any name can be specified.
     
