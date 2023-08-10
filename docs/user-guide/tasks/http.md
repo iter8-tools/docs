@@ -112,32 +112,23 @@ iter8 k launch \
 
 In this example, all three endpoints will have a `numRequests` of 50.
 
-## Metrics
+## Grafana Dashboard
 
-This task creates a built-in [provider](../topics/metrics.md#fully-qualified-names) named `http`. The following metrics are collected by this task:
+The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt).
 
-- `http/request-count`: total number of requests sent
-- `http/error-count`: number of error responses
-- `http/error-rate`: fraction of error responses
-- `http/latency-mean`: mean of observed latency values
-- `http/latency-stddev`: standard deviation of observed latency values
-- `http/latency-min`: min of observed latency values
-- `http/latency-max`: max of observed latency values
-- `http/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
+To use the dashboard:
 
-All latency metrics have `msec` units.
+1. Open Grafana in a browser. 
+2. Add a new data JSON API data source with the following parameters
+    * URL: `<link to Grafana service>/httpDashboard`
+    * Query string: `namespace=<namespace of experiment>&experiment=<name of experiment>`
+3. Import the `http` Iter8 Grafana dashboard
+    * Copy and paste the contents of this [link](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt) into the text box
 
-***
+You will see a visualization of the experiment like the following:
 
-In the case of multiple endpoints, the name of the endpoint will be appended to the name of the provider. For example, if the endpoint name is `httpbin`, then the following metrics would be collected by this task:
+![`http` Iter8 dashboard](images/httpdashboard.png)
 
-- `http-httpbin/request-count`: total number of requests sent
-- `http-httpbin/error-count`: number of error responses
-- `http-httpbin/error-rate`: fraction of error responses
-- `http-httpbin/latency-mean`: mean of observed latency values
-- `http-httpbin/latency-stddev`: standard deviation of observed latency values
-- `http-httpbin/latency-min`: min of observed latency values
-- `http-httpbin/latency-max`: max of observed latency values
-- `http-httpbin/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
+For multiple endpoints, the visualization will look like the following:
 
-To learn more about the names of metrics, please see [here](../topics/metrics.md#fully-qualified-names).
+![`http` Iter8 dashboard with multiple endpoings](images/httpmultipledashboard.png)

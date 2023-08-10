@@ -6,7 +6,7 @@ template: main.html
 
 Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and interpreting the experiment results using an Iter8 Grafana dashboard.
 
-![Load test HTTP](images/http.png)
+![Load test HTTP](images/kubernetes.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
@@ -81,17 +81,16 @@ Open Grafana in a browser:
 http://localhost:3000/
 ```
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
-- URL `http://iter8.default:8080/metrics` and 
-- query string `application=default%2Fbackend`
+* URL `http://iter8.default:8080/metrics` 
+* Query string `application=default%2Fbackend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Do so by pasting the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/aa4ba259cc4631aafe9b43500502c60f/raw/034249f24e2c524ee4e326e860c06149ae7b2677/gistfile1.txt) into the box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Do so by pasting the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
 The Iter8 dashboard may look like the following:
 
-<!-- TODO -->
-![A/B dashboard](images/dashboard.png)
+![`http` Iter8 dashboard](../user-guide/tasks/images/httpdashboard.png)
 
 ## View experiment logs
 Logs are useful when debugging an experiment.

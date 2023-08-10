@@ -129,10 +129,10 @@ kubectl port-forward service/grafana 3000:3000
 
 Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3000)
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
-- URL: `http://iter8.default:8080/metrics`
-- Query string: `application=default%2Fbackend`
+* URL: `http://iter8.default:8080/metrics`
+* Query string: `application=default%2Fbackend`
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/aa4ba259cc4631aafe9b43500502c60f/raw/034249f24e2c524ee4e326e860c06149ae7b2677/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source above.
 

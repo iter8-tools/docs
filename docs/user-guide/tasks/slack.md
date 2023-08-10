@@ -25,7 +25,6 @@ See [here](../../tutorials/integrations/slack.md#use-iter8-to-send-a-message-to-
 | url | string | Yes | N/A | URL to the Slack webhook |
 | payloadTemplateURL | string | No | [https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/templates/notify/_payload-slack.tpl](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/templates/notify/_payload-slack.tpl) | URL to a payload template |
 | softFailure | bool | No | true | Indicates the task and experiment should not fail if the task cannot successfully send the request |
-| if | string | No | N/A | An if condition that can be control when the task is run in a [multi-looped experiment](../../getting-started/concepts.md#runner). To learn more, see [here](#if-parameter). |
 
 ## Default payload
 

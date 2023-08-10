@@ -16,8 +16,7 @@ iter8 k launch \
 --set http.url=http://httpbin.default/get \
 --set github.owner=<GitHub owner> \
 --set github.repo=<GitHub repository> \
---set github.token=<GitHub token> \
---set runner=job
+--set github.token=<GitHub token>
 ```
 
 See [here](../../tutorials/integrations/ghactions.md#use-iter8-to-trigger-a-github-actions-workflow) for a more in-depth tutorial.
@@ -31,7 +30,6 @@ See [here](../../tutorials/integrations/ghactions.md#use-iter8-to-trigger-a-gith
 | token | string | Yes | N/A | Authorization token |
 | payloadTemplateURL | string | No | [https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/templates/notify/_payload-github.tpl](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/templates/notify/_payload-github.tpl) | URL to a payload template |
 | softFailure | bool | No | true | Indicates the task and experiment should not fail if the task cannot successfully send the request |
-| if | string | No | N/A | An if condition that can be control when the task is run in a [multi-looped experiment](../../getting-started/concepts.md#runner). To learn more, see [here](#if-parameter). |
 
 ## Default payload
 

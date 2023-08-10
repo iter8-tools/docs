@@ -18,8 +18,7 @@ Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.15`. Onc
 # This assumes that your Kubernetes cluster is accessible from the GitHub Actions pipeline
 - run: |
     iter8 k launch --set "tasks={http}" \
-    --set http.url=http://httpbin.org/get \
-    --set runner=job
+    --set http.url=http://httpbin.org/get
 ```
 
 # Trigger a GitHub Actions workflow from an Iter8 experiment
@@ -30,7 +29,7 @@ Iter8 provides a [`github` task](../../user-guide/tasks/github.md) that sends a 
 
 In this example, you will run the [Your First Experiment](../../getting-started/your-first-experiment.md) but at the end of the experiment, Iter8 will trigger a workflow on GitHub.
 
-In this simple example, the workflow will simply print out the experiment report that it will receive with the `repository_dispatch`. In a more sophisticated scenario, the workflow could, for example, read from the experiment report and based on whether or not task failured or metrics did not meet SLOs, determine what to do next. In a GitOps scenario, it could make changes to the Git repository, promote winners, or restart pipelines among other things.
+In this simple example, the workflow will simply print out the experiment report that it will receive with the `repository_dispatch`. In a more sophisticated scenario, the workflow could, for example, read from the experiment report and determine what to do next.
 
 To summarize what will happen, you will create a new GitHub repository, add a workflow that will respond to the `github` task, set up and run an experiment, and check if the workflow was triggered.
 
