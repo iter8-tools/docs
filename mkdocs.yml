@@ -114,7 +114,7 @@ nav:
 - Home: index.md
 - Getting Started:
   - Your first experiment: getting-started/your-first-experiment.md
-  - Your first auto-routing: getting-started/first-routing.md
+  - Automatic Routing: getting-started/first-routing.md
   - Concepts: getting-started/concepts.md
   - Install Iter8: getting-started/install.md
   - Get help: getting-started/help.md

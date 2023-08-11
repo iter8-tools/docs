@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Your first blue-green
+# Automated blue-green rollout
 
 This tutorial shows how Iter8 can be used to implement a blue-green rollout of a Kubernetes application. In a blue-green rollout, a percentage of requests are directed to a candidate version of the application. The remaining requests go to the primary, or initial, version. Iter8 enables a blue-green rollout by automatically configuring routing resources to distribute requests.
 
@@ -22,7 +22,7 @@ After a one-time initialization step, the end user merely deploys candidate vers
 
 ### Application
 
-Deploy the primary version of the application. In this tutorial, the application is a Kubernetes Deployment. We us the well known `httpbin` as an example. Initialize the resources for the primary version (`v0`) as follows:
+Deploy the primary version of the application. In this tutorial, the application is a Kubernetes `Deployment`. We use `httpbin` as our application. Initialize the resources for the primary version (`v0`) as follows:
 
 ```shell
 kubectl create deployment httpbin-0 --image=kennethreitz/httpbin --port=80
@@ -38,7 +38,7 @@ kubectl expose deployment httpbin-0 --port=80
 
     The label `app.kubernetes.io/version` is not required; we include it here as a means to distinguish between deployed versions.
 
-You can inspect the deployed `InferenceService`. When the `READY` field becomes `True`, the model is fully deployed.
+You can inspect the deployed `Deployment`. When the `AVAILABLE` field becomes `1`, the application is fully deployed.
 
 ```shell
 kubectl get deployment httpbin-0
@@ -50,8 +50,6 @@ Initialize the routing resources for the application to use a blue-green rollout
 
 ```shell
 cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl apply -f -
-
-cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/routing-actions -f - | kubectl apply -f -
 appType: deployment
 appName: httpbin
 action: initialize
@@ -96,7 +94,7 @@ To send inference requests to the model:
 
     2. Send requests:
       ```shell
-      curl 'Host: httpbin.default' localhost:8080 -s -D - \
+      curl -H 'Host: httpbin.default' localhost:8080 -s -D - \
       | grep -e HTTP -e app-version
       ```
 
@@ -108,7 +106,7 @@ Deploy a candidate model using a second `Deployment`:
 
 ```shell
 kubectl create deployment httpbin-1 --image=kennethreitz/httpbin --port=80
-kubectl label deployment httpbin-0 app.kubernetes.io/version=v1
+kubectl label deployment httpbin-1 app.kubernetes.io/version=v1
 kubectl label deployment httpbin-1 iter8.tools/watch=true
 kubectl expose deployment httpbin-1 --port=80
 ```
@@ -132,8 +130,6 @@ You can modify the weight distribution of inference requests as follows:
 
 ```shell
 cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions -f - | kubectl apply -f -
-
-cat <<EOF | helm template /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts/routing-actions -f - | kubectl apply -f -
 appType: deployment
 appName: httpbin
 action: modify-weights
@@ -164,7 +160,7 @@ kubectl label deployment httpbin-0 app.kubernetes.io/version=v1 --overwrite
 
 ### Delete candidate
 
-Once the primary `InferenceService` has been redeployed, delete the candidate:
+Once the primary has been redeployed, delete the candidate:
 
 ```shell
 kubectl delete deployment/httpbin-1 service/httpbin-1
