@@ -15,7 +15,12 @@ template: main.html
     kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
     kubectl expose deploy httpbin --port=80
     ```
-
+    3. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
+    ```shell
+    kubectl create deploy grafana --image=grafana/grafana
+    kubectl expose deploy grafana --port=3000
+    ```
+    
 ***
 
 ## Launch experiment

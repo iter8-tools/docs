@@ -48,7 +48,7 @@ The `task.ready` and `k.role` were changed in the following ways to create this 
 === "task.ready"
     The group/version/resource (GVR) and the condition that should be checked for a Knative `Service` are defined in this template.
 
-    ```yaml linenums="1"
+    ```yaml
     {{- if .Values.ready.ksvc }}
     # task: determine if Knative Service exists and is ready
     - task: ready
@@ -65,7 +65,7 @@ The `task.ready` and `k.role` were changed in the following ways to create this 
 === "k.role"
     The role named `{{ .Release.Name }}-ready` is extended with the Knative `apiGroup`.
 
-    ```yaml linenums="1"
+    ```yaml
     {{- if .Values.ready.ksvc }}
     - apiGroups: ["serving.knative.dev"]
       resourceNames: [{{ .Values.ready.ksvc | quote }}]

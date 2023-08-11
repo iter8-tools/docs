@@ -3,7 +3,7 @@ template: main.html
 ---
 
 # Iter8
-Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 automates traffic control for new versions of apps/ML models in the cluster, and simplifies validation of their performance and business metrics.
+Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 automates traffic control for new versions of apps/ML models in the cluster and visualizes their performance metrics.
 
 ## Use-cases
 
@@ -30,7 +30,9 @@ Iter8 provides three inter-related components to support the above use-cases.
 
 === "Traffic controller"
 
-    Iter8 provides a traffic controller that automatically and dynamically reconfigures routing resources based on the state of Kubernetes apps/ML models. The following picture illustrates a Blue-Green rollout scenario that is orchestrated by this traffic controller.
+    Iter8 provides a traffic controller that automatically and dynamically reconfigures routing resources based on the state of Kubernetes apps/ML models. 
+    
+    The following picture illustrates a Blue-Green rollout scenario that is orchestrated by this traffic controller.
 
     ![Blue-Green](../tutorials/integrations/kserve-mm/images/blue-green.png)
     
@@ -40,7 +42,9 @@ Iter8 provides three inter-related components to support the above use-cases.
 
 === "Client SDK"
 
-    Iter8 provides a client-side SDK to facilitate routing as well as metrics collection task associated with distributed (i.e., client-server architecture-based) A/B/n testing in Kubernetes. The following picture illustrates the use of the SDK for A/B testing.
+    Iter8 provides a client-side SDK to facilitate routing as well as metrics collection task associated with distributed (i.e., client-server architecture-based) A/B/n testing in Kubernetes. 
+    
+    The following picture illustrates the use of the SDK for A/B testing.
 
     ![A/B testing](../tutorials/abn/images/abn.png)
 

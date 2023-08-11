@@ -10,7 +10,7 @@ There are two ways that you can use Iter8 with GitHub Actions. You can [run Iter
 
 Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.15`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
 
-```yaml linenums="1"
+```yaml
 - name: Install Iter8
   run: GOBIN=/usr/local/bin go install github.com/iter8-tools/iter8@v0.15
 
@@ -37,6 +37,7 @@ The `github` task requires the name of a repository, the name of the owner, as w
 
 1. Create a new repository on GitHub.
 2. Add the following workflow.
+
 ```yaml
 name: iter8 `github` task test
 on:

@@ -13,6 +13,11 @@ This tutorial shows how easy it is to run a load test for KServe when using HTTP
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.10/hack/quick_install.sh" | bash
     ```
+    4. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
+    ```shell
+    kubectl create deploy grafana --image=grafana/grafana
+    kubectl expose deploy grafana --port=3000
+    ```
 
 ## Deploy an InferenceService
 

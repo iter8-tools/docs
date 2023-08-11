@@ -18,6 +18,11 @@ template: main.html
     -- bash -c "git clone -b v1.52.0 --depth 1 https://github.com/grpc/grpc-go; cd grpc-go/examples/route_guide; sed -i "''" "'"s/localhost//"'" server/server.go; go run server/server.go"
     kubectl expose deployment routeguide --port=50051
     ```
+    3. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
+    ```shell
+    kubectl create deploy grafana --image=grafana/grafana
+    kubectl expose deploy grafana --port=3000
+    ```
 
 ***
 
