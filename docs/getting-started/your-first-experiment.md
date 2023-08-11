@@ -26,7 +26,9 @@ Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernet
 ## Install Iter8 CLI
 --8<-- "docs/getting-started/install.md"
 
-***
+## Install Iter8
+
+--8<-- "docs/tutorials/installiter8controller.md"
 
 ## Launch experiment
 Launch the Iter8 experiment inside the Kubernetes cluster.

@@ -28,6 +28,10 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 
 ***
 
+## Install Iter8
+
+--8<-- "docs/tutorials/installiter8controller.md"
+
 ## Launch experiment
 
 === "Unary example"

@@ -23,6 +23,10 @@ template: main.html
     
 ***
 
+## Install Iter8
+
+--8<-- "docs/tutorials/installiter8controller.md"
+
 ## Launch experiment
 Launch the Iter8 experiment inside the Kubernetes cluster.
 

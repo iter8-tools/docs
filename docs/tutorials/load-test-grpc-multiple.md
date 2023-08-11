@@ -8,8 +8,6 @@ template: main.html
 
 ![load-test-grpc](images/grpc.png)
 
-***
-
 ???+ warning "Before you begin"
     1. Try [your first experiment](../getting-started/your-first-experiment.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
     2. Deploy the sample gRPC service in the Kubernetes cluster.
@@ -23,6 +21,12 @@ template: main.html
     kubectl create deploy grafana --image=grafana/grafana
     kubectl expose deploy grafana --port=3000
     ```
+
+***
+
+## Install Iter8
+
+--8<-- "docs/tutorials/installiter8controller.md"
 
 ## Launch experiment
 
