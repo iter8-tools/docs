@@ -24,8 +24,6 @@ template: main.html
     kubectl expose deploy grafana --port=3000
     ```
 
-***
-
 ## Launch experiment
 
 ```shell

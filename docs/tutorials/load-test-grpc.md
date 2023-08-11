@@ -59,7 +59,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 === "Client streaming example"
     ```shell
     iter8 k launch \
-    --set tasks={ready,grpc} \
+    --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
     --set ready.timeout=60s \
