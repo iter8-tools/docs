@@ -114,7 +114,7 @@ In this example, all three endpoints will have a `numRequests` of 50.
 
 ## Grafana Dashboard
 
-The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt).
+The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/2c7f740ddd53e7e7fa9f662e9cc7e8df145b704f/gistfile1.txt).
 
 To use the dashboard:
 
@@ -123,7 +123,7 @@ To use the dashboard:
     * URL: `<link to Grafana service>/httpDashboard`
     * Query string: `namespace=<namespace of experiment>&experiment=<name of experiment>`
 3. Import the `http` Iter8 Grafana dashboard
-    * Copy and paste the contents of this [link](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt) into the text box
+    * Copy and paste the contents of this [link](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/2c7f740ddd53e7e7fa9f662e9cc7e8df145b704f/gistfile1.txt) into the text box
 
 You will see a visualization of the experiment like the following:
 

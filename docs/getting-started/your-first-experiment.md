@@ -88,7 +88,7 @@ http://localhost:3000/
 * URL `http://iter8.default:8080/metrics` 
 * Query string `application=default%2Fbackend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/d7261e3127d3e9b08d6d4f6acbdad9e1d1ca17a9/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/2c7f740ddd53e7e7fa9f662e9cc7e8df145b704f/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
 The Iter8 dashboard will look like the following:
 
