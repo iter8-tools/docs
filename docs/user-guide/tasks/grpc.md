@@ -160,4 +160,4 @@ You will see a visualization of the experiment like the following:
 
 For multiple endpoints, the visualization will look like the following:
 
-![`grpc` Iter8 dashboard with multiple endpoings](images/grpcmultipledashboard.png)
+![`grpc` Iter8 dashboard with multiple endpoints](images/grpcmultipledashboard.png)

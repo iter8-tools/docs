@@ -131,4 +131,4 @@ You will see a visualization of the experiment like the following:
 
 For multiple endpoints, the visualization will look like the following:
 
-![`http` Iter8 dashboard with multiple endpoings](images/httpmultipledashboard.png)
+![`http` Iter8 dashboard with multiple endpoints](images/httpmultipledashboard.png)

@@ -61,8 +61,6 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
     
     The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service using the specified `url`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). This tasks supports both GET and POST requests, and for POST requests, a payload can be provided by using either `payloadStr` or `payloadURL`.
 
-***
-
 ## Assert experiment outcomes
 Assert that the experiment completed without failures. The timeout flag below specifies a period of 120 seconds for assert conditions to be satisfied.
 
@@ -85,8 +83,8 @@ http://localhost:3000/
 
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
-* URL `http://iter8.default:8080/metrics` 
-* Query string `application=default%2Fbackend`
+* URL `http://iter8.default:8080/httpDashboard` 
+* Query string `namespace=default&experiment=default`
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/2c7f740ddd53e7e7fa9f662e9cc7e8df145b704f/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
