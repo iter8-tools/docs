@@ -8,11 +8,11 @@ There are two ways that you can use Iter8 with GitHub Actions. You can [run Iter
 
 # Use Iter8 in a GitHub Actions workflow
 
-Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.15`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
+Install the latest version of the Iter8 CLI using `iter8-tools/iter8@v0.16`. Once installed, the Iter8 CLI can be used as documented in various tutorials. For example:
 
 ```yaml
 - name: Install Iter8
-  run: GOBIN=/usr/local/bin go install github.com/iter8-tools/iter8@v0.15
+  run: GOBIN=/usr/local/bin go install github.com/iter8-tools/iter8@v0.16
 
 # Launch an experiment inside Kubernetes
 # This assumes that your Kubernetes cluster is accessible from the GitHub Actions pipeline
