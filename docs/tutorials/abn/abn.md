@@ -61,6 +61,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
 In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A `ConfigMap` is used to describe the make up of possible versions:
 
+<!-- TODO: should this be bumped to v0.16? -->
 ```shell
 cat <<EOF | kubectl apply -f -
 apiVersion: v1

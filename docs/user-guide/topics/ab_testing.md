@@ -25,6 +25,7 @@ The Iter8 A/B/n service is implemented using gRPC. The service is configured to 
 
 To configure the specific resources to watch for a given application, a Kubernetes `ConfigMap` is created. It identifies the specific resources that comprise each version. For example, consider the `ConfigMap`:
 
+<!-- TODO: should this be bumped to v0.16? -->
 ```yaml
 apiVersion: v1
 kind: ConfigMap
