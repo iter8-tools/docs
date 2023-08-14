@@ -22,9 +22,7 @@ Iter8 packs a number of powerful features that facilitate Kubernetes app testing
 
 1. **Generating load and collecting built-in metrics for HTTP and gRPC services.** Simplifies performance testing by eliminating the need to setup and use metrics databases.
 2. **Readiness check.** The performance testing portion of the experiment begins only after the service is ready.
-<!-- TODO -->
-<!-- 3. **Experiment anywhere.** Iter8 experiments can be launched inside a Kubernetes cluster, in local environments, or inside a GitHub Actions pipeline. -->
-3. **Experiment anywhere.** Iter8 experiments can be launched inside a Kubernetes cluster or in local environments.
+3. **Experiment anywhere.** Iter8 experiments can be launched inside a Kubernetes cluster, in local environments, or inside a GitHub Actions pipeline.
 
 Please see [https://iter8.tools](https://iter8.tools) for the complete documentation.
 
