@@ -10,8 +10,6 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 
 ![load-test-grpc](images/grpc.png)
 
-***
-
 ???+ warning "Before you begin"
     1. Try [your first experiment](../getting-started/your-first-experiment.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
     2. Deploy the sample gRPC service in the Kubernetes cluster.
@@ -20,15 +18,14 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     -- bash -c "git clone -b v1.52.0 --depth 1 https://github.com/grpc/grpc-go; cd grpc-go/examples/route_guide; sed -i "''" "'"s/localhost//"'" server/server.go; go run server/server.go"
     kubectl expose deployment routeguide --port=50051
     ```
+
     3. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
     kubectl create deploy grafana --image=grafana/grafana
     kubectl expose deploy grafana --port=3000
     ```
 
-***
-
-## Install Iter8
+## Install Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -93,16 +90,6 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     
     The [grpc](../user-guide/tasks/grpc.md) task sends call requests to the specified method of the cluster-local gRPC service with host address `routeguide.default:50051` and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). This task supports all four gRPC service methods: unary, server streaming, client streaming, and bidirectional streaming, and will provide payload in the appropriate manner using `dataURL`.
 
-??? note "Some variations and extensions of this experiment"
-    1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.
-
-## Assert experiment outcomes
-Assert that the experiment completed without failures. The timeout flag below specifies a period of 120 seconds for assert conditions to be satisfied.
-
-```shell
-iter8 k assert -c completed -c nofailure --timeout 120s
-```
-
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
 
@@ -142,3 +129,6 @@ iter8 k delete
 kubectl delete svc/routeguide
 kubectl delete deploy/routeguide
 ```
+
+??? note "Some variations and extensions of this experiment"
+    1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.

@@ -4,7 +4,7 @@ template: main.html
 
 # slack
 
-Send the experiment report in a message to a Slack channel using a [incoming webhook](https://api.slack.com/messaging/webhooks). 
+Send an experiment summary in a message to a Slack channel using a [incoming webhook](https://api.slack.com/messaging/webhooks). 
 
 ## Usage Example
 
@@ -28,6 +28,6 @@ See [here](../../tutorials/integrations/slack.md#use-iter8-to-send-a-message-to-
 
 ## Default payload
 
-The payload will determine what will be contained in the Slack message. The [default payload template](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/templates/notify/_payload-slack.tpl) of the `slack` task is to send the experiment report in text form.
+The payload will determine what will be contained in the Slack message. The [default payload template](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/templates/notify/_payload-slack.tpl) of the `slack` task is to send an experiment summary in text form.
 
 However, if you would like to use a different payload template, simply set a `payloadTemplateURL` and Iter8 will not use the default.

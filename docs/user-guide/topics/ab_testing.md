@@ -19,13 +19,12 @@ a. **Lookup()** - Given an application and user session, returns a version numbe
 
 b. **WriteMetric()** -  Given an application, a user session, a metric name its value, *WriteMetric()* associates the metric value with the appropriate version of the application. 
 
-## Configuring the Iter8 A/B/n Service
+## Configuring the Iter8 controller
 
-The Iter8 A/B/n service is implemented using gRPC. The service is configured to watch a given set of Kubernetes resource types. The default set of types Iter8 can watch are identified in the default [`values.yaml` file](https://github.com/iter8-tools/iter8/blob/v0.15.2/charts/traffic/values.yaml#L14-L40). Other configuration options are described in the same file.
+The Iter8 controller is implemented using gRPC. The service is configured to watch a given set of Kubernetes resource types. The default set of types Iter8 can watch are identified in the default [`values.yaml` file](https://github.com/iter8-tools/iter8/blob/v0.15.2/charts/traffic/values.yaml#L14-L40). Other configuration options are described in the same file.
 
 To configure the specific resources to watch for a given application, a Kubernetes `ConfigMap` is created. It identifies the specific resources that comprise each version. For example, consider the `ConfigMap`:
 
-<!-- TODO: should this be bumped to v0.16? -->
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -34,7 +33,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: iter8
     iter8.tools/kind: routemap
-    iter8.tools/version: "v0.15"
+    iter8.tools/version: "v0.16"
 immutable: true
 data:
   strSpec: |
@@ -59,7 +58,7 @@ This `ConfigMap` describes an application `backend`. It identifies two versions 
 
 ## Deployment Time Configuration of Backend Components
 
-As versions of a watched application are deployed or deleted, the Iter8 A/B/n service keeps track of which versions are available enabling it to respond appropriately to `Lookup()` and `WriteMetric()` requests.
+As versions of a watched application are deployed or deleted, the Iter8 controller keeps track of which versions are available enabling it to respond appropriately to `Lookup()` and `WriteMetric()` requests.
 
 ## Developing Frontend Components: Using the SDK
 
@@ -91,7 +90,7 @@ The gRPC protocol buffer definition is used to generate language specific implem
 
 ### Instantiate a gRPC client
 
-Instantiate a client to the Iter8 A/B/n service:
+Instantiate a client to the Iter8 controller:
 
 === "Node.js"
     ```javascript

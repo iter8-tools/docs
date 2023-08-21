@@ -24,7 +24,7 @@ template: main.html
 
 ***
 
-## Install Iter8
+## Install Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -50,16 +50,6 @@ iter8 k launch \
     The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
 
     The [grpc](../user-guide/tasks/grpc.md) task sends call requests to two methods of the cluster-local gRPC service, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). The two methods are `routeguide.RouteGuide.GetFeature` and `routeguide.RouteGuide.ListFeatures`. Note that each method also has its own `dataURL` for the request payload.
-
-??? note "Some variations and extensions of this experiment"
-    1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.
-
-## Assert experiment outcomes
-Assert that the experiment completed without failures. The timeout flag below specifies a period of 120 seconds for assert conditions to be satisfied.
-
-```shell
-iter8 k assert -c completed -c nofailure --timeout 120s
-```
 
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
@@ -100,3 +90,6 @@ iter8 k delete
 kubectl delete svc/routeguide
 kubectl delete deploy/routeguide
 ```
+
+??? note "Some variations and extensions of this experiment"
+    1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.

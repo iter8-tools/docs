@@ -39,8 +39,6 @@ spec:
 EOF
 ```
 
-***
-
 ## Launch Experiment
 
 Launch an Iter8 experiment inside the Kubernetes cluster:
@@ -62,12 +60,29 @@ iter8 k launch \
 
     The [http](../../../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL exposed by the InferenceService, `http://sklearn-irisv2.default.svc.cluster.local/v2/models/sklearn-irisv2/infer`, and collects [Iter8's built-in HTTP load test metrics](../../../user-guide/tasks/http.md#metrics).
 
-***
+## View results using Grafana
+Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
 
-View the experiment results by using the Iter8 Grafana dashboard, as described in [your first experiment](../../../getting-started/your-first-experiment.md).
+```shell
+kubectl port-forward service/grafana 3000:3000
+```
 
-??? note "Some variations and extensions of this experiment" 
-    1. The [http task](../../../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+Open Grafana in a browser:
+
+```shell
+http://localhost:3000/
+```
+
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
+
+* URL `http://iter8.default:8080/httpDashboard` 
+* Query string `namespace=default&experiment=default`
+
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/2c7f740ddd53e7e7fa9f662e9cc7e8df145b704f/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
+
+The Iter8 dashboard will look like the following:
+
+![`http` Iter8 dashboard](../../../user-guide/tasks/images/httpdashboard.png)
 
 ## Clean up
 
@@ -76,3 +91,6 @@ iter8 k delete
 kubectl delete inferenceservice sklearn-irisv2
 ```
 
+??? note "Some variations and extensions of this experiment"
+    1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+    2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.

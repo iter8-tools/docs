@@ -26,10 +26,6 @@ Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernet
 ## Install Iter8 CLI
 --8<-- "docs/getting-started/install.md"
 
-## Install Iter8
-
---8<-- "docs/tutorials/installiter8controller.md"
-
 ## Launch experiment
 Launch the Iter8 experiment inside the Kubernetes cluster.
 
@@ -60,13 +56,6 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
     The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service using the specified `url`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). This tasks supports both GET and POST requests, and for POST requests, a payload can be provided by using either `payloadStr` or `payloadURL`.
-
-## Assert experiment outcomes
-Assert that the experiment completed without failures. The timeout flag below specifies a period of 120 seconds for assert conditions to be satisfied.
-
-```shell
-iter8 k assert -c completed -c nofailure --timeout 120s
-```
 
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:

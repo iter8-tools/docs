@@ -18,7 +18,7 @@ After a one-time initialization step, the end user merely deploys candidate mode
     ```
 <!-- Istio 1.15 is installed as part of kserve install -->
 
-## Install Iter8
+## Install Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 

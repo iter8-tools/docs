@@ -18,9 +18,9 @@ This tutorial describes how to do A/B testing of a backend component using the [
     kubectl expose deploy grafana --port=3000
     ```
  
-## Launch the Iter8 A/B/n service
+## Launch the Iter8 controller
 
-Deploy the Iter8 A/B/n service using either `helm` or `kustomize`:
+Deploy the Iter8 controller using either `helm` or `kustomize`:
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -61,7 +61,6 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
 In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A `ConfigMap` is used to describe the make up of possible versions:
 
-<!-- TODO: should this be bumped to v0.16? -->
 ```shell
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -71,7 +70,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: iter8
     iter8.tools/kind: routemap
-    iter8.tools/version: "v0.15"
+    iter8.tools/version: "v0.16"
 immutable: true
 data:
   strSpec: |
@@ -176,6 +175,6 @@ svc/backend-candidate-1 deploy/backend-candidate-1
 kubectl delete cm/backend
 ```
 
-### Uninstall the A/B/n service
+### Uninstall the Iter8 controller
 
 --8<-- "docs/tutorials/deleteiter8controller.md"

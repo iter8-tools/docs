@@ -23,7 +23,7 @@ template: main.html
     
 ***
 
-## Install Iter8
+## Install Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -48,13 +48,6 @@ iter8 k launch \
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
     The [http](../user-guide/tasks/http.md) task sends requests to three endpoints from the cluster-local HTTP service, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). The three endpoints are `http://httpbin.default/get`, `http://httpbin.default/anything`, and `http://httpbin.default/post`. The last endpoint also has a payload string `hello`.
-
-## Assert experiment outcomes
-Assert that the experiment completed without failures. The timeout flag below specifies a period of 120 seconds for assert conditions to be satisfied.
-
-```shell
-iter8 k assert -c completed -c nofailure --timeout 120s
-```
 
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
@@ -97,3 +90,7 @@ iter8 k delete
 kubectl delete svc/httpbin
 kubectl delete deploy/httpbin
 ```
+
+??? note "Some variations and extensions of this experiment"
+    1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+    2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.

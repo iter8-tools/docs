@@ -139,9 +139,9 @@ nav:
     - Litmus: tutorials/integrations/litmus.md
 - User guide:
   - Tasks:
-    - github: user-guide/tasks/github.md
     - grpc: user-guide/tasks/grpc.md
     - http: user-guide/tasks/http.md
+    - github: user-guide/tasks/github.md
     - slack: user-guide/tasks/slack.md
     - ready: user-guide/tasks/ready.md
   - Topics:
@@ -153,7 +153,6 @@ nav:
     - iter8 version: user-guide/commands/iter8_version.md
     - iter8 k: user-guide/commands/iter8_k.md
     - iter8 k launch: user-guide/commands/iter8_k_launch.md
-    - iter8 k assert: user-guide/commands/iter8_k_assert.md
     - iter8 k delete: user-guide/commands/iter8_k_delete.md
     - iter8 k log: user-guide/commands/iter8_k_log.md
 - Contributing: contributing.md

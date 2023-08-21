@@ -10,7 +10,7 @@ Iter8 provides a [`slack` task](../../user-guide/tasks/slack.md)  that sends a m
 
 In this example, you will run the [Your First Experiment](../../getting-started/your-first-experiment.md) but at the end of the experiment, Iter8 will send a message on Slack. 
 
-The message will simply contain the experiment report in text form. However, you can easily construct a more sophisticated message by providing your own payload template.
+The message will simply contain an experiment summary in text form. However, you can easily construct a more sophisticated message by providing your own payload template.
 
 This task could provide important updates on an experiment over Slack, for example a summary at the end of an experiment.
 
@@ -37,10 +37,8 @@ iter8 k launch \
 6. Verify that the message has been sent after the experiment has completed.
 
 ??? note "Some variations and extensions of the `slack` task"
-    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-slack.tpl) sends the entirety of the experiment report.
+    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-slack.tpl) sends an experiment summary.
 
-        However, you do not need to use the default payload. You can provide your own payload by overriding the default of the `payloadTemplateURL`.
+    However, you do not need to use the default payload. You can provide your own payload by overriding the default of the `payloadTemplateURL`.
 
-        For example, you can create a payload that selectively print out parts of the experiment report instead of the whole thing.
-
-        You can also use Slack's [Block Kit](https://api.slack.com/block-kit/building) in order to make your message more sophisticated. You can use markdown, create different sections, or add interactivity, such as buttons.
+    For example, you can also use Slack's [Block Kit](https://api.slack.com/block-kit/building) to create more sophisticated messages. You can use markdown, create different sections, or add interactivity, such as buttons.

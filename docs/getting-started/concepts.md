@@ -16,7 +16,7 @@ Iter8 simplifies a variety of traffic engineering and metrics-driven validation 
 Iter8 provides three inter-related components to support the above use-cases.
 
 1. CLI for experiments
-2. Traffic controller
+2. Iter8 controller
 3. Client SDK
 
 === "CLI for experiments"
@@ -28,11 +28,11 @@ Iter8 provides three inter-related components to support the above use-cases.
 
     In addition to performance testing for HTTP and gRPC services, Iter8 experiments can also be used to compare versions of an app/ML model in terms of their business metrics.
 
-=== "Traffic controller"
+=== "Iter8 controller"
 
-    Iter8 provides a traffic controller that automatically and dynamically reconfigures routing resources based on the state of Kubernetes apps/ML models. 
+    Iter8 provides a controller that automatically and dynamically reconfigures routing resources based on the state of Kubernetes apps/ML models. 
     
-    The following picture illustrates a Blue-Green rollout scenario that is orchestrated by this traffic controller.
+    The following picture illustrates a Blue-Green rollout scenario that is orchestrated by this controller.
 
     ![Blue-Green](../tutorials/integrations/kserve-mm/images/blue-green.png)
     
@@ -58,3 +58,4 @@ Iter8 is written in `go` and builds on a few awesome open source projects includ
 - [plotly.js](https://github.com/plotly/plotly.js)
 - [Fortio](https://github.com/fortio/fortio)
 - [ghz](https://ghz.sh)
+- [Grafana](https://grafana.com/)
