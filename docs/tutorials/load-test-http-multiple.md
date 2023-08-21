@@ -56,18 +56,14 @@ Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-
 kubectl port-forward service/grafana 3000:3000
 ```
 
-Open Grafana in a browser:
-
-```shell
-http://localhost:3000/
-```
+Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
-* URL `http://iter8.default:8080/httpDashboard` 
+* URL: `http://iter8.default:8080/httpDashboard` 
 * Query string `namespace=default&experiment=default`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/112565542bf8829223bbc12bece8099c/raw/2c7f740ddd53e7e7fa9f662e9cc7e8df145b704f/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of this [JSON definition](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.0/grafana/http.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
 The Iter8 dashboard will look like the following:
 

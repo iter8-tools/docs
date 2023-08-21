@@ -143,7 +143,7 @@ In this example, all three endpoints will have a `skipFirst` of 5.
 
 ## Grafana Dashboard
 
-The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://gist.githubusercontent.com/Alan-Cha/4586a0c2e1691f6dfe71c93e138b38b6/raw/a5d295928fe6485abbc3119f5dfda3c26bc8120c/gistfile1.txt).
+The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.0).
 
 To use the dashboard:
 
@@ -152,7 +152,7 @@ To use the dashboard:
     * URL: `<link to Grafana service>/grpcDashboard`
     * Query string: `namespace=<namespace of experiment>&experiment=<name of experiment>`
 3. Import the `grpc` Iter8 Grafana dashboard
-    * Copy and paste the contents of this [link](https://gist.githubusercontent.com/Alan-Cha/4586a0c2e1691f6dfe71c93e138b38b6/raw/a5d295928fe6485abbc3119f5dfda3c26bc8120c/gistfile1.txt) into the text box
+    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.0) into the text box
 
 You will see a visualization of the experiment like the following:
 
