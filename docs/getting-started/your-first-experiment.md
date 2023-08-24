@@ -9,13 +9,14 @@ Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernet
 ![Load test HTTP](images/kubernetesusage.png)
 
 ???+ warning "Before you begin"
-    1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
-    2. Deploy the sample HTTP service in the Kubernetes cluster.
+    1. Try [your first experiment](../getting-started/your-first-experiment.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
+    2. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
+    3. Deploy the sample HTTP service in the Kubernetes cluster.
     ```shell
     kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
     kubectl expose deploy httpbin --port=80
     ```
-    3. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
+    4. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
     kubectl create deploy grafana --image=grafana/grafana
     kubectl expose deploy grafana --port=3000
