@@ -172,3 +172,4 @@ appName
 src
 appType
 appVersions
+reconfigures
