@@ -13,10 +13,10 @@
 === "Kustomize"
     === "namespace scoped"
         ```shell
-        kubectl apply -k 'https://github.com/iter8-tools/iter8.git/kustomize/controller/namespaceScoped?ref=v0.15.3'
+        kubectl apply -k 'https://github.com/iter8-tools/iter8.git/kustomize/controller/namespaceScoped?ref=v0.16.1'
         ```
 
     === "cluster scoped"
         ```shell
-        kubectl apply -k 'https://github.com/iter8-tools/iter8.git/kustomize/controller/clusterScoped?ref=v0.15.3'
+        kubectl apply -k 'https://github.com/iter8-tools/iter8.git/kustomize/controller/clusterScoped?ref=v0.16.1'
         ```

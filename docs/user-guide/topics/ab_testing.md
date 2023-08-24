@@ -21,7 +21,7 @@ b. **WriteMetric()** -  Given an application, a user session, a metric name its 
 
 ## Configuring the Iter8 controller
 
-The Iter8 controller is implemented using gRPC. The service is configured to watch a given set of Kubernetes resource types. The default set of types Iter8 can watch are identified in the default [`values.yaml` file](https://github.com/iter8-tools/iter8/blob/v0.15.2/charts/traffic/values.yaml#L14-L40). Other configuration options are described in the same file.
+The Iter8 controller is implemented using gRPC. The service is configured to watch a given set of Kubernetes resource types. The default set of types Iter8 can watch are identified in the default [`values.yaml` file](https://github.com/iter8-tools/iter8/blob/8e5aedf7e4b611d700a49cde8a082af09d6f1e14/charts/traffic/values.yaml#L14-L40). Other configuration options are described in the same file.
 
 To configure the specific resources to watch for a given application, a Kubernetes `ConfigMap` is created. It identifies the specific resources that comprise each version. For example, consider the `ConfigMap`:
 
