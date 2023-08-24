@@ -124,7 +124,6 @@ nav:
   - Load test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
   - A/B testing with Iter8 SDK: tutorials/abn/abn.md
   - Integrations:
-    - GitHub Actions: tutorials/integrations/ghactions.md
     - Kserve:
       - Performance testing:
         - HTTP: tutorials/integrations/kserve/http.md
@@ -135,6 +134,8 @@ nav:
     - Kserve (modelmesh):
       - Blue-Green: tutorials/integrations/kserve-mm/blue-green.md
       - Canary: tutorials/integrations/kserve-mm/canary.md
+    - Istio: tutorials/integrations/istio.md
+    - GitHub Actions: tutorials/integrations/ghactions.md
     - Slack:  tutorials/integrations/slack.md
     - Litmus: tutorials/integrations/litmus.md
 - User guide:
