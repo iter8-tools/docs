@@ -173,3 +173,9 @@ src
 appType
 appVersions
 reconfigures
+CRDs
+autoroute
+statefulsets
+CNCF
+sandboxing
+Autoscaling
