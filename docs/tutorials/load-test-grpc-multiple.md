@@ -79,7 +79,7 @@ iter8 k log
 ```
 
 ## Cleanup
-Remove the Iter8 experiment and the sample app from the Kubernetes cluster and the local Iter8 `charts` folder.
+Remove the Iter8 experiment and the sample app from the Kubernetes cluster.
 
 ```shell
 iter8 k delete
