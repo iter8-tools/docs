@@ -10,7 +10,7 @@ After a one-time initialization step, the end user merely deploys candidate vers
 
 ![Blue-Green rollout](images/blue-green.png)
 
-???+ "Before you begin"
+???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
     2. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
 

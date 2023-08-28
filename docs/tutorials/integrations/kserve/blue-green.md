@@ -10,7 +10,7 @@ After a one-time initialization step, the end user merely deploys candidate mode
 
 ![Blue-Green rollout](images/blue-green.png)
 
-???+ "Before you begin"
+???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
     2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell

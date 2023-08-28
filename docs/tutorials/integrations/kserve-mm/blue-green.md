@@ -12,7 +12,7 @@ After a one time initialization step, the end user merely deploys candidate mode
 
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
-???+ "Before you begin"
+???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
     2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/release-0.11/docs/quickstart.md) environment.  If using the Quickstart environment, change your default namespace to `modelmesh-serving`: 
     ```shell
