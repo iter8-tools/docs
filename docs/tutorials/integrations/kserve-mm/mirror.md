@@ -223,7 +223,7 @@ kubectl delete inferenceservice wisdom-1
 
 Inspect the `VirtualService` to see that the it has been automatically reconfigured to send requests only to the primary model.
 
-## Clean up
+## Cleanup
 
 Delete the candidate model:
 

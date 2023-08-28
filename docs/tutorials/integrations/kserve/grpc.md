@@ -95,12 +95,16 @@ The Iter8 dashboard will look like the following:
 
 ![`grpc` Iter8 dashboard](../../../user-guide/tasks/images/grpcdashboard.png)
 
-## Clean up
+## Cleanup
 
 ```shell
 iter8 k delete
 kubectl delete inferenceservice sklearn-irisv2
 ```
+
+### Uninstall the Iter8 controller
+
+--8<-- "docs/tutorials/deleteiter8controller.md"
 
 ??? note "Some variations and extensions of this experiment" 
     1. The [grpc task](../../../user-guide/tasks/grpc.md) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.

@@ -84,12 +84,16 @@ The Iter8 dashboard will look like the following:
 
 ![`http` Iter8 dashboard](../../../user-guide/tasks/images/httpdashboard.png)
 
-## Clean up
+## Cleanup
 
 ```shell
 iter8 k delete
 kubectl delete inferenceservice sklearn-irisv2
 ```
+
+### Uninstall the Iter8 controller
+
+--8<-- "docs/tutorials/deleteiter8controller.md"
 
 ??? note "Some variations and extensions of this experiment"
     1. The [http task](../../../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.

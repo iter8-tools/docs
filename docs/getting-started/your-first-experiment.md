@@ -96,6 +96,10 @@ kubectl delete svc/httpbin
 kubectl delete deploy/httpbin
 ```
 
+### Uninstall the Iter8 controller
+
+--8<-- "docs/tutorials/deleteiter8controller.md"
+
 ***
 
 Congratulations! :tada: You completed your first Iter8 experiment.
