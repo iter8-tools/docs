@@ -134,7 +134,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 * URL: `http://iter8.default:8080/metrics`
 * Query string: `application=default%2Fbackend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of this [JSON definition](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.0/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.0/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
 
 The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look like the following:
 
