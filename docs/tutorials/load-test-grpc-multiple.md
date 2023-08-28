@@ -65,7 +65,7 @@ Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 * URL: `http://iter8.default:8080/grpcDashboard` 
 * Query string: `namespace=default&experiment=default`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.0/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
 The Iter8 dashboard will look like the following:
 

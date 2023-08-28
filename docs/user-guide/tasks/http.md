@@ -114,7 +114,7 @@ In this example, all three endpoints will have a `numRequests` of 50.
 
 ## Grafana Dashboard
 
-The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.0/grafana/http.json).
+The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json).
 
 To use the dashboard:
 
@@ -123,7 +123,7 @@ To use the dashboard:
     * URL: `<link to Grafana service>/httpDashboard`
     * Query string: `namespace=<namespace of experiment>&experiment=<name of experiment>`
 3. Import the `http` Iter8 Grafana dashboard
-    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.0/grafana/http.json) into the text box
+    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json) into the text box
 
 You will see a visualization of the experiment like the following:
 
