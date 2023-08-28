@@ -19,6 +19,10 @@ This tutorial shows how easy it is to run a load test for KServe when using gRPC
     kubectl expose deploy grafana --port=3000
     ```
 
+## Install Iter8 controller
+
+--8<-- "docs/tutorials/installiter8controller.md"
+
 ## Deploy an InferenceService
 
 Create an InferenceService which exposes a gRPC port. The following serves the sklearn [irisv2 model](https://kserve.github.io/website/0.10/modelserving/v1beta1/sklearn/v2/#deploy-with-inferenceservice):
