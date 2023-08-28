@@ -11,7 +11,7 @@ This tutorial shows how easy it is to run a load test for KServe when using HTTP
     2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLI.
     3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
-    curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.10/hack/quick_install.sh" | bash
+    curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
     4. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
