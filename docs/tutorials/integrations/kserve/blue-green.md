@@ -88,12 +88,12 @@ kubectl get virtualservice -o yaml wisdom
 To send inference requests to the model:
 
 === "From within the cluster"
-    1. Create a "sleep" pod in the cluster from which requests can be made:
+    1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/sleep.sh | sh -
     ```
 
-    2. exec into the sleep pod:
+    2. Exec into the sleep pod:
     ```shell
     kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
     ```
@@ -248,6 +248,6 @@ Delete primary:
 kubectl delete isvc/wisdom-0
 ```
 
-Uninstall Iter8:
+Uninstall Iter8 controller:
 
 --8<-- "docs/tutorials/deleteiter8controller.md"

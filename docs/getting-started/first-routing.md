@@ -14,7 +14,7 @@ After a one-time initialization step, the end user merely deploys candidate vers
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
     2. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
 
-## Install Iter8
+## Install Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -26,7 +26,6 @@ Deploy the primary version of the application. In this tutorial, the application
 
 ```shell
 kubectl create deployment httpbin-0 --image=kennethreitz/httpbin --port=80
-kubectl label deployment httpbin-0 app.kubernetes.io/version=v0
 kubectl label deployment httpbin-0 iter8.tools/watch=true
 kubectl expose deployment httpbin-0 --port=80
 ```
@@ -35,8 +34,6 @@ kubectl expose deployment httpbin-0 --port=80
     Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the routing initialization (see below). However, any name can be specified.
     
     The label `iter8.tools/watch: "true"` is required. It lets Iter8 know that it should pay attention to changes to this application resource.
-
-    The label `app.kubernetes.io/version` is not required; we include it here as a means to distinguish between deployed versions.
 
 You can inspect the deployed `Deployment`. When the `AVAILABLE` field becomes `1`, the application is fully deployed.
 
@@ -70,12 +67,12 @@ kubectl get virtualservice -o yaml httpbin
 To send inference requests to the model:
 
 === "From within the cluster"
-    1. Create a "sleep" pod in the cluster from which requests can be made:
+    1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/sleep.sh | sh -
     ```
 
-    2. exec into the sleep pod:
+    2. Exec into the sleep pod:
     ```shell
     kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
     ```
@@ -195,6 +192,6 @@ Delete primary:
 kubectl delete deployment/httpbin-0 service/httpbin-0
 ```
 
-Uninstall Iter8:
+Uninstall Iter8 controller:
 
 --8<-- "docs/tutorials/deleteiter8controller.md"
