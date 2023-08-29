@@ -41,7 +41,7 @@ iter8 k launch \
 7. Verify that the message has been sent after the experiment has completed.
 
 ??? note "Some variations and extensions of the `slack` task"
-    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-slack.tpl) sends an experiment summary.
+    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.5/templates/notify/_payload-slack.tpl) sends an experiment summary.
 
     However, you do not need to use the default payload. You can provide your own payload by overriding the default of the `payloadTemplateURL`.
 
