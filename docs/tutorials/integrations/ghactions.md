@@ -41,12 +41,16 @@ Also note that the `on.repository_dispatch.types` is set to `iter8`. The default
 
 3. Create a GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for the `token` parameter.
 4. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
-5. Deploy the sample HTTP service in the Kubernetes cluster.
+5. Install the Iter8 controller
+
+    --8<-- "docs/tutorials/installiter8controller.md"
+    
+6. Deploy the sample HTTP service in the Kubernetes cluster.
 ```shell
 kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
 kubectl expose deploy httpbin --port=80
 ```
-6. Launch the experiment with the `github` task with the appropriate values.
+7. Launch the experiment with the `github` task with the appropriate values.
 ```shell
 iter8 k launch \
 --set "tasks={http,github}" \
@@ -55,7 +59,7 @@ iter8 k launch \
 --set github.repo=<GitHub repository> \
 --set github.token=<GitHub token>
 ```
-7. Verify that the workflow has been triggered after the experiment has completed.
+8. Verify that the workflow has been triggered after the experiment has completed.
 
 ??? note "Some variations and extensions of the `github` task"
     The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-github.tpl) sends an experiment summary. 

@@ -21,12 +21,16 @@ The `slack` task requires the URL of the Slack webhook. To see a full list of th
 1. Create a new channel in your Slack organization.
 2. Create a Slack app, enable incoming webhooks, and create a new incoming webhook. See [here](https://api.slack.com/messaging/webhooks).
 3. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
-4. Deploy the sample HTTP service in the Kubernetes cluster.
+4. Install the Iter8 controller
+
+    --8<-- "docs/tutorials/installiter8controller.md"
+    
+5. Deploy the sample HTTP service in the Kubernetes cluster.
 ```shell
 kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
 kubectl expose deploy httpbin --port=80
 ```
-5. Launch the experiment with the `slack` task with the appropriate values.
+6. Launch the experiment with the `slack` task with the appropriate values.
 ```shell
 iter8 k launch \
 --set "tasks={http,slack}" \
@@ -34,7 +38,7 @@ iter8 k launch \
 --set slack.url=<Slack webhook> \
 --set slack.method=POST
 ```
-6. Verify that the message has been sent after the experiment has completed.
+7. Verify that the message has been sent after the experiment has completed.
 
 ??? note "Some variations and extensions of the `slack` task"
     The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_payload-slack.tpl) sends an experiment summary.
