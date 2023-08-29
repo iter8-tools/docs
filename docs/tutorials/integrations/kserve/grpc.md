@@ -6,13 +6,22 @@ template: main.html
 
 This tutorial shows how easy it is to run a load test for KServe when using gRPC to make requests. We use a sklearn model to demonstrate. The same approach works for any model type. 
 
-???+ "Before you begin"
+???+ warning "Before you begin"
     1. Try [your first experiment](../../../getting-started/your-first-experiment.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
     2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLI.
     3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
-    curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.10/hack/quick_install.sh" | bash
+    curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
+    4. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
+    ```shell
+    kubectl create deploy grafana --image=grafana/grafana
+    kubectl expose deploy grafana --port=3000
+    ```
+
+## Install Iter8 controller
+
+--8<-- "docs/tutorials/installiter8controller.md"
 
 ## Deploy an InferenceService
 
@@ -39,8 +48,6 @@ spec:
 EOF
 ```
 
-***
-
 ## Launch Experiment
 
 Launch the Iter8 experiment inside the Kubernetes cluster:
@@ -52,42 +59,52 @@ GRPC_PORT=80
 
 ```shell
 iter8 k launch \
---set "tasks={ready,grpc,assess}" \
+--set "tasks={ready,grpc}" \
 --set ready.isvc=sklearn-irisv2 \
 --set ready.timeout=180s \
 --set grpc.protoURL=https://raw.githubusercontent.com/kserve/kserve/master/docs/predict-api/v2/grpc_predict_v2.proto \
 --set grpc.host=${GRPC_HOST}:${GRPC_PORT} \
 --set grpc.call=inference.GRPCInferenceService.ModelInfer \
---set grpc.dataURL=https://gist.githubusercontent.com/kalantar/6e9eaa03cad8f4e86b20eeb712efef45/raw/56496ed5fa9078b8c9cdad590d275ab93beaaee4/sklearn-irisv2-input-grpc.json \
---set assess.SLOs.upper.grpc/error-rate=0 \
---set assess.SLOs.upper.grpc/latency/mean=5000 \
---set assess.SLOs.upper.grpc/latency/p'97\.5'=7500 \
---set runner=job
+--set grpc.dataURL=https://gist.githubusercontent.com/kalantar/6e9eaa03cad8f4e86b20eeb712efef45/raw/56496ed5fa9078b8c9cdad590d275ab93beaaee4/sklearn-irisv2-input-grpc.json
 ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md), [grpc](../../../user-guide/tasks/grpc.md), and [assess](../../../user-guide/tasks/assess.md). 
+    This experiment consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [grpc](../../../user-guide/tasks/grpc.md). 
     
     The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
 
     The [grpc](../../../user-guide/tasks/grpc.md) task sends call requests to the `inference.GRPCInferenceService.ModelInfer` method of the cluster-local gRPC service with host address `${GRPC_HOST}:${GRPC_PORT}`, and collects Iter8's built-in gRPC load test metrics.
 
-    The assess task verifies if the app satisfies the specified SLOs: i) there are no errors, ii) the mean latency of the service does not exceed 50 msec, and iii) the 97.5th percentile latency does not exceed 200 msec. 
-    
-    This is a [single-loop](../../../getting-started/concepts.md#design) [Kubernetes experiment](../../../getting-started/concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](../../../getting-started/concepts.md#runners) value is set to `job`.
+## View results using Grafana
+Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
 
-***
+```shell
+kubectl port-forward service/grafana 3000:3000
+```
 
-You can assert experiment outcomes, view an experiment report, and view experiment logs as described in [your first experiment](../../../getting-started/your-first-experiment.md).
+Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 
-??? note "Some variations and extensions of this experiment" 
-    1. The [grpc task](../../../user-guide/tasks/grpc.md) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.
-    2. The [assess task](../../../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in gRPC load test metrics](../../../user-guide/tasks/grpc.md#metrics).
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
+* URL: `http://iter8.default:8080/grpcDashboard` 
+* Query string: `namespace=default&experiment=default`
 
-## Clean up
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
+
+The Iter8 dashboard will look like the following:
+
+![`grpc` Iter8 dashboard](../../../user-guide/tasks/images/grpcdashboard.png)
+
+## Cleanup
 
 ```shell
 iter8 k delete
 kubectl delete inferenceservice sklearn-irisv2
 ```
+
+### Uninstall the Iter8 controller
+
+--8<-- "docs/tutorials/deleteiter8controller.md"
+
+??? note "Some variations and extensions of this experiment" 
+    1. The [grpc task](../../../user-guide/tasks/grpc.md) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.

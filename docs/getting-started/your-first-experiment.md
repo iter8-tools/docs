@@ -4,9 +4,9 @@ template: main.html
 
 # Your First Experiment
 
-Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and validating its [service-level objectives (SLOs)](concepts.md#service-level-objectives). This is a [single-loop](concepts.md#design) [Kubernetes experiment](concepts.md#kubernetes-experiments).
+Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and visualizing the performance metrics with an Iter8 Grafana dashboard.
 
-![Load test HTTP](images/http.png)
+![Load test HTTP](images/kubernetesusage.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
@@ -15,13 +15,16 @@ Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernet
     kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
     kubectl expose deploy httpbin --port=80
     ```
+    3. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
+    ```shell
+    kubectl create deploy grafana --image=grafana/grafana
+    kubectl expose deploy grafana --port=3000
+    ```
 
 ***
 
 ## Install Iter8 CLI
 --8<-- "docs/getting-started/install.md"
-
-***
 
 ## Launch experiment
 Launch the Iter8 experiment inside the Kubernetes cluster.
@@ -29,58 +32,50 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
 === "GET example"
     ```shell
     iter8 k launch \
-    --set "tasks={ready,http,assess}" \
+    --set "tasks={ready,http}" \
     --set ready.deploy=httpbin \
     --set ready.service=httpbin \
     --set ready.timeout=60s \
-    --set http.url=http://httpbin.default/get \
-    --set assess.SLOs.upper.http/latency-mean=50 \
-    --set assess.SLOs.upper.http/error-count=0 \
-    --set runner=job
+    --set http.url=http://httpbin.default/get
     ```
 
 === "POST example"
     ```shell
     iter8 k launch \
-    --set "tasks={ready,http,assess}" \
+    --set "tasks={ready,http}" \
     --set ready.deploy=httpbin \
     --set ready.service=httpbin \
     --set ready.timeout=60s \
     --set http.url=http://httpbin.default/post \
-    --set http.payloadStr=hello \
-    --set assess.SLOs.upper.http/latency-mean=50 \
-    --set assess.SLOs.upper.http/error-count=0 \
-    --set runner=job
+    --set http.payloadStr=hello
     ```
 
 ??? note "About this experiment"
-    This experiment consists of three [tasks](concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), [http](../user-guide/tasks/http.md), and [assess](../user-guide/tasks/assess.md). 
+    This experiment consists of two [tasks](concepts.md#design), namely, [ready](../user-guide/tasks/ready.md) and [http](../user-guide/tasks/http.md). 
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
     The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service using the specified `url`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). This tasks supports both GET and POST requests, and for POST requests, a payload can be provided by using either `payloadStr` or `payloadURL`.
-    
-    The [assess](../user-guide/tasks/assess.md) task verifies if the app satisfies the specified SLOs: i) the mean latency of the service does not exceed 50 msec, and ii) there are no errors (4xx or 5xx response codes) in the responses. 
-    
-    This is a [single-loop](concepts.md#design) [Kubernetes experiment](concepts.md#kubernetes-experiments) where all the previously mentioned tasks will run once and the experiment will finish. Hence, its [runner](concepts.md#runners) value is set to `job`.
 
-***
-
-## Assert experiment outcomes
-Assert that the experiment completed without failures, and all SLOs are satisfied. The timeout flag below specifies a period of 120 sec for assert conditions to be satisfied.
+## View results using Grafana
+Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
 
 ```shell
-iter8 k assert -c completed -c nofailure -c slos --timeout 120s
+kubectl port-forward service/grafana 3000:3000
 ```
 
-If the assert conditions are satisfied, the above command exits with code 0; else, it exits with code 1. Assertions are especially useful inside CI/CD/GitOps pipelines. Depending on the exit code of the assert command, your pipeline can branch into different actions.
+Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 
-***
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
-## View experiment report
---8<-- "docs/getting-started/expreport.md"
+* URL: `http://iter8.default:8080/httpDashboard` 
+* Query string: `namespace=default&experiment=default`
 
-***
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`http` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
+
+The Iter8 dashboard will look like the following:
+
+![`http` Iter8 dashboard](../user-guide/tasks/images/httpdashboard.png)
 
 ## View experiment logs
 Logs are useful when debugging an experiment.
@@ -94,12 +89,16 @@ iter8 k log
 ***
 
 ## Cleanup
-Remove the Iter8 experiment and the sample app from the Kubernetes cluster and the local Iter8 `charts` folder.
+Remove the Iter8 experiment and the sample app from the Kubernetes cluster.
 ```shell
 iter8 k delete
 kubectl delete svc/httpbin
 kubectl delete deploy/httpbin
 ```
+
+### Uninstall the Iter8 controller
+
+--8<-- "docs/tutorials/deleteiter8controller.md"
 
 ***
 
@@ -110,4 +109,3 @@ Congratulations! :tada: You completed your first Iter8 experiment.
 ??? note "Some variations and extensions of this experiment"
     1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
     2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
-    3. The [assess task](../user-guide/tasks/assess.md) can be configured with SLOs for any of [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics).

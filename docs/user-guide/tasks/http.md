@@ -8,30 +8,23 @@ Generate requests for an HTTP service and and collect [latency and error-related
 
 ## Usage example
 
-In this experiment, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. The metrics are used by the `assess` task to validate SLOs.
+In this experiment, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. Metrics collected by this task are viewable with an Iter8 dashboard.
 
 Single endpoint:
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
---set http.url=https://httpbin.org/get \
---set assess.SLOs.upper.http/latency-mean=50 \
---set assess.SLOs.upper.http/error-count=0 \
---set runner=job
+--set "tasks={http}" \
+--set http.url=https://httpbin.org/get
 ```
 
 Multiple endpoints:
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 ## Parameters
@@ -59,64 +52,48 @@ In the following example, all three endpoints will use the default `qps` (querie
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 In the following example, the `get` and `getAnything` endpoints will use the default `qps` of 8 and the `post` endpoint will use a `qps` of 15.
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set http.endpoints.post.qps=15 \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.qps=15
 ```
 
 In the following example, all three endpoints will use a `qps` (queries-per-second) of 10.
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.qps=10 \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 In the following example, the `get` and `getAnything` endpoints will use a `qps` of 10 and the `post` endpoint will use a `qps` of 15.
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.qps=10 \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
 --set http.endpoints.post.payloadStr=hello \
---set http.endpoints.post.qps=15 \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.qps=15
 ```
 
 ***
@@ -125,46 +102,33 @@ Further more, set parameters will trickle down to the endpoints.
 
 ```bash
 iter8 k launch \
---set "tasks={http,assess}" \
+--set "tasks={http}" \
 --set http.numRequests=50 \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
 --set http.endpoints.post.url=http://httpbin.default/post \
---set http.endpoints.post.payloadStr=hello \
---set assess.SLOs.upper.http-get/error-count=0 \
---set assess.SLOs.upper.http-getAnything/error-count=0 \
---set assess.SLOs.upper.http-post/error-count=0 \
---set runner=job
+--set http.endpoints.post.payloadStr=hello
 ```
 
 In this example, all three endpoints will have a `numRequests` of 50.
 
-## Metrics
+## Grafana Dashboard
 
-This task creates a built-in [provider](../topics/metrics.md#fully-qualified-names) named `http`. The following metrics are collected by this task:
+The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json).
 
-- `http/request-count`: total number of requests sent
-- `http/error-count`: number of error responses
-- `http/error-rate`: fraction of error responses
-- `http/latency-mean`: mean of observed latency values
-- `http/latency-stddev`: standard deviation of observed latency values
-- `http/latency-min`: min of observed latency values
-- `http/latency-max`: max of observed latency values
-- `http/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
+To use the dashboard:
 
-All latency metrics have `msec` units.
+1. Open Grafana in a browser. 
+2. Add a new data JSON API data source with the following parameters
+    * URL: `<link to Grafana service>/httpDashboard`
+    * Query string: `namespace=<namespace of experiment>&experiment=<name of experiment>`
+3. Import the `http` Iter8 Grafana dashboard
+    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json) into the text box
 
-***
+You will see a visualization of the experiment like the following:
 
-In the case of multiple endpoints, the name of the endpoint will be appended to the name of the provider. For example, if the endpoint name is `httpbin`, then the following metrics would be collected by this task:
+![`http` Iter8 dashboard](images/httpdashboard.png)
 
-- `http-httpbin/request-count`: total number of requests sent
-- `http-httpbin/error-count`: number of error responses
-- `http-httpbin/error-rate`: fraction of error responses
-- `http-httpbin/latency-mean`: mean of observed latency values
-- `http-httpbin/latency-stddev`: standard deviation of observed latency values
-- `http-httpbin/latency-min`: min of observed latency values
-- `http-httpbin/latency-max`: max of observed latency values
-- `http-httpbin/latency-pX`: X^th^ percentile latency, for X in `[50.0, 75.0, 90.0, 95.0, 99.0, 99.9]`
+For multiple endpoints, the visualization will look like the following:
 
-To learn more about the names of metrics, please see [here](../topics/metrics.md#fully-qualified-names).
+![`http` Iter8 dashboard with multiple endpoints](images/httpmultipledashboard.png)

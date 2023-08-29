@@ -18,9 +18,9 @@ This tutorial describes how to do A/B testing of a backend component using the [
     kubectl expose deploy grafana --port=3000
     ```
  
-## Launch the Iter8 A/B/n service
+## Launch the Iter8 controller
 
-Deploy the Iter8 A/B/n service using either `helm` or `kustomize`:
+Deploy the Iter8 controller using either `helm` or `kustomize`:
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -70,7 +70,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: iter8
     iter8.tools/kind: routemap
-    iter8.tools/version: "v0.15"
+    iter8.tools/version: "v0.16"
 immutable: true
 data:
   strSpec: |
@@ -129,14 +129,14 @@ kubectl port-forward service/grafana 3000:3000
 
 Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3000)
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
-- URL: `http://iter8.default:8080/metrics`
-- Query string: `application=default%2Fbackend`
+* URL: `http://iter8.default:8080/metrics`
+* Query string: `application=default%2Fbackend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of this [JSON definition](https://gist.githubusercontent.com/Alan-Cha/aa4ba259cc4631aafe9b43500502c60f/raw/034249f24e2c524ee4e326e860c06149ae7b2677/gistfile1.txt) into the text box and *load* it. Associate it with the JSON API data source above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
 
-The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time.  The Iter8 dashboard may look like the following:
+The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look like the following:
 
 ![A/B dashboard](images/dashboard.png)
 
@@ -175,6 +175,6 @@ svc/backend-candidate-1 deploy/backend-candidate-1
 kubectl delete cm/backend
 ```
 
-### Uninstall the A/B/n service
+### Uninstall the Iter8 controller
 
 --8<-- "docs/tutorials/deleteiter8controller.md"

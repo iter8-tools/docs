@@ -3,7 +3,7 @@ module github.com/kalantar/ab-example/frontend/go
 go 1.17
 
 require (
-	github.com/iter8-tools/iter8 v0.15.0
+	github.com/iter8-tools/iter8 v0.16.0
 	github.com/sirupsen/logrus v1.9.0
 	google.golang.org/grpc v1.56.1
 )

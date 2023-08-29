@@ -10,7 +10,7 @@ After a one-time initialization step, the end user merely deploys candidate vers
 
 ![Blue-Green rollout](images/blue-green.png)
 
-???+ "Before you begin"
+???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
     2. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
 
@@ -57,7 +57,7 @@ strategy: blue-green
 EOF
 ```
 
-The `initialize` action (with strategy `blue-green`) configures the (Istio) service mesh to route all requests to the primary version of the application (`httpbin-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy splits requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/iter8-tools/iter8/blob/v0.15.5/charts/routing-actions/values.yaml).
+The `initialize` action (with strategy `blue-green`) configures the (Istio) service mesh to route all requests to the primary version of the application (`httpbin-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy splits requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/iter8-tools/iter8/blob/v0.16.0/charts/routing-actions/values.yaml).
 
 ### Verify routing
 

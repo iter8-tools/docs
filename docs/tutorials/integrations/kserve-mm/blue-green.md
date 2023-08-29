@@ -12,7 +12,7 @@ After a one time initialization step, the end user merely deploys candidate mode
 
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
-???+ "Before you begin"
+???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
     2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/release-0.11/docs/quickstart.md) environment.  If using the Quickstart environment, change your default namespace to `modelmesh-serving`: 
     ```shell
@@ -20,7 +20,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
     ```
     3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
 
-## Install Iter8
+## Install Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -78,7 +78,7 @@ strategy: blue-green
 EOF
 ```
 
-The `initialize` action (with strategy `blue-green`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy splits requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/iter8-tools/iter8/blob/v0.15.5/charts/routing-actions/values.yaml).
+The `initialize` action (with strategy `blue-green`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy splits requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/iter8-tools/iter8/blob/v0.16.0/charts/routing-actions/values.yaml).
 
 ## Verify routing
 

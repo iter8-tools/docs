@@ -14,8 +14,7 @@ iter8 k launch \
 --set "tasks={ready,http}" \
 --set ready.deploy=httpbin-prod \
 --set ready.service=httpbin \
---set http.url=http://httpbin.default/get \
---set runner=job
+--set http.url=http://httpbin.default/get
 ```
 
 ## Parameters
@@ -25,7 +24,6 @@ iter8 k launch \
 | deploy  | string | Name of a Kubernetes deployment. The task checks if the deployment exists and its `Available` condition is set to true. |
 | service | string | Name of a Kubernetes service. The task checks if the service exists. |
 | ksvc | string | Name of a Knative service. The task checks if the service exists and its `Ready` condition is set to true. |
-| chaosengine | string | Name of a LitmusChaos ChaosEngine resource object. The task checks if the object exists. |
 | timeout | string | Timeout for readiness check to succeed. Default value is `60s`. |
 | namespace | string | The namespace under which to look for the Kubernetes objects. For experiments that run inside a Kubernetes cluster, the default value of this field is the [namespace of the Iter8 experiment](../topics/group.md); for experiments that run in the local environment, it is the [`default`](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) namespace. |
 
@@ -42,8 +40,7 @@ Consider the Knative extension for this task; this extension enables Iter8 exper
 iter8 k launch \
 --set "tasks={ready,http}" \
 --set ready.ksvc=httpbin \
---set http.url=http://httpbin.default/get \
---set runner=job
+--set http.url=http://httpbin.default/get
 ```
 
 The `task.ready` and `k.role` were changed in the following ways to create this extension.
@@ -51,7 +48,7 @@ The `task.ready` and `k.role` were changed in the following ways to create this 
 === "task.ready"
     The group/version/resource (GVR) and the condition that should be checked for a Knative `Service` are defined in this template.
 
-    ```yaml linenums="1"
+    ```yaml
     {{- if .Values.ready.ksvc }}
     # task: determine if Knative Service exists and is ready
     - task: ready
@@ -68,7 +65,7 @@ The `task.ready` and `k.role` were changed in the following ways to create this 
 === "k.role"
     The role named `{{ .Release.Name }}-ready` is extended with the Knative `apiGroup`.
 
-    ```yaml linenums="1"
+    ```yaml
     {{- if .Values.ready.ksvc }}
     - apiGroups: ["serving.knative.dev"]
       resourceNames: [{{ .Values.ready.ksvc | quote }}]

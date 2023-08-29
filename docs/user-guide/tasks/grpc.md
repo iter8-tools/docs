@@ -8,25 +8,22 @@ Generate requests for a gRPC service and and collect [latency and error-related 
 
 ## Usage example
 
-In this experiment, the `grpc` task generates call requests for a gRPC service hosted at `hello.default:50051`, defined in the [protobuf](https://developers.google.com/protocol-buffers) file located at `grpc.protoURL`, with a gRPC method named `helloworld.Greeter.SayHello`. Metrics collected by this task are used by the `assess` task to validate SLOs.
+In this experiment, the `grpc` task generates call requests for a gRPC service hosted at `hello.default:50051`, defined in the [protobuf](https://developers.google.com/protocol-buffers) file located at `grpc.protoURL`, with a gRPC method named `helloworld.Greeter.SayHello`. Metrics collected by this task are viewable with an Iter8 dashboard.
 
 Single method:
 ```bash
 iter8 k launch \
---set "tasks={grpc,assess}" \
+--set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.call=routeguide.RouteGuide.GetFeature \
---set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
---set assess.SLOs.upper.grpc/error-rate=0 \
---set assess.SLOs.upper.grpc/latency/mean=200 \
---set runner=job
+--set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json
 ```
 
 Multiple methods:
 ```bash
 iter8 k launch \
---set "tasks={grpc,assess}" \
+--set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
@@ -36,12 +33,7 @@ iter8 k launch \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
 --set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
 --set grpc.endpoints.routeChat.call=routeguide.RouteGuide.RouteChat \
---set grpc.endpoints.routeChat.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/bidirectional.json \
---set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc-listFeatures/error-rate=0 \
---set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
---set assess.SLOs.upper.grpc-routeChat/error-rate=0 \
---set runner=job
+--set grpc.endpoints.routeChat.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/bidirectional.json
 ```
 
 ## Parameters
@@ -68,7 +60,7 @@ In the following example, all three endpoints will use the default `timeout` of 
 
 ```bash
 iter8 k launch \
---set "tasks={grpc,assess}" \
+--set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
@@ -76,18 +68,14 @@ iter8 k launch \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
 --set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
---set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc-listFeatures/error-rate=0 \
---set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
---set runner=job
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
 ```
 
 In the following example, the `getFeature` and `listFeatures` endpoints will use the default `timeout` of `20s` and the `recordRoute` endpoint will use a `timeout` of `30s`.
 
 ```bash
 iter8 k launch \
---set "tasks={grpc,assess}" \
+--set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
@@ -95,19 +83,14 @@ iter8 k launch \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
 --set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
---set grpc.endpoints.recordRoute.timeout=30s \
---set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc-listFeatures/error-rate=0 \
---set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
---set runner=job
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
 ```
 
 In the following example, all three endpoints will use a `qps` of `40s`.
 
 ```bash
 iter8 k launch \
---set "tasks={grpc,assess}" \
+--set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.timeout=40s \
@@ -116,18 +99,14 @@ iter8 k launch \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
 --set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
---set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc-listFeatures/error-rate=0 \
---set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
---set runner=job
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
 ```
 
 In the following example, the `getFeature` and `listFeatures` endpoints will use a `timeout` of `40s` and the `listFeatures` endpoint will use a `timeout` of `30s`.
 
 ```bash
 iter8 k launch \
---set "tasks={grpc,assess}" \
+--set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.timeout=40s \
@@ -138,11 +117,7 @@ iter8 k launch \
 --set grpc.endpoints.listFeatures.timeout=30s \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
 --set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
---set grpc.endpoints.recordRoute.timeout=30s \
---set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc-listFeatures/error-rate=0 \
---set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
---set runner=job
+--set grpc.endpoints.recordRoute.timeout=30s
 ```
 
 ***
@@ -151,7 +126,7 @@ Further more, set parameters will trickle down to the endpoints.
 
 ```bash
 iter8 k launch \
---set "tasks={grpc,assess}" \
+--set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.skipFirst=5 \
@@ -161,44 +136,28 @@ iter8 k launch \
 --set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
 --set grpc.endpoints.listFeatures.timeout=30s \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
---set assess.SLOs.upper.grpc-getFeature/error-rate=0 \
---set assess.SLOs.upper.grpc-listFeatures/error-rate=0 \
---set assess.SLOs.upper.grpc-recordRoute/error-rate=0 \
---set runner=job
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
 ```
 
 In this example, all three endpoints will have a `skipFirst` of 5.
 
-## Metrics
+## Grafana Dashboard
 
-This task creates a built-in [provider](../topics/metrics.md#fully-qualified-names) named `grpc`. The following metrics are collected by this task:
+The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json).
 
-- `grpc/request-count`: total number of requests sent
-- `grpc/error-count`: number of error responses
-- `grpc/error-rate`: fraction of error responses
+To use the dashboard:
 
-The following latency metrics are also supported by this task.
+1. Open Grafana in a browser. 
+2. Add a new data JSON API data source with the following parameters
+    * URL: `<link to Grafana service>/grpcDashboard`
+    * Query string: `namespace=<namespace of experiment>&experiment=<name of experiment>`
+3. Import the `grpc` Iter8 Grafana dashboard
+    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box
 
-- `grpc/latency/mean`: mean latency
-- `grpc/latency/stddev`: standard deviation of latency
-- `grpc/latency/min`: min latency
-- `grpc/latency/max`: max latency
-- `grpc/latency/pX`: X^th^ percentile latency, for any X in the range 0.0 to 100.0
+You will see a visualization of the experiment like the following:
 
-All latency metrics have `msec` units.
+![`grpc` Iter8 dashboard](images/grpcdashboard.png)
 
-***
+For multiple endpoints, the visualization will look like the following:
 
-In the case of multiple endpoints, the name of the endpoint will be appended to the name of the provider. For example, if the endpoint name is `routeguide`, then the following metrics would be collected by this task:
-
-- `grpc-routeguide/request-count`: total number of requests sent
-- `grpc-routeguide/error-count`: number of error responses
-- `grpc-routeguide/error-rate`: fraction of error responses
-- `grpc-routeguide/latency/mean`: mean latency
-- `grpc-routeguide/latency/stddev`: standard deviation of latency
-- `grpc-routeguide/latency/min`: min latency
-- `grpc-routeguide/latency/max`: max latency
-- `grpc-routeguide/latency/pX`: X^th^ percentile latency, for any X in the range 0.0 to 100.0
-
-To learn more about the names of metrics, please see [here](../topics/metrics.md#fully-qualified-names).
+![`grpc` Iter8 dashboard with multiple endpoints](images/grpcmultipledashboard.png)

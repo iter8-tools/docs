@@ -12,7 +12,7 @@ After a one time initialization step, the end user merely deploys candidate mode
 
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
-???+ "Before you begin"
+???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
     2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/main/docs/quickstart.md) environment.
     3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
@@ -223,7 +223,7 @@ kubectl delete inferenceservice wisdom-1
 
 Inspect the `VirtualService` to see that the it has been automatically reconfigured to send requests only to the primary model.
 
-## Clean up
+## Cleanup
 
 Delete the candidate model:
 

@@ -8,6 +8,4 @@
       time=2022-06-27 15:48:59 level=info msg=task 2: ready: completed
       time=2022-06-27 15:48:59 level=info msg=task 3: http: started
       time=2022-06-27 15:49:11 level=info msg=task 3: http: completed
-      time=2022-06-27 15:49:11 level=info msg=task 4: assess: started
-      time=2022-06-27 15:49:11 level=info msg=task 4: assess: completed
     ```
