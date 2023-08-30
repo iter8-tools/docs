@@ -57,7 +57,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
     kubectl expose deployment backend --name=backend --port=8091
     ```
 
-## Describe the Application
+## Describe the application
 
 In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A `ConfigMap` is used to describe the make up of possible versions:
 

@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Load Test Multiple gRPC methods
+# Load test multiple gRPC methods
 
 [Load Test gRPC](./load-test-grpc.md) describes how to load test a single method from a gRPC service inside Kubernetes. This tutorial expands on the previous tutorial and describes how to load test multiple endpoints from an HTTP service.
 

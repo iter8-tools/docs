@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Mirrored Rollout of a ML Model
+# Mirrored rollout of a ML model
 
 This tutorial shows how Iter8 can be used to implement a mirrored rollout of ML models in a KServe modelmesh serving environment. In a mirrored rollout, all inference requests are sent to the primary version of the model. In addition, a portion of the requests are also sent to the candidate version of the model. The responses from the candidate version are ignored. Iter8 enables a mirrored rollout by automatically configuring the network to distribute inference requests.
 
@@ -60,7 +60,7 @@ kubectl get inferenceservice wisdom-0
 
 When the `READY` field becomes `True`, the model is fully deployed.
     
-## Initialize the Mirroring routing policy
+## Initialize the mirroring routing policy
 
 Initialize the model rollout with a mirror traffic pattern as follows:
 

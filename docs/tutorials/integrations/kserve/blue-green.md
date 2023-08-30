@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Blue-Green Rollout of a KServe ML Model
+# Blue-green rollout of a KServe ML model
 
 This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models hosted in a KServe environment. In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a blue-green rollout by automatically configuring routing resources to distribute inference requests.
 

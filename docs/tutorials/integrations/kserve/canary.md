@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Canary Rollout of a KServe ML Model
+# Canary rollout of a KServe ML model
 
 This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the routing resources to distribute inference requests.
 

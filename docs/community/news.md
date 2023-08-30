@@ -4,7 +4,7 @@ hide:
 - toc
 ---
 
-# News and Announcements
+# News and announcements
 
 * **March 2023:** New Stack blog article by Michael Kalantar. [Iter8: Simple A/B/n Testing of Kubernetes Apps, ML Models](https://thenewstack.io/iter8-simple-a-b-n-testing-of-kubernetes-apps-ml-models/)
 

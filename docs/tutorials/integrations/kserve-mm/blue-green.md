@@ -2,13 +2,13 @@
 template: main.html
 ---
 
-# Blue-Green Rollout of a ML Model
+# Blue-green rollout of a ML model
 
 This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models hosted in a KServe modelmesh serving environment. In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a blue-green rollout by automatically configuring routing resources to distribute inference requests.
 
 After a one time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying routing configuration.
 
-![Blue-Green rollout](images/blue-green.png)
+![Blue-green rollout](images/blue-green.png)
 
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
