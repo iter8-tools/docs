@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Your First Experiment
+# Your first performance testing
 
 Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and visualizing the performance metrics with an Iter8 Grafana dashboard.
 

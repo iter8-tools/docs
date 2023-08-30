@@ -1,12 +1,12 @@
 === "Helm"
     === "namespace scoped"
         ```shell
-        helm install --repo https://iter8-tools.github.io/iter8 iter8 controller
+        helm install --repo https://iter8-tools.github.io/iter8 --version 0.1.11 iter8 controller
         ```
 
     === "cluster scoped"
         ```shell
-        helm install --repo https://iter8-tools.github.io/iter8 iter8 controller \
+        helm install --repo https://iter8-tools.github.io/iter8 --version 0.1.11 iter8 controller \
         --set clusterScoped=true
         ```
     
