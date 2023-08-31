@@ -114,18 +114,18 @@ nav:
 - Home: index.md
 - Getting Started:
   - Your first automated routing: getting-started/first-routing.md
-  - Your first performance test: getting-started/first-performance.md
   - Your first A/B test: getting-started/first-abn.md
+  - Your first performance test: getting-started/first-performance.md
   - Concepts: getting-started/concepts.md
   - Install Iter8: getting-started/install.md
   - Get help: getting-started/help.md
 - Tutorials:
   - Automated routing:  tutorials/automated-routing.md
+  - A/B testing with Iter8 SDK: tutorials/abn.md
   - Performance test HTTP:  tutorials/load-test-http.md
   - Performance test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
   - Performance test gRPC: tutorials/load-test-grpc.md
   - Performance test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
-  - A/B testing with Iter8 SDK: tutorials/abn.md
   - Integrations:
     - Kserve:
       - Automated routing:
