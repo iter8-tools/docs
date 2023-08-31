@@ -128,14 +128,16 @@ nav:
   - A/B testing with Iter8 SDK: tutorials/abn.md
   - Integrations:
     - Kserve:
+      - Automated routing:
+        - Blue-green testing: tutorials/integrations/kserve/blue-green.md
+        - Canary testing: tutorials/integrations/kserve/canary.md
       - Performance testing:
         - HTTP: tutorials/integrations/kserve/http.md
         - gRPC: tutorials/integrations/kserve/grpc.md
-      - Blue-green testing: tutorials/integrations/kserve/blue-green.md
-      - Canary testing: tutorials/integrations/kserve/canary.md
     - Kserve (modelmesh):
-      - Blue-green: tutorials/integrations/kserve-mm/blue-green.md
-      - Canary: tutorials/integrations/kserve-mm/canary.md
+      - Automated routing:
+        - Blue-green testing: tutorials/integrations/kserve-mm/blue-green.md
+        - Canary testing: tutorials/integrations/kserve-mm/canary.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Slack:  tutorials/integrations/slack.md
 - User guide:
