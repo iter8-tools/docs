@@ -6,6 +6,8 @@ hide:
 
 # News and announcements
 
+* **June 2023:** Our [proposal](https://github.com/opendatahub-io/opendatahub-community/blob/f565e64242979673564e3c8c53c84b8a0abf8e3a/proposal/release-engineering.md) to integrate with Open Data Hub has been accepted!
+
 * **March 2023:** New Stack blog article by Michael Kalantar. [Iter8: Simple A/B/n Testing of Kubernetes Apps, ML Models](https://thenewstack.io/iter8-simple-a-b-n-testing-of-kubernetes-apps-ml-models/)
 
 * **February 2023:** DZone article by Alan Cha. [Automated Performance Testing With ArgoCD and Iter8](https://dzone.com/articles/automated-performance-testing-with-argocd-and-iter8)

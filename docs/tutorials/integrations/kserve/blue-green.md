@@ -8,7 +8,7 @@ This tutorial shows how Iter8 can be used to implement a blue-green rollout of M
 
 After a one-time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying routing configuration.
 
-![Blue-Green rollout](images/blue-green.png)
+![Blue-green rollout](images/blue-green.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
@@ -106,20 +106,28 @@ To send inference requests to the model:
 
 === "From outside the cluster"
     1. In a separate terminal, port-forward the ingress gateway:
-      ```shell
-      kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
-      ```
+    ```shell
+    kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
+    ```
 
     2. Download the sample input:
-      ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
-      ```
+    ```shell
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
+    ```
 
     3. Send inference requests:
-      ```shell
-      curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
-      | grep -e HTTP -e app-version
-      ```
+    ```shell
+    curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
+    | grep -e HTTP -e app-version
+    ```
+
+??? note "Sample output"
+    The primary version of the application `wisdom-0` will output the following:
+
+    ```
+    HTTP/1.1 200 OK
+    app-version: wisdom-0
+    ```
 
 Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only the response code and this header.
 
@@ -160,6 +168,24 @@ kubectl get virtualservice wisdom -o yaml
 ```
 
 You can send additional inference requests as described above. They will be handled by both versions of the model.
+
+??? note "Sample output"
+    You will see output from both the primary and candidate version of the application, `wisdom-0` and `wisdom-1` respectively.
+
+
+    `wisdom-0` output:
+    ```
+    HTTP/1.1 200 OK
+    app-version: wisdom-0
+                                        <p>A simple HTTP Request &amp; Response Service.
+    ```
+
+    `wisdom-1` output:
+    ```
+    HTTP/1.1 200 OK
+    app-version: wisdom-1
+                                        <p>A simple HTTP Request &amp; Response Service.
+    ```
 
 ## Modify weights (optional)
 

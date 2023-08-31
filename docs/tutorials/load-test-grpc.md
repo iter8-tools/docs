@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Load test gRPC
+# Load test gRPC endpoint
 
 Load test a Kubernetes gRPC service and visualizing the performance metrics with an Iter8 Grafana dashboard.
 

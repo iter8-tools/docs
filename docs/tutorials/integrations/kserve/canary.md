@@ -111,21 +111,21 @@ To send inference requests to the model:
 
 === "From outside the cluster"
     1. In a separate terminal, port-forward the ingress gateway:
-      ```shell
-      kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
-      ```
+    ```shell
+    kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
+    ```
 
     2. Download the sample input:
-      ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
-      ```
+    ```shell
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
+    ```
 
     3. Send inference requests:
-      ```shell
-      curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
-      | grep -e HTTP -e app-version
-      ```
-    or, to send a request with header `traffic: test`:
+    ```shell
+    curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
+    | grep -e HTTP -e app-version
+    ```
+    Or, to send a request with header `traffic: test`:
     ```shell
       curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
       -H 'traffic: test' \
