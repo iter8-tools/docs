@@ -26,6 +26,7 @@ Deploy the primary version of the application. In this tutorial, the application
 
 ```shell
 kubectl create deployment httpbin-0 --image=kennethreitz/httpbin --port=80
+kubectl label deployment httpbin-0 app.kubernetes.io/version=v0
 kubectl label deployment httpbin-0 iter8.tools/watch=true
 kubectl expose deployment httpbin-0 --port=80
 ```
@@ -34,6 +35,8 @@ kubectl expose deployment httpbin-0 --port=80
     Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the routing initialization (see below). However, any name can be specified.
     
     The label `iter8.tools/watch: "true"` is required. It lets Iter8 know that it should pay attention to changes to this application resource.
+
+    The label `app.kubernetes.io/version` is not required; we include it here as a means to distinguish between deployed versions in this tutorial.
 
 You can inspect the deployed `Deployment`. When the `AVAILABLE` field becomes `1`, the application is fully deployed.
 

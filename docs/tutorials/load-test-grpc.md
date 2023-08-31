@@ -11,7 +11,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 ![load-test-grpc](images/grpc.png)
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance testing](../getting-started/first-performance.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
+    1. Try [Your first performance test](../getting-started/first-performance.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
     2. Deploy the sample gRPC service in the Kubernetes cluster.
     ```shell
     kubectl create deployment routeguide --image=golang --port=50051 \

@@ -11,7 +11,7 @@ This tutorial describes how to do A/B testing of a backend component using the [
 ***
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance testing](first-performance.md). Understand the main [concepts](concepts.md) behind Iter8 experiments.
+    1. Try [Your first performance test](first-performance.md). Understand the main [concepts](concepts.md) behind Iter8 experiments.
     2. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
     kubectl create deploy grafana --image=grafana/grafana
