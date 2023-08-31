@@ -12,7 +12,7 @@ Iter8 provides a [`github` task](../../user-guide/tasks/github.md) that sends a 
 
 ## Example
 
-In this example, you will run the [Your First Experiment](../../getting-started/your-first-experiment.md) but at the end of the experiment, Iter8 will trigger a workflow on GitHub.
+In this example, you will run the [Your first performance test](../../getting-started/first-performance.md) but at the end of the experiment, Iter8 will trigger a workflow on GitHub.
 
 In this simple example, the workflow will simply print out an experiment summary that it will receive with the `repository_dispatch`. In a more sophisticated scenario, the workflow could, for example, read from an experiment summary and determine what to do next.
 

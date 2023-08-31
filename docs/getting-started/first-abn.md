@@ -4,14 +4,14 @@ template: main.html
 
 # A/B Testing with the Iter8 SDK
 
-This tutorial describes how to do A/B testing of a backend component using the [Iter8 SDK](../../user-guide/topics/ab_testing.md). 
+This tutorial describes how to do A/B testing of a backend component using the [Iter8 SDK](../user-guide/topics/ab_testing.md). 
 
 ![A/B/n experiment](images/abn.png)
 
 ***
 
 ???+ warning "Before you begin"
-    1. Try [your first experiment](../../getting-started/your-first-experiment.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8 experiments.
+    1. Try [Your first performance test](first-performance.md). Understand the main [concepts](concepts.md) behind Iter8 experiments.
     2. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
     kubectl create deploy grafana --image=grafana/grafana
@@ -57,7 +57,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
     kubectl expose deployment backend --name=backend --port=8091
     ```
 
-## Describe the Application
+## Describe the application
 
 In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A `ConfigMap` is used to describe the make up of possible versions:
 

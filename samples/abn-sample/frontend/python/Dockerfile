@@ -9,7 +9,7 @@ WORKDIR /
 COPY samples/abn-sample/frontend/python .
 RUN pip install -r requirements.txt
 
-# # generate gRPC libraries from abn.proto
+# # Generate gRPC libraries from abn.proto
 # COPY samples/abn-sample/frontend/abn.proto .
 # RUN python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./abn.proto 
 

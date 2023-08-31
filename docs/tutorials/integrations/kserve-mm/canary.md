@@ -2,9 +2,9 @@
 template: main.html
 ---
 
-# Canary Rollout of a ML Model
+# Canary rollout of a ML model
 
-This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe modelmesh serving environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the routing resources to distribute inference requests.
+This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe ModelMesh Serving environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the routing resources to distribute inference requests.
 
 After a one time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Iter8 automatically handles the underlying routing configuration.
 
@@ -91,12 +91,12 @@ kubectl get virtualservice -o yaml wisdom
 To send inference requests to the model:
 
 === "From within the cluster"
-    1. Create a "sleep" pod in the cluster from which requests can be made:
+    1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/modelmesh-serving/sleep.sh | sh -
     ```
 
-    2. exec into the sleep pod:
+    2. Exec into the sleep pod:
     ```shell
     kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
     ```
@@ -114,33 +114,33 @@ To send inference requests to the model:
 
 === "From outside the cluster"
     1. In a separate terminal, port-forward the ingress gateway:
-      ```shell
-      kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
-      ```
+    ```shell
+    kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
+    ```
 
     2. Download the proto file and a sample input:
-      ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/modelmesh-serving/kserve.proto
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/modelmesh-serving/grpc_input.json
-      ```
+    ```shell
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/modelmesh-serving/kserve.proto
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/modelmesh-serving/grpc_input.json
+    ```
 
     3. Send inference requests:
-      ```shell
-      cat grpc_input.json | \
-      grpcurl -vv -plaintext -proto kserve.proto -d @ \
-      -authority wisdom.modelmesh-serving \
-      localhost:8080 inference.GRPCInferenceService.ModelInfer \
-      | grep -e app-version
-      ```
-      or, to send a request with header `traffic: test`:
-      ```shell
-      cat grpc_input.json | \
-      grpcurl -vv -plaintext -proto kserve.proto -d @ \
-      -H 'traffic: test' \
-      -authority wisdom.modelmesh-serving \
-      localhost:8080 inference.GRPCInferenceService.ModelInfer \
-      | grep -e app-version
-      ```
+    ```shell
+    cat grpc_input.json | \
+    grpcurl -vv -plaintext -proto kserve.proto -d @ \
+    -authority wisdom.modelmesh-serving \
+    localhost:8080 inference.GRPCInferenceService.ModelInfer \
+    | grep -e app-version
+    ```
+    Or, to send a request with header `traffic: test`:
+    ```shell
+    cat grpc_input.json | \
+    grpcurl -vv -plaintext -proto kserve.proto -d @ \
+    -H 'traffic: test' \
+    -authority wisdom.modelmesh-serving \
+    localhost:8080 inference.GRPCInferenceService.ModelInfer \
+    | grep -e app-version
+    ```
 
 Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only this header.
 
@@ -251,6 +251,6 @@ Delete primary:
 kubectl delete isvc/wisdom-0
 ```
 
-Uninstall Iter8:
+Uninstall Iter8 controller:
 
 --8<-- "docs/tutorials/deleteiter8controller.md"

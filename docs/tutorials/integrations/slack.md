@@ -8,7 +8,7 @@ Iter8 provides a [`slack` task](../../user-guide/tasks/slack.md)  that sends a m
 
 ## Example
 
-In this example, you will run the [Your First Experiment](../../getting-started/your-first-experiment.md) but at the end of the experiment, Iter8 will send a message on Slack. 
+In this example, you will run the [Your first performance test](../../getting-started/first-performance.md) but at the end of the experiment, Iter8 will send a message on Slack. 
 
 The message will simply contain an experiment summary in text form. However, you can easily construct a more sophisticated message by providing your own payload template.
 

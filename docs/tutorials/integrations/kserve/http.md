@@ -2,12 +2,12 @@
 template: main.html
 ---
 
-# Load Test a KServe Model (via HTTP)
+# Load test a KServe model (via HTTP)
 
 This tutorial shows how easy it is to run a load test for KServe when using HTTP to make requests. We use a sklearn model to demonstrate. The same approach works for any model type. 
 
 ???+ warning "Before you begin"
-    1. Try [your first experiment](../../../getting-started/your-first-experiment.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
+    1. Try [Your first performance test](../../../getting-started/first-performance.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
     2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLI.
     3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
@@ -43,7 +43,7 @@ spec:
 EOF
 ```
 
-## Launch Experiment
+## Launch experiment
 
 Launch an Iter8 experiment inside the Kubernetes cluster:
 

@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Canary Rollout of a KServe ML Model
+# Canary rollout of a KServe ML model
 
 This tutorial shows how Iter8 can be used to implement a canary rollout of ML models hosted in a KServe environment. In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a canary rollout by automatically configuring the routing resources to distribute inference requests.
 
@@ -88,12 +88,12 @@ kubectl get virtualservice -o yaml wisdom
 To send inference requests to the model:
 
 === "From within the cluster"
-    1. Create a "sleep" pod in the cluster from which requests can be made:
+    1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/sleep.sh | sh -
     ```
 
-    2. exec into the sleep pod:
+    2. Exec into the sleep pod:
     ```shell
     kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
     ```
@@ -111,21 +111,21 @@ To send inference requests to the model:
 
 === "From outside the cluster"
     1. In a separate terminal, port-forward the ingress gateway:
-      ```shell
-      kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
-      ```
+    ```shell
+    kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
+    ```
 
     2. Download the sample input:
-      ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
-      ```
+    ```shell
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
+    ```
 
     3. Send inference requests:
-      ```shell
-      curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
-      | grep -e HTTP -e app-version
-      ```
-    or, to send a request with header `traffic: test`:
+    ```shell
+    curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
+    | grep -e HTTP -e app-version
+    ```
+    Or, to send a request with header `traffic: test`:
     ```shell
       curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
       -H 'traffic: test' \
@@ -239,6 +239,6 @@ Delete primary:
 kubectl delete isvc/wisdom-0
 ```
 
-Uninstall Iter8:
+Uninstall Iter8 controller:
 
 --8<-- "docs/tutorials/deleteiter8controller.md"

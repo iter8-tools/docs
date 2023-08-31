@@ -2,13 +2,13 @@
 template: main.html
 ---
 
-# Blue-Green Rollout of a KServe ML Model
+# Blue-green rollout of a KServe ML model
 
 This tutorial shows how Iter8 can be used to implement a blue-green rollout of ML models hosted in a KServe environment. In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. Iter8 enables a blue-green rollout by automatically configuring routing resources to distribute inference requests.
 
 After a one-time initialization step, the end user merely deploys candidate models, evaluates them, and either promotes or deletes them. Optionally, the end user can modify the percentage of inference requests being sent to the candidate model. Iter8 automatically handles all underlying routing configuration.
 
-![Blue-Green rollout](images/blue-green.png)
+![Blue-green rollout](images/blue-green.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
@@ -88,12 +88,12 @@ kubectl get virtualservice -o yaml wisdom
 To send inference requests to the model:
 
 === "From within the cluster"
-    1. Create a "sleep" pod in the cluster from which requests can be made:
+    1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/sleep.sh | sh -
     ```
 
-    2. exec into the sleep pod:
+    2. Exec into the sleep pod:
     ```shell
     kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
     ```
@@ -106,20 +106,28 @@ To send inference requests to the model:
 
 === "From outside the cluster"
     1. In a separate terminal, port-forward the ingress gateway:
-      ```shell
-      kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
-      ```
+    ```shell
+    kubectl -n istio-system port-forward svc/knative-local-gateway 8080:80
+    ```
 
     2. Download the sample input:
-      ```shell
-      curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
-      ```
+    ```shell
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
+    ```
 
     3. Send inference requests:
-      ```shell
-      curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
-      | grep -e HTTP -e app-version
-      ```
+    ```shell
+    curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
+    | grep -e HTTP -e app-version
+    ```
+
+??? note "Sample output"
+    The primary version of the application `wisdom-0` will output the following:
+
+    ```
+    HTTP/1.1 200 OK
+    app-version: wisdom-0
+    ```
 
 Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only the response code and this header.
 
@@ -160,6 +168,23 @@ kubectl get virtualservice wisdom -o yaml
 ```
 
 You can send additional inference requests as described above. They will be handled by both versions of the model.
+
+??? note "Sample output"
+    You will see output from both the primary and candidate version of the application, `wisdom-0` and `wisdom-1` respectively.
+
+    `wisdom-0` output:
+    ```
+    HTTP/1.1 200 OK
+    app-version: wisdom-0
+                                        <p>A simple HTTP Request &amp; Response Service.
+    ```
+
+    `wisdom-1` output:
+    ```
+    HTTP/1.1 200 OK
+    app-version: wisdom-1
+                                        <p>A simple HTTP Request &amp; Response Service.
+    ```
 
 ## Modify weights (optional)
 
@@ -248,6 +273,6 @@ Delete primary:
 kubectl delete isvc/wisdom-0
 ```
 
-Uninstall Iter8:
+Uninstall Iter8 controller:
 
 --8<-- "docs/tutorials/deleteiter8controller.md"

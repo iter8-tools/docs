@@ -8,13 +8,13 @@ This tutorial shows how Iter8 can be used to implement a blue-green rollout of a
 
 After a one-time initialization step, the end user merely deploys candidate versions, evaluates them, and either promotes or deletes them. Optionally, the end user can modify the percentage of requests being sent to the candidate. Iter8 automatically handles all underlying routing configuration.
 
-![Blue-Green rollout](images/blue-green.png)
+![Blue-green rollout](images/blue-green.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
     2. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
 
-## Install Iter8
+## Install Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -36,7 +36,7 @@ kubectl expose deployment httpbin-0 --port=80
     
     The label `iter8.tools/watch: "true"` is required. It lets Iter8 know that it should pay attention to changes to this application resource.
 
-    The label `app.kubernetes.io/version` is not required; we include it here as a means to distinguish between deployed versions.
+    The label `app.kubernetes.io/version` is not required; we include it here as a means to distinguish between deployed versions in this tutorial.
 
 You can inspect the deployed `Deployment`. When the `AVAILABLE` field becomes `1`, the application is fully deployed.
 
@@ -70,12 +70,12 @@ kubectl get virtualservice -o yaml httpbin
 To send inference requests to the model:
 
 === "From within the cluster"
-    1. Create a "sleep" pod in the cluster from which requests can be made:
+    1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/sleep.sh | sh -
     ```
 
-    2. exec into the sleep pod:
+    2. Exec into the sleep pod:
     ```shell
     kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
     ```
@@ -88,15 +88,24 @@ To send inference requests to the model:
 
 === "From outside the cluster"
     1. In a separate terminal, port-forward the ingress gateway:
-      ```shell
-      kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
-      ```
+    ```shell
+    kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
+    ```
 
     2. Send requests:
-      ```shell
-      curl -H 'Host: httpbin.default' localhost:8080 -s -D - \
-      | grep -e HTTP -e app-version
-      ```
+    ```shell
+    curl -H 'Host: httpbin.default' localhost:8080 -s -D - \
+    | grep -e HTTP -e app-version
+    ```
+
+??? note "Sample output"
+    The primary version of the application `httpbin-0` will output the following:
+
+    ```
+    HTTP/1.1 200 OK
+    app-version: httpbin-0
+                                        <p>A simple HTTP Request &amp; Response Service.
+    ```
 
 Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only the response code and this header.
 
@@ -123,6 +132,24 @@ kubectl get virtualservice httpbin -o yaml
 ```
 
 You can send additional inference requests as described above. They will be handled by both versions of the model.
+
+
+??? note "Sample output"
+    You will see output from both the primary and candidate version of the application, `httpbin-0` and `httpbin-1` respectively.
+
+    `httpbin-0` output:
+    ```
+    HTTP/1.1 200 OK
+    app-version: httpbin-0
+                                        <p>A simple HTTP Request &amp; Response Service.
+    ```
+
+    `httpbin-1` output:
+    ```
+    HTTP/1.1 200 OK
+    app-version: httpbin-1
+                                        <p>A simple HTTP Request &amp; Response Service.
+    ```
 
 ## Modify weights (optional)
 
@@ -195,6 +222,6 @@ Delete primary:
 kubectl delete deployment/httpbin-0 service/httpbin-0
 ```
 
-Uninstall Iter8:
+Uninstall Iter8 controller:
 
 --8<-- "docs/tutorials/deleteiter8controller.md"

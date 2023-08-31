@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# to use with RedHat OpenShift Service Mesh, set
+# To use with RedHat OpenShift Service Mesh, set
 # SERVICE_MESH=servicemesh
 
 if [ -z ${SERVICE_MESH+x} ]; then

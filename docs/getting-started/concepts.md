@@ -32,11 +32,11 @@ Iter8 provides three inter-related components to support the above use-cases.
 
     Iter8 provides a controller that automatically and dynamically reconfigures routing resources based on the state of Kubernetes apps/ML models. 
     
-    The following picture illustrates a Blue-Green rollout scenario that is orchestrated by this controller.
+    The following picture illustrates a blue-green rollout scenario that is orchestrated by this controller.
 
-    ![Blue-Green](../tutorials/integrations/kserve-mm/images/blue-green.png)
+    ![Blue-green](../tutorials/integrations/kserve-mm/images/blue-green.png)
     
-    As part of the dynamic reconfiguration of route resources, the Iter8 controller also looks into readiness (for e.g., in KServe modelmesh), availability (for e.g., in Kubernetes deployments) and other relevant status conditions before configuring traffic splits to candidate versions. Similarly, before candidate versions are deleted, the Iter8 controller uses finalizers to first ensure that all traffic flows to the primary version of the ML model. This makes for a very high-degree of reliability and zero-downtime/loss-less rollouts of new app/ML model versions. Users do not get this level of reliability out-of-the-box with a vanilla service mesh.
+    As part of the dynamic reconfiguration of route resources, the Iter8 controller also looks into readiness (for e.g., in KServe ModelMesh), availability (for e.g., in Kubernetes deployments) and other relevant status conditions before configuring traffic splits to candidate versions. Similarly, before candidate versions are deleted, the Iter8 controller uses finalizers to first ensure that all traffic flows to the primary version of the ML model. This makes for a very high-degree of reliability and zero-downtime/loss-less rollouts of new app/ML model versions. Users do not get this level of reliability out-of-the-box with a vanilla service mesh.
 
     With Iter8, the barrier to entry for end-users is significantly reduced. In particular, by just providing names of their ML serving resources, and (optional) traffic weights/labels, end users can get started with their release optimization use cases rapidly. Further, Iter8 does not limit the capabilities of the underlying service mesh in anyway. This means more advanced teams still get to use all the power of the service-mesh alongside the reliability and ease-of-use that Iter8 brings.
 
@@ -46,7 +46,7 @@ Iter8 provides three inter-related components to support the above use-cases.
     
     The following picture illustrates the use of the SDK for A/B testing.
 
-    ![A/B testing](../tutorials/abn/images/abn.png)
+    ![A/B testing](images/abn.png)
 
     Iter8's SDK is designed to handle user stickiness, collection of business metrics, and decoupling of front-end and back-end releases processes during A/B/n testing.
 

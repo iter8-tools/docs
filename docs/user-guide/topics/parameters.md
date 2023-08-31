@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Experiment Parameters
+# Experiment parameters
 
 Iter8 is built on [Helm](https://helm.sh). Iter8 experiments can be configured with parameters using the same mechanisms provided by Helm for [setting chart values](https://helm.sh/docs/chart_template_guide/values_files/#helm). 
 

@@ -113,32 +113,41 @@ markdown_extensions:
 nav:
 - Home: index.md
 - Getting Started:
-  - Your first experiment: getting-started/your-first-experiment.md
-  - Automatic Routing: getting-started/first-routing.md
+  - Your first automated routing: getting-started/first-routing.md
+  - Your first performance test: getting-started/first-performance.md
+  - Your first A/B test: getting-started/first-abn.md
   - Concepts: getting-started/concepts.md
   - Install Iter8: getting-started/install.md
   - Get help: getting-started/help.md
 - Tutorials:
-  - Load test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
-  - Load test gRPC: tutorials/load-test-grpc.md
-  - Load test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
-  - A/B testing with Iter8 SDK: tutorials/abn/abn.md
+  - Automated routing:  tutorials/automated-routing.md
+  - Performance test HTTP:  tutorials/load-test-http.md
+  - Performance test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
+  - Performance test gRPC: tutorials/load-test-grpc.md
+  - Performance test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
+  - A/B testing with Iter8 SDK: tutorials/abn.md
   - Integrations:
     - Kserve:
+      - Automated routing:
+        - Blue-green testing: tutorials/integrations/kserve/blue-green.md
+        - Canary testing: tutorials/integrations/kserve/canary.md
       - Performance testing:
         - HTTP: tutorials/integrations/kserve/http.md
         - gRPC: tutorials/integrations/kserve/grpc.md
-      - Blue-Green testing: tutorials/integrations/kserve/blue-green.md
-      - Canary testing: tutorials/integrations/kserve/canary.md
-      - Other (Iter8 v0.7): tutorials/integrations/kserve/kserve.md
     - Kserve (modelmesh):
-      - Blue-Green: tutorials/integrations/kserve-mm/blue-green.md
-      - Canary: tutorials/integrations/kserve-mm/canary.md
-    - Istio: tutorials/integrations/istio.md
+      - Automated routing:
+        - Blue-green testing: tutorials/integrations/kserve-mm/blue-green.md
+        - Canary testing: tutorials/integrations/kserve-mm/canary.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Slack:  tutorials/integrations/slack.md
-    - Litmus: tutorials/integrations/litmus.md
 - User guide:
+  - Commands:
+    - iter8: user-guide/commands/iter8.md
+    - iter8 version: user-guide/commands/iter8_version.md
+    - iter8 k: user-guide/commands/iter8_k.md
+    - iter8 k launch: user-guide/commands/iter8_k_launch.md
+    - iter8 k delete: user-guide/commands/iter8_k_delete.md
+    - iter8 k log: user-guide/commands/iter8_k_log.md
   - Tasks:
     - grpc: user-guide/tasks/grpc.md
     - http: user-guide/tasks/http.md
@@ -149,13 +158,6 @@ nav:
     - Experiment parameters: user-guide/topics/parameters.md
     - Namespace and group: user-guide/topics/group.md
     - A/B/n testing: user-guide/topics/ab_testing.md
-  - Commands:
-    - iter8: user-guide/commands/iter8.md
-    - iter8 version: user-guide/commands/iter8_version.md
-    - iter8 k: user-guide/commands/iter8_k.md
-    - iter8 k launch: user-guide/commands/iter8_k_launch.md
-    - iter8 k delete: user-guide/commands/iter8_k_delete.md
-    - iter8 k log: user-guide/commands/iter8_k_log.md
 - Contributing: contributing.md
 - Roadmap: roadmap.md
 - Community: 
