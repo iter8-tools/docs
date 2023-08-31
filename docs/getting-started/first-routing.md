@@ -137,7 +137,6 @@ You can send additional inference requests as described above. They will be hand
 ??? note "Sample output"
     You will see output from both the primary and candidate version of the application, `httpbin-0` and `httpbin-1` respectively.
 
-
     `httpbin-0` output:
     ```
     HTTP/1.1 200 OK

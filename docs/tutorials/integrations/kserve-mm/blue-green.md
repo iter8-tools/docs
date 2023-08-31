@@ -179,7 +179,6 @@ You can send additional inference requests as described above. They will be hand
 ??? note "Sample output"
     You will see output from both the primary and candidate version of the application, `wisdom-0` and `wisdom-1` respectively.
 
-
     `wisdom-0` output:
     ```
     app-version: wisdom-0
