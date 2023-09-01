@@ -179,3 +179,4 @@ statefulsets
 CNCF
 sandboxing
 Autoscaling
+composable
