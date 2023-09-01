@@ -129,7 +129,7 @@ kubectl port-forward service/grafana 3000:3000
 
 Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3000)
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `default/backend` with the following parameters:
 
 * URL: `http://iter8.default:8080/metrics`
 * Query string: `application=default%2Fbackend`

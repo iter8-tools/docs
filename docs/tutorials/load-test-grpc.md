@@ -103,7 +103,7 @@ kubectl port-forward service/grafana 3000:3000
 
 Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `routeguide-test` with the following parameters:
 
 * URL: `http://iter8.default:8080/grpcDashboard` 
 * Query string: `namespace=default&experiment=routeguide-test`
