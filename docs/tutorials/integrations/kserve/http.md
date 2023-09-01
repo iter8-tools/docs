@@ -56,7 +56,7 @@ helm upgrade --install \
 --set http.contentType="application/json"
 ```
 
-??? note "About this peformance test"
+??? note "About this performance test"
     This performance test consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [http](../../../user-guide/tasks/http.md). 
     
     The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
