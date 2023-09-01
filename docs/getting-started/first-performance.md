@@ -4,7 +4,7 @@ template: main.html
 
 # Load test HTTP endpoint
 
-Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernetes HTTP service and visualizing the performance metrics with an Iter8 Grafana dashboard.
+Run your first [Iter8 performance test](concepts.md#design) by load testing a Kubernetes HTTP service and visualizing the performance with an Iter8 Grafana dashboard.
 
 ![Load test HTTP](images/kubernetesusage.png)
 
@@ -26,8 +26,7 @@ Run your first [Iter8 experiment](concepts.md#design) by load testing a Kubernet
 ## Install Iter8 CLI
 --8<-- "docs/getting-started/install.md"
 
-## Launch experiment
-Launch the Iter8 experiment inside the Kubernetes cluster.
+## Launch performance test
 
 === "GET example"
     ```shell
@@ -50,8 +49,8 @@ Launch the Iter8 experiment inside the Kubernetes cluster.
     --set http.payloadStr=hello
     ```
 
-??? note "About this experiment"
-    This experiment consists of two [tasks](concepts.md#design), namely, [ready](../user-guide/tasks/ready.md) and [http](../user-guide/tasks/http.md). 
+??? note "About this performance test"
+    This performance test consists of two [tasks](concepts.md#design), namely, [ready](../user-guide/tasks/ready.md) and [http](../user-guide/tasks/http.md). 
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
@@ -77,8 +76,8 @@ The Iter8 dashboard will look like the following:
 
 ![`http` Iter8 dashboard](../user-guide/tasks/images/httpdashboard.png)
 
-## View experiment logs
-Logs are useful when debugging an experiment.
+## View logs
+Logs are useful for debugging.
 
 ```shell
 iter8 k log
@@ -89,7 +88,7 @@ iter8 k log
 ***
 
 ## Cleanup
-Remove the Iter8 experiment and the sample app from the Kubernetes cluster.
+Remove the performance test and the sample app from the Kubernetes cluster.
 ```shell
 iter8 k delete
 kubectl delete svc/httpbin
@@ -102,10 +101,10 @@ kubectl delete deploy/httpbin
 
 ***
 
-Congratulations! :tada: You completed your first Iter8 experiment.
+Congratulations! :tada: You completed your first performance test with Iter8.
 
 ***
 
-??? note "Some variations and extensions of this experiment"
+??? note "Some variations and extensions of this performance test"
     1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
     2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
