@@ -77,8 +77,6 @@ Logs are useful for debugging.
 kubectl logs -l iter8.tools/group=httpbin-test
 ```
 
---8<-- "docs/getting-started/logs.md"
-
 ## Cleanup
 Remove the performance test and the sample app from the Kubernetes cluster.
 
