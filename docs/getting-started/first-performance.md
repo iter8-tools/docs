@@ -30,7 +30,8 @@ Run your first [Iter8 performance test](concepts.md#design) by load testing a Ku
 
 === "GET example"
     ```shell
-    iter8 k launch \
+    helm upgrade --install \
+    --repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
     --set "tasks={ready,http}" \
     --set ready.deploy=httpbin \
     --set ready.service=httpbin \
@@ -40,7 +41,8 @@ Run your first [Iter8 performance test](concepts.md#design) by load testing a Ku
 
 === "POST example"
     ```shell
-    iter8 k launch \
+    helm upgrade --install \
+    --repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
     --set "tasks={ready,http}" \
     --set ready.deploy=httpbin \
     --set ready.service=httpbin \
@@ -68,7 +70,7 @@ Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
 * URL: `http://iter8.default:8080/httpDashboard` 
-* Query string: `namespace=default&experiment=default`
+* Query string: `namespace=default&experiment=httpbin-test`
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`http` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
@@ -80,7 +82,7 @@ The Iter8 dashboard will look like the following:
 Logs are useful for debugging.
 
 ```shell
-iter8 k log
+kubectl logs -l iter8.tools/group=httpbin-test
 ```
 
 --8<-- "docs/getting-started/logs.md"
@@ -90,7 +92,7 @@ iter8 k log
 ## Cleanup
 Remove the performance test and the sample app from the Kubernetes cluster.
 ```shell
-iter8 k delete
+helm delete httpbin-test
 kubectl delete svc/httpbin
 kubectl delete deploy/httpbin
 ```

@@ -7,7 +7,7 @@ template: main.html
 This tutorial shows how easy it is to run a load test for KServe when using HTTP to make requests. We use a sklearn model to demonstrate. The same approach works for any model type. 
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance test](../../../getting-started/first-performance.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
+    1. Try [Your first performance test](../../../getting-started/first-performance.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8.
     2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLI.
     3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
@@ -43,12 +43,11 @@ spec:
 EOF
 ```
 
-## Launch experiment
-
-Launch an Iter8 experiment inside the Kubernetes cluster:
+## Launch performance test
 
 ```shell
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 model-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.isvc=sklearn-irisv2 \
 --set ready.timeout=180s \
@@ -57,8 +56,8 @@ iter8 k launch \
 --set http.contentType="application/json"
 ```
 
-??? note "About this experiment"
-    This experiment consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [http](../../../user-guide/tasks/http.md). 
+??? note "About this peformance test"
+    This performance test consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [http](../../../user-guide/tasks/http.md). 
     
     The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
 
@@ -76,7 +75,7 @@ Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
 
 * URL: `http://iter8.default:8080/httpDashboard` 
-* Query string: `namespace=default&experiment=default`
+* Query string: `namespace=default&experiment=model-test`
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`http` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
@@ -87,7 +86,7 @@ The Iter8 dashboard will look like the following:
 ## Cleanup
 
 ```shell
-iter8 k delete
+helm delete model-test
 kubectl delete inferenceservice sklearn-irisv2
 ```
 
@@ -95,6 +94,6 @@ kubectl delete inferenceservice sklearn-irisv2
 
 --8<-- "docs/tutorials/deleteiter8controller.md"
 
-??? note "Some variations and extensions of this experiment"
+??? note "Some variations and extensions of this performance test"
     1. The [http task](../../../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
     2. The [http task](../../../user-guide/tasks/http.md) can be configured to send various types of content as payload.
