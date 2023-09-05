@@ -1,4 +1,4 @@
-??? note "Sample experiment logs"
+??? note "Sample performance test logs"
     ```shell
       time=2023-09-01 19:31:40 level=info msg=task 2: ready: started
       time=2023-09-01 19:31:40 level=info msg=task 2: ready: completed

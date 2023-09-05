@@ -10,7 +10,8 @@ Check if a Kubernetes object exists and is ready.
 
 In the following example, the `ready` task checks if a deployment named `httpbin-prod` exists and its [availability condition](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) is set to true, and a service named `httpbin` exists.
 ```shell
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.deploy=httpbin-prod \
 --set ready.service=httpbin \
@@ -25,7 +26,7 @@ iter8 k launch \
 | service | string | Name of a Kubernetes service. The task checks if the service exists. |
 | ksvc | string | Name of a Knative service. The task checks if the service exists and its `Ready` condition is set to true. |
 | timeout | string | Timeout for readiness check to succeed. Default value is `60s`. |
-| namespace | string | The namespace under which to look for the Kubernetes objects. For experiments that run inside a Kubernetes cluster, the default value of this field is the [namespace of the Iter8 experiment](../topics/group.md); for experiments that run in the local environment, it is the [`default`](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) namespace. |
+| namespace | string | The namespace under which to look for the Kubernetes objects. |
 
 
 ## Extensions
@@ -34,10 +35,11 @@ Iter8 can be easily extended to support readiness checks for any type of Kuberne
 
 ### Example
 
-Consider the Knative extension for this task; this extension enables Iter8 experiment authors to define readiness check for [Knative services](https://knative.dev/docs/serving). In the following example, the ready task succeed if the Knative service named `httpbin` exists, and has its `Ready` condition set to true.
+Consider the Knative extension for this task; this extension enables Iter8 performance test authors to define a readiness check for [Knative services](https://knative.dev/docs/serving). In the following example, the ready task succeed if the Knative service named `httpbin` exists, and has its `Ready` condition set to true.
 
 ```shell
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.ksvc=httpbin \
 --set http.url=http://httpbin.default/get

@@ -8,18 +8,20 @@ Generate requests for an HTTP service and and collect [latency and error-related
 
 ## Usage example
 
-In this experiment, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. Metrics collected by this task are viewable with an Iter8 dashboard.
+In this performance test, the `http` task generates requests for `https://httpbin.org/get`, and collects latency and error-related metrics. Metrics collected by this task are viewable with a Grafana dashboard.
 
 Single endpoint:
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.url=https://httpbin.org/get
 ```
 
 Multiple endpoints:
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
@@ -51,7 +53,8 @@ Some parameters have a default value, which can be overwritten. In addition, wit
 In the following example, all three endpoints will use the default `qps` (queries-per-second) of 8.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
@@ -62,7 +65,8 @@ iter8 k launch \
 In the following example, the `get` and `getAnything` endpoints will use the default `qps` of 8 and the `post` endpoint will use a `qps` of 15.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
@@ -74,7 +78,8 @@ iter8 k launch \
 In the following example, all three endpoints will use a `qps` (queries-per-second) of 10.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.qps=10 \
 --set http.endpoints.get.url=http://httpbin.default/get \
@@ -86,7 +91,8 @@ iter8 k launch \
 In the following example, the `get` and `getAnything` endpoints will use a `qps` of 10 and the `post` endpoint will use a `qps` of 15.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.qps=10 \
 --set http.endpoints.get.url=http://httpbin.default/get \
@@ -101,7 +107,8 @@ iter8 k launch \
 Further more, set parameters will trickle down to the endpoints.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.numRequests=50 \
 --set http.endpoints.get.url=http://httpbin.default/get \
@@ -116,16 +123,16 @@ In this example, all three endpoints will have a `numRequests` of 50.
 
 The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json).
 
-To use the dashboard:
+Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the dashboard as follows:
 
 1. Open Grafana in a browser. 
 2. Add a new data JSON API data source with the following parameters
-    * URL: `<link to Grafana service>/httpDashboard`
-    * Query string: `namespace=<namespace of experiment>&experiment=<name of experiment>`
+    * URL: `$GRAFANA_URL/grpcDashboard`
+    * Query string: `namespace=<namespace>&experiment=<test name>`
 3. Import the `http` Iter8 Grafana dashboard
     * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json) into the text box
 
-You will see a visualization of the experiment like the following:
+You will see a visualization of the performance test like the following:
 
 ![`http` Iter8 dashboard](images/httpdashboard.png)
 
