@@ -63,7 +63,7 @@ helm upgrade --install \
 8. Verify that the workflow has been triggered after the performance test has completed.
 
 ??? note "Some variations and extensions of the `github` task"
-    The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.5/templates/notify/_payload-github.tpl) sends a summary of the perofmance test. 
+    The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.5/templates/notify/_payload-github.tpl) sends a summary of the performance test. 
     
     In your workflow, you can read from the report and use that data for control flow or use snippets of that data in different actions. For example, you can check to see if there have been any task failures and take alternative actions.
 
