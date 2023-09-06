@@ -25,7 +25,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     kubectl expose deploy grafana --port=3000
     ```
 
-## Install Iter8 controller
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 

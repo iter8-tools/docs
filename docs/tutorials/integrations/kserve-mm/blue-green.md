@@ -20,7 +20,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
     ```
     3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
 
-## Install Iter8 controller
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 

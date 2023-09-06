@@ -11,14 +11,14 @@ After a one-time initialization step, the end user merely deploys candidate mode
 ![Canary rollout](images/canary.png)
 
 ???+ warning "Before you begin"
-    1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
+    1. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs.
     2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
 <!-- Istio 1.15 is installed as part of kserve install -->
 
-## Install Iter8 controller
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 

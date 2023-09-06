@@ -2,10 +2,6 @@
 template: main.html
 ---
 
-# GitHub Actions
-
-There are two ways that you can use Iter8 with GitHub Actions. You can [run Iter8 CLI within a GitHub Actions workflow](#use-iter8-in-a-github-actions-workflow) and you can also [use Iter8 to trigger a GitHub Actions workflow](#use-iter8-to-trigger-a-github-actions-workflow) during a performance test.
-
 # Trigger a GitHub Actions workflow during a performance test
 
 Iter8 provides a [`github` task](../../user-guide/tasks/github.md) that sends a [`repository_dispatch`](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.

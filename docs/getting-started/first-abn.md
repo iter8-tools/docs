@@ -11,16 +11,14 @@ This tutorial describes how to do A/B testing of a backend component using the [
 ***
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance test](first-performance.md). Understand the main [concepts](concepts.md) behind Iter8.
+    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
     2. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
     kubectl create deploy grafana --image=grafana/grafana
     kubectl expose deploy grafana --port=3000
     ```
  
-## Launch the Iter8 controller
-
-Deploy the Iter8 controller using either `helm` or `kustomize`:
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 

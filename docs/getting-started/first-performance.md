@@ -9,7 +9,7 @@ Run your first [Iter8 performance test](concepts.md#design) by load testing a Ku
 ![Load test HTTP](images/kubernetesusage.png)
 
 ???+ warning "Before you begin"
-    1. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
+    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
     2. Deploy the sample HTTP service in the Kubernetes cluster.
     ```shell
     kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
@@ -23,8 +23,9 @@ Run your first [Iter8 performance test](concepts.md#design) by load testing a Ku
 
 ***
 
-## Install Iter8 CLI
---8<-- "docs/getting-started/install.md"
+## Install the Iter8 controller
+
+--8<-- "docs/tutorials/installiter8controller.md"
 
 ## Launch performance test
 

@@ -24,7 +24,7 @@ template: main.html
     
 ***
 
-## Install Iter8 controller
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
