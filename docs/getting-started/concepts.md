@@ -53,6 +53,15 @@ Iter8 provides three inter-related components to support the above use-cases.
 
     In addition to load testing HTTP and gRPC services, Iter8 tasks can perform other actions such as sending notifications to Slack or GitHub.
 
+## Advantages
+Iter8 has several advantages compared to other tooling in this space. 
+
+First, Iter8 has no restrictions on the types of resources that make up a version of an application. The definition of a version is declarative. While there is a default set of resource types that can be referenced, it is easy to [declatively extend](../user-guide/topics/extensions.md) this set. Furthermore, this same extension mechanism allows Iter8 to be used with any service mesh.
+
+Second, the Iter8 client SDK addresses a key challenge to [A/B/n testing](../user-guide/topics/ab_testing.md): the decoupling of the front-end release process from that of the back-end. It allows the front-end to reliably associate buisiness metrics with the contributing version of the back-end.
+
+Finally, Iter8 simplifies performance testing by reducing the set up time needed to start testing. Tests can be easily specified as a sequence of [easily configured tasks](../user-guide/topics/parameters.md). Further, there is no need to setup and configure an external metrics database -- Iter8 captures the metrics data and provides a REST API allowing it to be visualized and evaluated in Grafana.
+
 ## Implementation
 Iter8 is written in `go` and builds on a few awesome open source projects including:
 
