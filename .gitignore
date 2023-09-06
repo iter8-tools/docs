@@ -130,5 +130,5 @@ dmypy.json
 
 .DS_Store
 
-# Iter8 experiment charts
+# Iter8 performance test charts
 **/charts
