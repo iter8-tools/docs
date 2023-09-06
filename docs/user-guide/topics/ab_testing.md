@@ -6,7 +6,7 @@ template: main.html
 
 A/B/n testing relies on business metrics typically computed by a frontend, user-facing, application component. 
 
-![A/B/n experiment](images/abn.png)
+![A/B/n test](images/abn.png)
 
 Metric values often depend on one or more interactions with backend (not user-facing) application components. To run an A/B/n test on a backend component, it is necessary to be able to associate a metric value (computed by the frontend component) to the version of the backend component that contributed to its computation. 
 The challenge is that the frontend component often does not know which version of the backend component processed a given request. To address this challenge, Iter8 introduces an A/B/n SDK. 

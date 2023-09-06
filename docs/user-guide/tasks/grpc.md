@@ -8,11 +8,12 @@ Generate requests for a gRPC service and and collect [latency and error-related 
 
 ## Usage example
 
-In this experiment, the `grpc` task generates call requests for a gRPC service hosted at `hello.default:50051`, defined in the [protobuf](https://developers.google.com/protocol-buffers) file located at `grpc.protoURL`, with a gRPC method named `helloworld.Greeter.SayHello`. Metrics collected by this task are viewable with an Iter8 dashboard.
+In this performance test, the `grpc` task generates call requests for a gRPC service hosted at `hello.default:50051`, defined in the [protobuf](https://developers.google.com/protocol-buffers) file located at `grpc.protoURL`, with a gRPC method named `helloworld.Greeter.SayHello`. Metrics collected by this task are viewable with a Grafana dashboard.
 
 Single method:
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -22,7 +23,8 @@ iter8 k launch \
 
 Multiple methods:
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -59,7 +61,8 @@ Some parameters have a default value, which can be overwritten. In addition, wit
 In the following example, all three endpoints will use the default `timeout` of `20s` (from `Config` struct).
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -74,7 +77,8 @@ iter8 k launch \
 In the following example, the `getFeature` and `listFeatures` endpoints will use the default `timeout` of `20s` and the `recordRoute` endpoint will use a `timeout` of `30s`.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -89,7 +93,8 @@ iter8 k launch \
 In the following example, all three endpoints will use a `qps` of `40s`.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -105,7 +110,8 @@ iter8 k launch \
 In the following example, the `getFeature` and `listFeatures` endpoints will use a `timeout` of `40s` and the `listFeatures` endpoint will use a `timeout` of `30s`.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -125,7 +131,8 @@ iter8 k launch \
 Further more, set parameters will trickle down to the endpoints.
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -145,16 +152,16 @@ In this example, all three endpoints will have a `skipFirst` of 5.
 
 The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json).
 
-To use the dashboard:
+Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the dashboard as follows:
 
 1. Open Grafana in a browser. 
 2. Add a new data JSON API data source with the following parameters
-    * URL: `<link to Grafana service>/grpcDashboard`
-    * Query string: `namespace=<namespace of experiment>&experiment=<name of experiment>`
+    * URL: `$GRAFANA_URL/grpcDashboard`
+    * Query string: `namespace=<namespace>&experiment=<test name>`
 3. Import the `grpc` Iter8 Grafana dashboard
     * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box
 
-You will see a visualization of the experiment like the following:
+You will see a visualization of the performance test like the following:
 
 ![`grpc` Iter8 dashboard](images/grpcdashboard.png)
 

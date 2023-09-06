@@ -7,8 +7,8 @@ template: main.html
 This tutorial shows how easy it is to run a load test for KServe when using gRPC to make requests. We use a sklearn model to demonstrate. The same approach works for any model type. 
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance test](../../../getting-started/first-performance.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8 experiments.
-    2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) CLI.
+    1. Try [Your first performance test](../../../getting-started/first-performance.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8.
+    2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs.
     3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
@@ -19,7 +19,7 @@ This tutorial shows how easy it is to run a load test for KServe when using gRPC
     kubectl expose deploy grafana --port=3000
     ```
 
-## Install Iter8 controller
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -48,9 +48,7 @@ spec:
 EOF
 ```
 
-## Launch experiment
-
-Launch the Iter8 experiment inside the Kubernetes cluster:
+## Launch performance test
 
 ```shell
 GRPC_HOST=$(kubectl get isvc sklearn-irisv2 -o jsonpath='{.status.components.predictor.address.url}' | sed 's#.*//##')
@@ -58,7 +56,8 @@ GRPC_PORT=80
 ```
 
 ```shell
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 model-test iter8 \
 --set "tasks={ready,grpc}" \
 --set ready.isvc=sklearn-irisv2 \
 --set ready.timeout=180s \
@@ -68,8 +67,8 @@ iter8 k launch \
 --set grpc.dataURL=https://gist.githubusercontent.com/kalantar/6e9eaa03cad8f4e86b20eeb712efef45/raw/56496ed5fa9078b8c9cdad590d275ab93beaaee4/sklearn-irisv2-input-grpc.json
 ```
 
-??? note "About this experiment"
-    This experiment consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [grpc](../../../user-guide/tasks/grpc.md). 
+??? note "About this performance test"
+    This performance test consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [grpc](../../../user-guide/tasks/grpc.md). 
     
     The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
 
@@ -84,10 +83,10 @@ kubectl port-forward service/grafana 3000:3000
 
 Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `model-test` with the following parameters:
 
 * URL: `http://iter8.default:8080/grpcDashboard` 
-* Query string: `namespace=default&experiment=default`
+* Query string: `namespace=default&experiment=model-test`
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
@@ -98,7 +97,7 @@ The Iter8 dashboard will look like the following:
 ## Cleanup
 
 ```shell
-iter8 k delete
+helm delete model-test
 kubectl delete inferenceservice sklearn-irisv2
 ```
 
@@ -106,5 +105,5 @@ kubectl delete inferenceservice sklearn-irisv2
 
 --8<-- "docs/tutorials/deleteiter8controller.md"
 
-??? note "Some variations and extensions of this experiment" 
+??? note "Some variations and extensions of this performance test" 
     1. The [grpc task](../../../user-guide/tasks/grpc.md) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.

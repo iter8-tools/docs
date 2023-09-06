@@ -9,6 +9,7 @@ benchmarking
 Cha
 chaosengine
 CLI
+CLIs
 cronjob
 crontab
 DCO

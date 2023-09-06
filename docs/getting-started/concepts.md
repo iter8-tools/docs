@@ -49,7 +49,7 @@ Iter8 provides three inter-related components to support the above use-cases.
     
     The following picture illustrates a performance test for an HTTP application, and this test consists of two tasks.
 
-    ![Iter8 experiment](images/kubernetesusage.png)
+    ![Iter8 performance test](images/kubernetesusage.png)
 
     In addition to load testing HTTP and gRPC services, Iter8 tasks can perform other actions such as sending notifications to Slack or GitHub.
 

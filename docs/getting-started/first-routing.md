@@ -11,10 +11,10 @@ After a one-time initialization step, the end user merely deploys candidate vers
 ![Blue-green rollout](images/blue-green.png)
 
 ???+ warning "Before you begin"
-    1. Ensure that you have the [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/).
+    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
     2. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
 
-## Install Iter8 controller
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 

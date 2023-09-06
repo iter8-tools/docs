@@ -9,7 +9,7 @@ template: main.html
 ![load-test-http](../getting-started/images/kubernetesusage.png)
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance test](../getting-started/first-performance.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
+    1. Try [Your first performance test](../getting-started/first-performance.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8.
     2. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
     3. Deploy the sample HTTP service in the Kubernetes cluster.
     ```shell
@@ -24,15 +24,15 @@ template: main.html
     
 ***
 
-## Install Iter8 controller
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
-## Launch experiment
-Launch the Iter8 experiment inside the Kubernetes cluster.
+## Launch performance test
 
 ```bash
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.deploy=httpbin \
 --set ready.service=httpbin \
@@ -43,8 +43,8 @@ iter8 k launch \
 --set http.endpoints.post.payloadStr=hello
 ```
 
-??? note "About this experiment"
-    This experiment consists of two [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md) and [http](../user-guide/tasks/http.md).
+??? note "About this performance test"
+    This performance test consists of two [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md) and [http](../user-guide/tasks/http.md).
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
@@ -59,10 +59,10 @@ kubectl port-forward service/grafana 3000:3000
 
 Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `httpbin-test` with the following parameters:
 
 * URL: `http://iter8.default:8080/httpDashboard` 
-* Query string: `namespace=default&experiment=default`
+* Query string: `namespace=default&experiment=httpbin-test`
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`http` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/http.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
@@ -70,20 +70,18 @@ The Iter8 dashboard will look like the following:
 
 ![`http` Iter8 dashboard with multiple endpoints](../user-guide/tasks/images/httpmultipledashboard.png)
 
-## View experiment logs
-Logs are useful when debugging an experiment.
+## View logs
+Logs are useful for debugging.
 
 ```shell
-iter8 k log
+kubectl logs -l iter8.tools/group=httpbin-test
 ```
 
---8<-- "docs/getting-started/logs.md"
-
 ## Cleanup
-Remove the Iter8 experiment and the sample app from the Kubernetes cluster.
+Remove the performance test and the sample app from the Kubernetes cluster.
 
 ```shell
-iter8 k delete
+helm delete httpbin-test
 kubectl delete svc/httpbin
 kubectl delete deploy/httpbin
 ```
@@ -92,6 +90,6 @@ kubectl delete deploy/httpbin
 
 --8<-- "docs/tutorials/deleteiter8controller.md"
 
-??? note "Some variations and extensions of this experiment"
+??? note "Some variations and extensions of this performance test"
     1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
     2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.

@@ -6,21 +6,19 @@ template: main.html
 
 This tutorial describes how to do A/B testing of a backend component using the [Iter8 SDK](../user-guide/topics/ab_testing.md). 
 
-![A/B/n experiment](images/abn.png)
+![A/B/n testing](images/abn.png)
 
 ***
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance test](first-performance.md). Understand the main [concepts](concepts.md) behind Iter8 experiments.
+    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
     2. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
     kubectl create deploy grafana --image=grafana/grafana
     kubectl expose deploy grafana --port=3000
     ```
  
-## Launch the Iter8 controller
-
-Deploy the Iter8 controller using either `helm` or `kustomize`:
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
@@ -129,7 +127,7 @@ kubectl port-forward service/grafana 3000:3000
 
 Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3000)
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `default/backend` with the following parameters:
 
 * URL: `http://iter8.default:8080/metrics`
 * Query string: `application=default%2Fbackend`

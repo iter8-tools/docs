@@ -11,7 +11,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 ![load-test-grpc](images/grpc.png)
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance test](../getting-started/first-performance.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8 experiments.
+    1. Try [Your first performance test](../getting-started/first-performance.md). Understand the main [concepts](../getting-started/concepts.md) behind.
     2. Deploy the sample gRPC service in the Kubernetes cluster.
     ```shell
     kubectl create deployment routeguide --image=golang --port=50051 \
@@ -25,15 +25,16 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     kubectl expose deploy grafana --port=3000
     ```
 
-## Install Iter8 controller
+## Install the Iter8 controller
 
 --8<-- "docs/tutorials/installiter8controller.md"
 
-## Launch experiment
+## Launch performance test
 
 === "Unary example"
     ```shell
-    iter8 k launch \
+    helm upgrade --install \
+    --repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -46,7 +47,8 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 
 === "Server streaming example"
     ```shell
-    iter8 k launch \
+    helm upgrade --install \
+    --repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -59,7 +61,8 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 
 === "Client streaming example"
     ```shell
-    iter8 k launch \
+    helm upgrade --install \
+    --repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -72,7 +75,8 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 
 === "Bidirectional example"
     ```shell
-    iter8 k launch \
+    helm upgrade --install \
+    --repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -83,8 +87,8 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/bidirectional.json
     ```
 
-??? note "About this experiment"
-    This experiment consists of two [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), and [grpc](../user-guide/tasks/grpc.md).
+??? note "About this performance test"
+    This performance test consists of two [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), and [grpc](../user-guide/tasks/grpc.md).
     
     The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
     
@@ -99,10 +103,10 @@ kubectl port-forward service/grafana 3000:3000
 
 Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 
-[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `Iter8` with the following parameters:
+[Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `routeguide-test` with the following parameters:
 
 * URL: `http://iter8.default:8080/grpcDashboard` 
-* Query string: `namespace=default&experiment=default`
+* Query string: `namespace=default&experiment=routeguide-test`
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
@@ -110,18 +114,18 @@ The Iter8 dashboard will look like the following:
 
 ![`grpc` Iter8 dashboard](../user-guide/tasks/images/grpcdashboard.png)
 
-## View experiment logs
-Logs are useful when debugging an experiment.
+## View logs
+Logs are useful for debugging.
 
 ```shell
-iter8 k log
+kubectl logs -l iter8.tools/group=routeguide-test
 ```
 
 ## Cleanup
-Remove the Iter8 experiment and the sample app from the Kubernetes cluster.
+Remove the performance test and the sample app from the Kubernetes cluster.
 
 ```shell
-iter8 k delete
+helm delete routeguide-test
 kubectl delete svc/routeguide
 kubectl delete deploy/routeguide
 ```
@@ -130,5 +134,5 @@ kubectl delete deploy/routeguide
 
 --8<-- "docs/tutorials/deleteiter8controller.md"
 
-??? note "Some variations and extensions of this experiment"
+??? note "Some variations and extensions of this performance test"
     1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.

@@ -8,13 +8,13 @@ Iter8 provides a [`slack` task](../../user-guide/tasks/slack.md)  that sends a m
 
 ## Example
 
-In this example, you will run the [Your first performance test](../../getting-started/first-performance.md) but at the end of the experiment, Iter8 will send a message on Slack. 
+In this example, you will run the [Your first performance test](../../getting-started/first-performance.md) but at the end of the performance test, Iter8 will send a message on Slack. 
 
-The message will simply contain an experiment summary in text form. However, you can easily construct a more sophisticated message by providing your own payload template.
+The message will simply contain a summary of the performance test in text form. However, you can easily construct a more sophisticated message by providing your own payload template.
 
-This task could provide important updates on an experiment over Slack, for example a summary at the end of an experiment.
+This task could provide important updates on a performance test over Slack, for example a summary at the end of the test.
 
-To summarize what will happen, you will create a new channel on Slack and configure a webhook, set up and run an experiment, and check if a message was sent to the channel.
+To summarize what will happen, you will create a new channel on Slack and configure a webhook, set up and run a performance test, and check if a message was sent to the channel.
 
 The `slack` task requires the URL of the Slack webhook. To see a full list of the `github` task parameters, see [here](../../user-guide/tasks/slack.md#parameters).
 
@@ -30,18 +30,19 @@ The `slack` task requires the URL of the Slack webhook. To see a full list of th
 kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
 kubectl expose deploy httpbin --port=80
 ```
-6. Launch the experiment with the `slack` task with the appropriate values.
+6. Launch the performance test with the `slack` task with the appropriate values.
 ```shell
-iter8 k launch \
+helm upgrade --install \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={http,slack}" \
 --set http.url=http://httpbin.default/get \
 --set slack.url=<Slack webhook> \
 --set slack.method=POST
 ```
-7. Verify that the message has been sent after the experiment has completed.
+7. Verify that the message has been sent after the performance test has completed.
 
 ??? note "Some variations and extensions of the `slack` task"
-    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.5/templates/notify/_payload-slack.tpl) sends an experiment summary.
+    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.5/templates/notify/_payload-slack.tpl) sends a summary of the performance test.
 
     However, you do not need to use the default payload. You can provide your own payload by overriding the default of the `payloadTemplateURL`.
 
