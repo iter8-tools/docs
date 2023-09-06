@@ -6,15 +6,15 @@ template: main.html
 
 There are two ways that you can use Iter8 with GitHub Actions. You can [run Iter8 CLI within a GitHub Actions workflow](#use-iter8-in-a-github-actions-workflow) and you can also [use Iter8 to trigger a GitHub Actions workflow](#use-iter8-to-trigger-a-github-actions-workflow) during a performance test.
 
-# Trigger a GitHub Actions workflow from a performance test
+# Trigger a GitHub Actions workflow during a performance test
 
-Iter8 provides a [`github` task](../../user-guide/tasks/github.md) that sends a [repository_dispatch](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
+Iter8 provides a [`github` task](../../user-guide/tasks/github.md) that sends a [`repository_dispatch`](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
 
 ## Example
 
 In this example, you will run the [Your first performance test](../../getting-started/first-performance.md) but at the end of the performance test, Iter8 will trigger a workflow on GitHub.
 
-In this simple example, the workflow will simply print out a test summary that it will receive with the `repository_dispatch`. In a more sophisticated scenario, the workflow could, for example, read from test test summary and determine what to do next.
+In this simple example, the workflow will simply print out a test summary that it will receive with the `repository_dispatch`. In a more sophisticated scenario, the workflow could, for example, read from the test summary and determine what to do next.
 
 To summarize what will happen, you will create a new GitHub repository, add a workflow that will respond to the `github` task, set up and run a performance test, and check if the workflow was triggered.
 

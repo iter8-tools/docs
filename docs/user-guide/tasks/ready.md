@@ -11,7 +11,7 @@ Check if a Kubernetes object exists and is ready.
 In the following example, the `ready` task checks if a deployment named `httpbin-prod` exists and its [availability condition](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) is set to true, and a service named `httpbin` exists.
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.deploy=httpbin-prod \
 --set ready.service=httpbin \
@@ -39,7 +39,7 @@ Consider the Knative extension for this task; this extension enables Iter8 perfo
 
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.ksvc=httpbin \
 --set http.url=http://httpbin.default/get
