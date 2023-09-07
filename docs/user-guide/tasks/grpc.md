@@ -157,7 +157,7 @@ Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the d
 1. Open Grafana in a browser. 
 2. Add a new data JSON API data source with the following parameters
     * URL: `$GRAFANA_URL/grpcDashboard`
-    * Query string: `namespace=<namespace>&experiment=<test name>`
+    * Query string: `namespace=<namespace>&test=<test name>`
 3. Import the `grpc` Iter8 Grafana dashboard
     * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box
 
