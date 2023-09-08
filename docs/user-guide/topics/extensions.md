@@ -6,7 +6,7 @@ template: main.html
 
 To support automated traffic routing and A/B/n testing, the Iter8 controller watches resources specified to be part of the application and checks their readiness. In this way, Iter8 is able to identify when new versions of an application become available.
 
-By default, Iter8 supports watching a limited set of resource types. These resource types are specified in the default controller chart [values.yaml](https://github.com/iter8-tools/iter8/blob/v0.16.6/charts/controller/values.yaml) file. They are:
+By default, Iter8 supports watching a limited set of resource types. These resource types are specified in the default controller chart [values.yaml](https://github.com/iter8-tools/iter8/blob/v0.17.1/charts/controller/values.yaml) file. They are:
 
 - Kubernetes `Service`, `ConfigMap`, and `Deployment` resource types
 - KServe `InferenceService` resource types
