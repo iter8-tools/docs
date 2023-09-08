@@ -32,7 +32,7 @@ template: main.html
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.17 httpbin-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.deploy=httpbin \
 --set ready.service=httpbin \

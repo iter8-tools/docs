@@ -34,7 +34,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 === "Unary example"
     ```shell
     helm upgrade --install \
-    --repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
+    --repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -48,7 +48,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 === "Server streaming example"
     ```shell
     helm upgrade --install \
-    --repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
+    --repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -62,7 +62,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 === "Client streaming example"
     ```shell
     helm upgrade --install \
-    --repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
+    --repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -76,7 +76,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 === "Bidirectional example"
     ```shell
     helm upgrade --install \
-    --repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
+    --repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \

@@ -10,7 +10,7 @@ Send an performance test summary in a message to a Slack channel using a [incomi
 
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.17 httpbin-test iter8 \
 --set "tasks={http,slack}" \
 --set http.url=http://httpbin.default/get \
 --set slack.url=<Slack webhook> \

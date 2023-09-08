@@ -47,7 +47,7 @@ EOF
 
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 model-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.17 model-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.isvc=sklearn-irisv2 \
 --set ready.timeout=180s \

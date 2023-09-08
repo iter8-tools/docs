@@ -10,7 +10,7 @@ The set of configurable parameters for a performance test includes the parameter
 
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.17 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.url=https://httpbin.org/get
 ```

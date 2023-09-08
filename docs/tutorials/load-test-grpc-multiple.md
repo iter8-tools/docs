@@ -32,7 +32,7 @@ template: main.html
 
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
 --set "tasks={ready,grpc}" \
 --set ready.deploy=routeguide \
 --set ready.service=routeguide \
