@@ -33,7 +33,7 @@ kubectl expose deploy httpbin --port=80
 6. Launch the performance test with the `slack` task with the appropriate values.
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.17 httpbin-test iter8 \
 --set "tasks={http,slack}" \
 --set http.url=http://httpbin.default/get \
 --set slack.url=<Slack webhook> \

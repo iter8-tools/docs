@@ -68,7 +68,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: iter8
     iter8.tools/kind: routemap
-    iter8.tools/version: "v0.16"
+    iter8.tools/version: "v0.17"
 immutable: true
 data:
   strSpec: |
@@ -129,8 +129,8 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `default/backend` with the following parameters:
 
-* URL: `http://iter8.default:8080/metrics`
-* Query string: `application=default%2Fbackend`
+* URL: `http://iter8.default:8080/abnDashboard`
+* Query string: `namespace=default&application=backend`
 
 [Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
 

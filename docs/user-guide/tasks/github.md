@@ -12,7 +12,7 @@ A `repository_dispatch` will trigger workflows in the default branch of the GitH
 
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.16 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.17 httpbin-test iter8 \
 --set "tasks={http,github}" \
 --set http.url=http://httpbin.default/get \
 --set github.owner=<GitHub owner> \
