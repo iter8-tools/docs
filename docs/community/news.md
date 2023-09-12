@@ -6,6 +6,8 @@ hide:
 
 # News and announcements
 
+* **September 2023:** Iter8 has been accepted as a [tier 2 component](https://github.com/opendatahub-io-contrib/odh-contrib-manifests/tree/main/iter8) for Open Data Hub.
+
 * **June 2023:** Our [proposal](https://github.com/opendatahub-io/opendatahub-community/blob/f565e64242979673564e3c8c53c84b8a0abf8e3a/proposal/release-engineering.md) to integrate with Open Data Hub has been accepted!
 
 * **March 2023:** New Stack blog article by Michael Kalantar. [Iter8: Simple A/B/n Testing of Kubernetes Apps, ML Models](https://thenewstack.io/iter8-simple-a-b-n-testing-of-kubernetes-apps-ml-models/)

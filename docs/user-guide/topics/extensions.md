@@ -4,22 +4,16 @@ template: main.html
 
 # Iter8 controller extensions
 
-To support automated traffic routing and A/B/n testing, the Iter8 controller watches resources specified to be part of the application and checks their readiness. In this way, Iter8 is able to identify when new versions of an application become available.
+Iter8 can be easily extended to watch any type of Kubernetes object (including objects with custom resource definitions) as part of a application version. 
 
-By default, Iter8 supports watching a limited set of resource types. These resource types are specified in the default controller chart [`values.yaml`](https://github.com/iter8-tools/iter8/blob/v0.17.1/charts/controller/values.yaml) file. They are:
-
-- Kubernetes `Service`, `ConfigMap`, and `Deployment` resource types
-- KServe `InferenceService` resource types
-- Istio `VirtualService` resource types
-
-The set of watched resource types can be extended by extending the list in the `values.yaml` file used when deploying the controller. For each new resource type, specify the Kubernetes group, version, and resource. Furthermore, a list of status conditions and their expected values can be specified. To check for readiness, Iter8 ensures that each of the specified conditions matches the specified value. For example, the configuration for the `Deployment` resource type is:
+For example, to include a Knative service as part of a version definition, add the following to the map of `resourceTypes` in the [`values.yaml`](https://raw.githubusercontent.com/iter8-tools/iter8/v0.17.1/charts/controller/values.yaml) file used to configure the controller. The addition identifies the Kubernetes group, version, and resource (GVR) and the status condition that should be checked for readiness.
 
 ```yaml
-deploy:
-    Group: apps
+ksvc:
+    Group: serving.knative.dev
     Version: v1
-    Resource: deployments
+    Resource: services
     conditions:
-    - name: Available
+    - name: Ready
       status: "True"
 ```
