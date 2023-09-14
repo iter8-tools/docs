@@ -7,7 +7,7 @@ on:
     - samples/abn-sample
 
 jobs:
-  # ABn sample backend HTTP service
+  # A/B/n sample backend HTTP service
   build-and-push-backend:
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +40,7 @@ jobs:
         file: samples/abn-sample/backend/Dockerfile
         push: true
 
-  # ABn sample frontend where the backend is a simple HTTP server (see above)
+  # A/B/n sample frontend where the backend is a simple HTTP server (see above)
   # Sample frontends are provided in both go and node
   build-and-push-frontends:
     runs-on: ubuntu-latest
@@ -78,7 +78,7 @@ jobs:
         push: true
 
 
-  # ABn sample frontend for modelmesh-serving
+  # A/B/n sample frontend for modelmesh-serving
   # In this case, the backends are models deployed as InferenceServices
   # This frontend is implemented omly in go
   build-and-push-mm-frontend:
@@ -117,7 +117,7 @@ jobs:
         context: samples/abn-sample/mm-frontend/${{ matrix.lang }}
         push: true
 
-  # ABn sample frontend for KServe w/ HTTP
+  # A/B/n sample frontend for KServe w/ HTTP
   # In this case, the backends are models deployed as InferenceServices
   # This frontend is implemented omly in go
   build-and-push-kserve-http-frontend:
@@ -156,7 +156,7 @@ jobs:
         context: samples/abn-sample/kserve-http-frontend/${{ matrix.lang }}
         push: true
 
-  # ABn sample frontend for KServe w/ gRPC
+  # A/B/n sample frontend for KServe w/ gRPC
   # In this case, the backends are models deployed as InferenceServices
   # This frontend is implemented omly in go
   build-and-push-kserve-grpc-frontend:
