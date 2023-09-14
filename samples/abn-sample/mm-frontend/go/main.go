@@ -95,7 +95,7 @@ func buy(w http.ResponseWriter, req *http.Request) {
 		&abn.MetricValue{
 			Name:        "sample_metric",
 			Value:       fmt.Sprintf("%f", rand.Float64()*100.0), // strconv.Itoa(rand.Intn(100)),
-			Application: "modelmesh-serving/backend",
+			Application: backendName(),
 			User:        user,
 		},
 	)

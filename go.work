@@ -1,0 +1,6 @@
+go 1.21.0
+
+use ./samples/abn-sample/frontend/go
+use ./samples/abn-sample/mm-frontend/go
+use ./samples/abn-sample/kserve-http-frontend/go
+use ./samples/abn-sample/kserve-grpc-frontend/go
