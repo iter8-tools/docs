@@ -41,7 +41,7 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	// start with default route
 	route := versionNumberToRoute[0]
 
-	// call ABn service API Lookup() to get a recommended version for the user
+	// call A/B/n service API Lookup() to get a recommended version for the user
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	s, err := getABnClient().Lookup(
@@ -120,7 +120,7 @@ var abnClient *abn.ABNClient
 
 func getABnClient() abn.ABNClient {
 	if abnClient == nil {
-		// establish connection to ABn service
+		// establish connection to A/B/n service
 		opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 		conn, err := grpc.Dial(
 			fmt.Sprintf(
@@ -159,7 +159,8 @@ func backendName() string {
 //	grpcurl -plaintext -proto proto -d data \
 //	   $route.default.svc.cluster.local:80 inference.GRPCInferenceService.ModelInfer
 //
-// input data is hard-coded in this example
+// input data is hard-coded in this example; input from
+// https://gist.githubusercontent.com/kalantar/6e9eaa03cad8f4e86b20eeb712efef45/raw/56496ed5fa9078b8c9cdad590d275ab93beaaee4/sklearn-irisv2-input-grpc.json
 func callBackend(route string) (string, error) {
 	Logger.Infof("callBackend (%s)", route)
 	defer Logger.Info("callBackend finished")

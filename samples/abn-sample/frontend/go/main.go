@@ -41,7 +41,7 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	// start with default route
 	route := versionNumberToRoute[0]
 
-	// call ABn service API Lookup() to get a recommended version for the user
+	// call A/B/n service API Lookup() to get a recommended version for the user
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	s, err := getABnClient().Lookup(
@@ -120,7 +120,7 @@ var abnClient *abn.ABNClient
 
 func getABnClient() abn.ABNClient {
 	if abnClient == nil {
-		// establish connection to ABn service
+		// establish connection to A/B/n service
 		opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 		conn, err := grpc.Dial(
 			fmt.Sprintf(
