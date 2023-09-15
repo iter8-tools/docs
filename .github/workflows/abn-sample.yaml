@@ -75,6 +75,7 @@ jobs:
         platforms: linux/amd64,linux/arm64
         tags: ${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:${{ env.VERSION }},${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:${{ env.MAJOR_MINOR_VERSION }},${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:latest
         file: samples/abn-sample/frontend/${{ matrix.lang }}/Dockerfile
+        context: samples/abn-sample/frontend/${{ matrix.lang }}
         push: true
 
 
