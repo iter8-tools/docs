@@ -101,7 +101,6 @@ In separate shells, port-forward requests to the frontend component and generate
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/abn-sample/generate_load.sh | sh -s --
     ```
-    <!-- # source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/abn-sample/generate_load.sh -->
 
 ## Deploy candidate
 

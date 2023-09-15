@@ -32,7 +32,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
 === "frontend"
     ```shell
-    kubectl create deployment frontend --image=kalantar/kserve-http-frontent:20230914-1312
+    kubectl create deployment frontend --image=kalantar/abn-sample-kserve-http-frontend-go:0.17.2
     kubectl expose deployment frontend --name=frontend --port=8090
     ```
 
@@ -110,14 +110,6 @@ In separate shells, port-forward requests to the frontend component and generate
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/abn-sample/generate_load.sh | sh -s --
     ```
  
-<!--
-    ```shell
-    curl -X POST http://backend-0.default.svc.cluster.local/v2/models/sklearn-irisv2/infer' \
-    -H 'Content-Type: application/json' \
-    --data @slearn-irisv2-input.json
-    ```
--->
-
 ## Deploy candidate
 
 Deploy the candidate version of the backend model:

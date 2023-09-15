@@ -32,7 +32,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
 === "frontend"
     ```shell
-    kubectl create deployment frontend --image=kalantar/mm-frontend:20230913-1715
+    kubectl create deployment frontend --image=iter8/abn-sample-mm-frontend-go:0.17.2
     kubectl expose deployment frontend --name=frontend --port=8090
     ```
 
@@ -112,16 +112,6 @@ In separate shells, port-forward requests to the frontend component and generate
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/abn-sample/generate_load.sh | sh -s --
     ```
  
-<!--
-    ```shell
-    cat  samples/modelmesh-serving/grpc_input.json \
-    | grpcurl -vv -plaintext -d @ \
-    -proto samples/modelmesh-serving/kserve.proto \
-    -H 'mm-vmodel-id: backend-0' \
-    localhost:8033 inference.GRPCInferenceService.ModelInfer
-    ```
--->
-
 ## Deploy candidate
 
 Deploy the candidate version of the backend model:
