@@ -24,7 +24,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o fe main.go
 ### New image below
 
 # Small Linux image with Iter8 binary
-FROM debian:bookworm-slim
+FROM scratch
 WORKDIR /
 COPY --from=builder /fe /frontend
 

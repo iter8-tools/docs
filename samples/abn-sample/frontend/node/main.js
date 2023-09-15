@@ -18,7 +18,7 @@ const versionNumberToRoute = [
     "http://backend-candidate-1.default.svc.cluster.local:8091",
 ]
 
-// establish connection to ABn service
+// establish connection to A/B/n service
 var abnService = process.env.ABN_SERVICE || 'iter8'
 var abnServicePort = process.env.ABN_SERVICE_PORT || 50051
 var abnEndpoint = abnService + ':' + abnServicePort.toString()
@@ -31,7 +31,7 @@ app.get('/getRecommendation', (req, res) => {
     // identify default route
     route = versionNumberToRoute[0];
 
-    // call ABn service API Lookup() to get an assigned track for the user
+    // call A/B/n service API Lookup() to get an assigned track for the user
     var application = new messages.Application();
     application.setName('default/backend');
     application.setUser(req.header('X-User'));

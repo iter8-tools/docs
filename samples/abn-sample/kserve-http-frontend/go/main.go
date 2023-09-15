@@ -1,12 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"io"
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -21,8 +23,8 @@ var Logger = logrus.New()
 // map of version number to route to backend service
 // here route is the URL of the backend service to which the request should be sent
 var versionNumberToRoute = []string{
-	"http://backend.default.svc.cluster.local:8091",
-	"http://backend-candidate-1.default.svc.cluster.local:8091",
+	"backend-0",
+	"backend-1",
 }
 
 // implment /getRecommendation endpoint
@@ -153,12 +155,31 @@ func backendName() string {
 	return lookupEnv("BACKEND_APPLICATION_NAME", "default/backend")
 }
 
-// callBackend calls REST endpoint $route/recommend
+// callBackend calls infer endpoint using HTTP
 // equivalent to:
 //
-// curl $route/recommend
+//	curl -X POST http://backend-0.default.svc.cluster.local/v2/models/sklearn-irisv2/infer' \
+//	   -H 'Content-Type: application/json' \
+//	   --data data
 func callBackend(route string) (string, error) {
-	resp, err := http.Get(route + "/recommend")
+	data := strings.Replace(`{
+		"inputs": [
+		  {
+			"name": "input-0",
+			"shape": [2, 4],
+			"datatype": "FP32",
+			"data": [
+			  [6.8, 2.8, 4.8, 1.4],
+			  [6.0, 3.4, 4.5, 1.6]
+			]
+		  }
+		]
+	  }`, "\n", "", -1)
+	resp, err := http.Post(
+		fmt.Sprintf("http://%s.default.svc.cluster.local/v2/models/%s/infer", route, route),
+		"application/json",
+		bytes.NewBuffer([]byte(data)),
+	)
 	if err != nil {
 		return "", err
 	}
