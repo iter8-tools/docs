@@ -2,7 +2,7 @@ FROM node:19-buster
 WORKDIR /usr/app
 
 # Get source (including requirements)
-COPY samples/abn-sample/frontend/node .
+COPY . ./
 
 # Generate gRPC libraries from abn.proto
 #COPY samples/abn-sample/frontend/abn.proto .
