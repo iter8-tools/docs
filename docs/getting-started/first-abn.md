@@ -101,9 +101,8 @@ In separate shells, port-forward requests to the frontend component and generate
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/abn-sample/generate_load.sh | sh -s --
     ```
-    <!-- # source /Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/docs/samples/abn-sample/generate_load.sh -->
 
-## Deploy a candidate version
+## Deploy candidate
 
 Deploy the candidate version of the *backend* component, naming it `backend-candidate-1`.
 
@@ -140,7 +139,7 @@ The Iter8 dashboard allows you to compare the behavior of the two versions of th
 
 Once you identify a winner, it can be promoted, and the candidate version deleted.
 
-## Promote candidate version
+## Promote candidate
 
 To promote the candidate version (`backend-candidate-1`), first update the primary version, `backend`, using the new image. You can also overwrite any metadata describing the version.
 
@@ -158,7 +157,7 @@ Calls to `Lookup()` will now recommend that all traffic be sent to the primary v
 
 ## Cleanup
 
-### Delete sample application
+Delete the sample application:
 
 ```shell
 kubectl delete \
@@ -167,12 +166,12 @@ svc/backend deploy/backend \
 svc/backend-candidate-1 deploy/backend-candidate-1
 ```
 
-### Delete the application description
+Delete the application description:
 
 ```shell
 kubectl delete cm/backend
 ```
 
-### Uninstall the Iter8 controller
+Uninstall the Iter8 controller:
 
 --8<-- "docs/tutorials/deleteiter8controller.md"
