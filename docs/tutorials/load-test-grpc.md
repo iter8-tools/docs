@@ -34,7 +34,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 === "Unary example"
     ```shell
     helm upgrade --install \
-    --repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+    --repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -42,13 +42,13 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set grpc.host=routeguide.default:50051 \
     --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
     --set grpc.call=routeguide.RouteGuide.GetFeature \
-    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json
+    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/unary.json
     ```
 
 === "Server streaming example"
     ```shell
     helm upgrade --install \
-    --repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+    --repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -56,13 +56,13 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set grpc.host=routeguide.default:50051 \
     --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
     --set grpc.call=routeguide.RouteGuide.ListFeatures \
-    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json
+    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/server.json
     ```
 
 === "Client streaming example"
     ```shell
     helm upgrade --install \
-    --repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+    --repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -70,13 +70,13 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set grpc.host=routeguide.default:50051 \
     --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
     --set grpc.call=routeguide.RouteGuide.RecordRoute \
-    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
+    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/client.json
     ```
 
 === "Bidirectional example"
     ```shell
     helm upgrade --install \
-    --repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+    --repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
     --set "tasks={ready,grpc}" \
     --set ready.deploy=routeguide \
     --set ready.service=routeguide \
@@ -84,7 +84,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
     --set grpc.host=routeguide.default:50051 \
     --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
     --set grpc.call=routeguide.RouteGuide.RouteChat \
-    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/bidirectional.json
+    --set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/bidirectional.json
     ```
 
 ??? note "About this performance test"
@@ -108,7 +108,7 @@ Open Grafana by going to [http://localhost:3000](http://localhost:3000).
 * URL: `http://iter8.default:8080/grpcDashboard` 
 * Query string: `namespace=default&test=routeguide-test`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
 The Iter8 dashboard will look like the following:
 

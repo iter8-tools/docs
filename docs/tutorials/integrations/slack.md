@@ -33,7 +33,7 @@ kubectl expose deploy httpbin --port=80
 6. Launch the performance test with the `slack` task with the appropriate values.
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
 --set "tasks={http,slack}" \
 --set http.url=http://httpbin.default/get \
 --set slack.url=<Slack webhook> \
@@ -42,7 +42,7 @@ helm upgrade --install \
 7. Verify that the message has been sent after the performance test has completed.
 
 ??? note "Some variations and extensions of the `slack` task"
-    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.5/templates/notify/_payload-slack.tpl) sends a summary of the performance test.
+    The default `slack` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/templates/notify/_payload-slack.tpl) sends a summary of the performance test.
 
     However, you do not need to use the default payload. You can provide your own payload by overriding the default of the `payloadTemplateURL`.
 

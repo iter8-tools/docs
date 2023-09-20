@@ -67,7 +67,7 @@ kubectl get inferenceservice wisdom-0
 Initialize the routing resources for the application to use a canary rollout strategy:
 
 ```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.1.5 -f - | kubectl apply -f -
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl apply -f -
 appType: kserve
 appName: wisdom
 action: initialize
@@ -75,7 +75,7 @@ strategy: canary
 EOF
 ```
 
-The `initialize` action (with strategy `canary`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy sends requests with the header `traffic` set to the value `test` to the candidate version and all remaining requests to the primary version. For detailed configuration options, see the [Helm chart](https://github.com/iter8-tools/iter8/blob/v0.16.0/charts/routing-actions/values.yaml).
+The `initialize` action (with strategy `canary`) configures the (Istio) service mesh to route all requests to the primary version of the application (`wisdom-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy sends requests with the header `traffic` set to the value `test` to the candidate version and all remaining requests to the primary version. For detailed configuration options, see the [Helm chart](https://github.com/iter8-tools/iter8/blob/v0.18.3/charts/routing-actions/values.yaml).
 
 ## Verify routing
 
@@ -90,7 +90,7 @@ To send inference requests to the model:
 === "From within the cluster"
     1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/sleep.sh | sh -
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
     ```
 
     2. Exec into the sleep pod:
@@ -117,7 +117,7 @@ To send inference requests to the model:
 
     2. Download the sample input:
     ```shell
-    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/input.json
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/input.json
     ```
 
     3. Send inference requests:
@@ -225,7 +225,7 @@ kubectl delete isvc/wisdom-1
 Delete routing:
 
 ```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.1.5 -f - | kubectl delete -f -
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl delete -f -
 appType: kserve
 appName: wisdom
 action: initialize
