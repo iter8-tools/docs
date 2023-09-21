@@ -11,7 +11,7 @@ Check if a Kubernetes object exists and is ready.
 In the following example, the `ready` task checks if a deployment named `httpbin-prod` exists and its [availability condition](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) is set to true, and a service named `httpbin` exists.
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.deploy=httpbin-prod \
 --set ready.service=httpbin \
@@ -31,47 +31,17 @@ helm upgrade --install \
 
 ## Extensions
 
-Iter8 can be easily extended to support readiness checks for any type of Kubernetes object (including objects with custom resource types). Please consider submitting a pull request for such extensions. Readiness checking in Iter8 involves two templates, namely, [`task.ready`](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_task-ready.tpl) and [`k.role`](https://raw.githubusercontent.com/iter8-tools/iter8/v0.14.5/charts/iter8/templates/_k-role.tpl). Extending the readiness checks to new resource types involves modifying these templates.
+Iter8 can be easily extended to support readiness checks for any type of Kubernetes object (including objects with custom resource types). To do so, add the new resource type to the list of known types defined in the default [`values.yaml` file](https://github.com/iter8-tools/iter8/blob/v0.18.3/charts/iter8/values.yaml) for the chart.
 
 ### Example
 
-Consider the Knative extension for this task; this extension enables Iter8 performance test authors to define a readiness check for [Knative services](https://knative.dev/docs/serving). In the following example, the ready task succeed if the Knative service named `httpbin` exists, and has its `Ready` condition set to true.
+To include a Knative service as part of a version definition, add the following to the map of `resourceTypes` in the [`values.yaml`](https://github.com/iter8-tools/iter8/blob/v0.18.3/charts/iter8/values.yaml) file used to configure the controller. The addition identifies the Kubernetes group, version, and resource (GVR) and the status condition that should be checked for readiness.
 
-```shell
-helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 httpbin-test iter8 \
---set "tasks={ready,http}" \
---set ready.ksvc=httpbin \
---set http.url=http://httpbin.default/get
+```yaml
+ksvc:
+    Group: serving.knative.dev
+    Version: v1
+    Resource: services
+    conditions:
+    - Ready
 ```
-
-The `task.ready` and `k.role` were changed in the following ways to create this extension.
-
-=== "task.ready"
-    The group/version/resource (GVR) and the condition that should be checked for a Knative `Service` are defined in this template.
-
-    ```yaml
-    {{- if .Values.ready.ksvc }}
-    # task: determine if Knative Service exists and is ready
-    - task: ready
-      with:
-        name: {{ .Values.ready.ksvc | quote }}
-        group: serving.knative.dev
-        version: v1
-        resource: services
-        condition: Ready
-    {{- include "task.ready.tn" . }}
-    {{- end }}
-    ```
-
-=== "k.role"
-    The role named `{{ .Release.Name }}-ready` is extended with the Knative `apiGroup`.
-
-    ```yaml
-    {{- if .Values.ready.ksvc }}
-    - apiGroups: ["serving.knative.dev"]
-      resourceNames: [{{ .Values.ready.ksvc | quote }}]
-      resources: ["services"]
-      verbs: ["get"]
-    {{- end }}
-    ```

@@ -49,7 +49,7 @@ kubectl get deployment httpbin-0
 Initialize the routing resources for the application to use a blue-green rollout strategy:
 
 ```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.1.5 -f - | kubectl apply -f -
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl apply -f -
 appType: deployment
 appName: httpbin
 action: initialize
@@ -57,7 +57,7 @@ strategy: blue-green
 EOF
 ```
 
-The `initialize` action (with strategy `blue-green`) configures the (Istio) service mesh to route all requests to the primary version of the application (`httpbin-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy splits requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/iter8-tools/iter8/blob/v0.16.0/charts/routing-actions/values.yaml).
+The `initialize` action (with strategy `blue-green`) configures the (Istio) service mesh to route all requests to the primary version of the application (`httpbin-0`). It further defines the routing policy that will be used when changes are observed in the application resources. By default, this routing policy splits requests 50-50 between the primary and candidate versions. For detailed configuration options, see the [Helm chart](https://github.com/iter8-tools/iter8/blob/v0.18.3/charts/routing-actions/values.yaml).
 
 ### Verify routing
 
@@ -72,7 +72,7 @@ To send inference requests to the model:
 === "From within the cluster"
     1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.2/samples/kserve-serving/sleep.sh | sh -
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
     ```
 
     2. Exec into the sleep pod:
@@ -156,7 +156,7 @@ You can send additional inference requests as described above. They will be hand
 You can modify the weight distribution of inference requests as follows:
 
 ```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.1.5 -f - | kubectl apply -f -
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl apply -f -
 appType: deployment
 appName: httpbin
 action: modify-weights
@@ -208,7 +208,7 @@ kubectl delete deployment/httpbin-1 service/httpbin-1
 Delete routing:
 
 ```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.1.5 -f - | kubectl delete -f -
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl delete -f -
 appType: deployment
 appName: httpbin
 action: initialize

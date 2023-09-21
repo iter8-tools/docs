@@ -31,17 +31,15 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
     === "node"
         ```shell
-        kubectl create deployment frontend --image=iter8/abn-sample-frontend-node:0.15.0
+        kubectl create deployment frontend --image=iter8/abn-sample-frontend-node:0.17.3
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
-        <!-- kubectl create deployment frontend --image=kalantar/frontend-node:20230717-1552 -->
 
     === "Go"
         ```shell
-        kubectl create deployment frontend --image=iter8/abn-sample-frontend-go:0.15.0
+        kubectl create deployment frontend --image=iter8/abn-sample-frontend-go:0.17.3
         kubectl expose deployment frontend --name=frontend --port=8090
         ```
-        <!-- kubectl create deployment frontend --image=kalantar/frontend-go:20230717-1339 -->
     
     The frontend component is implemented to call `Lookup()` before each call to the backend component. The frontend component uses the returned version number to route the request to the recommended version of the backend component.
 
@@ -49,7 +47,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
     Deploy an initial version of the *backend* component:
 
     ```shell
-    kubectl create deployment backend --image=iter8/abn-sample-backend:0.13-v1
+    kubectl create deployment backend --image=iter8/abn-sample-backend:0.17-v1
     kubectl label deployment backend iter8.tools/watch="true"
 
     kubectl expose deployment backend --name=backend --port=8091
@@ -68,7 +66,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: iter8
     iter8.tools/kind: routemap
-    iter8.tools/version: "v0.17"
+    iter8.tools/version: "v0.18"
 immutable: true
 data:
   strSpec: |
@@ -99,7 +97,7 @@ In separate shells, port-forward requests to the frontend component and generate
     kubectl port-forward service/frontend 8090:8090
     ```
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/abn-sample/generate_load.sh | sh -s --
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/abn-sample/generate_load.sh | sh -s --
     ```
 
 ## Deploy candidate
@@ -107,7 +105,7 @@ In separate shells, port-forward requests to the frontend component and generate
 Deploy the candidate version of the *backend* component, naming it `backend-candidate-1`.
 
 ```shell
-kubectl create deployment backend-candidate-1 --image=iter8/abn-sample-backend:0.13-v2
+kubectl create deployment backend-candidate-1 --image=iter8/abn-sample-backend:0.17-v2
 kubectl label deployment backend-candidate-1 iter8.tools/watch="true"
 
 kubectl expose deployment backend-candidate-1 --name=backend-candidate-1 --port=8091
@@ -131,7 +129,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 * URL: `http://iter8.default:8080/abnDashboard`
 * Query string: `namespace=default&application=backend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
 
 The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look like the following:
 
@@ -144,7 +142,7 @@ Once you identify a winner, it can be promoted, and the candidate version delete
 To promote the candidate version (`backend-candidate-1`), first update the primary version, `backend`, using the new image. You can also overwrite any metadata describing the version.
 
 ```shell
-kubectl set image deployment/backend abn-sample-backend=iter8/abn-sample-backend:0.13-v2
+kubectl set image deployment/backend abn-sample-backend=iter8/abn-sample-backend:0.17-v2
 ```
 
 Finally, delete the candidate version:

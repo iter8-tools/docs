@@ -4,7 +4,7 @@ template: main.html
 
 # grpc
 
-Generate requests for a gRPC service and and collect [latency and error-related metrics](#metrics).
+Generate requests for a gRPC service and and collect latency and error-related metrics.
 
 ## Usage example
 
@@ -13,29 +13,29 @@ In this performance test, the `grpc` task generates call requests for a gRPC ser
 Single method:
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.call=routeguide.RouteGuide.GetFeature \
---set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json
+--set grpc.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/unary.json
 ```
 
 Multiple methods:
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
---set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
+--set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
---set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
+--set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/server.json \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/client.json \
 --set grpc.endpoints.routeChat.call=routeguide.RouteGuide.RouteChat \
---set grpc.endpoints.routeChat.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/bidirectional.json
+--set grpc.endpoints.routeChat.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/bidirectional.json
 ```
 
 ## Parameters
@@ -62,67 +62,67 @@ In the following example, all three endpoints will use the default `timeout` of 
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
---set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
+--set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
---set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
+--set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/server.json \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/client.json
 ```
 
 In the following example, the `getFeature` and `listFeatures` endpoints will use the default `timeout` of `20s` and the `recordRoute` endpoint will use a `timeout` of `30s`.
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
---set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
+--set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
---set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
+--set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/server.json \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/client.json
 ```
 
 In the following example, all three endpoints will use a `qps` of `40s`.
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.timeout=40s \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
---set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
+--set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
---set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
+--set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/server.json \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/client.json
 ```
 
 In the following example, the `getFeature` and `listFeatures` endpoints will use a `timeout` of `40s` and the `listFeatures` endpoint will use a `timeout` of `30s`.
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.timeout=40s \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
---set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
+--set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
---set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
+--set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/server.json \
 --set grpc.endpoints.listFeatures.timeout=30s \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json \
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/client.json \
 --set grpc.endpoints.recordRoute.timeout=30s
 ```
 
@@ -132,25 +132,25 @@ Further more, set parameters will trickle down to the endpoints.
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.17 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
 --set grpc.skipFirst=5 \
 --set grpc.endpoints.getFeature.call=routeguide.RouteGuide.GetFeature \
---set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/unary.json \
+--set grpc.endpoints.getFeature.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/unary.json \
 --set grpc.endpoints.listFeatures.call=routeguide.RouteGuide.ListFeatures \
---set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/server.json \
+--set grpc.endpoints.listFeatures.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/server.json \
 --set grpc.endpoints.listFeatures.timeout=30s \
 --set grpc.endpoints.recordRoute.call=routeguide.RouteGuide.RecordRoute \
---set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.13.13/samples/grpc-payload/client.json
+--set grpc.endpoints.recordRoute.dataURL=https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/grpc-payload/client.json
 ```
 
 In this example, all three endpoints will have a `skipFirst` of 5.
 
 ## Grafana Dashboard
 
-The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json).
+The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/grpc.json).
 
 Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the dashboard as follows:
 
@@ -159,7 +159,7 @@ Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the d
     * URL: `$GRAFANA_URL/grpcDashboard`
     * Query string: `namespace=<namespace>&test=<test name>`
 3. Import the `grpc` Iter8 Grafana dashboard
-    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/grpc.json) into the text box
+    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/grpc.json) into the text box
 
 You will see a visualization of the performance test like the following:
 

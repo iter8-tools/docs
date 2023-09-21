@@ -12,6 +12,7 @@ CLI
 CLIs
 cronjob
 crontab
+ConfigMap
 DCO
 default_encoding
 declaratively

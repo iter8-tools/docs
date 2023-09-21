@@ -32,7 +32,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
 === "frontend"
     ```shell
-    kubectl create deployment frontend --image=kalantar/abn-sample-kserve-http-frontend-go:0.17.2
+    kubectl create deployment frontend --image=kalantar/abn-sample-kserve-http-frontend-go:0.17.3
     kubectl expose deployment frontend --name=frontend --port=8090
     ```
 
@@ -81,7 +81,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: iter8
     iter8.tools/kind: routemap
-    iter8.tools/version: "v0.17"
+    iter8.tools/version: "v0.18"
 immutable: true
 data:
   strSpec: |
@@ -107,7 +107,7 @@ In separate shells, port-forward requests to the frontend component and generate
     ```
 
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.15.0/samples/abn-sample/generate_load.sh | sh -s --
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/abn-sample/generate_load.sh | sh -s --
     ```
  
 ## Deploy candidate
@@ -155,7 +155,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 * URL: `http://iter8.default:8080/abnDashboard`
 * Query string: `namespace=default&application=backend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.16.2/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
 
 The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look like the following:
 
