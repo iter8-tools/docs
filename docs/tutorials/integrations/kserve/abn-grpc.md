@@ -67,7 +67,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
     ```
 
     ??? note "About the primary `InferenceService`"
-        The base name (`backend`) and version (`v0`) are identified using the labels `app.kubernets.io/name` and `app.kubernets.io/version`, respectively. These labels are not required.
+        The base name (`backend`) and version (`v0`) are identified using the labels `app.kubernetes.io/name` and `app.kubernetes.io/version`, respectively. These labels are not required.
 
         Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies describing the application (see below). However, any name can be specified.
         
@@ -144,8 +144,8 @@ spec:
 EOF
 ```
 
-??? note "About the candidate `InferenceService`"
-    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real example, this would be different.
+??? note "About the candidate"
+    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 Until the candidate version is ready, calls to `Lookup()` will return only the version number `0`; the primary version of the model.
 Once the candidate version is ready, `Lookup()` will return both version numbers (`0` and `1`) so that requests can be distributed across versions.
@@ -205,7 +205,7 @@ EOF
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernets.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
+    The version label (`app.kubernetes.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
 
 ### Delete candidate
 
