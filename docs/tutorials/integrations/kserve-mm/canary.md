@@ -22,7 +22,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Initialize primary
 
@@ -253,4 +253,4 @@ kubectl delete isvc/wisdom-0
 
 Uninstall Iter8 controller:
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"

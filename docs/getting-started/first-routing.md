@@ -16,7 +16,7 @@ After a one-time initialization step, the end user merely deploys candidate vers
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Initialize primary
 
@@ -224,4 +224,4 @@ kubectl delete deployment/httpbin-0 service/httpbin-0
 
 Uninstall Iter8 controller:
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"

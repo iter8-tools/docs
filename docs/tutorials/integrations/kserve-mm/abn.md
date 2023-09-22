@@ -24,7 +24,7 @@ This tutorial describes how to do A/B testing of a backend ML model hosted on [K
  
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Deploy the sample application
 
@@ -236,4 +236,4 @@ kubectl delete deploy/frontend svc/frontend
 
 Uninstall Iter8 controller:
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"

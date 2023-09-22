@@ -21,7 +21,7 @@ This tutorial shows how easy it is to run a load test for KServe when using gRPC
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Deploy an InferenceService
 
@@ -103,7 +103,7 @@ kubectl delete inferenceservice sklearn-irisv2
 
 ### Uninstall the Iter8 controller
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"
 
 ??? note "Some variations and extensions of this performance test" 
     1. The [grpc task](../../../user-guide/tasks/grpc.md) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.
