@@ -83,7 +83,7 @@ To send inference requests to the model:
     3. Send requests:
     ```shell
     curl httpbin.default -s -D - \
-    | grep -e HTTP -e app-version
+    | grep -e '^HTTP' -e app-version
     ```
 
 === "From outside the cluster"
@@ -95,7 +95,7 @@ To send inference requests to the model:
     2. Send requests:
     ```shell
     curl -H 'Host: httpbin.default' localhost:8080 -s -D - \
-    | grep -e HTTP -e app-version
+    | grep -e '^HTTP' -e app-version
     ```
 
 ??? note "Sample output"
@@ -104,7 +104,6 @@ To send inference requests to the model:
     ```
     HTTP/1.1 200 OK
     app-version: httpbin-0
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
 Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only the response code and this header.

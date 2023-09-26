@@ -12,7 +12,7 @@ After a one-time initialization step, the end user merely deploys candidate mode
 
 ???+ warning "Before you begin"
     1. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs.
-    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
+    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.11/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
@@ -118,7 +118,7 @@ To send inference requests to the model:
     3. Send inference requests:
     ```shell
     curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
-    | grep -e HTTP -e app-version
+    | grep -e '^HTTP' -e app-version
     ```
 
 ??? note "Sample output"

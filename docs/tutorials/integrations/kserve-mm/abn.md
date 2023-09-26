@@ -72,42 +72,26 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
 ## Describe the application
 
-In order to support `Lookup()`, Iter8 needs to know what the backend component versions look like. A `ConfigMap` is used to describe the make up of possible versions:
+In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A _routemap_ is created to do this. A routemap contains a description of each version of an application and may contain a routing template. To create the routemap:
 
 ```shell
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: backend
-  labels:
-    app.kubernetes.io/managed-by: iter8
-    iter8.tools/kind: routemap
-    iter8.tools/version: "v0.18"
-immutable: true
-data:
-  strSpec: |
-    versions:
-    - resources:
-      - gvrShort: isvc
-        name: backend-0
-        namespace: modelmesh-serving
-    - resources:
-      - gvrShort: isvc
-        name: backend-1
-        namespace: modelmesh-serving
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl apply -f -
+appType: kserve-modelmesh
+appName: backend
+action: initialize
+strategy: none
 EOF
 ```
 
-In this definition, each version of the backend application component is composed of a single `InferenceService`. In the primary version, it is named `backend-0`. Any candidate version is named `backend-1`. Iter8 uses this definition to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
+The `initialize` action (with strategy `none`) configures a routemap without a routing template. That is, it only defines the reosurces that make up each version of the application. In this case, a single `InferenceService`.
+Since no version specific naming is provided, the primary version is expected to be named `backend-0` and any candidate version `backend-1`. Iter8 uses this information to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
 
 ## Generate load
 
-In separate shells, port-forward requests to the frontend component and generate load simulating multiple users. A [script](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh) is provided to do this. To use it:
+In separate shells, port-forward requests to the frontend component and generate load simulating multiple users. A script is provided to do this. To use it:
     ```shell
     kubectl -n modelmesh-serving port-forward service/frontend 8090:8090
     ```
-
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/abn-sample/generate_load.sh | sh -s --
     ```
@@ -216,10 +200,15 @@ If not already deleted, delete the candidate version of the model:
 kubectl delete isvc/backend-1
 ```
 
-Delete the application description:
+Delete the application routemap:
 
 ```shell
-kubectl delete cm/backend
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl delete -f -
+appType: kserve-modelmesh
+appName: backend
+action: initialize
+strategy: none
+EOF
 ```
 
 Delete the primary version of the model:
