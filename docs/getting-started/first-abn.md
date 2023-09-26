@@ -62,7 +62,6 @@ cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 rou
 appType: deployment
 appName: backend
 action: initialize
-strategy: none
 appVersions:
 - name: backend
 - name: backend-candidate-1
@@ -152,7 +151,6 @@ cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 rou
 appType: deployment
 appName: backend
 action: initialize
-strategy: none
 appVersions:
 - name: backend
 - name: backend-candidate-1

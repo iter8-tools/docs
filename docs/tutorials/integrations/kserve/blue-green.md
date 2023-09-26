@@ -176,14 +176,12 @@ You can send additional inference requests as described above. They will be hand
     ```
     HTTP/1.1 200 OK
     app-version: wisdom-0
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
     `wisdom-1` output:
     ```
     HTTP/1.1 200 OK
     app-version: wisdom-1
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
 ## Modify weights (optional)

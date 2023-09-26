@@ -140,14 +140,12 @@ You can send additional inference requests as described above. They will be hand
     ```
     HTTP/1.1 200 OK
     app-version: httpbin-0
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
     `httpbin-1` output:
     ```
     HTTP/1.1 200 OK
     app-version: httpbin-1
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
 ## Modify weights (optional)

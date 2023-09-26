@@ -77,7 +77,6 @@ cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 rou
 appType: kserve
 appName: backend
 action: initialize
-strategy: none
 EOF
 ```
 
@@ -201,7 +200,6 @@ cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 rou
 appType: kserve
 appName: backend
 action: initialize
-strategy: none
 EOF
 ```
 
