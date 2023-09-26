@@ -81,7 +81,7 @@ strategy: none
 EOF
 ```
 
-The `initialize` action (with strategy `none`) configures a routemap without a routing template. That is, it only defines the reosurces that make up each version of the application. In this case, a single `InferenceService`.
+The `initialize` action (with strategy `none`) configures a routemap without a routing template. That is, it only defines the resources that make up each version of the application. In this case, a single `InferenceService`.
 Since no version specific naming is provided, the primary version is expected to be named `backend-0` and any candidate version `backend-1`. Iter8 uses this information to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
 
 ## Generate load
