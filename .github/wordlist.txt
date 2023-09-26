@@ -10,6 +10,7 @@ Cha
 chaosengine
 CLI
 CLIs
+CRD
 cronjob
 crontab
 ConfigMap
@@ -67,6 +68,7 @@ protobuf
 protoc
 quickstart
 roadmap
+routemap
 scikit
 SDK
 sed
