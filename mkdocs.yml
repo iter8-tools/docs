@@ -154,6 +154,7 @@ nav:
     - Test parameters: user-guide/topics/parameters.md
     - A/B/n testing: user-guide/topics/ab_testing.md
     - Controller extensions: user-guide/topics/extensions.md
+    - Routemaps: user-guide/topics/routemap.md
     - Install options: user-guide/topics/install.md
     - Uninstall options: user-guide/topics/uninstall.md
 - Contributing: contributing.md
