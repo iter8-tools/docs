@@ -12,7 +12,7 @@ After a one-time initialization step, the end user merely deploys candidate mode
 
 ???+ warning "Before you begin"
     1. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs.
-    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
+    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.11/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
@@ -20,7 +20,7 @@ After a one-time initialization step, the end user merely deploys candidate mode
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Initialize primary
 
@@ -50,7 +50,7 @@ EOF
 ```
 
 ??? note "About the primary"
-    The base name (`wisdom`) and version (`v0`) are identified using the labels `app.kubernets.io/name` and `app.kubernets.io/version`, respectively. These labels are not required.
+    The base name (`wisdom`) and version (`v0`) are identified using the labels `app.kubernetes.io/name` and `app.kubernetes.io/version`, respectively. These labels are not required.
 
     Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the routing initialization (see below). However, any name can be specified.
     
@@ -118,7 +118,7 @@ To send inference requests to the model:
     3. Send inference requests:
     ```shell
     curl -H 'Content-Type: application/json' -H 'Host: wisdom.default' localhost:8080 -d @input.json -s -D - \
-    | grep -e HTTP -e app-version
+    | grep -e '^HTTP' -e app-version
     ```
 
 ??? note "Sample output"
@@ -157,7 +157,7 @@ EOF
 ```
 
 ??? note "About the candidate"
-    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.
+    In this tutorial, the model source (field `spec.predictor.model.storageUri`) for the candidate is the same as the one for the primary version of the model. In a real world example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 ## Verify routing changes
 
@@ -176,14 +176,12 @@ You can send additional inference requests as described above. They will be hand
     ```
     HTTP/1.1 200 OK
     app-version: wisdom-0
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
     `wisdom-1` output:
     ```
     HTTP/1.1 200 OK
     app-version: wisdom-1
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
 ## Modify weights (optional)
@@ -234,7 +232,7 @@ EOF
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernets.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
+    The version label (`app.kubernetes.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
 
 ### Delete candidate
 
@@ -275,4 +273,4 @@ kubectl delete isvc/wisdom-0
 
 Uninstall Iter8 controller:
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"

@@ -12,7 +12,7 @@ This tutorial describes how to do A/B testing of a backend ML model hosted on [K
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
-    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
+    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.11/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
@@ -24,7 +24,7 @@ This tutorial describes how to do A/B testing of a backend ML model hosted on [K
  
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Deploy the sample application
 
@@ -67,7 +67,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
     ```
 
     ??? note "About the primary `InferenceService`"
-        The base name (`backend`) and version (`v0`) are identified using the labels `app.kubernets.io/name` and `app.kubernets.io/version`, respectively. These labels are not required.
+        The base name (`backend`) and version (`v0`) are identified using the labels `app.kubernetes.io/name` and `app.kubernetes.io/version`, respectively. These labels are not required.
 
         Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies describing the application (see below). However, any name can be specified.
         
@@ -75,42 +75,26 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
 ## Describe the application
 
-In order to support `Lookup()`, Iter8 needs to know what the backend component versions look like. A `ConfigMap` is used to describe the make up of possible versions:
+In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A _routemap_ is created to do this. A routemap contains a description of each version of an application and may contain [routing templates](../../../user-guide/topics/routemap.md). To create the routemap:
 
 ```shell
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: backend
-  labels:
-    app.kubernetes.io/managed-by: iter8
-    iter8.tools/kind: routemap
-    iter8.tools/version: "v0.18"
-immutable: true
-data:
-  strSpec: |
-    versions:
-    - resources:
-      - gvrShort: isvc
-        name: backend-0
-        namespace: default
-    - resources:
-      - gvrShort: isvc
-        name: backend-1
-        namespace: default
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl apply -f -
+appType: kserve
+appName: backend
+action: initialize
 EOF
 ```
 
-In this definition, each version of the backend application component is composed of a single `InferenceService`. In the primary version, it is named `backend-0`. Any candidate version is named `backend-1`. Iter8 uses this definition to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
+The `initialize` action (with strategy `none`) creates a routemap that only defines the resources that make up each version of the application. In this case, a single `InferenceService`.
+Since no version-specific naming is provided, the primary version is expected to be named `backend-0` and any candidate version `backend-1`. Iter8 uses this information to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
 
 ## Generate load
 
-In separate shells, port-forward requests to the frontend component and generate load simulating multiple users. A [script](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/generate_load.sh) is provided to do this. To use it:
+In one shell, port-forward requests to the frontend component:
     ```shell
     kubectl port-forward service/frontend 8090:8090
     ```
-
+In another shell, run a script to generate load from multiple users:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/abn-sample/generate_load.sh | sh -s --
     ```
@@ -144,8 +128,8 @@ spec:
 EOF
 ```
 
-??? note "About the candidate `InferenceService`"
-    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real example, this would be different.
+??? note "About the candidate"
+    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 Until the candidate version is ready, calls to `Lookup()` will return only the version number `0`; the primary version of the model.
 Once the candidate version is ready, `Lookup()` will return both version numbers (`0` and `1`) so that requests can be distributed across versions.
@@ -205,7 +189,7 @@ EOF
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernets.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
+    The version label (`app.kubernetes.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
 
 ### Delete candidate
 
@@ -225,10 +209,14 @@ If not already deleted, delete the candidate version of the model:
 kubectl delete isvc/backend-1
 ```
 
-Delete the application description:
+Delete the application routemap:
 
 ```shell
-kubectl delete cm/backend
+cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl delete -f -
+appType: kserve
+appName: backend
+action: initialize
+EOF
 ```
 
 Delete the primary version of the model:
@@ -245,4 +233,4 @@ kubectl delete deploy/frontend svc/frontend
 
 Uninstall Iter8 controller:
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"

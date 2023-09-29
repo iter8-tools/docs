@@ -23,7 +23,7 @@ The `slack` task requires the URL of the Slack webhook. To see a full list of th
 3. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
 4. Install the Iter8 controller
 
-    --8<-- "docs/tutorials/installiter8controller.md"
+    --8<-- "docs/getting-started/install.md"
     
 5. Deploy the sample HTTP service in the Kubernetes cluster.
 ```shell

@@ -10,6 +10,7 @@ Cha
 chaosengine
 CLI
 CLIs
+CRD
 cronjob
 crontab
 ConfigMap
@@ -67,6 +68,8 @@ protobuf
 protoc
 quickstart
 roadmap
+routemap
+Routemaps
 scikit
 SDK
 sed
@@ -80,6 +83,7 @@ SRE
 Srinivasan
 subdirectory
 Sysdig
+stringified
 tada
 Tekton
 toc
@@ -184,3 +188,6 @@ Autoscaling
 composable
 Hyperparameter
 LLM
+odh
+contrib
+opendatahub

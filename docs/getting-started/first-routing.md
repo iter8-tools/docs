@@ -16,7 +16,7 @@ After a one-time initialization step, the end user merely deploys candidate vers
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Initialize primary
 
@@ -83,7 +83,7 @@ To send inference requests to the model:
     3. Send requests:
     ```shell
     curl httpbin.default -s -D - \
-    | grep -e HTTP -e app-version
+    | grep -e '^HTTP' -e app-version
     ```
 
 === "From outside the cluster"
@@ -95,7 +95,7 @@ To send inference requests to the model:
     2. Send requests:
     ```shell
     curl -H 'Host: httpbin.default' localhost:8080 -s -D - \
-    | grep -e HTTP -e app-version
+    | grep -e '^HTTP' -e app-version
     ```
 
 ??? note "Sample output"
@@ -104,7 +104,6 @@ To send inference requests to the model:
     ```
     HTTP/1.1 200 OK
     app-version: httpbin-0
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
 Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only the response code and this header.
@@ -121,7 +120,7 @@ kubectl expose deployment httpbin-1 --port=80
 ```
 
 ??? note "About the candidate"
-    In this tutorial, the image is the same as for the primary version. In a real world example, it would be different.
+    In this tutorial, the candidate image is the same as the one for the primary version. In a real world example, it would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 ### Verify routing changes
 
@@ -141,14 +140,12 @@ You can send additional inference requests as described above. They will be hand
     ```
     HTTP/1.1 200 OK
     app-version: httpbin-0
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
     `httpbin-1` output:
     ```
     HTTP/1.1 200 OK
     app-version: httpbin-1
-                                        <p>A simple HTTP Request &amp; Response Service.
     ```
 
 ## Modify weights (optional)
@@ -183,7 +180,7 @@ kubectl label deployment httpbin-0 app.kubernetes.io/version=v1 --overwrite
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernets.io/version`) was updated. In a real world example, the image would also have been updated.
+    The version label (`app.kubernetes.io/version`) was updated. In a real world example, the image would also have been updated.
 
 ### Delete candidate
 
@@ -224,4 +221,4 @@ kubectl delete deployment/httpbin-0 service/httpbin-0
 
 Uninstall Iter8 controller:
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"

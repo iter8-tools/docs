@@ -56,7 +56,7 @@ Iter8 provides three inter-related components to support the above use-cases.
 ## Advantages
 Iter8 has several advantages compared to other tooling in this space. 
 
-First, Iter8 has no restrictions on the types of resources that make up a version of an application. The definition of a version is declarative. While there is a default set of resource types that can be referenced, it is easy to [declaratively extend](../user-guide/topics/extensions.md) this set. Furthermore, this same extension mechanism allows Iter8 to be used with any service mesh.
+First, Iter8 has no restrictions on the types of resources that make up a version of an application. This includes custom resources; that is, those defined by a custom resource definition (CRD). Because the set of resources that comprise a version is declarative, it is easy to [extend](../user-guide/topics/extensions.md). Note that this same extension mechanism also allows Iter8 to be used with any service mesh.
 
 Second, the Iter8 client SDK addresses a key challenge to [A/B/n testing](../user-guide/topics/ab_testing.md): the decoupling of the front-end release process from that of the back-end. It allows the front-end to reliably associate business metrics with the contributing version of the back-end.
 

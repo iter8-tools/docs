@@ -25,7 +25,7 @@ Run your first performance test by load testing a Kubernetes HTTP service and vi
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Launch performance test
 
@@ -100,7 +100,7 @@ kubectl delete deploy/httpbin
 
 ### Uninstall the Iter8 controller
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"
 
 ***
 

@@ -22,7 +22,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Initialize primary
 
@@ -53,7 +53,7 @@ EOF
 ```
 
 ??? note "About the primary `InferenceService`"
-    The base name (`wisdom`) and version (`v0`) are identified using the labels `app.kubernets.io/name` and `app.kubernets.io/version`, respectively. These labels are not required.
+    The base name (`wisdom`) and version (`v0`) are identified using the labels `app.kubernetes.io/name` and `app.kubernetes.io/version`, respectively. These labels are not required.
 
     Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies the routing initialization (see below). However, any name can be specified.
     
@@ -163,8 +163,8 @@ spec:
 EOF
 ```
 
-??? note "About the candidate `InferenceService`"
-    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different.
+??? note "About the candidate"
+    In this tutorial, the model source (field `spec.predictor.model.storageUri`) for the candidate is the same as the one for the primary version of the model. In a real world example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 ## Verify routing changes
 
@@ -238,7 +238,7 @@ EOF
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernets.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
+    The version label (`app.kubernetes.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
 
 ### Delete candidate
 
@@ -279,4 +279,4 @@ kubectl delete isvc/wisdom-0
 
 Uninstall Iter8 controller:
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"

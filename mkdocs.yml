@@ -117,7 +117,6 @@ nav:
   - Your first A/B test: getting-started/first-abn.md
   - Your first performance test: getting-started/first-performance.md
   - Concepts: getting-started/concepts.md
-  - Install the Iter8 controller: tutorials/installiter8controller.md
   - Get help: getting-started/help.md
 - Tutorials:
   - Automated routing:  tutorials/automated-routing.md
@@ -146,15 +145,18 @@ nav:
     - Slack:  tutorials/integrations/slack.md
 - User guide:
   - Tasks:
-    - grpc: user-guide/tasks/grpc.md
     - http: user-guide/tasks/http.md
+    - grpc: user-guide/tasks/grpc.md
+    - ready: user-guide/tasks/ready.md
     - github: user-guide/tasks/github.md
     - slack: user-guide/tasks/slack.md
-    - ready: user-guide/tasks/ready.md
   - Topics:
     - Test parameters: user-guide/topics/parameters.md
     - A/B/n testing: user-guide/topics/ab_testing.md
     - Controller extensions: user-guide/topics/extensions.md
+    - Routemaps: user-guide/topics/routemap.md
+    - Install options: user-guide/topics/install.md
+    - Uninstall options: user-guide/topics/uninstall.md
 - Contributing: contributing.md
 - Roadmap: roadmap.md
 - Community: 

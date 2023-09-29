@@ -9,7 +9,7 @@ This tutorial shows how easy it is to run a load test for KServe when using HTTP
 ???+ warning "Before you begin"
     1. Try [Your first performance test](../../../getting-started/first-performance.md). Understand the main [concepts](../../../getting-started/concepts.md) behind Iter8.
     2. Ensure that you have the [kubectl](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs.
-    3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.10/get_started/#before-you-begin) environment as follows:
+    3. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.11/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
@@ -21,7 +21,7 @@ This tutorial shows how easy it is to run a load test for KServe when using HTTP
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Deploy an InferenceService
 
@@ -92,7 +92,7 @@ kubectl delete inferenceservice sklearn-irisv2
 
 ### Uninstall the Iter8 controller
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"
 
 ??? note "Some variations and extensions of this performance test"
     1. The [http task](../../../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.

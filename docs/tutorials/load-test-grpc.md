@@ -27,7 +27,7 @@ See [Load Test multiple gRPC methods](./load-test-http-multiple.md) to see a tut
 
 ## Install the Iter8 controller
 
---8<-- "docs/tutorials/installiter8controller.md"
+--8<-- "docs/getting-started/install.md"
 
 ## Launch performance test
 
@@ -132,7 +132,7 @@ kubectl delete deploy/routeguide
 
 ### Uninstall the Iter8 controller
 
---8<-- "docs/tutorials/deleteiter8controller.md"
+--8<-- "docs/getting-started/uninstall.md"
 
 ??? note "Some variations and extensions of this performance test"
     1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.
