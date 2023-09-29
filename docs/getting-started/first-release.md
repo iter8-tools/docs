@@ -1,6 +1,6 @@
 # Your first blue-green release
 
-This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. The user declartively describes the desired application state at a given moment. An Iter8 `release` chart ensures that Iter8 can automatically respond to automatically deploy the application components and configure the necessary routing.
+This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. The user declaratively describes the desired application state at a given moment. An Iter8 `release` chart ensures that Iter8 can automatically respond to automatically deploy the application components and configure the necessary routing.
 
 ??? note "Motivation"
     Today, the `routing-template` helm chart provides a set of templates that enables a user to easily implement common routing patterns for some kinds of applications. These templates rely on the specification of an `action` making the approach imperative rather than declarative. Furthermore, this approach works only after the user has deployed application versions.
