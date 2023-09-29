@@ -157,7 +157,7 @@ EOF
 ```
 
 ??? note "About the candidate"
-    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real world example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
+    In this tutorial, the model source (field `spec.predictor.model.storageUri`) for the candidate is the same as the one for the primary version of the model. In a real world example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 ## Verify routing changes
 

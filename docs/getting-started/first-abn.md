@@ -55,7 +55,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
 
 ## Describe the application
 
-In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A _routemap_ is created to do this. A routemap contains a description of each version of an application and may contain a routing template. To create the routemap:
+In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A _routemap_ is created to do this. A routemap contains a description of each version of an application and may contain [routing templates](../user-guide/topics/routemap.md). To create the routemap:
 
 ```shell
 cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl apply -f -
@@ -68,14 +68,15 @@ appVersions:
 EOF
 ```
 
-The `initialize` action (with strategy `none`) configures a routemap without a routing template. That is, it only defines the resources that make up each version of the application. In this case, there are two versions, `backend` and `backend-candidate-1`. Each is comprised of a `Service` and a `Deployment`. Iter8 uses this information to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
+The `initialize` action (with strategy `none`) creates a routemap that only defines the resources that make up each version of the application. In this case, two versions: `backend` and `backend-candidate-1`. Each version is comprised of a `Service` and a `Deployment`. Iter8 uses this information to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
 
 ## Generate load
 
-In separate shells, port-forward requests to the frontend component and generate load for multiple users. A script is provided to do this. To use it:
+In one shell, port-forward requests to the frontend component:
     ```shell
     kubectl port-forward service/frontend 8090:8090
     ```
+In another shell, run a script to generate load from multiple users:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/abn-sample/generate_load.sh | sh -s --
     ```

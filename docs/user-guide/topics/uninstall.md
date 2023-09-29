@@ -12,7 +12,7 @@ helm delete iter8
 
 ## Uninstall with `kustomize`
 
-If installed with `kustomize` uninstall with one of the following:
+If installed with `kustomize`, uninstall with one of the following:
 
 === "Namespace scoped"
     ```shell

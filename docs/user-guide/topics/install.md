@@ -27,7 +27,7 @@ To install Iter8 in a non-default namespace, use the `-n` option.
     kubectl apply -k 'https://github.com/iter8-tools/iter8.git/kustomize/controller/clusterScoped?ref=v0.18.3'
     ```
 
-To install Iter8 in a non-default namespace, download the kustomize folder and modify the `namespace` field in the `kustomization.yaml` file.
+To install Iter8 in a non-default namespace, download the `kustomize` folder and modify the `namespace` field in the `kustomization.yaml` file.
 
 ## Install on OpenDataHub
 

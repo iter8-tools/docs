@@ -120,7 +120,7 @@ kubectl expose deployment httpbin-1 --port=80
 ```
 
 ??? note "About the candidate"
-    In this tutorial, image is the same as for the primary version. In a real world example, it would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
+    In this tutorial, the candidate image is the same as the one for the primary version. In a real world example, it would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 ### Verify routing changes
 
