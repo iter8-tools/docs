@@ -9,7 +9,7 @@ This tutorial shows how Iter8 can be used to release a basic Kubernetes applicat
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
-    2. Install [Istio](https://istio.io). It suffices to install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
+    2. Install [Istio](https://istio.io). It suffices to install the [demo profile](https://istio.io/latest/docs/setup/getting-started/), for exampke by using: `istioctl install --set profile=demo -y`
 
 ## Install the Iter8 controller
 
@@ -18,40 +18,49 @@ This tutorial shows how Iter8 can be used to release a basic Kubernetes applicat
 ## Deploy initial version
 
 ```shell
-cat <<EOF | helm install httpbin-release charts/release -f -
+cat <<EOF | helm upgrade --install httpbin charts/release -f -
 environment: deployment-istio
+# gateway: my-gateway
 application: 
-  metadata:
-    name: httpbin
-    namespace: default
+  # metadata:
+  #   name: httpbin   # default is .Release.Name
+  #   namespace: default  # default is .Release.Namespace
   versions:
   - metadata:
       labels:
-      - app.kubernetes.io/version: v0
-    image: kennethreitz/httpbin:v0
+        app.kubernetes.io/version: v0
+    # image: kennethreitz/httpbin:v0
+    image: kennethreitz/httpbin
     port: 80
+    # deploymentSpecification:
+    # serviceSpecificaton:
   strategy: blue-green
+EOF
 ```
 
 ???+ note "What happens?"
     _Application components_
 
-    - `Deployment` `default/httpbin-0` using image `kennethreitz/httpbin` listening on port `80` will be deployed. It will have label `iter8.tools/watch=true`.
-    - `Service` `default/httpbin-0` on port `80` will be deployed. It has label `iter8.tools/watch=true`.
+    - Because `environment` is set to `deployment-istio`, the following application components are created:
+        - `Deployment` `default/httpbin-0` using image `kennethreitz/httpbin` listening on port `80` will be deployed. It will have label `iter8.tools/watch=true`.
+        - `Service` `default/httpbin-0` on port `80` will be deployed. It has label `iter8.tools/watch=true`.
+    - The namespace `default` is inherited from `application.metadata.namespace` since it is not specified in the version
+    - The name `httpbin-0` is derived from `application.metadata.name` by adding `-0` (index of the version in `versions`) since it is not specified in the version.
+    - Alternatively, a `deploymentSpecification` and/or a `serviceSpecification` could have been specified.
 
     _Routing components_
 
-    - `Service` named `httpbin` of type `ExternalName` pointing at the `istio-ingressgateway` is deployed.
-    - `Gateway` named `gateway` is created.
+    - `Service` of type `ExternalName` named `default/httpbin` pointing at `istio-ingressgateway.istio-system` is deployed.
+    - **Assumes**`Gateway` named `gateway` exists and that it is configured for traffic to  `httpbin.default.svc.cluster.local`.
 
     _Iter8 components_
 
-    - The routemap (`ConfigMap` `httpbin-routemap`) is created with 1 version and a `routingTemplate`.
+    - The routemap (`ConfigMap` `httpbin-routemap`) is created with 1 version and a single routing template.
     - `ConfigMap` `httpbin-0` (used to manage the proportion of traffic sent to the first version) is created with label `iter8.tools/weight: 100`. It has label `iter8.tools/watch=true`.
 
     _What else happens?_
 
-    Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, a `VirtualService` named `httpbin` will be created. It will send all traffic sent to the service `httpbin` to the deployed version `httpbin-0`.
+    Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, a `VirtualService` named `default/httpbin` will be created. It will send all traffic sent to the service `httpbin` to the deployed version `httpbin-0`.
 
 ## Sending requests
 
@@ -95,24 +104,24 @@ To send requests to the application:
 ## Deploy candidate
 
 ```shell
-cat <<EOF | helm upgrade httpbin-release charts/release -f -
+cat <<EOF | helm upgrade --install httpbin charts/release -f -
 environment: deployment-istio
 application: 
-  metadata:
-    name: httpbin
-    namespace: default
   versions:
   - metadata:
       labels:
-      - app.kubernetes.io/version: v0
-    image: kennethreitz/httpbin:v0
+        app.kubernetes.io/version: v0
+    # image: kennethreitz/httpbin:v0
+    image: kennethreitz/httpbin
     port: 80
   - metadata:
       labels:
-      - app.kubernetes.io/version: v1
-    image: kennethreitz/httpbin:v1
+        app.kubernetes.io/version: v1
+    # image: kennethreitz/httpbin:v1
+    image: kennethreitz/httpbin
     port: 80
   strategy: blue-green
+EOF
 ```
 
 ???+ note "What happens?"
@@ -139,26 +148,26 @@ application:
 ## Modify weights (optional)
 
 ```shell
-cat <<EOF | helm upgrade httpbin-release charts/release -f -
+cat <<EOF | helm upgrade --install httpbin charts/release -f -
 environment: deployment-istio
 application: 
-  metadata:
-    name: httpbin
-    namespace: default
   versions:
   - metadata:
       labels:
-      - app.kubernetes.io/version: v0
-    image: kennethreitz/httpbin:v0
+        app.kubernetes.io/version: v0
+    # image: kennethreitz/httpbin:v0
+    image: kennethreitz/httpbin
     port: 80
-    weight: 20
+    weight: 30
   - metadata:
       labels:
-      - app.kubernetes.io/version: v1
-    image: kennethreitz/httpbin:v1
+        app.kubernetes.io/version: v1
+    # image: kennethreitz/httpbin:v1
+    image: kennethreitz/httpbin
     port: 80
-    weight: 20
+    weight: 70
   strategy: blue-green
+EOF
 ```
 
 ???+ note "What happens?"
@@ -182,26 +191,25 @@ application:
 ## Promote candidate
 
 ```shell
-cat <<EOF | helm upgrade httpbin-release charts/release -f -
+cat <<EOF | helm upgrade --install httpbin charts/release -f -
 environment: deployment-istio
 application: 
-  metadata:
-    name: httpbin
-    namespace: default
   versions:
   - metadata:
       labels:
-      - app.kubernetes.io/version: v1
-    image: kennethreitz/httpbin:v1
+        app.kubernetes.io/version: v1
+    # image: kennethreitz/httpbin:v1
+    image: kennethreitz/httpbin
     port: 80
   strategy: blue-green
+EOF
 ```
 
 ???+ note "What happens?"
     _Application components_
 
     - Since the definition for the first version has changed (image and label), the `Deployment` object is updated. In this case, there are no changes to the `Service`.
-    - `Deployment` and `Service named `default/httpbin-1` are deleted because the second version has been removed.
+    - `Deployment` and `Service` named `default/httpbin-1` are deleted because the second version has been removed.
 
     _Routing components_
 
@@ -220,5 +228,5 @@ application:
 ## Cleanup
 
 ```shell
-helm delete httpbin-release
+helm delete httpbin
 ```
