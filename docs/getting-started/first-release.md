@@ -33,7 +33,7 @@ application:
     image: kennethreitz/httpbin
     port: 80
     # deploymentSpecification:
-    # serviceSpecificaton:
+    # serviceSpecification:
   strategy: blue-green
 EOF
 ```
