@@ -131,9 +131,11 @@ nav:
       - Automated routing:
         - Blue-green testing: tutorials/integrations/kserve/blue-green.md
         - Canary testing: tutorials/integrations/kserve/canary.md
+        - Blue-green release: tutorials/integrations/kserve/blue-green-release.md
       - A/B testing: 
         - HTTP: tutorials/integrations/kserve/abn-http.md
         - gRPC: tutorials/integrations/kserve/abn-grpc.md
+        - HTTP release: tutorials/integrations/kserve/abn-http-release.md
       - Performance testing:
         - HTTP: tutorials/integrations/kserve/http.md
         - gRPC: tutorials/integrations/kserve/grpc.md

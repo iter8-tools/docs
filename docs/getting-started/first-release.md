@@ -1,3 +1,7 @@
+---
+template: main.html
+---
+
 # Your first blue-green release
 
 This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. The user declaratively describes the desired application state at a given moment. An Iter8 `release` chart ensures that Iter8 can automatically respond to automatically deploy the application components and configure the necessary routing.
@@ -14,6 +18,14 @@ This tutorial shows how Iter8 can be used to release a basic Kubernetes applicat
 ## Install the Iter8 controller
 
 --8<-- "docs/getting-started/install.md"
+
+```shell
+export IMG=kalantar/iter8:20231004-1030
+export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
+helm upgrade --install iter8 $CHARTS/controller \
+--set image=$IMG --set logLevel=trace \
+--set clusterScoped=true
+```
 
 ## Deploy initial version
 
@@ -56,7 +68,7 @@ EOF
     _Iter8 components_
 
     - The routemap (`ConfigMap` `httpbin-routemap`) is created with 1 version and a single routing template.
-    - `ConfigMap` `httpbin-0` (used to manage the proportion of traffic sent to the first version) is created with label `iter8.tools/weight: 100`. It has label `iter8.tools/watch=true`.
+    - `ConfigMap` `httpbin-0-weight-config` (used to manage the proportion of traffic sent to the first version) is created with annotation `iter8.tools/weight`. It has label `iter8.tools/watch=true`.
 
     _What else happens?_
 
@@ -138,8 +150,8 @@ EOF
     _Iter8 components_
 
     - The routemap (`ConfigMap` `httpbin-routemap`) is updated with 2 versions and an updated `routingTemplate`.
-    - `ConfigMap` `httpbin-0` (used to manage the proportion of traffic sent to the first version) is updated (label `iter8.tools/weight` is changed to 50),
-    - `ConfigMap` `httpbin-1` (used to manage the proportion of traffic sent to the second version) is created with label `iter8.tools/weight=50`. It has label `iter8.tools/watch=true`.
+    - `ConfigMap` `httpbin-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` is updated),
+    - `ConfigMap` `httpbin-1-weight-config` (used to manage the proportion of traffic sent to the second version) is created with annotation `iter8.tools/weight`. It has label `iter8.tools/watch=true`.
 
     _What else happens?_
 
@@ -181,8 +193,8 @@ EOF
 
     _Iter8 components_
 
-    - `ConfigMap` `httpbin-0` (used to manage the proportion of traffic sent to the first version) is updated (label `iter8.tools/weight` changes).
-    - `ConfigMap` `httpbin-1` (used to manage the proportion of traffic sent to the second version) is updated (label `iter8.tools/weight` changes).
+    - `ConfigMap` `httpbin-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` changes).
+    - `ConfigMap` `httpbin-1-weight-config` (used to manage the proportion of traffic sent to the second version) is updated (annotation `iter8.tools/weight` changes).
 
     _What else happens?_
 
@@ -218,8 +230,8 @@ EOF
     _Iter8 components_
 
     - The routemap (`ConfigMap` `httpbin-routemap`) is updated with 1 version and an updated `routingTemplate`.
-    - `ConfigMap` `httpbin-0` (used to manage the proportion of traffic sent to the first version) is updated (label `iter8.tools/weight` is set to 100).
-    - `ConfigMap` `httpbin-1` (used to manage the proportion of traffic sent to the second version) is deleted.
+    - `ConfigMap` `httpbin-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight`).
+    - `ConfigMap` `httpbin-1-weight-config` (used to manage the proportion of traffic sent to the second version) is deleted.
 
     _What else happens?_
 
@@ -230,3 +242,7 @@ EOF
 ```shell
 helm delete httpbin
 ```
+
+Uninstall Iter8 controller:
+
+--8<-- "docs/getting-started/uninstall.md"
