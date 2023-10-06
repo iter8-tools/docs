@@ -143,6 +143,7 @@ nav:
       - Automated routing:
         - Blue-green testing: tutorials/integrations/kserve-mm/blue-green.md
         - Canary testing: tutorials/integrations/kserve-mm/canary.md
+        - Canary release: tutorials/integrations/kserve-mm/canary-release.md
       - A/B testing: tutorials/integrations/kserve-mm/abn.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Slack:  tutorials/integrations/slack.md

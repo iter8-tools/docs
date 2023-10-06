@@ -30,7 +30,7 @@ helm upgrade --install iter8 $CHARTS/controller \
 ## Deploy initial version
 
 ```shell
-cat <<EOF | helm upgrade --install httpbin charts/release -f -
+cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
 environment: deployment-istio
 # gateway: my-gateway
 application: 
@@ -116,7 +116,7 @@ To send requests to the application:
 ## Deploy candidate
 
 ```shell
-cat <<EOF | helm upgrade --install httpbin charts/release -f -
+cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
 environment: deployment-istio
 application: 
   versions:
@@ -160,7 +160,7 @@ EOF
 ## Modify weights (optional)
 
 ```shell
-cat <<EOF | helm upgrade --install httpbin charts/release -f -
+cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
 environment: deployment-istio
 application: 
   versions:
@@ -203,7 +203,7 @@ EOF
 ## Promote candidate
 
 ```shell
-cat <<EOF | helm upgrade --install httpbin charts/release -f -
+cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
 environment: deployment-istio
 application: 
   versions:
@@ -238,6 +238,8 @@ EOF
     Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `httpbin` will be updated to send all traffic to the single version.
 
 ## Cleanup
+
+Delete the application:
 
 ```shell
 helm delete httpbin
