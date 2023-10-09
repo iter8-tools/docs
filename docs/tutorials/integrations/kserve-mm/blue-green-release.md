@@ -2,13 +2,13 @@
 template: main.html
 ---
 
-# Canary release of a ML model
+# Blue-green release of a ML model
 
 This tutorial shows how Iter8 can be used to release ML models hosted in a KServe ModelMesh environment using a canary rollout strategy. The user declaratively describes the desired application state at any given moment. An Iter8 `release` chart ensures that Iter8 can automatically respond to automatically deploy the application components and configure the necessary routing.
 
-In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model.
+In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. 
 
-![Canary rollout](images/canary.png)
+![Blue-green rollout](images/blue-green.png)
 
 In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
@@ -37,9 +37,6 @@ helm upgrade --install iter8 $CHARTS/controller \
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
 environment: kserve-modelmesh-istio
-# service:
-#   host: modelmesh-serving.modelmesh-serving
-#   port: 8033
 application: 
   metadata:
     labels:
@@ -52,18 +49,18 @@ application:
         app.kubernetes.io/version: v0
     modelFormat: sklearn
     storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
-    # inferenceServiceSpecification:
-  strategy: canary
+  strategy: blue-green
 EOF
 ```
 
 ??? note "What happens?"
-    - Because `environment` is set to `kserve-modelmesh-istio`, the  `InferenceService` `default/wisdom-0` is created. It will have label `iter8.tools/watch=true`.
+    - Because `environment` is set to `kserve`, the `InferenceService` `default/wisdom-0` is created. It will have label `iter8.tools/watch=true`.
         - The namespace `default` is inherited from the helm release namespace since it is not specified in either the version or in `application.metadata.namespace`.
         - The name `wisdom-0` is derived from the helm release name since it is not specified in either the version or in `application.metadata.name`. `-0` (the index of the version in `versions`) is appended to the base name.
         - Alternatively, an `inferenceServiceSpecification` could have been specified.
-    - A `ServiceEntry` named `default/wisdom` pointing at the modelmesh service is created.
+    - A `Service` of type `ExternalName` named `default/wisdom` pointing at `knative-local-gateway.istio-system` is created.
     - The routemap (`ConfigMap` `wisdom-routemap`) is created with 1 version and a single routing template.
+    - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is created with annotation `iter8.tools/weight`. It has label `iter8.tools/watch=true`.
 
 Once the application components are ready, the Iter8 controller will trigger the creation of a `VirtualService` named `default/wisdom`. It will send all traffic sent to the service `wisdom` to the deployed version `wisdom-0`.
 
@@ -80,7 +77,7 @@ You can also send requests:
 === "From within the cluster"
     1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/sleep.sh | sh -
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
     ```
 
     2. Exec into the sleep pod:
@@ -88,15 +85,11 @@ You can also send requests:
     kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
     ```
 
-    3. Make inference requests:
+    3. Send requests:
     ```shell
-    cat wisdom.sh
-    . wisdom.sh
-    ```
-    or, to send a request with header `traffic: test`:
-    ```shell
-    cat wisdom-test.sh
-    . wisdom-test.sh
+    curl -H 'Content-Type: application/json' \
+    http://wisdom.default -d @input.json -s -D -  \
+    | grep -e HTTP -e app-version
     ```
 
 === "From outside the cluster"
@@ -105,36 +98,19 @@ You can also send requests:
     kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
     ```
 
-    2. Download the proto file and a sample input:
+    2. Send requests:
     ```shell
-    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/kserve.proto
-    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/grpc_input.json
+    curl -H 'Content-Type: application/json' \
+    -H 'Host: wisdom.default' \
+    localhost:8080 -d @input.json -s -D - \
+    | grep -e '^HTTP' -e app-version
     ```
-
-    3. Send inference requests:
-    ```shell
-    cat grpc_input.json | \
-    grpcurl -vv -plaintext -proto kserve.proto -d @ \
-    -authority wisdom.modelmesh-serving \
-    localhost:8080 inference.GRPCInferenceService.ModelInfer \
-    | grep -e app-version
-    ```
-    Or, to send a request with header `traffic: test`:
-    ```shell
-    cat grpc_input.json | \
-    grpcurl -vv -plaintext -proto kserve.proto -d @ \
-    -H 'traffic: test' \
-    -authority wisdom.modelmesh-serving \
-    localhost:8080 inference.GRPCInferenceService.ModelInfer \
-    | grep -e app-version
-    ```
-
-Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only this header.
 
 ??? note "Sample output"
-    The output is only the `app-version` header. This header identifies the :
+    The output identifies the success of the request and the version of the application that responds. For example:
 
     ```
+    HTTP/1.1 200 OK
     app-version: wisdom-0
     ```
 
@@ -142,53 +118,78 @@ Note that the model version responding to each inference request is noted in the
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
-environment: kserve-modelmesh-istio
+environment: kserve
 application: 
-  metadata:
-    labels:
-      app.kubernetes.io/name: wisdom
-    annotations:
-      serving.kserve.io/secretKey: localMinIO
   versions:
   - metadata:
       labels:
+        app.kubernetes.io/name: wisdom
         app.kubernetes.io/version: v0
     modelFormat: sklearn
-    storageUri: "s3://modelmesh-example-models/sklearn/mnist-svm.joblib"
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
   - metadata:
       labels:
+        app.kubernetes.io/name: wisdom
         app.kubernetes.io/version: v1
     modelFormat: sklearn
-    storageUri: "s3://modelmesh-example-models/sklearn/mnist-svm.joblib"
-  strategy: canary
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
+  strategy: blue-green
 EOF
 ```
 
 ??? note "What happens?"
-    _Application components_
-
     - Since the definition for the first version does not change, there is no change to the `InferenceService` named `default/wisdom-0`.
     - `InferenceService` named `default/wisdom-1` is deployed. It has label `iter8.tools/watch=true`.
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
     - The routemap (`ConfigMap` `wisdom-routemap`) is updated with 2 versions and an updated `routingTemplate`.
+    - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (the annotation `iter8.tools/weight` is updated),
+    - `ConfigMap` `wisdom-1-weight-config` (used to manage the proportion of traffic sent to the second version) is created with annnotation `iter8.tools/weight`. It has label `iter8.tools/watch=true`.
 
-    _What else happens?_
+Once the candidate model is ready, Iter8 will automatically reconfigure the routing (the `VirtualService`) so that requests are sent to both versions.
 
-Once the candidate model is ready, Iter8 will automatically reconfigure the routing (the `VirtualService`) so that requests containing the header `traffic: true` will now be sent to the candidate version. Remaining requests will be sent to the primary version.
+### Verify Routing
 
-### Verify routing
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will be handled equally by both versions.
 
-You can send additional inference requests as described above. Those with header `traffic` set to `true` will be handled by the candidate model (`wisdom-1`) while all others will be handled by the primary version.
+## Modify weights (optional)
+
+```shell
+cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
+environment: kserve
+application: 
+  versions:
+  - metadata:
+      labels:
+        app.kubernetes.io/name: wisdom
+        app.kubernetes.io/version: v0
+    modelFormat: sklearn
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
+    weight: 30
+  - metadata:
+      labels:
+        app.kubernetes.io/name: wisdom
+        app.kubernetes.io/version: v1
+    modelFormat: sklearn
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
+    weight: 70
+  strategy: blue-green
+EOF
+```
+
+??? note "What happens?"
+    - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` changes).
+    - `ConfigMap` `wisdom-1-weight-config` (used to manage the proportion of traffic sent to the second version) is updated (annotation `iter8.tools/weight` changes).
+
+The Iter8 controller will trigger the reconfiguration of the `VirtualService` `wisdom` to distribute traffic between versions based on the new weights.
+
+### Verify Routing
+
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Seventy percent of requests will now be handled by the candidate version; the remaining thirty percent by the the primary version.
 
 ## Promote candidate
-
-Redefine the primary to use the candidate model remove the candidate:
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
@@ -204,36 +205,25 @@ application:
       labels:
         app.kubernetes.io/version: v1
     modelFormat: sklearn
-    storageUri: "s3://modelmesh-example-models/sklearn/mnist-svm.joblib"
-  strategy: canary
+    storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
+  strategy: blue-green
 EOF
 ```
 
 ??? note "What happens?"
-    _Application components_
-
     - Since the definition for the first version has changed (label and `storageUri`), the `InferenceService` object is updated.
     - The `InferenceService` named `default/wisdom-1` is deleted because the second version has been removed.
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
     - The routemap (`ConfigMap` `wisdom-routemap`) is updated with 1 version and an updated `routingTemplate`.
+    - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` is set to 100).
+    - `ConfigMap` `wisdom-1-weight` (used to manage the proportion of traffic sent to the second version) is deleted.
 
-    _What else happens?_
-
-Iter8 will automatically reconfigure the routing (the `VirtualService`) so that all requests will be sent to the (new) primary version.
+When the primary version is updated, the Iter8 controller triggers a reconfiguration of the `VirtualService` `wisdom` so that all traffic goes to the (now updated) primary version.
 
 ### Verify Routing
 
 You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version.
 
 ## Cleanup
-
-Delete the application:
 
 ```shell
 helm delete wisdom

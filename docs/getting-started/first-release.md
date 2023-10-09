@@ -74,9 +74,15 @@ EOF
 
     Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, a `VirtualService` named `default/httpbin` will be created. It will send all traffic sent to the service `httpbin` to the deployed version `httpbin-0`.
 
-## Sending requests
+### Verify routing
 
-To send requests to the application:
+You can send verify the routing configuration by inspecting the `VirtualService`:
+
+```shell
+kubectl get virtualservice wisdom -o yaml
+```
+
+You can also send requests:
 
 === "From within the cluster"
     1. Create a `sleep` pod in the cluster from which requests can be made:
@@ -157,6 +163,10 @@ EOF
 
     Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `httpbin` will be updated to distribute traffic between versions based on the weights.
 
+### Verify Routing
+
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will be handled equally by both versions.
+
 ## Modify weights (optional)
 
 ```shell
@@ -200,6 +210,10 @@ EOF
 
     Since the configmaps used to manage traffic distribution are modified, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `httpbin` will be updated to distribute traffic between versions based on the new weights.
 
+### Verify Routing
+
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Seventy percent of requests will now be handled by the candidate version; the remaining thirty percent by the the primary version.
+
 ## Promote candidate
 
 ```shell
@@ -236,6 +250,10 @@ EOF
     _What else happens?_
 
     Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `httpbin` will be updated to send all traffic to the single version.
+
+### Verify Routing
+
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version.
 
 ## Cleanup
 

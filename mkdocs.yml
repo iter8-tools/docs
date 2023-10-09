@@ -132,6 +132,7 @@ nav:
         - Blue-green testing: tutorials/integrations/kserve/blue-green.md
         - Canary testing: tutorials/integrations/kserve/canary.md
         - Blue-green release: tutorials/integrations/kserve/blue-green-release.md
+        - Canary release: tutorials/integrations/kserve/canary-release.md
       - A/B testing: 
         - HTTP: tutorials/integrations/kserve/abn-http.md
         - gRPC: tutorials/integrations/kserve/abn-grpc.md

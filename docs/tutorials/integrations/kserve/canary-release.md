@@ -2,23 +2,21 @@
 template: main.html
 ---
 
-# Canary release of a ML model
+# Canary release of a KServe ML model
 
-This tutorial shows how Iter8 can be used to release ML models hosted in a KServe ModelMesh environment using a canary rollout strategy. The user declaratively describes the desired application state at any given moment. An Iter8 `release` chart ensures that Iter8 can automatically respond to automatically deploy the application components and configure the necessary routing.
+This tutorial shows how Iter8 can be used to release ML models hosted in a KServe environment using a canary rollout strategy. The user declaratively describes the desired application state at any given moment. An Iter8 `release` chart ensures that Iter8 can automatically respond to automatically deploy the application components and configure the necessary routing.
 
 In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model.
 
 ![Canary rollout](images/canary.png)
 
-In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
-
 ???+ warning "Before you begin"
     1. Ensure that you have the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs.
-    2. Have access to a cluster running [KServe ModelMesh Serving](https://github.com/kserve/modelmesh-serving). For example, you can create a modelmesh-serving [Quickstart](https://github.com/kserve/modelmesh-serving/blob/release-0.11/docs/quickstart.md) environment.  If using the Quickstart environment, change your default namespace to `modelmesh-serving`: 
+    2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.11/get_started/#before-you-begin) environment as follows:
     ```shell
-    kubectl config set-context --current --namespace=modelmesh-serving
+    curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
-    3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
+<!-- Istio is installed as part of kserve install -->
 
 ## Install the Iter8 controller
 
@@ -36,33 +34,28 @@ helm upgrade --install iter8 $CHARTS/controller \
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
-environment: kserve-modelmesh-istio
-# service:
-#   host: modelmesh-serving.modelmesh-serving
-#   port: 8033
+environment: kserve
 application: 
   metadata:
     labels:
       app.kubernetes.io/name: wisdom
-    annotations:
-      serving.kserve.io/secretKey: localMinIO
   versions:
   - metadata:
       labels:
         app.kubernetes.io/version: v0
     modelFormat: sklearn
-    storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
-    # inferenceServiceSpecification:
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
   strategy: canary
 EOF
 ```
 
 ??? note "What happens?"
-    - Because `environment` is set to `kserve-modelmesh-istio`, the  `InferenceService` `default/wisdom-0` is created. It will have label `iter8.tools/watch=true`.
+    - Because `environment` is set to `kserve`, the `InferenceService` `default/wisdom-0` is created. It will have label `iter8.tools/watch=true`.
         - The namespace `default` is inherited from the helm release namespace since it is not specified in either the version or in `application.metadata.namespace`.
         - The name `wisdom-0` is derived from the helm release name since it is not specified in either the version or in `application.metadata.name`. `-0` (the index of the version in `versions`) is appended to the base name.
         - Alternatively, an `inferenceServiceSpecification` could have been specified.
-    - A `ServiceEntry` named `default/wisdom` pointing at the modelmesh service is created.
+    - A `Service` of type `ExternalName` named `default/wisdom` pointing at `knative-local-gateway.istio-system` is created.
     - The routemap (`ConfigMap` `wisdom-routemap`) is created with 1 version and a single routing template.
 
 Once the application components are ready, the Iter8 controller will trigger the creation of a `VirtualService` named `default/wisdom`. It will send all traffic sent to the service `wisdom` to the deployed version `wisdom-0`.
@@ -80,7 +73,7 @@ You can also send requests:
 === "From within the cluster"
     1. Create a `sleep` pod in the cluster from which requests can be made:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/sleep.sh | sh -
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
     ```
 
     2. Exec into the sleep pod:
@@ -88,15 +81,19 @@ You can also send requests:
     kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
     ```
 
-    3. Make inference requests:
+    3. To send requests without the header `traffic`:
     ```shell
-    cat wisdom.sh
-    . wisdom.sh
+    curl -H 'Content-Type: application/json' \
+    http://wisdom.default -d @input.json -s -D -  \
+    | grep -e HTTP -e app-version
     ```
-    or, to send a request with header `traffic: test`:
+
+    4. To send requests with the header `traffic: test`:
     ```shell
-    cat wisdom-test.sh
-    . wisdom-test.sh
+    curl -H 'Content-Type: application/json' \
+    -H 'traffic: test' \
+    http://wisdom.default -d @input.json -s -D -  \
+    | grep -e HTTP -e app-version
     ```
 
 === "From outside the cluster"
@@ -105,36 +102,32 @@ You can also send requests:
     kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
     ```
 
-    2. Download the proto file and a sample input:
+    2. Download the sample input:
     ```shell
-    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/kserve.proto
-    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/grpc_input.json
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/input.json
     ```
 
-    3. Send inference requests:
+    3. To send requests without the header `traffic`:
     ```shell
-    cat grpc_input.json | \
-    grpcurl -vv -plaintext -proto kserve.proto -d @ \
-    -authority wisdom.modelmesh-serving \
-    localhost:8080 inference.GRPCInferenceService.ModelInfer \
-    | grep -e app-version
+    curl -H 'Content-Type: application/json' \
+    -H 'Host: wisdom.default' \
+    localhost:8080 -d @input.json -s -D - \
+    | grep -e '^HTTP' -e app-version
     ```
-    Or, to send a request with header `traffic: test`:
+    
+    4. To send requests with the header `traffic: test`:
     ```shell
-    cat grpc_input.json | \
-    grpcurl -vv -plaintext -proto kserve.proto -d @ \
+    curl -H 'Content-Type: application/json' \
     -H 'traffic: test' \
-    -authority wisdom.modelmesh-serving \
-    localhost:8080 inference.GRPCInferenceService.ModelInfer \
-    | grep -e app-version
+    localhost:8080 -d @input.json -s -D -  \
+    | grep -e HTTP -e app-version
     ```
-
-Note that the model version responding to each inference request is noted in the response header `app-version`. In the requests above, we display only this header.
 
 ??? note "Sample output"
-    The output is only the `app-version` header. This header identifies the :
+    The output identifies the success of the request and the version of the application that responds. For example:
 
     ```
+    HTTP/1.1 200 OK
     app-version: wisdom-0
     ```
 
@@ -142,45 +135,34 @@ Note that the model version responding to each inference request is noted in the
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
-environment: kserve-modelmesh-istio
+environment: kserve
 application: 
   metadata:
     labels:
       app.kubernetes.io/name: wisdom
-    annotations:
-      serving.kserve.io/secretKey: localMinIO
   versions:
   - metadata:
       labels:
         app.kubernetes.io/version: v0
     modelFormat: sklearn
-    storageUri: "s3://modelmesh-example-models/sklearn/mnist-svm.joblib"
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
   - metadata:
       labels:
         app.kubernetes.io/version: v1
     modelFormat: sklearn
-    storageUri: "s3://modelmesh-example-models/sklearn/mnist-svm.joblib"
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
   strategy: canary
 EOF
 ```
 
 ??? note "What happens?"
-    _Application components_
-
     - Since the definition for the first version does not change, there is no change to the `InferenceService` named `default/wisdom-0`.
     - `InferenceService` named `default/wisdom-1` is deployed. It has label `iter8.tools/watch=true`.
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
     - The routemap (`ConfigMap` `wisdom-routemap`) is updated with 2 versions and an updated `routingTemplate`.
 
-    _What else happens?_
-
-Once the candidate model is ready, Iter8 will automatically reconfigure the routing (the `VirtualService`) so that requests containing the header `traffic: true` will now be sent to the candidate version. Remaining requests will be sent to the primary version.
+When the candidate version is ready, the Iter8 controller will trigger the reconfiguration of the `VirtualService`. Requests with the header `traffic` set to `true` will be sent to the candidate model. Still other requests will be sent to the primary model.
 
 ### Verify routing
 
@@ -188,48 +170,34 @@ You can send additional inference requests as described above. Those with header
 
 ## Promote candidate
 
-Redefine the primary to use the candidate model remove the candidate:
-
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
-environment: kserve-modelmesh-istio
+environment: kserve
 application: 
   metadata:
     labels:
       app.kubernetes.io/name: wisdom
-    annotations:
-      serving.kserve.io/secretKey: localMinIO
   versions:
   - metadata:
       labels:
         app.kubernetes.io/version: v1
     modelFormat: sklearn
-    storageUri: "s3://modelmesh-example-models/sklearn/mnist-svm.joblib"
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
   strategy: canary
 EOF
 ```
 
 ??? note "What happens?"
-    _Application components_
-
     - Since the definition for the first version has changed (label and `storageUri`), the `InferenceService` object is updated.
     - The `InferenceService` named `default/wisdom-1` is deleted because the second version has been removed.
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
     - The routemap (`ConfigMap` `wisdom-routemap`) is updated with 1 version and an updated `routingTemplate`.
 
-    _What else happens?_
-
-Iter8 will automatically reconfigure the routing (the `VirtualService`) so that all requests will be sent to the (new) primary version.
+In response to the changes in the application, the Iter8 controller will trigger the update of the `VirtualService` `wisdom` to send all traffic to the single (promoted) version.
 
 ### Verify Routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will be handled by the primary version.
 
 ## Cleanup
 

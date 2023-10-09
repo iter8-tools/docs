@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Your first blue-green release
+# Blue-green release of a KServe ML model
 
 This tutorial shows how Iter8 can be used to release ML models hosted in a KServe environment using a blue-green rollout strategy. The user declaratively describes the desired application state at any given moment. An Iter8 `release` chart ensures that Iter8 can automatically respond to automatically deploy the application components and configure the necessary routing.
 
@@ -46,30 +46,25 @@ EOF
 ```
 
 ???+ note "What happens?"
-    _Application components_
-
-    - Because `environment` is set to `kserve`, the following application components are created:
-        - `InferenceService` `default/wisdom-0`. It will have label `iter8.tools/watch=true`.
-    - The namespace `default` is inherited from the helm release namespace since it is not specified in either the version or in `application.metadata.namespace`.
-    - The name `wisdom-0` is derived from the helm release name since it is not specified in either the version or in `application.metadata.name`. `-0` (the index of the version in `versions`) is appended to the base name.
-    - Alternatively, an `inferenceServiceSpecification` could have been specified.
-
-    _Routing components_
-
-    - `Service` of type `ExternalName` named `default/wisdom` pointing at `knative-local-gateway.istio-system` is deployed.
-
-    _Iter8 components_
-
+    - Because `environment` is set to `kserve`, the `InferenceService` `default/wisdom-0`. It will have label `iter8.tools/watch=true`.
+        - The namespace `default` is inherited from the helm release namespace since it is not specified in either the version or in `application.metadata.namespace`.
+        - The name `wisdom-0` is derived from the helm release name since it is not specified in either the version or in `application.metadata.name`. `-0` (the index of the version in `versions`) is appended to the base name.
+        - Alternatively, an `inferenceServiceSpecification` could have been specified.
+    - A `Service` of type `ExternalName` named `default/wisdom` pointing at `knative-local-gateway.istio-system` is deployed.
     - The routemap (`ConfigMap` `wisdom-routemap`) is created with 1 version and a single routing template.
     - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is created with annotation `iter8.tools/weight`. It has label `iter8.tools/watch=true`.
 
-    _What else happens?_
+Once the application components are ready, the Iter8 controller will trigger the creation of a `VirtualService` named `default/wisdom`. It will send all traffic sent to the service `wisdom` to the deployed version `wisdom-0`.
 
-    Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, a `VirtualService` named `default/wisdom` will be created. It will send all traffic sent to the service `wisdom` to the deployed version `wisdom-0`.
+### Verify routing
 
-## Sending requests
+You can send verify the routing configuration by inspecting the `VirtualService`:
 
-To send requests to the application:
+```shell
+kubectl get virtualservice wisdom -o yaml
+```
+
+You can also send requests:
 
 === "From within the cluster"
     1. Create a `sleep` pod in the cluster from which requests can be made:
@@ -136,25 +131,18 @@ application:
 EOF
 ```
 
-???+ note "What happens?"
-    _Application components_
-
+??? note "What happens?"
     - Since the definition for the first version does not change, there is no change to the `InferenceService` named `default/wisdom-0`.
     - `InferenceService` named `default/wisdom-1` is deployed. It has label `iter8.tools/watch=true`.
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
     - The routemap (`ConfigMap` `wisdom-routemap`) is updated with 2 versions and an updated `routingTemplate`.
-    - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` is updated),
+    - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (the annotation `iter8.tools/weight` is updated),
     - `ConfigMap` `wisdom-1-weight-config` (used to manage the proportion of traffic sent to the second version) is created with annnotation `iter8.tools/weight`. It has label `iter8.tools/watch=true`.
 
-    _What else happens?_
+Once the candidate model is ready, Iter8 will automatically reconfigure the routing (the `VirtualService`) so that requests are sent to both versions.
 
-    Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `wisdom` will be updated to distribute traffic between versions based on the weights.
+### Verify Routing
+
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will be handled equally by both versions.
 
 ## Modify weights (optional)
 
@@ -183,46 +171,47 @@ application:
 EOF
 ```
 
-???+ note "What happens?"
-    _Application components_
-
-    - no changes
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
+??? note "What happens?"
     - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` changes).
     - `ConfigMap` `wisdom-1-weight-config` (used to manage the proportion of traffic sent to the second version) is updated (annotation `iter8.tools/weight` changes).
 
-    _What else happens?_
+The Iter8 controller will trigger the reconfiguration of the `VirtualService` `wisdom` to distribute traffic between versions based on the new weights.
 
-    Since the configmaps used to manage traffic distribution are modified, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `wisdom` will be updated to distribute traffic between versions based on the new weights.
+### Verify Routing
+
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Seventy percent of requests will now be handled by the candidate version; the remaining thirty percent by the the primary version.
 
 ## Promote candidate
 
-ç
-???+ note "What happens?"
-    _Application components_
+```shell
+cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
+environment: kserve
+application: 
+  versions:
+  - metadata:
+      labels:
+        app.kubernetes.io/name: wisdom
+        app.kubernetes.io/version: v1
+    modelFormat: sklearn
+    runtime: kserve-mlserver
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
+    # inferenceServiceSpecification:
+  strategy: blue-green
+EOF
+```
 
+??? note "What happens?"
     - Since the definition for the first version has changed (label and `storageUri`), the `InferenceService` object is updated.
     - The `InferenceService` named `default/wisdom-1` is deleted because the second version has been removed.
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
     - The routemap (`ConfigMap` `wisdom-routemap`) is updated with 1 version and an updated `routingTemplate`.
     - `ConfigMap` `wisdom-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` is set to 100).
     - `ConfigMap` `wisdom-1-weight` (used to manage the proportion of traffic sent to the second version) is deleted.
 
-    _What else happens?_
+When the primary version is updated, the Iter8 controller triggers a reconfiguration of the `VirtualService` `wisdom` so that all traffic goes to the (now updated) primary version.
 
-    Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `wisdom` will be updated to send all traffic to the single (promoted) version.
+### Verify Routing
+
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version.
 
 ## Cleanup
 
