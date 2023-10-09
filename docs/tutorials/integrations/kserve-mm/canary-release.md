@@ -165,20 +165,9 @@ EOF
 ```
 
 ??? note "What happens?"
-    _Application components_
-
     - Since the definition for the first version does not change, there is no change to the `InferenceService` named `default/wisdom-0`.
     - `InferenceService` named `default/wisdom-1` is deployed. It has label `iter8.tools/watch=true`.
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
     - The routemap (`ConfigMap` `wisdom-routemap`) is updated with 2 versions and an updated `routingTemplate`.
-
-    _What else happens?_
 
 Once the candidate model is ready, Iter8 will automatically reconfigure the routing (the `VirtualService`) so that requests containing the header `traffic: true` will now be sent to the candidate version. Remaining requests will be sent to the primary version.
 
