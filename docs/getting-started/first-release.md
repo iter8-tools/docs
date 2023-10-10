@@ -4,23 +4,27 @@ template: main.html
 
 # Your first blue-green release
 
-This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. The user declaratively describes the desired application state at a given moment. An Iter8 `release` chart ensures that Iter8 can automatically respond to automatically deploy the application components and configure the necessary routing.
+This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. The user declaratively describes the desired application state at any given moment. An Iter8 `release` chart deploys the application components and configures Iter8 to automatically configure routing to implement a the blue-green rollout.
 
-??? note "Motivation"
-    Today, the `routing-template` helm chart provides a set of templates that enables a user to easily implement common routing patterns for some kinds of applications. These templates rely on the specification of an `action` making the approach imperative rather than declarative. Furthermore, this approach works only after the user has deployed application versions.
+In a blue-green rollout, a percentage of requests are directed to a candidate version of the model. This percentage can be changed over time.
 
-    We propose extending the concepts in the `routing-template` chart to a `release` chart. The configutation (`values.yaml`) would now include an application description allowing the chart to deploy the application and be fullly declarative.
+![Blue-green rollout](../tutorials/images/blue-green.png)
+
+In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
-    2. Install [Istio](https://istio.io). It suffices to install the [demo profile](https://istio.io/latest/docs/setup/getting-started/), for example by using: `istioctl install --set profile=demo -y`
+    2. Install [Istio](https://istio.io). It suffices to install the [demo profile](https://istio.io/latest/docs/setup/getting-started/), for example by using: 
+    ```shell
+    istioctl install --set profile=demo -y
+    ```
 
 ## Install the Iter8 controller
 
 --8<-- "docs/getting-started/install.md"
 
 ```shell
-export IMG=kalantar/iter8:20231004-1030
+export IMG=kalantar/iter8:20241010-0930
 export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
 helm upgrade --install iter8 $CHARTS/controller \
 --set image=$IMG --set logLevel=trace \
@@ -29,57 +33,39 @@ helm upgrade --install iter8 $CHARTS/controller \
 
 ## Deploy initial version
 
+Deploy the initial version of the application using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (just one), and the rollout strategy to be used:
+
 ```shell
 cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
 environment: deployment-istio
-# gateway: my-gateway
 application: 
-  # metadata:
-  #   name: httpbin   # default is .Release.Name
-  #   namespace: default  # default is .Release.Namespace
   versions:
   - metadata:
       labels:
         app.kubernetes.io/version: v0
-    # image: kennethreitz/httpbin:v0
     image: kennethreitz/httpbin
     port: 80
-    # deploymentSpecification:
-    # serviceSpecification:
   strategy: blue-green
 EOF
 ```
 
-???+ note "What happens?"
-    _Application components_
+??? note "What happens?"
+    Because `environment` is set to `deployment-istio`, a `Deployment` and a `Service` object are created.
+        - The namespace `default` is inherited from the helm release namespace since it is not specified in the version or in `application.metadata`.
+        - The name `httpbin-0` is derived from the helm release name since it is not specified in the version or in `application.metadata`. The names is derived by appending the index of the version in the list of versions; `-0` in this case.
+        - Alternatively, a `deploymentSpecification` and/or a `serviceSpecification` could have been specified.
 
-    - Because `environment` is set to `deployment-istio`, the following application components are created:
-        - `Deployment` `default/httpbin-0` using image `kennethreitz/httpbin` listening on port `80` will be deployed. It will have label `iter8.tools/watch=true`.
-        - `Service` `default/httpbin-0` on port `80` will be deployed. It has label `iter8.tools/watch=true`.
-    - The namespace `default` is inherited from `application.metadata.namespace` since it is not specified in the version
-    - The name `httpbin-0` is derived from `application.metadata.name` by adding `-0` (index of the version in `versions`) since it is not specified in the version.
-    - Alternatively, a `deploymentSpecification` and/or a `serviceSpecification` could have been specified.
+    To support routing, a `Service` (of type `ExternalName`) named `default/httpbin` pointing at `istio-ingressgateway.istio-system` is deployed. The name is the helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../user-guide/topics/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
+     - **Assumes**`Gateway` named `gateway` exists and that it is configured for traffic to  `httpbin.default.svc.cluster.local`.
 
-    _Routing components_
-
-    - `Service` of type `ExternalName` named `default/httpbin` pointing at `istio-ingressgateway.istio-system` is deployed.
-    - **Assumes**`Gateway` named `gateway` exists and that it is configured for traffic to  `httpbin.default.svc.cluster.local`.
-
-    _Iter8 components_
-
-    - The routemap (`ConfigMap` `httpbin-routemap`) is created with 1 version and a single routing template.
-    - `ConfigMap` `httpbin-0-weight-config` (used to manage the proportion of traffic sent to the first version) is created with annotation `iter8.tools/weight`. It has label `iter8.tools/watch=true`.
-
-    _What else happens?_
-
-    Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, a `VirtualService` named `default/httpbin` will be created. It will send all traffic sent to the service `httpbin` to the deployed version `httpbin-0`.
+Once the application components are ready, the Iter8 controller atuomatically configures the routing by creating an Istio `VirtualService`. It is configured to route all traffic to the the only deployed version, `httpbin-0`.
 
 ### Verify routing
 
-You can send verify the routing configuration by inspecting the `VirtualService`:
+You can verify the routing configuration by inspecting the `VirtualService`:
 
 ```shell
-kubectl get virtualservice wisdom -o yaml
+kubectl get virtualservice httpbin -o yaml
 ```
 
 You can also send requests:
@@ -112,7 +98,7 @@ You can also send requests:
     ```
 
 ??? note "Sample output"
-    The output identifies the success of the request and the version of the application that responds. For example:
+    The output identifies the success of the request (the HTTP return code) and the version of the application that responded (the `app-version` header). For example:
 
     ```
     HTTP/1.1 200 OK
@@ -121,6 +107,8 @@ You can also send requests:
 
 ## Deploy candidate
 
+A candidate can deployed by simply adding a second version to the list of versions composing the application:
+
 ```shell
 cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
 environment: deployment-istio
@@ -129,45 +117,29 @@ application:
   - metadata:
       labels:
         app.kubernetes.io/version: v0
-    # image: kennethreitz/httpbin:v0
     image: kennethreitz/httpbin
     port: 80
   - metadata:
       labels:
         app.kubernetes.io/version: v1
-    # image: kennethreitz/httpbin:v1
     image: kennethreitz/httpbin
     port: 80
   strategy: blue-green
 EOF
 ```
 
-???+ note "What happens?"
-    _Application components_
+??? note "About the candidate version"
+    In this tutorial, the candidate image is the same as the one for the primary version. In a real world example, it would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
-    - Since the definition for the first version does not change, no changes to the `Deployment` or `Service` occur.
-    - `Deployment` `default/httpbin-1` using image `kennethreitz/httpbin` listening on port `80` is deployed. Has label `iter8.tools/watch=true`.
-    - `Service` `default/httpbin-1` on port `80` is deployed. Has label `iter8.tools/watch=true`.
+When the second version is deployed and ready, the Iter8 controller automatically reconfigures the routing; the `VirtualService` is updated to distribute traffic between versions based on the weights.
 
-    _Routing components_
+### Verify routing
 
-    - no changes
-
-    _Iter8 components_
-
-    - The routemap (`ConfigMap` `httpbin-routemap`) is updated with 2 versions and an updated `routingTemplate`.
-    - `ConfigMap` `httpbin-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` is updated),
-    - `ConfigMap` `httpbin-1-weight-config` (used to manage the proportion of traffic sent to the second version) is created with annotation `iter8.tools/weight`. It has label `iter8.tools/watch=true`.
-
-    _What else happens?_
-
-    Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `httpbin` will be updated to distribute traffic between versions based on the weights.
-
-### Verify Routing
-
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will be handled equally by both versions.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will now be handled equally by both versions.
 
 ## Modify weights (optional)
+
+To modify the request distribution between the versions, add a `weight` to each version:
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
@@ -177,14 +149,12 @@ application:
   - metadata:
       labels:
         app.kubernetes.io/version: v0
-    # image: kennethreitz/httpbin:v0
     image: kennethreitz/httpbin
     port: 80
     weight: 30
   - metadata:
       labels:
         app.kubernetes.io/version: v1
-    # image: kennethreitz/httpbin:v1
     image: kennethreitz/httpbin
     port: 80
     weight: 70
@@ -192,29 +162,15 @@ application:
 EOF
 ```
 
-???+ note "What happens?"
-    _Application components_
+Iter8 automatically reconfigures the routing (modifies the `VirtualService`) to distribute traffic between the versions based on the new weights.
 
-    - no changes
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
-    - `ConfigMap` `httpbin-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight` changes).
-    - `ConfigMap` `httpbin-1-weight-config` (used to manage the proportion of traffic sent to the second version) is updated (annotation `iter8.tools/weight` changes).
-
-    _What else happens?_
-
-    Since the configmaps used to manage traffic distribution are modified, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `httpbin` will be updated to distribute traffic between versions based on the new weights.
-
-### Verify Routing
+### Verify routing
 
 You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Seventy percent of requests will now be handled by the candidate version; the remaining thirty percent by the the primary version.
 
 ## Promote candidate
+
+The candidate can be promoted by redefinig the primary version and removing the candidate:
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
@@ -224,40 +180,23 @@ application:
   - metadata:
       labels:
         app.kubernetes.io/version: v1
-    # image: kennethreitz/httpbin:v1
     image: kennethreitz/httpbin
     port: 80
   strategy: blue-green
 EOF
 ```
+??? note "What is different?"
+    The version label (`app.kubernetes.io/version`) was updated. In a real world example, the image would also have been updated.
 
-???+ note "What happens?"
-    _Application components_
+Once the application components are ready, the Iter8 controller will automatically reconfigure the routing to send all traffic to the single version.
 
-    - Since the definition for the first version has changed (image and label), the `Deployment` object is updated. In this case, there are no changes to the `Service`.
-    - `Deployment` and `Service` named `default/httpbin-1` are deleted because the second version has been removed.
-
-    _Routing components_
-
-    - no changes
-
-    _Iter8 components_
-
-    - The routemap (`ConfigMap` `httpbin-routemap`) is updated with 1 version and an updated `routingTemplate`.
-    - `ConfigMap` `httpbin-0-weight-config` (used to manage the proportion of traffic sent to the first version) is updated (annotation `iter8.tools/weight`).
-    - `ConfigMap` `httpbin-1-weight-config` (used to manage the proportion of traffic sent to the second version) is deleted.
-
-    _What else happens?_
-
-    Once the application components are ready, the Iter8 controller will trigger the routing template defined in the routemap. As a consequence, the `VirtualService` `httpbin` will be updated to send all traffic to the single version.
-
-### Verify Routing
+### Verify routing
 
 You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version.
 
 ## Cleanup
 
-Delete the application:
+Delete the application and its routing configuration:
 
 ```shell
 helm delete httpbin

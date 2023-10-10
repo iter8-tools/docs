@@ -114,7 +114,6 @@ nav:
 - Home: index.md
 - Getting Started:
   - Your first blue-green release: getting-started/first-release.md
-  - Your first automated routing: getting-started/first-routing.md
   - Your first A/B test: getting-started/first-abn.md
   - Your first performance test: getting-started/first-performance.md
   - Concepts: getting-started/concepts.md
