@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: iter8-gateway
+  name: iter8-sample-gateway
 spec:
   selector:
     istio: ingressgateway
