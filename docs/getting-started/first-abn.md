@@ -6,7 +6,7 @@ template: main.html
 
 This tutorial describes how to do A/B testing of a backend component using the [Iter8 SDK](../user-guide/topics/ab_testing.md). 
 
-![A/B/n testing](images/abn.png)
+![A/B/n testing](../tutorials/images/abn.png)
 
 ***
 
@@ -21,6 +21,14 @@ This tutorial describes how to do A/B testing of a backend component using the [
 ## Install the Iter8 controller
 
 --8<-- "docs/getting-started/install.md"
+
+```shell
+export IMG=kalantar/iter8:20231011-1506
+export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
+helm upgrade --install iter8 $CHARTS/controller \
+--set image=$IMG --set logLevel=trace \
+--set clusterScoped=true
+```
 
 ## Deploy the sample application
 
@@ -44,31 +52,19 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
     The frontend component is implemented to call `Lookup()` before each call to the backend component. The frontend component uses the returned version number to route the request to the recommended version of the backend component.
 
 === "backend"
-    Deploy an initial version of the *backend* component:
+    Release and initial version of the backend named `backend`:
 
     ```shell
-    kubectl create deployment backend --image=iter8/abn-sample-backend:0.17-v1
-    kubectl label deployment backend iter8.tools/watch="true"
-
-    kubectl expose deployment backend --name=backend --port=8091
+    cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+    environment: deployment
+    application: 
+      port: 8091
+      versions:
+      - metadata:
+          name: backend
+        image: iter8/abn-sample-backend:0.17-v1
+    EOF
     ```
-
-## Describe the application
-
-In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A _routemap_ is created to do this. A routemap contains a description of each version of an application and may contain [routing templates](../user-guide/topics/routemap.md). To create the routemap:
-
-```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl apply -f -
-appType: deployment
-appName: backend
-action: initialize
-appVersions:
-- name: backend
-- name: backend-candidate-1
-EOF
-```
-
-The `initialize` action (with strategy `none`) creates a routemap that only defines the resources that make up each version of the application. In this case, two versions: `backend` and `backend-candidate-1`. Each version is comprised of a `Service` and a `Deployment`. Iter8 uses this information to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
 
 ## Generate load
 
@@ -83,17 +79,24 @@ In another shell, run a script to generate load from multiple users:
 
 ## Deploy candidate
 
-Deploy the candidate version of the *backend* component, naming it `backend-candidate-1`.
+Release the application adding a second (candidate) version named `backend-candidate-1`:
 
 ```shell
-kubectl create deployment backend-candidate-1 --image=iter8/abn-sample-backend:0.17-v2
-kubectl label deployment backend-candidate-1 iter8.tools/watch="true"
-
-kubectl expose deployment backend-candidate-1 --name=backend-candidate-1 --port=8091
+cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+environment: deployment
+application: 
+  port: 8091
+  versions:
+  - metadata:
+      name: backend
+    image: iter8/abn-sample-backend:0.17-v1
+  - metadata:
+      name: backend-candidate-1
+    image: iter8/abn-sample-backend:0.17-v2
+EOF
 ```
 
-Until the candidate version is ready; that is, until all expected resources are deployed and available, calls to `Lookup()` will return only the version number `0`; the existing version.
-Once the candidate version is ready, `Lookup()` will return both version numbers (`0` and `1`) so that requests can be distributed across versions.
+While the candidate version is deploying, `Lookup()` will continue to return just the primary version. Once the candidate is ready, it will begin recommending both versions allowing traffic to be distributed across both.z
 
 ## Compare versions using Grafana
 
@@ -114,22 +117,24 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look like the following:
 
-![A/B dashboard](images/dashboard.png)
+![A/B dashboard](../tutorials/images/abnDashboard.png)
 
 Once you identify a winner, it can be promoted, and the candidate version deleted.
 
 ## Promote candidate
 
-To promote the candidate version (`backend-candidate-1`), first update the primary version, `backend`, using the new image. You can also overwrite any metadata describing the version.
+To promote the candidate version (`backend-candidate-1`), re-release the application, updating the image of the first (primary) version and remove the candidate version:
 
 ```shell
-kubectl set image deployment/backend abn-sample-backend=iter8/abn-sample-backend:0.17-v2
-```
-
-Finally, delete the candidate version:
-
-```shell
-kubectl delete svc/backend-candidate-1 deploy/backend-candidate-1
+cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+environment: deployment
+application: 
+  port: 8091
+  versions:
+  - metadata:
+      name: backend
+    image: iter8/abn-sample-backend:0.17-v2
+EOF
 ```
 
 Calls to `Lookup()` will now recommend that all traffic be sent to the primary version `backend` (currently serving the promoted version of the code).
@@ -139,24 +144,8 @@ Calls to `Lookup()` will now recommend that all traffic be sent to the primary v
 Delete the sample application:
 
 ```shell
-kubectl delete \
-svc/frontend deploy/frontend \
-svc/backend deploy/backend \
-svc/backend-candidate-1 deploy/backend-candidate-1
-```
-
-Delete the application routemap:
-
-```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl delete -f -
-appType: deployment
-appName: backend
-action: initialize
-appVersions:
-- name: backend
-- name: backend-candidate-1
-EOF
-
+kubectl delete svc/frontend deploy/frontend
+helm delete backend
 ```
 
 Uninstall the Iter8 controller:

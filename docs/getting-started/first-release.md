@@ -4,7 +4,7 @@ template: main.html
 
 # Your first blue-green release
 
-This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. The user declaratively describes the desired application state at any given moment. An Iter8 `release` chart deploys the application components and configures Iter8 to automatically configure routing to implement a the blue-green rollout.
+This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. The user declaratively describes the desired application state at any given moment. An Iter8 `release` chart assists users who describe the application state at any given moment. The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement a blue-green rollout strategy.
 
 In a blue-green rollout, a percentage of requests are directed to a candidate version of the model. This percentage can be changed over time.
 
@@ -24,7 +24,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 --8<-- "docs/getting-started/install.md"
 
 ```shell
-export IMG=kalantar/iter8:20241010-0930
+export IMG=kalantar/iter8:20231011-1506
 export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
 helm upgrade --install iter8 $CHARTS/controller \
 --set image=$IMG --set logLevel=trace \
@@ -33,7 +33,7 @@ helm upgrade --install iter8 $CHARTS/controller \
 
 ## Deploy initial version
 
-Deploy the initial version of the application using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (just one), and the rollout strategy to be used:
+Deploy the initial version of the application using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (here just one), and the rollout strategy to be used:
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
@@ -44,7 +44,6 @@ application:
       labels:
         app.kubernetes.io/version: v0
     image: kennethreitz/httpbin
-    port: 80
   strategy: blue-green
 EOF
 ```
@@ -55,10 +54,10 @@ EOF
         - The name `httpbin-0` is derived from the helm release name since it is not specified in the version or in `application.metadata`. The names is derived by appending the index of the version in the list of versions; `-0` in this case.
         - Alternatively, a `deploymentSpecification` and/or a `serviceSpecification` could have been specified.
 
-    To support routing, a `Service` (of type `ExternalName`) named `default/httpbin` pointing at `istio-ingressgateway.istio-system` is deployed. The name is the helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../user-guide/topics/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
+    To support routing, a `Service` (of type `ExternalName`) named `default/httpbin` pointing at the Istio gateway, `istio-ingressgateway.istio-system`, is deployed. The name is the helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../user-guide/topics/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
      - **Assumes**`Gateway` named `gateway` exists and that it is configured for traffic to  `httpbin.default.svc.cluster.local`.
 
-Once the application components are ready, the Iter8 controller atuomatically configures the routing by creating an Istio `VirtualService`. It is configured to route all traffic to the the only deployed version, `httpbin-0`.
+Once the application components are ready, the Iter8 controller automatically configures the routing by creating an Istio `VirtualService`. It is configured to route all traffic to the only deployed version, `httpbin-0`.
 
 ### Verify routing
 
@@ -107,7 +106,7 @@ You can also send requests:
 
 ## Deploy candidate
 
-A candidate can deployed by simply adding a second version to the list of versions composing the application:
+A candidate can deployed by simply adding a second version to the list of versions comprising the application:
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
@@ -118,12 +117,10 @@ application:
       labels:
         app.kubernetes.io/version: v0
     image: kennethreitz/httpbin
-    port: 80
   - metadata:
       labels:
         app.kubernetes.io/version: v1
     image: kennethreitz/httpbin
-    port: 80
   strategy: blue-green
 EOF
 ```
@@ -139,7 +136,7 @@ You can verify the routing configuration by inspecting the `VirtualService` and/
 
 ## Modify weights (optional)
 
-To modify the request distribution between the versions, add a `weight` to each version:
+To modify the request distribution between the versions, add a `weight` to each version. The weights are relative to each other.
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin $CHARTS/release -f -
@@ -150,23 +147,21 @@ application:
       labels:
         app.kubernetes.io/version: v0
     image: kennethreitz/httpbin
-    port: 80
     weight: 30
   - metadata:
       labels:
         app.kubernetes.io/version: v1
     image: kennethreitz/httpbin
-    port: 80
     weight: 70
   strategy: blue-green
 EOF
 ```
 
-Iter8 automatically reconfigures the routing (modifies the `VirtualService`) to distribute traffic between the versions based on the new weights.
+Iter8 automatically reconfigures the routing to distribute traffic between the versions based on the new weights.
 
 ### Verify routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Seventy percent of requests will now be handled by the candidate version; the remaining thirty percent by the the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Seventy percent of requests will now be handled by the candidate version; the remaining thirty percent by the primary version.
 
 ## Promote candidate
 
@@ -181,14 +176,13 @@ application:
       labels:
         app.kubernetes.io/version: v1
     image: kennethreitz/httpbin
-    port: 80
   strategy: blue-green
 EOF
 ```
 ??? note "What is different?"
     The version label (`app.kubernetes.io/version`) was updated. In a real world example, the image would also have been updated.
 
-Once the application components are ready, the Iter8 controller will automatically reconfigure the routing to send all traffic to the single version.
+Once the application components are ready, the Iter8 controller will automatically reconfigure the routing to send all requests to the (new) primary version.
 
 ### Verify routing
 

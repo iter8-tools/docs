@@ -36,7 +36,7 @@ A version may optionally specify an integer `weight` indicating the proportion o
 
 A routing template is a Go template that is applied each time a new version becomes available or an old one goes away. Multiple templates can be defined/applied.
 
-THe application of the templates allows Iter8 to automatically reconfigure the routing when versions come and go. For example, the template created by the `initialize` action in the [automated blue-green rollout tutorial](../../getting-started/first-routing.md#routing) is for an Istio `VirtualService`. Applying the template to the available versions yields the necessary `VirtualSerivce` definition. The template definition is as follows:
+THe application of the templates allows Iter8 to automatically reconfigure the routing when versions come and go. For example, the template created in the [blue-green release tutorial](../../getting-started/first-release.md) contains an Istio `VirtualService`. Applying the template to the available versions yields the necessary `VirtualSerivce` definition. In this tutorial, the template definition is:
 
 ```yaml
 blue-green:

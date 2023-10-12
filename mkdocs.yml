@@ -119,7 +119,7 @@ nav:
   - Concepts: getting-started/concepts.md
   - Get help: getting-started/help.md
 - Tutorials:
-  - Automated routing:  tutorials/automated-routing.md
+  - Blue-green release:  tutorials/blue-green.md
   - A/B testing with Iter8 SDK: tutorials/abn.md
   - Performance test HTTP:  tutorials/load-test-http.md
   - Performance test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
@@ -127,23 +127,19 @@ nav:
   - Performance test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
   - Integrations:
     - Kserve:
-      - Automated routing:
-        - Blue-green testing: tutorials/integrations/kserve/blue-green.md
-        - Canary testing: tutorials/integrations/kserve/canary.md
-        - Blue-green release: tutorials/integrations/kserve/blue-green-release.md
-        - Canary release: tutorials/integrations/kserve/canary-release.md
+      - Releasing models:
+        - Blue-green: tutorials/integrations/kserve/blue-green.md
+        - Canary: tutorials/integrations/kserve/canary.md
       - A/B testing: 
         - HTTP: tutorials/integrations/kserve/abn-http.md
         - gRPC: tutorials/integrations/kserve/abn-grpc.md
-        - HTTP release: tutorials/integrations/kserve/abn-http-release.md
       - Performance testing:
         - HTTP: tutorials/integrations/kserve/http.md
         - gRPC: tutorials/integrations/kserve/grpc.md
     - Kserve (modelmesh):
-      - Automated routing:
-        - Blue-green testing: tutorials/integrations/kserve-mm/blue-green.md
-        - Canary testing: tutorials/integrations/kserve-mm/canary.md
-        - Canary release: tutorials/integrations/kserve-mm/canary-release.md
+      - Releasing models:
+        - Blue-green: tutorials/integrations/kserve-mm/blue-green.md
+        - Canary: tutorials/integrations/kserve-mm/canary.md
       - A/B testing: tutorials/integrations/kserve-mm/abn.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Slack:  tutorials/integrations/slack.md
