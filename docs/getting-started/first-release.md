@@ -55,7 +55,6 @@ EOF
         - Alternatively, a `deploymentSpecification` and/or a `serviceSpecification` could have been specified.
 
     To support routing, a `Service` (of type `ExternalName`) named `default/httpbin` pointing at the Istio gateway, `istio-ingressgateway.istio-system`, is deployed. The name is the helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../user-guide/topics/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
-     - **Assumes**`Gateway` named `gateway` exists and that it is configured for traffic to  `httpbin.default.svc.cluster.local`.
 
 Once the application components are ready, the Iter8 controller automatically configures the routing by creating an Istio `VirtualService`. It is configured to route all traffic to the only deployed version, `httpbin-0`.
 
@@ -67,41 +66,40 @@ You can verify the routing configuration by inspecting the `VirtualService`:
 kubectl get virtualservice httpbin -o yaml
 ```
 
-You can also send requests:
+You can also send requests from a pod within the cluster:
 
-=== "From within the cluster"
-    1. Create a `sleep` pod in the cluster from which requests can be made:
-    ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
-    ```
+1. Create a `sleep` pod in the cluster from which requests can be made:
+```shell
+curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
+```
 
-    2. Exec into the sleep pod:
-    ```shell
-    kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
-    ```
+2. Exec into the sleep pod:
+```shell
+kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
+```
 
-    3. Send requests:
-    ```shell
-    curl httpbin.default -s -D - | grep -e '^HTTP' -e app-version
-    ```
+3. Send requests:
+```shell
+curl httpbin.default -s -D - | grep -e '^HTTP' -e app-version
+```
 
-=== "From outside the cluster"
-    1. In a separate terminal, port-forward the ingress gateway:
+The output includes the success of the request (the HTTP return code) and the version of the application that responded (the `app-version` response header). For example:
+
+```
+HTTP/1.1 200 OK
+app-version: httpbin-0
+```
+
+??? note "To send requests from outside the cluster"
+    To configure the release for traffic from outside the cluster, a suitable Iter8 `Gateway` is required. For example, this [sample gateway](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
+
+    (a) In a separate terminal, port-forward the ingress gateway:
     ```shell
     kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
     ```
-
-    2. Send requests:
+    (b) Send requests using the `Host` header:
     ```shell
     curl -H 'Host: httpbin.default' localhost:8080 -s -D - | grep -e '^HTTP' -e app-version
-    ```
-
-??? note "Sample output"
-    The output identifies the success of the request (the HTTP return code) and the version of the application that responded (the `app-version` header). For example:
-
-    ```
-    HTTP/1.1 200 OK
-    app-version: httpbin-0
     ```
 
 ## Deploy candidate

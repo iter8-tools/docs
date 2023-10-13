@@ -18,7 +18,10 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
     ```shell
     kubectl config set-context --current --namespace=modelmesh-serving
     ```
-    3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
+    3. Install [Istio](https://istio.io). It suffices to install the [demo profile](https://istio.io/latest/docs/setup/getting-started/), for example by using: 
+    ```shell
+    istioctl install --set profile=demo -y
+    ```
 
 ## Install the Iter8 controller
 
@@ -73,43 +76,57 @@ You can send verify the routing configuration by inspecting the `VirtualService`
 kubectl get virtualservice wisdom -o yaml
 ```
 
-You can also send requests:
+You can also send inference requests from a pod within the cluster:
 
-=== "From within the cluster"
-    1. Create a `sleep` pod in the cluster from which requests can be made:
-    ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/sleep.sh | sh -
-    ```
+1. Create a `sleep` pod in the cluster from which requests can be made:
+```shell
+curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/sleep.sh | sh -
+```
 
-    2. Exec into the sleep pod:
-    ```shell
-    kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
-    ```
+2. Exec into the sleep pod:
+```shell
+kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
+```
 
-    3. Make inference requests:
-    ```shell
-    cat wisdom.sh
-    . wisdom.sh
-    ```
-    or, to send a request with header `traffic: test`:
-    ```shell
-    cat wisdom-test.sh
-    . wisdom-test.sh
-    ```
+3. To send requests without the header `traffic`:
+```shell
+cat grpc_input.json \
+| grpcurl -vv -plaintext -proto kserve.proto -d @ \
+  -authority wisdom.modelmesh-serving \
+  modelmesh-serving.modelmesh-serving:8033 \
+  inference.GRPCInferenceService.ModelInfer \
+| grep -e app-version
+```
+4. To send a request with header `traffic: test`:
+```shell
+cat grpc_input.json \
+| grpcurl -vv -plaintext -proto kserve.proto -d @ \
+  -H 'traffic: test' \
+  -authority wisdom.modelmesh-serving \
+  modelmesh-serving.modelmesh-serving:8033 \
+  inference.GRPCInferenceService.ModelInfer \
+| grep -e app-version
+```
 
-=== "From outside the cluster"
-    1. In a separate terminal, port-forward the ingress gateway:
+The output includes the version of the application that responded (the `app-version` response header). For example:
+
+```
+app-version: wisdom-0
+```
+
+??? note "To send requests from outside the cluster"
+    To configure the release for traffic from outside the cluster, a suitable Iter8 `Gateway` is required. For example, this [sample gateway](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
+
+    (a) In a separate terminal, port-forward the Istio ingress gateway:
     ```shell
     kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
     ```
-
-    2. Download the proto file and a sample input:
+    (b) Download the proto file and sample input:
     ```shell
     curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/kserve.proto
     curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/grpc_input.json
     ```
-
-    3. Send inference requests:
+    \(c) To send requests without the header `traffic`:
     ```shell
     cat grpc_input.json | \
     grpcurl -vv -plaintext -proto kserve.proto -d @ \
@@ -117,7 +134,7 @@ You can also send requests:
     localhost:8080 inference.GRPCInferenceService.ModelInfer \
     | grep -e app-version
     ```
-    Or, to send a request with header `traffic: test`:
+    (d) To send requests with the header `traffic: test`:
     ```shell
     cat grpc_input.json | \
     grpcurl -vv -plaintext -proto kserve.proto -d @ \
@@ -127,14 +144,7 @@ You can also send requests:
     | grep -e app-version
     ```
 
-??? note "Sample output"
-    The output is only the `app-version` header. This header identifies the version of the model that responds:
-
-    ```
-    app-version: wisdom-0
-    ```
-
-## Deploy candidate
+### Deploy candidate
 
 A candidate model can be deployed by simply adding a second version to the list of versions comprising the application:
 

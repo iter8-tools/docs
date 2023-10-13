@@ -69,46 +69,49 @@ You can send verify the routing configuration by inspecting the `VirtualService`
 kubectl get virtualservice wisdom -o yaml
 ```
 
-You can also send inference requests:
+You can also send inference requests from a pod within the cluster:
 
-=== "From within the cluster"
-    1. Create a `sleep` pod in the cluster from which requests can be made:
-    ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
-    ```
+1. Create a `sleep` pod in the cluster from which requests can be made:
+```shell
+curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
+```
 
-    2. Exec into the sleep pod:
-    ```shell
-    kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
-    ```
+2. Exec into the sleep pod:
+```shell
+kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
+```
 
-    3. Send requests:
-    ```shell
-    curl -H 'Content-Type: application/json' \
-    http://wisdom.default -d @input.json -s -D -  \
-    | grep -e HTTP -e app-version
-    ```
+3. Send requests:
+```shell
+curl -H 'Content-Type: application/json' \
+http://wisdom.default -d @input.json -s -D -  \
+| grep -e HTTP -e app-version
+```
 
-=== "From outside the cluster"
-    1. In a separate terminal, port-forward the ingress gateway:
+The output includes the success of the request (the HTTP return code) and the version of the application that responded (the `app-version` response header). For example:
+
+```
+HTTP/1.1 200 OK
+app-version: wisdom-0
+```
+
+??? note "To send requests from outside the cluster"
+    To configure the release for traffic from outside the cluster:
+
+    (a) In a separate terminal, port-forward the Istio ingress gateway:
     ```shell
     kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
     ```
-
-    2. Send requests:
+    (b) Download the sample input:
+    ```shell
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/input.json
+    ```
+    \(c) Send inference requests using the `Host` header:
     ```shell
     curl -H 'Content-Type: application/json' \
     -H 'Host: wisdom.default' \
     localhost:8080 -d @input.json -s -D - \
     | grep -e '^HTTP' -e app-version
-    ```
-
-??? note "Sample output"
-    The output identifies the success of the request and the version of the model that responds. For example:
-
-    ```
-    HTTP/1.1 200 OK
-    app-version: wisdom-0
     ```
 
 ## Deploy candidate

@@ -18,8 +18,10 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
     ```shell
     kubectl config set-context --current --namespace=modelmesh-serving
     ```
-    3. Install [Istio](https://istio.io). You can install the [demo profile](https://istio.io/latest/docs/setup/getting-started/).
-
+    3. Install [Istio](https://istio.io). It suffices to install the [demo profile](https://istio.io/latest/docs/setup/getting-started/), for example by using: 
+    ```shell
+    istioctl install --set profile=demo -y
+    ```
 ## Install the Iter8 controller
 
 --8<-- "docs/getting-started/install.md"
@@ -73,46 +75,53 @@ You can send verify the routing configuration by inspecting the `VirtualService`
 kubectl get virtualservice wisdom -o yaml
 ```
 
-You can also send requests:
+You can also send inference requests from a pod within the cluster:
 
-=== "From within the cluster"
-    1. Create a `sleep` pod in the cluster from which requests can be made:
-    ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
-    ```
+1. Create a `sleep` pod in the cluster from which requests can be made:
+```shell
+curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/sleep.sh | sh -
+```
 
-    2. Exec into the sleep pod:
-    ```shell
-    kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
-    ```
+2. Exec into the sleep pod:
+```shell
+kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
+```
 
-    3. Send requests:
-    ```shell
-    curl -H 'Content-Type: application/json' \
-    http://wisdom.default -d @input.json -s -D -  \
-    | grep -e HTTP -e app-version
-    ```
+3. Send requests:
+```shell
+cat grpc_input.json \
+| grpcurl -vv -plaintext -proto kserve.proto -d @ \
+  -authority wisdom.modelmesh-serving \
+  modelmesh-serving.modelmesh-serving:8033 \
+  inference.GRPCInferenceService.ModelInfer \
+| grep -e app-version
+```
 
-=== "From outside the cluster"
-    1. In a separate terminal, port-forward the ingress gateway:
+The output includes the version of the application that responded (the `app-version` response header). For example:
+
+```
+app-version: wisdom-0
+```
+
+??? note "To send requests from outside the cluster"
+    To configure the release for traffic from outside the cluster, a suitable Iter8 `Gateway` is required. For example, this [sample gateway](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
+
+    (a) In a separate terminal, port-forward the ingress gateway:
     ```shell
     kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
     ```
-
-    2. Send requests:
+    (b) Download the proto file and sample input:
     ```shell
-    curl -H 'Content-Type: application/json' \
-    -H 'Host: wisdom.default' \
-    localhost:8080 -d @input.json -s -D - \
-    | grep -e '^HTTP' -e app-version
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/kserve.proto
+    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/grpc_input.json
     ```
-
-??? note "Sample output"
-    The output is only the `app-version` header. This header identifies the version of the model that responds:
-
-    ```
-    HTTP/1.1 200 OK
-    app-version: wisdom-0
+    \(c) Send requests using the `Host` header:
+    ```shell
+    cat grpc_input.json | \
+    grpcurl -vv -plaintext -proto kserve.proto -d @ \
+    -authority wisdom.modelmesh-serving \
+    localhost:8080 inference.GRPCInferenceService.ModelInfer \
+    | grep -e app-version
     ```
 
 ## Deploy candidate
@@ -157,7 +166,6 @@ To modify the request distribution between versions, add a `weight` to each vers
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
-environment: kserve
 environment: kserve-modelmesh-istio
 application: 
   metadata:
@@ -191,18 +199,19 @@ You can verify the routing configuration by inspecting the `VirtualService` and/
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
-environment: kserve
+environment: kserve-modelmesh-istio
 application: 
   metadata:
     labels:
       app.kubernetes.io/name: wisdom
+    annotations:
+      serving.kserve.io/secretKey: localMinIO
   modelFormat: sklearn
-  runtime: kserve-mlserver
   versions:
   - metadata:
       labels:
         app.kubernetes.io/version: v1
-    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
+    storageUri: s3://modelmesh-example-models/sklearn/mnist-svm.joblib
   strategy: blue-green
 EOF
 ```
