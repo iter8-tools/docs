@@ -185,7 +185,7 @@ You can verify the routing configuration by inspecting the `VirtualService` and/
 
 ## Promote candidate
 
-The candidate model can be promoted by redefinig the primary version and removing the candidate:
+The candidate model can be promoted by redefining the primary version and removing the candidate:
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -

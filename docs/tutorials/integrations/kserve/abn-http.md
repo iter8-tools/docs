@@ -111,7 +111,7 @@ EOF
     In this tutorial, the model source (field `storageUri`) is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 Until the candidate version is ready, calls to `Lookup()` will return only the version number `0`; the index of the primary version of the model.
-Once the candidate version is ready, `Lookup()` will return both `0` and `1`, the indicies of both versions, so that requests can be distributed across both versions.
+Once the candidate version is ready, `Lookup()` will return both `0` and `1`, the indices of both versions, so that requests can be distributed across both versions.
 
 ## Compare versions using Grafana
 
@@ -138,7 +138,7 @@ Once you identify a winner, it can be promoted, and the candidate version delete
 
 ## Promote candidate
 
-The candidate can be promoted by redefinig the primary version and removing the candidate:
+The candidate can be promoted by redefining the primary version and removing the candidate:
 
 ```shell
 cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
