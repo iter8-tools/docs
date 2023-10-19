@@ -24,7 +24,7 @@ This tutorial describes how to do A/B testing of a backend component using the [
 
 ## Deploy the sample application
 
-A sample application using the Iter8 SDK is provided. Deploy both the frontend and backend components of this application as described in each tab:
+A simple sample two-tier application using the Iter8 SDK is provided. Note that only the frontend component uses the Iter8 SDK. Deploy both the frontend and backend components of this application as described in each tab:
 
 === "frontend"
     Install the frontend component using an implementation in the language of your choice:
@@ -44,7 +44,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
     The frontend component is implemented to call `Lookup()` before each call to the backend component. The frontend component uses the returned version number to route the request to the recommended version of the backend component.
 
 === "backend"
-    Release and initial version of the backend named `backend`:
+    Release an initial version of the backend named `backend`:
 
     ```shell
     cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
@@ -71,7 +71,7 @@ In another shell, run a script to generate load from multiple users:
 
 ## Deploy candidate
 
-Release the application adding a second (candidate) version named `backend-candidate-1`:
+A candidate version of the *backend* component can be deployed simply by adding a second version to the list of versions:
 
 ```shell
 cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
@@ -88,7 +88,8 @@ application:
 EOF
 ```
 
-While the candidate version is deploying, `Lookup()` will continue to return just the primary version. Once the candidate is ready, it will begin recommending both versions allowing traffic to be distributed across both.z
+While the candidate version is deploying, `Lookup()` will return only the version index number `0`; that is, the first, or primary, version of the model.
+Once the candidate version is ready, `Lookup()` will return both `0` and `1`, the indices of both versions, so that requests can be distributed across both versions.
 
 ## Compare versions using Grafana
 
@@ -115,7 +116,7 @@ Once you identify a winner, it can be promoted, and the candidate version delete
 
 ## Promote candidate
 
-To promote the candidate version (`backend-candidate-1`), re-release the application, updating the image of the first (primary) version and remove the candidate version:
+To promote the candidate version (`backend-candidate-1`), re-release the application, updating the image of the primary (the first) version to use the image of the candidate version and remove the candidate version:
 
 ```shell
 cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
@@ -129,7 +130,7 @@ application:
 EOF
 ```
 
-Calls to `Lookup()` will now recommend that all traffic be sent to the primary version `backend` (currently serving the promoted version of the code).
+Calls to `Lookup()` will now recommend that all traffic be sent to the new primary version `backend` (currently serving the promoted version of the code).
 
 ## Cleanup
 

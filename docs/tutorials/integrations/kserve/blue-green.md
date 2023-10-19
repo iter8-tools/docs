@@ -4,9 +4,12 @@ template: main.html
 
 # Blue-green release of a KServe ML model
 
-This tutorial shows how Iter8 can be used to release ML models hosted in a KServe environment using a blue-green rollout strategy. An Iter8 `release` chart assists users who describe the application state at any given moment. The chart provides the configuration needed for Iter8 to automatically deploy model versions and configure the routing to implement a blue-green rollout strategy. 
-
-In a blue-green rollout, a percentage of inference requests are directed to a candidate version of the model. The remaining requests go to the primary, or initial, version of the model. This percentage can ne changed over time.
+This tutorial shows how Iter8 can be used to release ML models hosted in a KServe environment using a blue-green rollout strategy. 
+In a blue-green rollout, a percentage of requests are directed to a candidate version of the model. 
+This percentage can be changed over time. 
+The user declaratively describes the desired application state at any given moment. 
+An Iter8 `release` chart assists users who describe the application state at any given moment. 
+The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the blue-green rollout strategy.
 
 ![Blue-green rollout](../../images/blue-green.png)
 
@@ -24,7 +27,7 @@ In a blue-green rollout, a percentage of inference requests are directed to a ca
 
 ## Deploy initial version
 
-Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (here just one), and the rollout strategy to be used:
+Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the rollout strategy to be used:
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
@@ -46,11 +49,11 @@ EOF
 
 ??? note "What happens?"
     - Because `environment` is set to `kserve`, an `InferenceService` object is created.
-    - The namespace `default` is inherited from the helm release namespace since it is not specified in the version or in `application.metadata`.
-    - The name `wisdom-0` is derived from the helm release name since it is not specified in the version or in `application.metadata`. The names is derived by appending the index of the version in the list of versions; `-0` in this case.
+    - The namespace `default` is inherited from the Helm release namespace since it is not specified in the version or in `application.metadata`.
+    - The name `wisdom-0` is derived from the Helm release name since it is not specified in the version or in `application.metadata`. The name is derived by appending the index of the version in the list of versions; `-0` in this case.
     - Alternatively, an `inferenceServiceSpecification` could have been provided.
 
-    To support routing, a `Service` (of type `ExternalName`) named `default/wisdom` pointing at the KNative gateway, `knative-local-gateway.istio-system`, is deployed. The name is the helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../../../user-guide/topics/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`wisdom-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
+    To support routing, a `Service` (of type `ExternalName`) named `default/wisdom` pointing at the KNative gateway, `knative-local-gateway.istio-system`, is deployed. The name is the Helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../../../user-guide/topics/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`wisdom-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
 
 Once the `InferenceService` is ready, the Iter8 controller automatically configures the routing by creating an Istio `VirtualService`. It is configured to route all inference requests to the only deployed version, `wisdom-0`.
 ### Verify routing
@@ -76,7 +79,7 @@ kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimest
 3. Send requests:
 ```shell
 curl -H 'Content-Type: application/json' \
-http://wisdom.default -d @input.json -s -D -  \
+http://wisdom.default -d @input.json -s -D - \
 | grep -e HTTP -e app-version
 ```
 
@@ -108,7 +111,7 @@ app-version: wisdom-0
 
 ## Deploy candidate
 
-A candidate model can be deployed by simply adding a second version to the list of versions comprising the application:
+A candidate version of the model can be deployed simply by adding a second version to the list of versions comprising the application:
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
@@ -133,7 +136,7 @@ EOF
 ```
 
 ??? note "About the candidate"
-    In this tutorial, the model source (field `application.veresions[1].storageUri`) for the candidate is the same as the one for the primary version of the model. In a real world example, this would be different. Here, the version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
+    In this tutorial, the model source (field `storageUri`) for the candidate version is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 When the candidate model is ready, Iter8 will automatically reconfigure the routing so that inference requests are sent to both versions.
 
@@ -173,7 +176,7 @@ Iter8 automatically reconfigures the routing to distribute traffic between the v
 
 ### Verify Routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Seventy percent of requests will now be handled by the candidate version; the remaining thirty percent by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. 70 percent of requests will now be handled by the candidate version; the remaining 30 percent by the primary version.
 
 ## Promote candidate
 
@@ -198,9 +201,9 @@ EOF
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernetes.io/version`) was updated. In a real world example, the model source (`storageUri`) would also have been updated.
+    The version label (`app.kubernetes.io/version`) of the primary version was updated. In a real world example, `storageUri` would also be updated (with that from the candidate version).
 
-Once the `InferenceService` is ready, the Iter8 controller will automatically reconfigure the routing to send all inference requests to the (new) primary version.
+Once the (reconfigured) primary `InferenceService` ready, the Iter8 controller will automatically reconfigure the routing to send all requests to it.
 
 ### Verify Routing
 

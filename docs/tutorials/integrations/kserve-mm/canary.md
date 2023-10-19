@@ -4,13 +4,14 @@ template: main.html
 
 # Canary release of a ML model
 
-This tutorial shows how Iter8 can be used to release ML models hosted in a KServe ModelMesh environment using a canary rollout strategy. An Iter8 `release` chart assists users who describe the application state at any given moment. The chart provides the configuration needed for Iter8 to automatically deploy model versions and configure the routing to implement a canary rollout strategy. 
-
-In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model.
+This tutorial shows how Iter8 can be used to release ML models hosted in a KServe ModelMesh environment using a canary rollout strategy. 
+IIn a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
+The remaining requests go to the primary, or initial, version of the model.
+The user declaratively describes the desired application state at any given moment. 
+An Iter8 `release` chart assists users who describe the application state at any given moment. 
+The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the blue-green rollout strategy.
 
 ![Canary rollout](../../images/canary.png)
-
-In this tutorial, we use the Istio service mesh to distribute inference requests between different versions of a model.
 
 ???+ warning "Before you begin"
     1. Ensure that you have the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs.
@@ -29,7 +30,7 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 ## Deploy initial version
 
-Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (here just one), and the rollout strategy to be used:
+Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the rollout strategy to be used:
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
@@ -52,8 +53,8 @@ EOF
 
 ??? note "What happens?"
     - Because `environment` is set to `kserve-modelmesh-istio`,  an `InferenceService` object is created.
-    - The namespace `default` is inherited from the helm release namespace since it is not specified in the version or in `application.metadata`.
-    - The name `wisdom-0` is derived from the helm release name since it is not specified in the version or in `application.metadata`. The names is derived by appending the index of the version in the list of versions; `-0` in this case.
+    - The namespace `default` is inherited from the Helm release namespace since it is not specified in the version or in `application.metadata`.
+    - The name `wisdom-0` is derived from the Helm release name since it is not specified in the version or in `application.metadata`. The name is derived by appending the index of the version in the list of versions; `-0` in this case.
     - Alternatively, an `inferenceServiceSpecification` could have been provided.
 
     To support routing, a `ServiceEntry` named `default/wisdom` is deployed. Further, an Iter8 [routemap](../../../user-guide/topics/routemap.md) is created.
@@ -107,7 +108,7 @@ app-version: wisdom-0
 ```
 
 ??? note "To send requests from outside the cluster"
-    To configure the release for traffic from outside the cluster, a suitable Iter8 `Gateway` is required. For example, this [sample gateway](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
+    To configure the release for traffic from outside the cluster, a suitable Istio `Gateway` is required. For example, this [sample gateway](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
 
     (a) In a separate terminal, port-forward the Istio ingress gateway:
     ```shell
@@ -138,7 +139,7 @@ app-version: wisdom-0
 
 ### Deploy candidate
 
-A candidate model can be deployed by simply adding a second version to the list of versions comprising the application:
+A candidate version of the model can be deployed simply by adding a second version to the list of versions comprising the application:
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
@@ -164,7 +165,7 @@ EOF
 ```
 
 ??? note "About the candidate"
-    In this tutorial, the model source (field `application.veresions[1].storageUri`) for the candidate is the same as the one for the primary version of the model. In a real world example, this would be different. Here, the version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
+    In this tutorial, the model source (field `storageUri`) for the candidate version is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
 When the candidate version is ready, the Iter8 controller will Iter8 will automatically reconfigure the routing so that inference requests with the header `traffic` set to `true` will be sent to the candidate model. All other requests will be sent to the primary model.
 
@@ -196,9 +197,9 @@ EOF
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernetes.io/version`) was updated. In a real world example, the model source (`storageUri`) would also have been updated.
+    The version label (`app.kubernetes.io/version`) of the primary version was updated. In a real world example, `storageUri` would also be updated (with that from the candidate version).
 
-Once the `InferenceService` is ready, the Iter8 controller will automatically reconfigure the routing to send all inference requests to the (new) primary version.
+Once the (reconfigured) primary `InferenceService` ready, the Iter8 controller will automatically reconfigure the routing to send all requests to it.
 
 ### Verify Routing
 

@@ -28,18 +28,18 @@ This tutorial describes how to do A/B testing as part of the release of a backen
 
 ## Deploy the sample application
 
-A simple sample two-tier application using the Iter8 SDK is provided. Deploy both the frontend and backend components:
+A simple sample two-tier application using the Iter8 SDK is provided. Note that only the frontend component uses the Iter8 SDK. Deploy both the frontend and backend components:
 
-### frontend
+### Frontend
 
-The frontend component uses the Iter8 SDK method `Lookup()` before each call the backend (ML model). The frontend uses the returned version number to route the request to the recommended version of backend.
+The frontend component uses the Iter8 SDK method `Lookup()` before each call to the backend (ML model). The frontend uses the returned version number to route the request to the recommended version of backend.
 
 ```shell
 kubectl create deployment frontend --image=iter8/abn-sample-mm-frontend-go:0.17.3
 kubectl expose deployment frontend --name=frontend --port=8090
 ```
 
-### backend
+### Backend
 
 The backend application component is an ML model. Release it using the Iter8 `release` chart:
 
@@ -75,7 +75,7 @@ In another shell, run a script to generate load from multiple users:
  
 ## Deploy candidate
 
-Deploy the candidate version of the backend model:
+A candidate version of the model can be deployed simply by adding a second version to the list of versions:
 
 ```shell
 cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
@@ -100,9 +100,9 @@ EOF
 ```
 
 ??? note "About the candidate"
-    In this tutorial, the model source (field `storageUri`) is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
+    In this tutorial, the model source (field `storageUri`) for the candidate version is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
-Until the candidate version is ready, calls to `Lookup()` will return only the version number `0`; the index of the primary version of the model.
+Until the candidate version is ready, calls to `Lookup()` will return only the version index number `0`; that is, the first, or primary, version of the model.
 Once the candidate version is ready, `Lookup()` will return both `0` and `1`, the indices of both versions, so that requests can be distributed across both versions.
 
 ## Compare versions using Grafana
@@ -151,9 +151,9 @@ EOF
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernetes.io/version`) was updated. In a real world example, `storageUri` would also be updated.
+    The version label (`app.kubernetes.io/version`) of the primary version was updated. In a real world example, `storageUri` would also be updated (with that from the candidate version).
 
-Calls to `Lookup()` will now recommend that all traffic be sent to the primary version `backend-0` (currently serving the promoted version of the code).
+Calls to `Lookup()` will now recommend that all traffic be sent to the new primary version `backend-0` (currently serving the promoted version of the code).
 
 ## Cleanup
 
