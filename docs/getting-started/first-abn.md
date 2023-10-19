@@ -22,14 +22,6 @@ This tutorial describes how to do A/B testing of a backend component using the [
 
 --8<-- "docs/getting-started/install.md"
 
-```shell
-export IMG=kalantar/iter8:20231011-1506
-export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
-helm upgrade --install iter8 $CHARTS/controller \
---set image=$IMG --set logLevel=trace \
---set clusterScoped=true
-```
-
 ## Deploy the sample application
 
 A sample application using the Iter8 SDK is provided. Deploy both the frontend and backend components of this application as described in each tab:
@@ -55,7 +47,7 @@ A sample application using the Iter8 SDK is provided. Deploy both the frontend a
     Release and initial version of the backend named `backend`:
 
     ```shell
-    cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+    cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
     environment: deployment
     application: 
       port: 8091
@@ -82,7 +74,7 @@ In another shell, run a script to generate load from multiple users:
 Release the application adding a second (candidate) version named `backend-candidate-1`:
 
 ```shell
-cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: deployment
 application: 
   port: 8091
@@ -126,7 +118,7 @@ Once you identify a winner, it can be promoted, and the candidate version delete
 To promote the candidate version (`backend-candidate-1`), re-release the application, updating the image of the first (primary) version and remove the candidate version:
 
 ```shell
-cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: deployment
 application: 
   port: 8091

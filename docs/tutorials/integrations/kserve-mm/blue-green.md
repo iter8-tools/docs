@@ -26,20 +26,12 @@ In this tutorial, we use the Istio service mesh to distribute inference requests
 
 --8<-- "docs/getting-started/install.md"
 
-```shell
-export IMG=kalantar/iter8:20231011-1506
-export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
-helm upgrade --install iter8 $CHARTS/controller \
---set image=$IMG --set logLevel=trace \
---set clusterScoped=true
-```
-
 ## Deploy initial version
 
 Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (here just one), and the rollout strategy to be used:
 
 ```shell
-cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
+cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve-modelmesh-istio
 application: 
   metadata:
@@ -129,7 +121,7 @@ app-version: wisdom-0
 A candidate model can be deployed by simply adding a second version to the list of versions comprising the application:
 
 ```shell
-cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
+cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve-modelmesh-istio
 application: 
   metadata:
@@ -165,7 +157,7 @@ You can verify the routing configuration by inspecting the `VirtualService` and/
 To modify the request distribution between versions, add a `weight` to each version. The weights are relative to each other.
 
 ```shell
-cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
+cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve-modelmesh-istio
 application: 
   metadata:
@@ -198,7 +190,7 @@ You can verify the routing configuration by inspecting the `VirtualService` and/
 ## Promote candidate
 
 ```shell
-cat <<EOF | helm upgrade --install wisdom $CHARTS/release -f -
+cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve-modelmesh-istio
 application: 
   metadata:

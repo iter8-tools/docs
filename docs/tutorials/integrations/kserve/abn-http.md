@@ -26,14 +26,6 @@ This tutorial describes how to do A/B testing as part of the release of a backen
 
 --8<-- "docs/getting-started/install.md"
 
-```shell
-export IMG=kalantar/iter8:20231011-1506
-export CHARTS=/Users/kalantar/projects/go.workspace/src/github.com/iter8-tools/iter8/charts
-helm upgrade --install iter8 $CHARTS/controller \
---set image=$IMG --set logLevel=trace \
---set clusterScoped=true
-```
-
 ## Deploy the sample application
 
 A simple sample two-tier application using the Iter8 SDK is provided. Deploy both the frontend and backend components:
@@ -54,7 +46,7 @@ kubectl expose deployment frontend --name=frontend --port=8090
 The backend application component is an ML model. Release it using the Iter8 `release` chart:
 
 ```shell
-cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve
 application: 
   metadata:
@@ -87,7 +79,7 @@ In another shell, run a script to generate load from multiple users:
 Release a candidate version of the backend model:
 
 ```shell
-cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve
 application: 
   metadata:
@@ -141,7 +133,7 @@ Once you identify a winner, it can be promoted, and the candidate version delete
 The candidate can be promoted by redefining the primary version and removing the candidate:
 
 ```shell
-cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve
 application: 
   metadata:

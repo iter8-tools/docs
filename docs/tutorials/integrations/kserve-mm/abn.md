@@ -44,7 +44,7 @@ kubectl expose deployment frontend --name=frontend --port=8090
 The backend application component is an ML model. Release it using the Iter8 `release` chart:
 
 ```shell
-cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve-modelmesh-istio
 application: 
   metadata:
@@ -78,7 +78,7 @@ In another shell, run a script to generate load from multiple users:
 Deploy the candidate version of the backend model:
 
 ```shell
-cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve-modelmesh-istio
 application: 
   metadata:
@@ -133,7 +133,7 @@ Once you identify a winner, it can be promoted, and the candidate version delete
 The candidate can be promoted by redefining the primary version and removing the candidate:
 
 ```shell
-cat <<EOF | helm upgrade --install backend $CHARTS/release -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
 environment: kserve-modelmesh-istio
 application: 
   metadata:
