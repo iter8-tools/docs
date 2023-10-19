@@ -5,7 +5,7 @@ template: main.html
 # Canary release of a KServe ML model
 
 This tutorial shows how Iter8 can be used to release ML models hosted in a KServe environment using a canary rollout strategy. 
-IIn a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
+In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
 The remaining requests go to the primary, or initial, version of the model.
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
