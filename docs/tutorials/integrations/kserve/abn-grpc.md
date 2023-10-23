@@ -4,9 +4,9 @@ template: main.html
 
 # A/B Testing a backend ML model
 
-This tutorial describes how to do A/B testing of a backend ML model hosted on [KServe](https://github.com/kserve/kserve) using the [Iter8 SDK](../../../user-guide/topics/ab_testing.md). In this tutorial, communication with the model is via gRPC calls.
+This tutorial describes how to do A/B testing as part of the release of a backend ML model hosted on [KServe](https://github.com/kserve/kserve) using the [Iter8 SDK](../../../user-guide/topics/ab_testing.md). In this tutorial, communication with the model is via gRPC calls.
 
-![A/B/n testing](../../../getting-started/images/abn.png)
+![A/B/n testing](../../images/abn.png)
 
 ***
 
@@ -28,65 +28,42 @@ This tutorial describes how to do A/B testing of a backend ML model hosted on [K
 
 ## Deploy the sample application
 
-A sample application using the Iter8 SDK is provided. Deploy both the frontend and backend components of this application as described in each tab:
+A simple sample two-tier application using the Iter8 SDK is provided. Note that only the frontend component uses the Iter8 SDK. Deploy both the frontend and backend components:
+### Frontend
+The frontend component uses the Iter8 SDK method `Lookup()` before each call to the backend (ML model). The frontend uses the returned version number to route the request to the recommended version of backend.
 
-=== "frontend"
-    ```shell
-    kubectl create deployment frontend --image=iter8/abn-sample-kserve-grpc-frontend-go:0.17.3
-    kubectl expose deployment frontend --name=frontend --port=8090
-    ```
-
-    The frontend component is implemented to call the Iter8 SDK method `Lookup()` before each call to the backend ML model. The frontend component uses the returned version number to route the request to the recommended version of the model.
-
-=== "backend"
-    The backend application component is an ML model. Deploy the primary version of the model using an `InferenceService`:
-
-    ```shell
-    cat <<EOF | kubectl apply -f -
-    apiVersion: "serving.kserve.io/v1beta1"
-    kind: "InferenceService"
-    metadata:
-      name: "backend-0"
-      labels:
-        app.kubernetes.io/name: backend
-        app.kubernetes.io/version: v0
-        iter8.tools/watch: "true"
-    spec:
-      predictor:
-        model:
-          modelFormat:
-            name: sklearn
-          runtime: kserve-mlserver
-          protocolVersion: v2
-          storageUri: "gs://seldon-models/sklearn/mms/lr_model"
-          ports:
-          - containerPort: 9000
-            name: h2c
-            protocol: TCP
-    EOF
-    ```
-
-    ??? note "About the primary `InferenceService`"
-        The base name (`backend`) and version (`v0`) are identified using the labels `app.kubernetes.io/name` and `app.kubernetes.io/version`, respectively. These labels are not required.
-
-        Naming the instance with the suffix `-0` (and the candidate with the suffix `-1`) simplifies describing the application (see below). However, any name can be specified.
-        
-        The label `iter8.tools/watch: "true"` is required. It lets Iter8 know that it should pay attention to changes to this application resource.
-
-## Describe the application
-
-In order to support `Lookup()`, Iter8 needs to know what the application component versions look like. A _routemap_ is created to do this. A routemap contains a description of each version of an application and may contain [routing templates](../../../user-guide/topics/routemap.md). To create the routemap:
+Deploy the frontend:
 
 ```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl apply -f -
-appType: kserve
-appName: backend
-action: initialize
+kubectl create deployment frontend --image=iter8/abn-sample-kserve-grpc-frontend-go:0.17.3
+kubectl expose deployment frontend --name=frontend --port=8090
+```
+  
+### Backend
+
+The backend application component is an ML model. Release it using the Iter8 `release` chart:
+
+```shell
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+environment: kserve
+application: 
+  metadata:
+    labels:
+      app.kubernetes.io/version: backend
+  modelFormat: sklearn
+  runtime: kserve-mlserver
+  protocolVersion: v2
+  ports:
+  - containerPort: 9000
+    name: h2c
+    protocol: TCP
+  versions:
+  - metadata:
+      labels:
+        app.kubernetes.io/version: v0
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
-
-The `initialize` action (with strategy `none`) creates a routemap that only defines the resources that make up each version of the application. In this case, a single `InferenceService`.
-Since no version-specific naming is provided, the primary version is expected to be named `backend-0` and any candidate version `backend-1`. Iter8 uses this information to identify when any of the versions of the application are available. It can then respond appropriately to `Lookup()` requests. 
 
 ## Generate load
 
@@ -94,6 +71,7 @@ In one shell, port-forward requests to the frontend component:
     ```shell
     kubectl port-forward service/frontend 8090:8090
     ```
+
 In another shell, run a script to generate load from multiple users:
     ```shell
     curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/abn-sample/generate_load.sh | sh -s --
@@ -101,38 +79,39 @@ In another shell, run a script to generate load from multiple users:
  
 ## Deploy candidate
 
-Deploy the candidate version of the backend model:
+A candidate version of the model can be deployed simply by adding a second version to the list of versions:
 
 ```shell
-cat <<EOF | kubectl apply -f -
-apiVersion: "serving.kserve.io/v1beta1"
-kind: "InferenceService"
-metadata:
-  name: "backend-1"
-  labels:
-    app.kubernetes.io/name: backend
-    app.kubernetes.io/version: v1
-    iter8.tools/watch: "true"
-spec:
-  predictor:
-    model:
-      modelFormat:
-        name: sklearn
-      runtime: kserve-mlserver
-      protocolVersion: v2
-      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
-      ports:
-      - containerPort: 9000
-        name: h2c
-        protocol: TCP
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+environment: kserve
+application: 
+  metadata:
+    labels:
+      app.kubernetes.io/version: backend
+  modelFormat: sklearn
+  runtime: kserve-mlserver
+  protocolVersion: v2
+  ports:
+  - containerPort: 9000
+    name: h2c
+    protocol: TCP
+  versions:
+  - metadata:
+      labels:
+        app.kubernetes.io/version: v0
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
+  - metadata:
+      labels:
+        app.kubernetes.io/version: v1
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
 
 ??? note "About the candidate"
-    In this tutorial, the model source (field `spec.predictor.model.storageUri`) is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
+    In this tutorial, the model source (field `storageUri`) for the candidate version is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
-Until the candidate version is ready, calls to `Lookup()` will return only the version number `0`; the primary version of the model.
-Once the candidate version is ready, `Lookup()` will return both version numbers (`0` and `1`) so that requests can be distributed across versions.
+Until the candidate version is ready, calls to `Lookup()` will return only the version index number `0`; that is, the first, or primary, version of the model.
+Once the candidate version is ready, `Lookup()` will return both `0` and `1`, the indices of both versions, so that requests can be distributed across both versions.
 
 ## Compare versions using Grafana
 
@@ -153,76 +132,47 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look like the following:
 
-![A/B dashboard](../../../getting-started/images/dashboard.png)
+![A/B dashboard](../../images/abnDashboard.png)
 
 Once you identify a winner, it can be promoted, and the candidate version deleted.
 
 ## Promote candidate
 
-Promoting the candidate involves redefining the primary version of the ML model and deleting the candidate version.
-
-### Redefine primary
+The candidate can be promoted by redefining the primary version and removing the candidate:
 
 ```shell
-cat <<EOF | kubectl replace -f -
-apiVersion: "serving.kserve.io/v1beta1"
-kind: "InferenceService"
-metadata:
-  name: "backend-0"
-  labels:
-    app.kubernetes.io/name: backend
-    app.kubernetes.io/version: v1
-    iter8.tools/watch: "true"
-spec:
-  predictor:
-    model:
-      modelFormat:
-        name: sklearn
-      runtime: kserve-mlserver
-      protocolVersion: v2
-      storageUri: "gs://seldon-models/sklearn/mms/lr_model"
-      ports:
-      - containerPort: 9000
-        name: h2c
-        protocol: TCP
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+environment: kserve
+application: 
+  metadata:
+    labels:
+      app.kubernetes.io/version: backend
+  modelFormat: sklearn
+  runtime: kserve-mlserver
+  protocolVersion: v2
+  ports:
+  - containerPort: 9000
+    name: h2c
+    protocol: TCP
+  versions:
+  - metadata:
+      labels:
+        app.kubernetes.io/version: v1
+    storageUri: "gs://seldon-models/sklearn/mms/lr_model"
 EOF
 ```
 
 ??? note "What is different?"
-    The version label (`app.kubernetes.io/version`) was updated. In a real world example, `spec.predictor.model.storageUri` would also be updated.
+    The version label (`app.kubernetes.io/version`) of the primary version was updated. In a real world example, `storageUri` would also be updated (with that from the candidate version).
 
-### Delete candidate
-
-Once the primary `InferenceService` has been redeployed, delete the candidate version:
-
-```shell
-kubectl delete inferenceservice backend-1
-```
-
-Calls to `Lookup()` will now recommend that all traffic be sent to the primary version `backend-0` (currently serving the promoted version of the code).
+Calls to `Lookup()` will now recommend that all traffic be sent to the new primary version `backend-0` (currently serving the promoted version of the code).
 
 ## Cleanup
 
-If not already deleted, delete the candidate version of the model:
+Delete the backend:
 
 ```shell
-kubectl delete isvc/backend-1
-```
-
-Delete the application routemap:
-
-```shell
-cat <<EOF | helm template routing --repo https://iter8-tools.github.io/iter8 routing-actions --version 0.18 -f - | kubectl delete -f -
-appType: kserve
-appName: backend
-action: initialize
-EOF
-```
-
-Delete the primary version of the model:
-
-```shell
-kubectl delete isvc/backend-0
+helm delete backend
 ```
 
 Delete the frontend:

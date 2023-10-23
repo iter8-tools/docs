@@ -85,8 +85,8 @@ markdown_extensions:
 - pymdownx.tilde
 - pymdownx.details
 - pymdownx.emoji:
-    emoji_index: !!python/name:materialx.emoji.twemoji
-    emoji_generator: !!python/name:materialx.emoji.to_svg
+    emoji_index: !!python/name:material.extensions.emoji.twemoji
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg
 - pymdownx.highlight
 - pymdownx.inlinehilite
 - pymdownx.keys
@@ -113,13 +113,13 @@ markdown_extensions:
 nav:
 - Home: index.md
 - Getting Started:
-  - Your first automated routing: getting-started/first-routing.md
+  - Your first blue-green release: getting-started/first-release.md
   - Your first A/B test: getting-started/first-abn.md
   - Your first performance test: getting-started/first-performance.md
   - Concepts: getting-started/concepts.md
   - Get help: getting-started/help.md
 - Tutorials:
-  - Automated routing:  tutorials/automated-routing.md
+  - Blue-green release:  tutorials/blue-green.md
   - A/B testing with Iter8 SDK: tutorials/abn.md
   - Performance test HTTP:  tutorials/load-test-http.md
   - Performance test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
@@ -127,9 +127,9 @@ nav:
   - Performance test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
   - Integrations:
     - Kserve:
-      - Automated routing:
-        - Blue-green testing: tutorials/integrations/kserve/blue-green.md
-        - Canary testing: tutorials/integrations/kserve/canary.md
+      - Releasing models:
+        - Blue-green: tutorials/integrations/kserve/blue-green.md
+        - Canary: tutorials/integrations/kserve/canary.md
       - A/B testing: 
         - HTTP: tutorials/integrations/kserve/abn-http.md
         - gRPC: tutorials/integrations/kserve/abn-grpc.md
@@ -137,9 +137,9 @@ nav:
         - HTTP: tutorials/integrations/kserve/http.md
         - gRPC: tutorials/integrations/kserve/grpc.md
     - Kserve (modelmesh):
-      - Automated routing:
-        - Blue-green testing: tutorials/integrations/kserve-mm/blue-green.md
-        - Canary testing: tutorials/integrations/kserve-mm/canary.md
+      - Releasing models:
+        - Blue-green: tutorials/integrations/kserve-mm/blue-green.md
+        - Canary: tutorials/integrations/kserve-mm/canary.md
       - A/B testing: tutorials/integrations/kserve-mm/abn.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Slack:  tutorials/integrations/slack.md

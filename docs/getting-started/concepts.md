@@ -25,7 +25,7 @@ Iter8 provides three inter-related components to support the above use-cases.
     
     The following picture illustrates a blue-green rollout scenario that is orchestrated by this controller.
 
-    ![Blue-green](../tutorials/integrations/kserve-mm/images/blue-green.png)
+    ![Blue-green](../tutorials/images/blue-green.png)
     
     As part of the dynamic reconfiguration of route resources, the Iter8 controller also checks for readiness (for e.g., in KServe ModelMesh), availability (for e.g., in Kubernetes deployments) and other relevant status conditions before configuring traffic splits to candidate versions. Similarly, before candidate versions are deleted, the Iter8 controller uses finalizers to first ensure that all traffic flows to the primary version of the ML model. This makes for a very high-degree of reliability and zero-downtime/loss-less rollouts of new app/ML model versions. Users do not get this level of reliability out-of-the-box with a vanilla service mesh.
 
@@ -39,7 +39,7 @@ Iter8 provides three inter-related components to support the above use-cases.
     
     The following picture illustrates the use of the SDK for A/B testing.
 
-    ![A/B testing](images/abn.png)
+    ![A/B testing](../tutorials/images/abn.png)
 
     Iter8's SDK is designed to handle user stickiness, collection of business metrics, and decoupling of front-end and back-end releases processes during A/B/n testing.
 
