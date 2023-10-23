@@ -9,7 +9,7 @@ In a canary rollout, inference requests that match a particular pattern, for exa
 The remaining requests go to the primary, or initial, version of the model.
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
-The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the blue-green rollout strategy.
+The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the canary rollout strategy.
 
 ![Canary rollout](../../images/canary.png)
 
