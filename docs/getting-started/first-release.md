@@ -76,7 +76,7 @@ kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimest
 curl httpbin.default -s -D - | grep -e '^HTTP' -e app-version
 ```
 
-The output includes the success of the request (the HTTP return code) and the version of the application that responded (the `app-version` response header). For example:
+The output includes the success of the request (the HTTP return code) and the version of the application that responded (in the `app-version` response header). In this example:
 
 ```
 HTTP/1.1 200 OK
@@ -123,7 +123,15 @@ When the second version is deployed and ready, the Iter8 controller automaticall
 
 ### Verify routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will now be handled equally by both versions.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will now be handled equally by both versions. Output will be something like:
+
+```
+HTTP/1.1 200 OK
+app-version: httpbin-0
+...
+HTTP/1.1 200 OK
+app-version: httpbin-0
+```
 
 ## Modify weights (optional)
 
@@ -177,7 +185,12 @@ Once the (reconfigured) primary version ready, the Iter8 controller will automat
 
 ### Verify routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version. Output will be something like:
+
+```
+HTTP/1.1 200 OK
+app-version: httpbin-0
+```
 
 ## Cleanup
 
@@ -187,6 +200,18 @@ Delete the application and its routing configuration:
 helm delete httpbin
 ```
 
+If you used the `sleep` pod to generate load, remove it:
+
+```shell
+kubectl delete deploy sleep
+```
+
 Uninstall Iter8 controller:
 
 --8<-- "docs/getting-started/uninstall.md"
+
+***
+
+Congratulations! :tada: You completed your first blue-green rollout with Iter8.
+
+***

@@ -80,7 +80,7 @@ The Iter8 dashboard will look like the following:
 ![`http` Iter8 dashboard](../user-guide/tasks/images/httpdashboard.png)
 
 ## View logs
-Logs are useful for debugging.
+Logs are useful for debugging. To see the test logs:
 
 ```shell
 kubectl logs -l iter8.tools/test=httpbin-test
@@ -101,6 +101,12 @@ kubectl delete deploy/httpbin
 ### Uninstall the Iter8 controller
 
 --8<-- "docs/getting-started/uninstall.md"
+
+If you installed Grafana, you can delete it as follows:
+
+```shell
+kubectl delete svc/grafana, deploy/grafana
+```
 
 ***
 

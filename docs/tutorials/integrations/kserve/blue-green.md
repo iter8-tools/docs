@@ -47,6 +47,12 @@ application:
 EOF
 ```
 
+Wait for the backend model to be ready:
+
+```shell
+kubectl wait --for condition=ready isvc/wisdom-0 --timeout=600s
+```
+
 ??? note "What happens?"
     - Because `environment` is set to `kserve`, an `InferenceService` object is created.
     - The namespace `default` is inherited from the Helm release namespace since it is not specified in the version or in `application.metadata`.
@@ -83,7 +89,7 @@ http://wisdom.default -d @input.json -s -D - \
 | grep -e HTTP -e app-version
 ```
 
-The output includes the success of the request (the HTTP return code) and the version of the application that responded (the `app-version` response header). For example:
+The output includes the success of the request (the HTTP return code) and the version of the application that responded (in the `app-version` response header). In this example:
 
 ```
 HTTP/1.1 200 OK
@@ -142,7 +148,15 @@ When the candidate model is ready, Iter8 will automatically reconfigure the rout
 
 ### Verify Routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will be handled equally by both versions.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will be handled equally by both versions. Output will be something like:
+
+```
+HTTP/1.1 200 OK
+app-version: wisdom-0
+...
+HTTP/1.1 200 OK
+app-version: wisdom-1
+```
 
 ## Modify weights (optional)
 
@@ -207,7 +221,12 @@ Once the (reconfigured) primary `InferenceService` ready, the Iter8 controller w
 
 ### Verify Routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version. Output will be something like:
+
+```
+HTTP/1.1 200 OK
+app-version: wisdom-0
+```
 
 ## Cleanup
 
@@ -215,6 +234,12 @@ Delete the models are their routing:
 
 ```shell
 helm delete wisdom
+```
+
+If you used the `sleep` pod to generate load, remove it:
+
+```shell
+kubectl delete deploy sleep
 ```
 
 Uninstall Iter8 controller:

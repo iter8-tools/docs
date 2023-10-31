@@ -94,6 +94,12 @@ kubectl delete inferenceservice sklearn-irisv2
 
 --8<-- "docs/getting-started/uninstall.md"
 
+If you installed Grafana, you can delete it as follows:
+
+```shell
+kubectl delete svc/grafana, deploy/grafana
+```
+
 ??? note "Some variations and extensions of this performance test"
     1. The [http task](../../../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
     2. The [http task](../../../user-guide/tasks/http.md) can be configured to send various types of content as payload.

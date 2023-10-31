@@ -47,6 +47,12 @@ application:
 EOF
 ```
 
+Wait for the backend model to be ready:
+
+```shell
+kubectl wait --for condition=ready isvc/wisdom-0 --timeout=600s
+```
+
 ??? note "What happens?"
     - Because `environment` is set to `kserve`, an `InferenceService` object is created.
     - The namespace `default` is inherited from the Helm release namespace since it is not specified in the version or in `application.metadata`.
@@ -84,7 +90,7 @@ http://wisdom.default -d @input.json -s -D - \
 | grep -e HTTP -e app-version
 ```
 
-4. To send requests with the header `traffic: test`:
+4. Requests can also be sent with the header `traffic: test`. When a candidate is deployed, requests with this header will be routed to the candidate. When no candidate is deployed, all requests will be routed to the same model version.
 ```shell
 curl -H 'Content-Type: application/json' \
 -H 'traffic: test' \
@@ -92,7 +98,7 @@ http://wisdom.default -d @input.json -s -D - \
 | grep -e HTTP -e app-version
 ```
 
-The output includes the success of the request (the HTTP return code) and the version of the application that responded (the `app-version` response header). For example:
+The output includes the success of the request (the HTTP return code) and the version of the application that responded (in the `app-version` response header). In this example:
 
 ```
 HTTP/1.1 200 OK
@@ -155,7 +161,19 @@ EOF
 ??? note "About the candidate"
     In this tutorial, the model source (field `storageUri`) for the candidate version is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
-When the candidate version is ready, the Iter8 controller will Iter8 will automatically reconfigure the routing so that inference requests with the header `traffic` set to `true` will be sent to the candidate model. All other requests will be sent to the primary model.
+When the candidate version is ready, the Iter8 controller will Iter8 will automatically reconfigure the routing so that inference requests with the header `traffic` set to `true` will be sent to the candidate model:
+
+```
+HTTP/1.1 200 OK
+app-version: wisdom-1
+```
+
+All other requests will be sent to the primary model (`wisdom-0`):
+
+```
+HTTP/1.1 200 OK
+app-version: wisdom-0
+```
 
 ### Verify routing
 
@@ -190,7 +208,12 @@ Once the (reconfigured) primary `InferenceService` ready, the Iter8 controller w
 
 ### Verify Routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will be handled by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will be handled by the primary version. Output will be something like:
+
+```
+HTTP/1.1 200 OK
+app-version: wisdom-0
+```
 
 ## Cleanup
 
@@ -198,6 +221,12 @@ Delete the models and their routing:
 
 ```shell
 helm delete wisdom
+```
+
+If you used the `sleep` pod to generate load, remove it:
+
+```shell
+kubectl delete deploy sleep
 ```
 
 Uninstall Iter8 controller:

@@ -51,6 +51,12 @@ application:
 EOF
 ```
 
+Wait for the backend model to be ready:
+
+```shell
+kubectl wait --for condition=ready isvc/wisdom-0 --timeout=600s
+```
+
 ??? note "What happens?"
     - Because `environment` is set to `kserve-modelmesh-istio`,  an `InferenceService` object is created.
     - The namespace `default` is inherited from the Helm release namespace since it is not specified in the version or in `application.metadata`.
@@ -90,7 +96,7 @@ cat grpc_input.json \
   inference.GRPCInferenceService.ModelInfer \
 | grep -e app-version
 ```
-4. To send a request with header `traffic: test`:
+4. Requests can also be sent with the header `traffic: test`. When a candidate is deployed, requests with this header will be routed to the candidate. When no candidate is deployed, all requests will be routed to the same model version.
 ```shell
 cat grpc_input.json \
 | grpcurl -vv -plaintext -proto kserve.proto -d @ \
@@ -101,7 +107,7 @@ cat grpc_input.json \
 | grep -e app-version
 ```
 
-The output includes the version of the application that responded (the `app-version` response header). For example:
+The output includes the version of the application that responded (in the `app-version` response header). In this example:
 
 ```
 app-version: wisdom-0
@@ -171,7 +177,17 @@ When the candidate version is ready, the Iter8 controller will Iter8 will automa
 
 ### Verify routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Those with header `traffic` set to `true` will be handled by the candidate model (`wisdom-1`) while all others will be handled by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Those with header `traffic` set to `true` will be handled by the candidate model (`wisdom-1`):
+
+```
+app-version: wisdom-1
+```
+
+All others will be handled by the primary version (`wisdom-0`):
+
+```
+app-version: wisdom-0
+```
 
 ## Promote candidate
 
@@ -203,7 +219,11 @@ Once the (reconfigured) primary `InferenceService` ready, the Iter8 controller w
 
 ### Verify Routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. They will all be handled by the primary version. Output will be something like:
+
+```
+app-version: wisdom-0
+```
 
 ## Cleanup
 
@@ -211,6 +231,12 @@ Delete the models and their routing:
 
 ```shell
 helm delete wisdom
+```
+
+If you used the `sleep` pod to generate load, remove it:
+
+```shell
+kubectl delete deploy sleep
 ```
 
 Uninstall Iter8 controller:
