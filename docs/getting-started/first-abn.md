@@ -97,7 +97,7 @@ EOF
 While the candidate version is deploying, `Lookup()` will return only the version index number `0`; that is, the first, or primary, version of the model.
 Once the candidate version is ready, `Lookup()` will return both `0` and `1`, the indices of both versions, so that requests can be distributed across both versions.
 
-Once both backends are responding to requests, the output of the load generator will include recommendations from the candidate version. In this example, you should see something like:
+Once both backend versions are responding to requests, the output of the load generator will include recommendations from the candidate version. In this example, you should see something like:
 
 ```
 Recommendation: {"Id":19,"Name":"sample","Source":"backend-candidate-1-56cb7cd5cf-bkrjv"}
