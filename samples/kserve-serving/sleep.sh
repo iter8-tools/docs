@@ -7,6 +7,10 @@ if [ -z ${SERVICE_MESH+x} ]; then
   SERVICE_MESH="istio"
 fi
 
+if [ -z ${NS+x} ]; then
+  NS="default"
+fi
+
 MANIFEST=/tmp/manifest.$$
 cat <<EOF > $MANIFEST
 apiVersion: apps/v1
@@ -81,5 +85,5 @@ data:
     | grep -e HTTP -e app-version
 EOF
 
-kubectl apply -f $MANIFEST
+kubectl -n $NS apply -f $MANIFEST
 rm -f $MANIFEST
