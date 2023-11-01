@@ -7,6 +7,10 @@ if [ -z ${SERVICE_MESH+x} ]; then
   SERVICE_MESH="istio"
 fi
 
+if [ -z ${NS+x} ]; then
+  NS="default"
+fi
+
 MANIFEST=/tmp/manifest.$$
 cat <<EOF > $MANIFEST
 apiVersion: apps/v1
@@ -31,6 +35,11 @@ elif [ "${SERVICE_MESH}" = "servicemesh" ]; then
 cat <<EOF >> $MANIFEST
       annotations:
         sidecar.istio.io/inject: "true"
+EOF
+elif [ "${SERVICE_MESH}" = "linkerd" ]; then
+cat <<EOF >> $MANIFEST
+      annotations:
+        linkerd.io/inject: enabled
 EOF
 fi
 cat <<EOF >> $MANIFEST
@@ -81,5 +90,5 @@ data:
     | grep -e HTTP -e app-version
 EOF
 
-kubectl apply -f $MANIFEST
+kubectl -n $NS apply -f $MANIFEST
 rm -f $MANIFEST
