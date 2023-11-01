@@ -172,6 +172,7 @@ application:
   strategy: blue-green
 EOF
 ```
+
 ??? note "What is different?"
     The version label (`app.kubernetes.io/version`) of the primary version was updated. In a real world example, the image would also have been updated (with that from the candidate version).
 
