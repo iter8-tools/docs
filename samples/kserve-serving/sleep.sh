@@ -36,6 +36,11 @@ cat <<EOF >> $MANIFEST
       annotations:
         sidecar.istio.io/inject: "true"
 EOF
+elif [ "${SERVICE_MESH}" = "linkerd" ]; then
+cat <<EOF >> $MANIFEST
+      annotations:
+        linkerd.io/inject: enabled
+EOF
 fi
 cat <<EOF >> $MANIFEST
     spec:
