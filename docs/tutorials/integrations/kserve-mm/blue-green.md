@@ -102,27 +102,6 @@ The output includes the version of the application that responded (in the `app-v
 app-version: wisdom-0
 ```
 
-??? note "To send requests from outside the cluster"
-    To configure the release for traffic from outside the cluster, a suitable Istio `Gateway` is required. For example, this [sample gateway](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
-
-    (a) In a separate terminal, port-forward the ingress gateway:
-    ```shell
-    kubectl -n istio-system port-forward svc/istio-ingressgateway 8080:80
-    ```
-    (b) Download the proto file and sample input:
-    ```shell
-    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/kserve.proto
-    curl -sO https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/modelmesh-serving/grpc_input.json
-    ```
-    \(c) Send requests using the `Host` header:
-    ```shell
-    cat grpc_input.json | \
-    grpcurl -vv -plaintext -proto kserve.proto -d @ \
-    -authority wisdom.modelmesh-serving \
-    localhost:8080 inference.GRPCInferenceService.ModelInfer \
-    | grep -e app-version
-    ```
-
 ## Deploy candidate
 
 A candidate version of the model can be deployed simply by adding a second version to the list of versions comprising the application:

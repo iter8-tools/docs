@@ -127,6 +127,9 @@ nav:
   - Performance test gRPC: tutorials/load-test-grpc.md
   - Performance test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
   - Integrations:
+    - Kubernetes Gateway API:
+      - Blue-green: tutorials/integrations/kubernetes-gateway-api/blue-green.md
+      - Canary: tutorials/integrations/kubernetes-gateway-api/canary.md
     - Kserve:
       - Releasing models:
         - Blue-green: tutorials/integrations/kserve/blue-green.md

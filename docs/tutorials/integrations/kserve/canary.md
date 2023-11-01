@@ -75,7 +75,7 @@ You can also send inference requests from a pod within the cluster:
 
 1. Create a `sleep` pod in the cluster from which requests can be made:
 ```shell
-curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/kserve-serving/sleep.sh | sh -
+curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.18.4/samples/kserve-serving/sleep.sh | sh -
 ```
 
 2. Exec into the sleep pod:
