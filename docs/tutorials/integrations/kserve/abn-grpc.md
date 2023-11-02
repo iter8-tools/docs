@@ -65,6 +65,12 @@ application:
 EOF
 ```
 
+Wait for the backend model to be ready:
+
+```shell
+kubectl wait --for condition=ready isvc/backend-0 --timeout=600s
+```
+
 ## Generate load
 
 In one shell, port-forward requests to the frontend component:
@@ -74,8 +80,14 @@ In one shell, port-forward requests to the frontend component:
 
 In another shell, run a script to generate load from multiple users:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/abn-sample/generate_load.sh | sh -s --
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.18.3/samples/abn-sample/generate_load.sh | sh -s --
     ```
+
+The load generator and sample frontend application outputs the backend that handled each recommendation. With just one version is deployed, all requests are handled by `backend-0`. In the output you will see something like:
+
+```
+Recommendation: backend-0
+```
  
 ## Deploy candidate
 
@@ -112,6 +124,12 @@ EOF
 
 Until the candidate version is ready, calls to `Lookup()` will return only the version index number `0`; that is, the first, or primary, version of the model.
 Once the candidate version is ready, `Lookup()` will return both `0` and `1`, the indices of both versions, so that requests can be distributed across both versions.
+
+Once both backend versions are responding to requests, the output of the load generator will include recommendations from the candidate version. In this example, you should see something like:
+
+```
+Recommendation: backend-1
+```
 
 ## Compare versions using Grafana
 
@@ -167,6 +185,12 @@ EOF
 
 Calls to `Lookup()` will now recommend that all traffic be sent to the new primary version `backend-0` (currently serving the promoted version of the code).
 
+The output of the load generator will again show just `backend_0`:
+
+```
+Recommendation: backend-0
+```
+
 ## Cleanup
 
 Delete the backend:
@@ -184,3 +208,9 @@ kubectl delete deploy/frontend svc/frontend
 Uninstall Iter8 controller:
 
 --8<-- "docs/getting-started/uninstall.md"
+
+If you installed Grafana, you can delete it as follows:
+
+```shell
+kubectl delete svc/grafana, deploy/grafana
+```

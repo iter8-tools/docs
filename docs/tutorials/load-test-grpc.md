@@ -134,5 +134,11 @@ kubectl delete deploy/routeguide
 
 --8<-- "docs/getting-started/uninstall.md"
 
+If you installed Grafana, you can delete it as follows:
+
+```shell
+kubectl delete svc/grafana, deploy/grafana
+```
+
 ??? note "Some variations and extensions of this performance test"
     1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.

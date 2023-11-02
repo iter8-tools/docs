@@ -26,10 +26,10 @@ This tutorial describes how to do A/B testing of a backend component using the [
 
 A simple sample two-tier application using the Iter8 SDK is provided. Note that only the frontend component uses the Iter8 SDK. Deploy both the frontend and backend components of this application as described in each tab:
 
-=== "frontend"
+=== "Frontend"
     Install the frontend component using an implementation in the language of your choice:
 
-    === "node"
+    === "Node"
         ```shell
         kubectl create deployment frontend --image=iter8/abn-sample-frontend-node:0.17.3
         kubectl expose deployment frontend --name=frontend --port=8090
@@ -43,7 +43,7 @@ A simple sample two-tier application using the Iter8 SDK is provided. Note that 
     
     The frontend component is implemented to call `Lookup()` before each call to the backend component. The frontend component uses the returned version number to route the request to the recommended version of the backend component.
 
-=== "backend"
+=== "Backend"
     Release an initial version of the backend named `backend`:
 
     ```shell
@@ -66,8 +66,14 @@ In one shell, port-forward requests to the frontend component:
     ```
 In another shell, run a script to generate load from multiple users:
     ```shell
-    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.17.3/samples/abn-sample/generate_load.sh | sh -s --
+    curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.18.3/samples/abn-sample/generate_load.sh | sh -s --
     ```
+
+The load generator and sample frontend application outputs the backend that handled each recommendation. With just one version is deployed, all requests are handled by `backend-0`. In the output you will see something like:
+
+```
+Recommendation: {"Id":19,"Name":"sample","Source":"backend-74ff88c76d-nb87j"}
+```
 
 ## Deploy candidate
 
@@ -90,6 +96,12 @@ EOF
 
 While the candidate version is deploying, `Lookup()` will return only the version index number `0`; that is, the first, or primary, version of the model.
 Once the candidate version is ready, `Lookup()` will return both `0` and `1`, the indices of both versions, so that requests can be distributed across both versions.
+
+Once both backend versions are responding to requests, the output of the load generator will include recommendations from the candidate version. In this example, you should see something like:
+
+```
+Recommendation: {"Id":19,"Name":"sample","Source":"backend-candidate-1-56cb7cd5cf-bkrjv"}
+```
 
 ## Compare versions using Grafana
 
@@ -132,6 +144,12 @@ EOF
 
 Calls to `Lookup()` will now recommend that all traffic be sent to the new primary version `backend` (currently serving the promoted version of the code).
 
+The output of the load generator will again show just `backend_0`:
+
+```
+Recommendation: {"Id":19,"Name":"sample","Source":"backend-74ff88c76d-nb87j"}
+```
+
 ## Cleanup
 
 Delete the sample application:
@@ -144,3 +162,15 @@ helm delete backend
 Uninstall the Iter8 controller:
 
 --8<-- "docs/getting-started/uninstall.md"
+
+If you installed Grafana, you can delete it as follows:
+
+```shell
+kubectl delete svc/grafana, deploy/grafana
+```
+
+***
+
+Congratulations! :tada: You completed your first A/B test with Iter8.
+
+***
