@@ -90,7 +90,7 @@ http://wisdom.default -d @input.json -s -D - \
 | grep -e HTTP -e app-version
 ```
 
-4. Requests can also be sent with the header `traffic: test`. When a candidate is deployed, requests with this header will be routed to the candidate. When no candidate is deployed, all requests will be routed to the same model version.
+4. Requests can also be sent with the header `traffic: test`. When a candidate is deployed, requests with this header will be routed to the candidate. When no candidate is deployed, all requests will be routed to the primary version.
 ```shell
 curl -H 'Content-Type: application/json' \
 -H 'traffic: test' \
