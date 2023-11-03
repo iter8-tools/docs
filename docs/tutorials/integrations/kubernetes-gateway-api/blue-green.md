@@ -25,10 +25,10 @@ This tutorial uses the Kubernetes Gateway API to allow the use any service mesh 
 
 ## Deploy initial version
 
-Deploy the initial version of the application ([httpbin](https://httpbin.org/))using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the rollout strategy to be used. Note that we deploy the application to the namespace `test`. 
+Deploy the initial version of the application ([httpbin](https://httpbin.org/)) using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the rollout strategy to be used. Note that we deploy the application to the namespace `test`. 
 
-???+ note "About creating a namespace for linkerd deployments"
-    When creating a namespace, it should be annotated so that all created pods are injected with the linkerd proxy. This can be done, for example, by using the linkerd CLI:
+???+ note "About creating a namespace for Linkerd deployments"
+    When creating a namespace, it should be annotated so that all created pods are injected with the Linkerd proxy. This can be done, for example, by using the Linkerd CLI:
     ```shell
     kubectl create ns test --dry-run=client -o yaml | linkerd inject - | kubectl apply -f -
     ```
