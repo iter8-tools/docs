@@ -28,7 +28,7 @@
 <span class=w>  </span>modelmesh-serving.modelmesh-serving:8033<span class=w> </span><span class=se>\</span>
 <span class=w>  </span>inference.GRPCInferenceService.ModelInfer<span class=w> </span><span class=se>\</span>
 <span class=p>|</span><span class=w> </span>grep<span class=w> </span>-e<span class=w> </span>app-version
-</code></pre></div></p> </li> <li>Requests can also be sent with the header <code>traffic: test</code>. When a candidate is deployed, requests with this header will be routed to the candidate. When no candidate is deployed, all requests will be routed to the same model version. <div class=highlight><pre><span></span><code>cat<span class=w> </span>grpc_input.json<span class=w> </span><span class=se>\</span>
+</code></pre></div></p> </li> <li>Requests can also be sent with the header <code>traffic: test</code>. When a candidate is deployed, requests with this header will be routed to the candidate. When no candidate is deployed, all requests will be routed to the primary version. <div class=highlight><pre><span></span><code>cat<span class=w> </span>grpc_input.json<span class=w> </span><span class=se>\</span>
 <span class=p>|</span><span class=w> </span>grpcurl<span class=w> </span>-vv<span class=w> </span>-plaintext<span class=w> </span>-proto<span class=w> </span>kserve.proto<span class=w> </span>-d<span class=w> </span>@<span class=w> </span><span class=se>\</span>
 <span class=w>  </span>-H<span class=w> </span><span class=s1>&#39;traffic: test&#39;</span><span class=w> </span><span class=se>\</span>
 <span class=w>  </span>-authority<span class=w> </span>wisdom.modelmesh-serving<span class=w> </span><span class=se>\</span>
