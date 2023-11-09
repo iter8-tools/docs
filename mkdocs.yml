@@ -161,6 +161,7 @@ nav:
     - Routemaps: user-guide/topics/routemap.md
     - Install options: user-guide/topics/install.md
     - Uninstall options: user-guide/topics/uninstall.md
+    - Metrics store options: user-guide/topics/metrics_store.md
 - Contributing: contributing.md
 - Roadmap: roadmap.md
 - Community: 
