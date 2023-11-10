@@ -5,6 +5,7 @@ apis
 ArgoCD
 AutoX
 backend
+BadgerDB
 benchmarking
 Cha
 chaosengine
@@ -25,6 +26,7 @@ Fortio
 frontend
 GitOps
 gRPC
+GetClient
 GitHub
 Grafana
 GVR

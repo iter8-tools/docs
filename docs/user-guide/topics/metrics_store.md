@@ -6,7 +6,7 @@ template: main.html
 
 One of Iter8's key advantages is that it incorporates its own metrics store simplifying the set up and execution of A/B/n and performance tests. This metrics store, based on BadgerDB is not suitable for production use. It is suitable only for a single instance of Iter8.
 
-To support production use cases, the metrics store can be replaced with another distribued database such as Redis. Currently Iter8 supports:
+To support production use cases, the metrics store can be replaced with another distributed database such as Redis. Currently Iter8 supports:
 
 - BadgerDB
 - Redis
@@ -22,7 +22,7 @@ kubectl create deploy redis --image=redis/redis-stack:latest --port=6379
 kubectl expose deploy redis --port=6379
 ```
 
-Run Iter8 identifying the metrics store implementaion as `redis` and identify the endpoint:
+Run Iter8 identifying the metrics store implementation as `redis` and identify the endpoint:
 
 ```shell
 helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18 iter8 controller  \
@@ -33,7 +33,7 @@ helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18
 
 ## Contribute a new metrics store implementation
 
-To contribute a new metrics store implmentation:
+To contribute a new metrics store implementation:
 
 1. Create an [issue](https://github.com/iter8-tools/iter8/issues) for discussion.
 
