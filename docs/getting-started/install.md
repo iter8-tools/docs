@@ -1,5 +1,5 @@
 ```shell
-helm install --repo https://iter8-tools.github.io/iter8 --version 0.18 iter8 controller \
+helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18 iter8 controller \
 --set clusterScoped=true
 ```
 

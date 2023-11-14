@@ -137,7 +137,7 @@ kubectl delete deploy/routeguide
 If you installed Grafana, you can delete it as follows:
 
 ```shell
-kubectl delete svc/grafana, deploy/grafana
+kubectl delete svc/grafana deploy/grafana
 ```
 
 ??? note "Some variations and extensions of this performance test"

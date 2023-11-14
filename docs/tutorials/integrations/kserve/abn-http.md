@@ -199,5 +199,5 @@ Uninstall Iter8 controller:
 If you installed Grafana, you can delete it as follows:
 
 ```shell
-kubectl delete svc/grafana, deploy/grafana
+kubectl delete svc/grafana deploy/grafana
 ```
