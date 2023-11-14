@@ -39,7 +39,7 @@ To contribute a new metrics store implementation:
 
     - Create sub-folder in [storage](https://github.com/iter8-tools/iter8/tree/master/storage) and provide an implementation of this [interface](https://github.com/iter8-tools/iter8/blob/master/storage/interface.go) including test cases.
 
-    - Add a new case to [metrics.GetClient()](https://github.com/iter8-tools/iter8/blob/master/metrics/client.go).
+    - Add a new case to [metrics.GetClient()](https://github.com/iter8-tools/iter8/blob/master/storage/client/client.go)
 
     - Update [go.mod](https://github.com/iter8-tools/iter8/blob/master/go.mod) and [go.sum](https://github.com/iter8-tools/iter8/blob/master/go.sum) if needed.
 
