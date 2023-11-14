@@ -4,14 +4,12 @@ template: main.html
 
 # Metrics store
 
-One of Iter8's key advantages is that it incorporates its own metrics store simplifying the set up and execution of A/B/n and performance tests. This metrics store, based on BadgerDB is not suitable for production use. It is suitable only for a single instance of Iter8.
-
-To support production use cases, the metrics store can be replaced with another distributed database such as Redis. Currently Iter8 supports:
+One of Iter8's key advantages is that it incorporates its own metrics store simplifying the set up and execution of A/B/n and performance tests. Iter8 currently supports the following databases:
 
 - BadgerDB
 - Redis
 
-See [below](#contribute-a-new-metrics-store-implementation) for details on how to contribute additional implementations.
+Iter8 uses BadgerDB by default. Note, however, that BadgerDB is not suitable for prodcution use and is only suitable for a single instance of Iter8. Support for other databases are in the works. See [below](#contribute-a-new-metrics-store-implementation) for details on how to contribute additional implementations.
 
 ## Using Redis as the metrics store 
 
@@ -22,7 +20,7 @@ kubectl create deploy redis --image=redis/redis-stack:latest --port=6379
 kubectl expose deploy redis --port=6379
 ```
 
-Run Iter8 identifying the metrics store implementation as `redis` and identify the endpoint:
+Run Iter8 with the metrics store implementation set to `redis` and specify its endpoint:
 
 ```shell
 helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18 iter8 controller  \
@@ -51,4 +49,4 @@ To contribute a new metrics store implementation:
 
 3. Submit a second pull request on the Iter8 [docs project](https://github.com/iter8-tools/docs) updating the list of available implementations.
 
-4. Alert the project reviewers on [slack](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw) `#development` channel.
+4. Alert the project reviewers on [Slack](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw) `#development` channel.
