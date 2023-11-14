@@ -9,7 +9,7 @@ One of Iter8's key advantages is that it incorporates its own metrics store simp
 - BadgerDB
 - Redis
 
-Iter8 uses BadgerDB by default. Note, however, that BadgerDB is not suitable for prodcution use and is only suitable for a single instance of Iter8. Support for other databases are in the works. See [below](#contribute-a-new-metrics-store-implementation) for details on how to contribute additional implementations.
+Iter8 uses BadgerDB by default. Note, however, that BadgerDB is not suitable for production use and is only suitable for a single instance of Iter8. Support for other databases are in the works. See [below](#contribute-a-new-metrics-store-implementation) for details on how to contribute additional implementations.
 
 ## Using Redis as the metrics store 
 
