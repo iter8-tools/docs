@@ -16,7 +16,7 @@ The chart provides the configuration needed for Iter8 to automatically deploy ap
 This tutorial uses the Kubernetes Gateway API to allow the use any service mesh that supports this API. In this case, we use demonstrate with [Linkerd](https://linkerd.io/).
 
 ???+ warning "Before you begin"
-    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
+    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. If using a local cluster (for example, [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/)), we recommend providing the cluster with at least 16GB of memory.
     2. [Install Linkerd](https://linkerd.io/2.14/getting-started/).
 
 ## Install the Iter8 controller

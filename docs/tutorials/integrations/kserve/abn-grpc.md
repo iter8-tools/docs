@@ -11,11 +11,12 @@ This tutorial describes how to do A/B testing as part of the release of a backen
 ***
 
 ???+ warning "Before you begin"
-    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
+    1. Ensure that you have the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs installed.
     2. Have access to a cluster running [KServe](https://kserve.github.io/website). You can create a [KServe Quickstart](https://kserve.github.io/website/0.11/get_started/#before-you-begin) environment as follows:
     ```shell
     curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
     ```
+    If using a local cluster (for example, [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/)), we recommend providing the cluster with at least 16GB of memory.
     3. Have Grafana available. For example, Grafana can be installed on your cluster as follows:
     ```shell
     kubectl create deploy grafana --image=grafana/grafana
@@ -139,7 +140,7 @@ Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-
 kubectl port-forward service/grafana 3000:3000
 ```
 
-Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3000)
+Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3000) and login. The default username/password are `admin`/`admin`.
 
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `default/backend` with the following parameters:
 

@@ -9,7 +9,7 @@ Run your first performance test by load testing a Kubernetes HTTP service and vi
 ![Load test HTTP](images/kubernetesusage.png)
 
 ???+ warning "Before you begin"
-    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
+    1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. If using a local cluster (for example, [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/)), we recommend providing the cluster with at least 16GB of memory.
     2. Deploy the sample HTTP service in the Kubernetes cluster.
     ```shell
     kubectl create deploy httpbin --image=kennethreitz/httpbin --port=80
@@ -66,7 +66,7 @@ Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-
 kubectl port-forward service/grafana 3000:3000
 ```
 
-Open Grafana by going to [http://localhost:3000](http://localhost:3000).
+Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3000) and login. The default username/password are `admin`/`admin`.
 
 [Add a JSON API data source](http://localhost:3000/connections/datasources/marcusolsson-json-datasource) `httpbin-test` with the following parameters:
 
