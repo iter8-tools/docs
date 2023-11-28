@@ -26,4 +26,4 @@ jobs:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       with:
         fail: true
-        args: -v '**/*.md' 'overrides/home.html'
+        args: -v '**/*.md'
