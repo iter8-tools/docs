@@ -5,25 +5,25 @@ template: main.html
 # Iter8
 Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 automates traffic control for new versions of apps/ML models in the cluster and visualizes their performance metrics.
 
-## Use-cases
+## Use cases
 
-Iter8 simplifies a variety of traffic engineering and metrics-driven validation use-cases. To support such use cases, Iter8 provides support for the key challenges enabling simpler implementation and quicker adoption.
+Iter8 simplifies a variety of traffic engineering and metrics-driven validation use cases. To support such use cases, Iter8 provides support for the key challenges enabling simpler implementation and quicker adoption of testing in the CD process.
 
-**Progressive release with automated traffic management** Iter8 supports blue-green and canary release of new application and ML models. When new models are deployed, Iter8 automatically reconfigures the routing to desired traffic pattern. Deployment of new versions and their promotion is done by describing the desired state.
+**Progressive release with automated traffic management** Iter8 supports blue-green and canary releases of new applications and ML models. When new models are deployed, Iter8 automatically reconfigures the routing to desired traffic pattern. Deployment of new versions and their promotion is done by describing the desired state.
 
-**A/B/n testing with client SDK and business metrics** Iter8 addresses the challenge of doing A/B/n testing of backend application components/ML models. It provides a simple client SDK allowing a user-facing component to easily reliably associate business metrics with the backend components that are used. This SDK provides stick lookup based on user request headers.
+**A/B/n testing with client SDK and business metrics** Iter8 addresses the challenge of doing A/B/n testing of backend application components/ML models. It provides a simple client SDK allowing a user-facing component to easily and reliably associate business metrics with the backend components that were used. This SDK provides sticky lookup based on user request headers.
 
-**Performance testing for HTTP and gRPC endpoints** To enable rapid testing, Iter8 provides synthetic load generation and mechanisms to support test notifications. A set of reusable tasks can be used to implement the desired test and notification behavior.
+**Performance testing for HTTP and gRPC endpoints** To enable rapid testing, Iter8 provides synthetic load generation and notification support. A set of reusable tasks can be used to implement the desired test and notification behavior.
 
 ## Design Principles
 
-**Support all application** Iter8 does not limit what types of resources define an application. It supports applications that are composed of any Kubernetes resources including those defined by custom resource definitions (CRDs). Adding support for a new resource type is both straightforward and declarative.
+**Support all applications** Iter8 does not limit what types of resources an application is composed of. It supports applications that are composed of any Kubernetes resources including those defined by custom resource definitions (CRDs). Adding support for a new resource type is both straightforward and declarative.
 
 **Support any routing technology** Progress release use cases are supported using an service mesh or ingress. Iter8 natively supports the Kubernetes Gateway API allowing easy adoption of many of these technologies. However, native interfaces can also be supported declaratively.
 
-**Simplify user interaction** Iter8 leverages Helm to allow users to declaratively specify deployment patterns and to describe test scenarios. The Helm charts provided by Iter8 minimize the barrier to entry by providing common out examples. Extension is often possible just be modifying the input to the charts. However, more complicated use cases can also be supported by (user) modification of the Helm charts as well.
+**Simplify user interaction** Iter8 leverages Helm to allow users to declaratively specify deployment patterns and to describe test scenarios. The Helm charts provided by Iter8 minimize the barrier to entry by providing common  examples. Extension is often possible just be modifying the input to the charts. However, more complicated use cases can also be supported by (user) modification of the Helm charts as well.
 
-**Minimize Access** Progressive release and A/B/n use cases require the user to install a Kubernetes controller. However, Iter8 allows for users with only namespace level access to install and use Iter8. It can also be installed and run with cluster level access.
+**Minimize Access** Progressive release and A/B/n use cases require the user to install a Kubernetes controller. However, Iter8 allows for users with only namespace level access to install and use Iter8. Iter8 can also be installed and run with cluster level access.
 
 ## Implementation Choices
 
@@ -41,7 +41,7 @@ With Iter8, the barrier to entry for end-users is significantly reduced. In part
 
 ### Client SDK
 
-Iter8 provides a client-side SDK to facilitate routing as well as metrics collection task associated with distributed (i.e., client-server architecture-based) A/B/n testing in Kubernetes. 
+Iter8 provides a client-side SDK to facilitate routing as well as a metrics collection task associated with distributed (i.e., client-server architecture-based) A/B/n testing in Kubernetes. 
 
 The following picture illustrates the use of the SDK for A/B testing.
 
@@ -53,9 +53,9 @@ In addition, Iter8 provides a simple metrics store, eliminating the need for an 
 
 ### Performance testing tasks
 
-Iter8 introduces a set of tasks which which can be composed in order to conduct a variety of performance tests.
+Iter8 introduces a set of tasks which can be composed in order to conduct a variety of performance tests.
 
-The following picture illustrates a performance test for an HTTP application, and this test consists of two tasks.
+The following picture illustrates a performance test for an HTTP application, and this test consists of two tasks. One verifies the application is ready and the second generates syntheic HTTP load against the application and captures the resulting performance metrics.
 
 ![Iter8 performance test](images/kubernetesusage.png)
 
