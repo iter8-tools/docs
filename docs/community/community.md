@@ -6,7 +6,7 @@ template: main.html
 
 ## Slack
 
-Iter8 Slack workspace is [here](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw). Join the Iter8 Slack for usage and development related discussions.
+Join the [Iter8 Slack](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw) for usage and development related discussions.
 
 ## GitHub issues
 
