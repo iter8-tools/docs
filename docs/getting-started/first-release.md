@@ -2,7 +2,7 @@
 template: main.html
 ---
 
-# Your first blue-green release
+# Your first progressive release
 
 This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. 
 In a blue-green rollout, a percentage of requests are directed to a candidate version of the model. 
