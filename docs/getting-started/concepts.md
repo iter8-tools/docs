@@ -13,7 +13,7 @@ Iter8 simplifies a variety of traffic engineering and metrics-driven validation 
 
 **A/B/n testing with client SDK and business metrics** Iter8 addresses the challenge of doing A/B/n testing of backend application components/ML models. It provides a simple client SDK allowing a user-facing component to easily reliably associate business metrics with the backend components that are used. This SDK provides stick lookup based on user request headers.
 
-**Performance testing for HTTP and gRPC endpoints** To enable rapid testing, Iter8 provides snythetic load generation and mechanisms to support test notifications. A set of reusable tasks can be used to implement the desired test and notification behavior.
+**Performance testing for HTTP and gRPC endpoints** To enable rapid testing, Iter8 provides synthetic load generation and mechanisms to support test notifications. A set of reusable tasks can be used to implement the desired test and notification behavior.
 
 ## Design Principles
 

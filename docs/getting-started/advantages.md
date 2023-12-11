@@ -13,7 +13,7 @@ Finally, Iter8 simplifies performance testing by reducing the set up time needed
 
 Other tools with similarities to Iter8 are [Flagger](https://flagger.app/) and [Argo Rollouts](https://argo-rollouts.readthedocs.io/en/stable/). 
 Both provide support advanced application rollout on Kubernetes with blue-green and canary analysis. They work with a many service mesh and ingress products to provide this support.
-Users specify the desired rollout using a Kubenetes custom resource.
+Users specify the desired rollout using a Kubernetes custom resource.
 
 Iter8 was heavily inspired by both projects. However, Iter8 differs in several regards. For example, with Iter8:
 
