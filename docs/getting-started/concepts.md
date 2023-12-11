@@ -11,21 +11,21 @@ Iter8 simplifies a variety of traffic engineering and metrics-driven validation 
 
 **Progressive release with automated traffic management** Iter8 supports blue-green and canary release of new application and ML models. When new models are deployed, Iter8 automatically reconfigures the routing to desired traffic pattern. Deployment of new versions and their promotion is done by describing the desired state.
 
-**A/B/n testing wtih client SDK and business metrics** Iter8 addresses the challenge of doing A/B/n testing of backend application components/ML models. It provides a simple client SDK allowing a user-facing component to easily reliably associate business metrics with the backend components that are used. This SDK provides stick lookup based on user request headers.
+**A/B/n testing with client SDK and business metrics** Iter8 addresses the challenge of doing A/B/n testing of backend application components/ML models. It provides a simple client SDK allowing a user-facing component to easily reliably associate business metrics with the backend components that are used. This SDK provides stick lookup based on user request headers.
 
-**Performance testing for HTTP and gRPC endpoints** To enable rapid testing, Iter8 provides sythentic load generation and mechanisms to support test notifications. A set of reusable tasks can be used to implement the desired test and notification behavior.
+**Performance testing for HTTP and gRPC endpoints** To enable rapid testing, Iter8 provides snythetic load generation and mechanisms to support test notifications. A set of reusable tasks can be used to implement the desired test and notification behavior.
 
 ## Design Principles
 
-**Support all application** Iter8 does not limit what types of resources define an application. It supports applications that are composed of any Kubernetes resources including those defined by custom resource definitions (CRDs). Adding support for a new resource type is both straightforward and declartive.
+**Support all application** Iter8 does not limit what types of resources define an application. It supports applications that are composed of any Kubernetes resources including those defined by custom resource definitions (CRDs). Adding support for a new resource type is both straightforward and declarative.
 
 **Support any routing technology** Progress release use cases are supported using an service mesh or ingress. Iter8 natively supports the Kubernetes Gateway API allowing easy adoption of many of these technologies. However, native interfaces can also be supported declaratively.
 
-**Simplify user interaction** Iter8 leverages Helm to allow users to declartively specify deployment patterns and to describe test scenarios. The Helm charts provided by Iter8 minimize the barrier to entry by providing common out examples. Extension is often possible just be modifying the input to the charts. However, more complicated use cases can also be supported by (user) modification of the Helm charts as well.
+**Simplify user interaction** Iter8 leverages Helm to allow users to declaratively specify deployment patterns and to describe test scenarios. The Helm charts provided by Iter8 minimize the barrier to entry by providing common out examples. Extension is often possible just be modifying the input to the charts. However, more complicated use cases can also be supported by (user) modification of the Helm charts as well.
 
 **Minimize Access** Progressive release and A/B/n use cases require the user to install a Kubernetes controller. However, Iter8 allows for users with only namespace level access to install and use Iter8. It can also be installed and run with cluster level access.
 
-## Implementationn Choices
+## Implementation Choices
 
 ### Iter8 controller
 

@@ -13,7 +13,7 @@ Finally, Iter8 simplifies performance testing by reducing the set up time needed
 
 Other tools with similarities to Iter8 are [Flagger](https://flagger.app/) and [Argo Rollouts](https://argo-rollouts.readthedocs.io/en/stable/). 
 Both provide support advanced application rollout on Kubernetes with blue-green and canary analysis. They work with a many service mesh and ingress products to provide this support.
-Users specify the desired rollout using a Kubeneretes custom resource.
+Users specify the desired rollout using a Kubenetes custom resource.
 
 Iter8 was heavily inspired by both projects. However, Iter8 differs in several regards. For example, with Iter8:
 
@@ -21,4 +21,4 @@ Iter8 was heavily inspired by both projects. However, Iter8 differs in several r
 
 - Users can A/B/n test application backend components. Beyond providing HTTP header and cookie based routing, Iter8 provides a client SDK with a very simple API that allows users to write frontend components designed to decouple A/B/n testing of the backend components.
 
-- No custom resource is required. Bpt Flagger and Argo Rollouts, requires the user to install and use a custom resource type. Rollouts are specified using instances of this custom type. Instead, Iter8 provides allows users to speicify an application rollout using a Helm configuration file.
+- No custom resource is required. Both Flagger and Argo Rollouts, requires the user to install and use a custom resource type. Rollouts are specified using instances of this custom type. Instead, Iter8 provides allows users to specify an application rollout using a Helm configuration file.
