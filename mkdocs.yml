@@ -118,6 +118,7 @@ nav:
   - Your first A/B test: getting-started/first-abn.md
   - Your first performance test: getting-started/first-performance.md
   - Concepts: getting-started/concepts.md
+  - Advantages: getting-started/advantages.md
   - Get help: getting-started/help.md
 - Tutorials:
   - Blue-green release:  tutorials/blue-green.md

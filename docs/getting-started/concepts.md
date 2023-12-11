@@ -5,69 +5,69 @@ template: main.html
 # Iter8
 Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data science teams. Iter8 automates traffic control for new versions of apps/ML models in the cluster and visualizes their performance metrics.
 
-## Use-cases
+## Use cases
 
-Iter8 simplifies a variety of traffic engineering and metrics-driven validation use-cases. They are illustrated below.
+Iter8 simplifies a variety of traffic engineering and metrics-driven validation use cases. To support such use cases, Iter8 provides support for the key challenges enabling simpler implementation and quicker adoption of testing in the CD process.
 
-![Iter8 use-cases](images/iter8usecases.png)
+**Progressive release with automated traffic management** Iter8 supports blue-green and canary releases of new applications and ML models. When new models are deployed, Iter8 automatically reconfigures the routing to desired traffic pattern. Deployment of new versions and their promotion is done by describing the desired state.
 
-## Design
+**A/B/n testing with client SDK and business metrics** Iter8 addresses the challenge of doing A/B/n testing of backend application components/ML models. It provides a simple client SDK allowing a user-facing component to easily and reliably associate business metrics with the backend components that were used. This SDK provides sticky lookup based on user request headers.
 
-Iter8 provides three inter-related components to support the above use-cases.
+**Performance testing for HTTP and gRPC endpoints** To enable rapid testing, Iter8 provides synthetic load generation and notification support. A set of reusable tasks can be used to implement the desired test and notification behavior.
 
-1. Iter8 controller
-2. Client SDK
-3. Composable tasks
+## Design Principles
 
-=== "Iter8 controller"
+**Support all applications** Iter8 does not limit what types of resources an application is composed of. It supports applications that are composed of any Kubernetes resources including those defined by custom resource definitions (CRDs). Adding support for a new resource type is both straightforward and declarative.
 
-    Iter8 provides a controller that automatically and dynamically reconfigures routing resources based on the state of Kubernetes apps/ML models. 
-    
-    The following picture illustrates a blue-green rollout scenario that is orchestrated by this controller.
+**Support any routing technology** Progress release use cases are supported using an service mesh or ingress. Iter8 natively supports the Kubernetes Gateway API allowing easy adoption of many of these technologies. However, native interfaces can also be supported declaratively.
 
-    ![Blue-green](../tutorials/images/blue-green.png)
-    
-    As part of the dynamic reconfiguration of route resources, the Iter8 controller also checks for readiness (for e.g., in KServe ModelMesh), availability (for e.g., in Kubernetes deployments) and other relevant status conditions before configuring traffic splits to candidate versions. Similarly, before candidate versions are deleted, the Iter8 controller uses finalizers to first ensure that all traffic flows to the primary version of the ML model. This makes for a very high-degree of reliability and zero-downtime/loss-less rollouts of new app/ML model versions. Users do not get this level of reliability out-of-the-box with a vanilla service mesh.
+**Simplify user interaction** Iter8 leverages Helm to allow users to declaratively specify deployment patterns and to describe test scenarios. The Helm charts provided by Iter8 minimize the barrier to entry by providing common examples. Extension is often possible just be modifying the input to the charts. However, more complicated use cases can also be supported by (user) modification of the Helm charts as well.
 
-    With Iter8, the barrier to entry for end-users is significantly reduced. In particular, by just providing names of their ML serving resources, and (optional) traffic weights/labels, end users can get started with their release optimization use cases rapidly. Further, Iter8 does not limit the capabilities of the underlying service mesh in any way. This means more advanced teams still get to use all the power of the service-mesh alongside the reliability and ease-of-use that Iter8 brings.
+**Minimize Access** Progressive release and A/B/n use cases require the user to install a Kubernetes controller. However, Iter8 allows for users with only namespace level access to install and use Iter8. Iter8 can also be installed and run with cluster level access.
 
-    In addition, Iter8 provides a simple metrics store, eliminating the need for an external database.
+## Implementation Choices
 
-=== "Client SDK"
+### Iter8 controller
 
-    Iter8 provides a client-side SDK to facilitate routing as well as metrics collection task associated with distributed (i.e., client-server architecture-based) A/B/n testing in Kubernetes. 
-    
-    The following picture illustrates the use of the SDK for A/B testing.
+Iter8 is a controller based architecture. It monitors the Kubernetes objects that make up versions of an application/ML model and automatically reconfigures the routing resources based on their state. In this way, a user just deploys and evaluates versions; she does not con
 
-    ![A/B testing](../tutorials/images/abn.png)
+The following picture illustrates a blue-green rollout scenario that is orchestrated by this controller.
 
-    Iter8's SDK is designed to handle user stickiness, collection of business metrics, and decoupling of front-end and back-end releases processes during A/B/n testing.
+![Blue-green](../tutorials/images/blue-green.png)
 
-=== "Composable tasks"
+As part of the dynamic reconfiguration of route resources, the Iter8 controller also checks for readiness (for e.g., in KServe ModelMesh), availability (for e.g., in Kubernetes deployments) and other relevant status conditions before configuring traffic splits to candidate versions. Similarly, before candidate versions are deleted, the Iter8 controller uses finalizers to first ensure that all traffic flows to the primary version of the ML model. This makes for a very high-degree of reliability and zero-downtime/loss-less rollouts of new app/ML model versions. Users do not get this level of reliability out-of-the-box with a vanilla service mesh.
 
-    Iter8 introduces a set of tasks which which can be composed in order to conduct a variety of performance tests.
-    
-    The following picture illustrates a performance test for an HTTP application, and this test consists of two tasks.
+With Iter8, the barrier to entry for end-users is significantly reduced. In particular, by just providing names of their ML serving resources, and (optional) traffic weights/labels, end users can get started with their release optimization use cases rapidly. Further, Iter8 does not limit the capabilities of the underlying service mesh in any way. This means more advanced teams still get to use all the power of the service-mesh alongside the reliability and ease-of-use that Iter8 brings.
 
-    ![Iter8 performance test](images/kubernetesusage.png)
+### Client SDK
 
-    In addition to load testing HTTP and gRPC services, Iter8 tasks can perform other actions such as sending notifications to Slack or GitHub.
+Iter8 provides a client-side SDK to facilitate routing as well as a metrics collection task associated with distributed (i.e., client-server architecture-based) A/B/n testing in Kubernetes. 
 
-## Advantages
-Iter8 has several advantages compared to other tooling in this space. 
+The following picture illustrates the use of the SDK for A/B testing.
 
-First, Iter8 has no restrictions on the types of resources that make up a version of an application. This includes custom resources; that is, those defined by a custom resource definition (CRD). Because the set of resources that comprise a version is declarative, it is easy to [extend](../user-guide/topics/extensions.md). Note that this same extension mechanism also allows Iter8 to be used with any service mesh.
+![A/B testing](../tutorials/images/abn.png)
 
-Second, the Iter8 client SDK addresses a key challenge to [A/B/n testing](../user-guide/topics/ab_testing.md): the decoupling of the front-end release process from that of the back-end. It allows the front-end to reliably associate business metrics with the contributing version of the back-end.
+Iter8's SDK is designed to handle user stickiness, collection of business metrics, and decoupling of front-end and back-end releases processes during A/B/n testing.
 
-Finally, Iter8 simplifies performance testing by reducing the set up time needed to start testing. Tests can be easily specified as a sequence of [easily configured tasks](../user-guide/topics/parameters.md). Further, there is no need to setup and configure an external metrics database -- Iter8 captures the metrics data and provides a REST API allowing it to be visualized and evaluated in Grafana.
+In addition, Iter8 provides a simple metrics store, eliminating the need for an external database.
 
-## Implementation
+### Performance testing tasks
+
+Iter8 introduces a set of tasks which can be composed in order to conduct a variety of performance tests.
+
+The following picture illustrates a performance test for an HTTP application, and this test consists of two tasks. One verifies the application is ready and the second generates synthetic HTTP load against the application and captures the resulting performance metrics.
+
+![Iter8 performance test](images/kubernetesusage.png)
+
+In addition to load testing HTTP and gRPC services, Iter8 tasks can perform other actions such as sending notifications to Slack or GitHub.
+
+## Built using open source
+
 Iter8 is written in `go` and builds on a few awesome open source projects including:
 
 - [Helm](https://helm.sh)
 - [Istio](https://istio.io)
-- [plotly.js](https://github.com/plotly/plotly.js)
+- [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/)
 - [Fortio](https://github.com/fortio/fortio)
 - [ghz](https://ghz.sh)
 - [Grafana](https://grafana.com/)
