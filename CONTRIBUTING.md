@@ -14,7 +14,7 @@ If anything doesn't make sense, or doesn't work when you run it, please open a b
 
 We welcome many types of contributions including:
 
-* [CLI and Iter8 performance test charts](#iter8-toolsiter8)
+* [Iter8 controller and test charts](#iter8-toolsiter8)
 * [Docs](#iter8-toolsdocs)
 * CI, builds, and tests
 * Reviewing pull requests
@@ -26,7 +26,7 @@ The best ways to reach us with a question is to ask...
 * On the original GitHub issue
 * In the `#development` channel in the [Iter8 Slack workspace](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw)
 
-## Find an issue
+## Find or file an issue
 
 Iter8 issues are tracked [here](https://github.com/iter8-tools/iter8/issues).
 
@@ -84,17 +84,6 @@ This is the source repo for Iter8 CLI.
 git clone https://github.com/iter8-tools/iter8.git
 ```
 
-#### Build Iter8
-```shell
-make build
-```
-
-#### Install Iter8 locally
-```shell
-make clean install
-iter8 version
-```
-
 #### Run unit tests and see coverage information
 ```shell
 make tests
@@ -121,6 +110,13 @@ Build and push Iter8 image to Docker
 docker build -f docker/Dockerfile -t $IMG . 
 docker push $IMG
 ```
+
+#### Install controller
+
+To install a development build of the controller, set the `image` property to the name of the Docker image $IMG:
+
+```helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18 contoller \
+--set image=$IMG```
 
 ### iter8-tools/docs
 
