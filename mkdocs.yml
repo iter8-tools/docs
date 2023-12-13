@@ -150,6 +150,7 @@ nav:
         - Blue-green: tutorials/integrations/kserve-mm/blue-green.md
         - Canary: tutorials/integrations/kserve-mm/canary.md
       - A/B testing: tutorials/integrations/kserve-mm/abn.md
+      - Performance testing: tutorials/integrations/kserve-mm/performance.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Slack:  tutorials/integrations/slack.md
 - User guide:
