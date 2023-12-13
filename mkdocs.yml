@@ -121,28 +121,31 @@ nav:
   - Advantages: getting-started/advantages.md
   - Get help: getting-started/help.md
 - Tutorials:
-  - Progressive (blue-green) release:  tutorials/blue-green.md
+  - Progressive release:
+    - Blue-green: tutorials/blue-green.md
+    - Canary: tutorials/canary.md
   - A/B testing with Iter8 SDK: tutorials/abn.md
-  - Performance test HTTP:  tutorials/load-test-http.md
-  - Performance test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
-  - Performance test gRPC: tutorials/load-test-grpc.md
-  - Performance test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
+  - Performace testing:
+    - Single HTTP endpoint: tutorials/performance/load-test-http.md
+    - Multiple HTTP endpoints: tutorials/performance/load-test-http-multiple.md
+    - Single gRPC method: tutorials/performance/load-test-grpc.md
+    - Multiple gRPC methods: tutorials/performance/load-test-grpc-multiple.md
   - Integrations:
     - Kubernetes Gateway API:
-      - Blue-green: tutorials/integrations/kubernetes-gateway-api/blue-green.md
-      - Canary: tutorials/integrations/kubernetes-gateway-api/canary.md
+      - Progressive blue-green release: tutorials/integrations/kubernetes-gateway-api/blue-green.md
+      - Progressive canary release: tutorials/integrations/kubernetes-gateway-api/canary.md
     - Kserve:
-      - Releasing models:
+      - Progressive release:
         - Blue-green: tutorials/integrations/kserve/blue-green.md
         - Canary: tutorials/integrations/kserve/canary.md
       - A/B testing: 
-        - HTTP: tutorials/integrations/kserve/abn-http.md
-        - gRPC: tutorials/integrations/kserve/abn-grpc.md
+        - Inference request by HTTP: tutorials/integrations/kserve/abn-http.md
+        - Inference request by gRPC: tutorials/integrations/kserve/abn-grpc.md
       - Performance testing:
-        - HTTP: tutorials/integrations/kserve/http.md
-        - gRPC: tutorials/integrations/kserve/grpc.md
+        - Inference request by HTTP: tutorials/integrations/kserve/http.md
+        - Inference request by gRPC: tutorials/integrations/kserve/grpc.md
     - Kserve (modelmesh):
-      - Releasing models:
+      - Progressive release:
         - Blue-green: tutorials/integrations/kserve-mm/blue-green.md
         - Canary: tutorials/integrations/kserve-mm/canary.md
       - A/B testing: tutorials/integrations/kserve-mm/abn.md

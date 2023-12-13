@@ -162,7 +162,7 @@ EOF
 ??? note "About the candidate"
     In this tutorial, the model source (field `storageUri`) for the candidate version is the same as for the primary version of the model. In a real example, this would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
-When the candidate version is ready, the Iter8 controller will Iter8 will automatically reconfigure the routing so that inference requests with the header `traffic` set to `true` will be sent to the candidate model:
+When the candidate version is ready, the Iter8 controller will Iter8 will automatically reconfigure the routing so that inference requests with the header `traffic` set to `test` will be sent to the candidate model:
 
 ```
 HTTP/1.1 200 OK
@@ -178,7 +178,7 @@ app-version: wisdom-0
 
 ### Verify routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Those with header `traffic` set to `true` will be handled by the candidate model (`wisdom-1`) while all others will be handled by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Those with header `traffic` set to `test` will be handled by the candidate model (`wisdom-1`) while all others will be handled by the primary version.
 
 ## Promote candidate
 

@@ -4,22 +4,22 @@ template: main.html
 
 # Extending progressive release to other deployment environments
 
-The `release` chart can be easily extended to include other deployment environments. Please consider contributing any extensions to Iter8. We briefly descrive how to extend the chart for an [Knative](https://knative.dev/docs/) application. 
+The `release` chart can be easily extended to include other deployment environments. Please consider contributing any extensions to Iter8. We briefly describe how to extend the chart for an [Knative](https://knative.dev/docs/) application. 
 
 ## Approach
 
-Modify the release chart after forking the [Iter8 project](https://github.com/iter8-tools/iter8). The chart to be extended is in the `charts/release` subfolder. The file `release.yaml` is the starting point. For each valid environment, the chart contains a set of files defining the resources that should be created.  These may include:
+Modify the release chart after forking the [Iter8 project](https://github.com/iter8-tools/iter8). The chart to be extended is in the `charts/release` sub-folder. The file `release.yaml` is the starting point. For each valid environment, the chart contains a set of files defining the resources that should be created.  These may include:
 
 - the application object(s)
 - [routemaps](../routemap.md) for different traffic patterns
-- configmaps used to specify request distribution (blue-green pattern only)
+- config maps used to specify request distribution (blue-green pattern only)
 - a service defining a common entry for requests (if needed)
 
 Note that the file naming helps identify related template files.
 
 ## Example (Knative Service)
 
-For example, to implement a blue-green release for Knative servives, the following files could be added.
+For example, to implement a blue-green release for Knative services, the following files could be added.
 
 - `_knative-istio.tpl` - describing the application objects should be deployed
 - `_knative-istio.version.ksvc.tpl` - describe the Knative service object that should be deployed for a version
@@ -28,7 +28,7 @@ For example, to implement a blue-green release for Knative servives, the followi
 - `_knative-istio.service.tpl` - a supporting external service
 - `_knative.helpers.tpl` - some supporting functions
 
-An implementation of these is [here](https://github.com/iter8-tools/docs/tree/0.18.11/samples/knative-bg-extension).
+An implementation of these is [here](https://github.com/iter8-tools/docs/tree/v0.18.11/samples/knative-bg-extension).
 
 Finally, update `release.yaml` to include `knative-istio` as a valid option:
 
