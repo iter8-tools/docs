@@ -30,7 +30,6 @@ Deploy the initial version of the model using the Iter8 `release` chart by ident
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
-cat <<EOF | helm upgrade --install httpbin charts/release -f -
 environment: deployment-istio
 application: 
   versions:
@@ -102,7 +101,6 @@ A candidate can deployed by simply adding a second version to the list of versio
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
-cat <<EOF | helm upgrade --install httpbin charts/release -f -
 environment: deployment-istio
 application: 
   versions:
@@ -141,7 +139,6 @@ To modify the percentage of traffic mirrored, set the weight in the candidate ve
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
-cat <<EOF | helm upgrade --install httpbin charts/release -f -
 environment: deployment-istio
 application: 
   versions:
@@ -170,7 +167,6 @@ The candidate can be promoted by redefining the primary version and removing the
 
 ```shell
 cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
-cat <<EOF | helm upgrade --install httpbin charts/release -f -
 environment: deployment-istio
 application: 
   versions:
