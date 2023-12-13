@@ -20,7 +20,7 @@ helm upgrade --install \
 --set github.token=<GitHub token>
 ```
 
-See [here](../../tutorials/integrations/ghactions.md#use-iter8-to-trigger-a-github-actions-workflow) for a more in-depth tutorial.
+See [here](../../../tutorials/integrations/ghactions.md#use-iter8-to-trigger-a-github-actions-workflow) for a more in-depth tutorial.
 
 ## Parameters
 

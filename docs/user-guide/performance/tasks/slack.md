@@ -17,7 +17,7 @@ helm upgrade --install \
 --set slack.method=POST
 ```
 
-See [here](../../tutorials/integrations/slack.md#use-iter8-to-send-a-message-to-a-slack-channel) for a more in-depth tutorial.
+See [here](../../../tutorials/integrations/slack.md#use-iter8-to-send-a-message-to-a-slack-channel) for a more in-depth tutorial.
 
 ## Parameters
 

@@ -57,11 +57,11 @@ helm upgrade --install \
 ```
 
 ??? note "About this performance test"
-    This performance test consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [http](../../../user-guide/tasks/http.md). 
+    This performance test consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/performance/tasks/ready.md) and [http](../../../user-guide/performance/tasks/http.md). 
     
-    The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
+    The [ready](../../../user-guide/performance/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
 
-    The [http](../../../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL exposed by the InferenceService, `http://sklearn-irisv2.default.svc.cluster.local/v2/models/sklearn-irisv2/infer`, and collects [Iter8's built-in HTTP load test metrics](../../../user-guide/tasks/http.md#metrics).
+    The [http](../../../user-guide/performance/tasks/http.md) task sends requests to the cluster-local HTTP service whose URL exposed by the InferenceService, `http://sklearn-irisv2.default.svc.cluster.local/v2/models/sklearn-irisv2/infer`, and collects [Iter8's built-in HTTP load test metrics](../../../user-guide/performance/tasks/http.md#metrics).
 
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
@@ -81,7 +81,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 The Iter8 dashboard will look like the following:
 
-![`http` Iter8 dashboard](../../../user-guide/tasks/images/httpdashboard.png)
+![`http` Iter8 dashboard](../../../user-guide/performance/tasks/images/httpdashboard.png)
 
 ## Cleanup
 
@@ -101,5 +101,5 @@ kubectl delete svc/grafana deploy/grafana
 ```
 
 ??? note "Some variations and extensions of this performance test"
-    1. The [http task](../../../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
-    2. The [http task](../../../user-guide/tasks/http.md) can be configured to send various types of content as payload.
+    1. The [http task](../../../user-guide/performance/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+    2. The [http task](../../../user-guide/performance/tasks/http.md) can be configured to send various types of content as payload.

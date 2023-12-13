@@ -68,11 +68,11 @@ helm upgrade --install \
 ```
 
 ??? note "About this performance test"
-    This performance test consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/tasks/ready.md) and [grpc](../../../user-guide/tasks/grpc.md). 
+    This performance test consists of two [tasks](../../../getting-started/concepts.md#design), namely, [ready](../../../user-guide/performance/tasks/ready.md) and [grpc](../../../user-guide/performance/tasks/grpc.md). 
     
-    The [ready](../../../user-guide/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
+    The [ready](../../../user-guide/performance/tasks/ready.md) task checks if the `sklearn-irisv2` InferenceService exists and is `Ready`. 
 
-    The [grpc](../../../user-guide/tasks/grpc.md) task sends call requests to the `inference.GRPCInferenceService.ModelInfer` method of the cluster-local gRPC service with host address `${GRPC_HOST}:${GRPC_PORT}`, and collects Iter8's built-in gRPC load test metrics.
+    The [grpc](../../../user-guide/performance/tasks/grpc.md) task sends call requests to the `inference.GRPCInferenceService.ModelInfer` method of the cluster-local gRPC service with host address `${GRPC_HOST}:${GRPC_PORT}`, and collects Iter8's built-in gRPC load test metrics.
 
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
@@ -92,7 +92,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 The Iter8 dashboard will look like the following:
 
-![`grpc` Iter8 dashboard](../../../user-guide/tasks/images/grpcdashboard.png)
+![`grpc` Iter8 dashboard](../../../user-guide/performance/tasks/images/grpcdashboard.png)
 
 ## Cleanup
 
@@ -112,4 +112,4 @@ kubectl delete svc/grafana deploy/grafana
 ```
 
 ??? note "Some variations and extensions of this performance test" 
-    1. The [grpc task](../../../user-guide/tasks/grpc.md) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.
+    1. The [grpc task](../../../user-guide/performance/tasks/grpc.md) can be configured with load related parameters such as the number of requests, requests per second, or number of concurrent connections.

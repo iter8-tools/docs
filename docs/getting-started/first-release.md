@@ -47,7 +47,7 @@ EOF
         - The name `httpbin-0` is derived from the Helm release name since it is not specified in the version or in `application.metadata`. The name is derived by appending the index of the version in the list of versions; `-0` in this case.
         - Alternatively, a `deploymentSpecification` and/or a `serviceSpecification` could have been specified.
 
-    To support routing, a `Service` (of type `ExternalName`) named `default/httpbin` pointing at the Istio gateway, `istio-ingressgateway.istio-system`, is deployed. The name is the Helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../user-guide/topics/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
+    To support routing, a `Service` (of type `ExternalName`) named `default/httpbin` pointing at the Istio gateway, `istio-ingressgateway.istio-system`, is deployed. The name is the Helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../user-guide/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
 
 Once the application components are ready, the Iter8 controller automatically configures the routing by creating an Istio `VirtualService`. It is configured to route all traffic to the only deployed version, `httpbin-0`.
 
