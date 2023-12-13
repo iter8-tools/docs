@@ -17,7 +17,7 @@ Modify the release chart after forking the [Iter8 project](https://github.com/it
 
 Note that the file naming helps identify related template files.
 
-## Example (KNative Service)
+## Example (Knative Service)
 
 For example, to implement a blue-green release for Knative servives, the following files could be added.
 
@@ -25,8 +25,17 @@ For example, to implement a blue-green release for Knative servives, the followi
 - `_knative-istio.version.ksvc.tpl` - describe the Knative service object that should be deployed for a version
 - `_knative-istio.blue-green.tpl` - identifies any objects that should be deployed to support the blue-green traffic pattern
 - `_knative-istio.blue-green.routemap.tpl` - the routemap definition
+- `_knative-istio.service.tpl` - a supporting external service
+- `_knative.helpers.tpl` - some supporting functions
 
-Finally, update `release.yaml` to include `knative-istio` as a valid option.
+An implementation of these is [here](https://github.com/iter8-tools/docs/tree/0.18.11/samples/knative-bg-extension).
+
+Finally, update `release.yaml` to include `knative-istio` as a valid option:
+
+```tpl
+{{- else if eq "knative-istio" .Values.environment }}
+  {{- include "env.knative-istio" . }}
+```
 
 ## Extend the controller
 
@@ -39,7 +48,7 @@ The Iter8 controller will need to be extended to give permission to Iter8 to wat
 --set "resourceTypes.ksvc.conditions[0]=Ready"
 ```
 
-## Using a modified chart
+## Using the modified chart
 
 Reference the location of the local copy of the chart instead of using the `--repo` and `--version` options. For example assuming the location is `$CHART`, a deployment of 2 versions of the Knative `hello` service with a 30-70 traffic split would be:
 
@@ -104,36 +113,7 @@ helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18
 --set resourceTypes.ksvc.Resource=services \
 --set "resourceTypes.ksvc.conditions[0]=Ready"
 (6) Deploy 2 versions of a Knative service with a 30-70 request distribution
-cat <<EOF | helm upgrade --install hello $CHART -f -
-environment: knative-istio
-application:
-  versions:
-  - ksvcSpecification:
-      spec:
-        template:
-          spec:
-            containers:
-            - image: ghcr.io/knative/helloworld-go:latest
-              ports:
-              - containerPort: 80
-              env:
-              - name: TARGET
-                value: "v1"
-    weight: 30
-  - ksvcSpecification:
-      spec:
-        template:
-          spec:
-            containers:
-            - image: ghcr.io/knative/helloworld-go:latest
-              ports:
-              - containerPort: 80
-              env:
-              - name: TARGET
-                value: "v2"
-    weight: 70
-  strategy: blue-green
-EOF
+as above
 (7) Create sleep pod in cluster for testing and exec into it
 curl -s https://raw.githubusercontent.com/iter8-tools/docs/v0.18.4/samples/kserve-serving/sleep.sh | sh -
 kubectl exec --stdin --tty "$(kubectl get pod --sort-by={metadata.creationTimestamp} -l app=sleep -o jsonpath={.items..metadata.name} | rev | cut -d' ' -f 1 | rev)" -c sleep -- /bin/sh
