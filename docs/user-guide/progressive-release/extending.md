@@ -12,7 +12,7 @@ Modify the release chart after forking the [Iter8 project](https://github.com/it
 
 - the application object(s)
 - [routemaps](../routemap.md) for different traffic patterns
-- config maps used to specify request distribution (blue-green pattern only)
+- configmaps used to specify request distribution (blue-green pattern only)
 - a service defining a common entry for requests (if needed)
 
 Note that the file naming helps identify related template files.

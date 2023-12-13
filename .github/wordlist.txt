@@ -15,6 +15,7 @@ CRD
 cronjob
 crontab
 ConfigMap
+configmaps
 DCO
 default_encoding
 declaratively
