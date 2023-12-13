@@ -124,6 +124,7 @@ nav:
   - Progressive release:
     - Blue-green: tutorials/blue-green.md
     - Canary: tutorials/canary.md
+    - Mirrored: tutorials/mirror.md
   - A/B testing with Iter8 SDK: tutorials/abn.md
   - Performace testing:
     - Single HTTP endpoint: tutorials/performance/load-test-http.md

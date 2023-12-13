@@ -4,14 +4,14 @@ template: main.html
 
 # Canary release of a ML model
 
-This tutorial shows how Iter8 can be used to release ML models hosted in a KServe ModelMesh environment using a canary rollout strategy. 
-In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
+This tutorial shows how Iter8 can be used to release ML models hosted in a KServe ModelMesh environment using a canary release strategy. 
+In a canary release, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
 The remaining requests go to the primary, or initial, version of the model.
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
-The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the canary rollout strategy.
+The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the canary release strategy.
 
-![Canary rollout](../../images/canary.png)
+![Canary release](../../images/canary.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs installed.
@@ -27,7 +27,7 @@ The chart provides the configuration needed for Iter8 to automatically deploy ap
 
 ## Deploy initial version
 
-Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the rollout strategy to be used:
+Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the release strategy to be used:
 
 ```shell
 cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -

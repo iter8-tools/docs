@@ -4,14 +4,14 @@ template: main.html
 
 # Canary release
 
-This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a canary rollout strategy. 
-In a canary rollout, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
+This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a canary release strategy. 
+In a canary release, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
 The remaining requests go to the primary, or initial, version of the model.
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
-The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the canary rollout strategy.
+The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the canary release strategy.
 
-![Canary rollout](../../images/canary.png)
+![Canary release](../../images/canary.png)
 
 This tutorial uses the Kubernetes Gateway API to allow the use any service mesh that supports this API. In this case, we use demonstrate with [Linkerd](https://linkerd.io/).
 
@@ -25,7 +25,7 @@ This tutorial uses the Kubernetes Gateway API to allow the use any service mesh 
 
 ## Deploy initial version
 
-Deploy the initial version of the application ([httpbin](https://httpbin.org/)) using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the rollout strategy to be used. Note that we deploy the application to the namespace `test`. 
+Deploy the initial version of the application ([httpbin](https://httpbin.org/)) using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the release strategy to be used. Note that we deploy the application to the namespace `test`. 
 
 ???+ note "About creating a namespace for Linkerd deployments"
     When creating a namespace, it should be annotated so that all created pods are injected with the Linkerd proxy. This can be done, for example, by using the Linkerd CLI:

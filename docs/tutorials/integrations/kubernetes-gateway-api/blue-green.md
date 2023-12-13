@@ -4,14 +4,14 @@ template: main.html
 
 # Blue-green release
 
-This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green rollout strategy. 
-In a blue-green rollout, a percentage of requests are directed to a candidate version of the model. 
+This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green release strategy. 
+In a blue-green release, a percentage of requests are directed to a candidate version of the model. 
 This percentage can be changed over time. 
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
-The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the blue-green rollout strategy.
+The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the blue-green release strategy.
 
-![Blue-green rollout](../../images/blue-green.png)
+![Blue-green release](../../images/blue-green.png)
 
 This tutorial uses the Kubernetes Gateway API to allow the use any service mesh that supports this API. In this case, we use demonstrate with [Linkerd](https://linkerd.io/).
 
@@ -25,7 +25,7 @@ This tutorial uses the Kubernetes Gateway API to allow the use any service mesh 
 
 ## Deploy initial version
 
-Deploy the initial version of the application ([httpbin](https://httpbin.org/)) using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the rollout strategy to be used. Note that we deploy the application to the namespace `test`. 
+Deploy the initial version of the application ([httpbin](https://httpbin.org/)) using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the release strategy to be used. Note that we deploy the application to the namespace `test`. 
 
 ???+ note "About creating a namespace for Linkerd deployments"
     When creating a namespace, it should be annotated so that all created pods are injected with the Linkerd proxy. This can be done, for example, by using the Linkerd CLI:
@@ -52,7 +52,7 @@ EOF
         - The name `httpbin-0` is derived from the Helm release name since it is not specified in the version or in `application.metadata`. The name is derived by appending the index of the version in the list of versions; `-0` in this case.
         - Alternatively, a `deploymentSpecification` and/or a `serviceSpecification` could have been specified.
 
-    To support routing, a `Service` (`httpbin`) is deployed. The name is the Helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../../../user-guide/routemap.md) is created. Finally, to support the blue-green rollout, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
+    To support routing, a `Service` (`httpbin`) is deployed. The name is the Helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../../../user-guide/routemap.md) is created. Finally, to support the blue-green release, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
 
 Once the application components are ready, the Iter8 controller automatically configures the routing by creating an `HTTPRoute`. It is configured to route all traffic to the only deployed version, `httpbin-0`.
 

@@ -9,7 +9,7 @@ Iter8 is the Kubernetes release optimizer built for DevOps, MLOps, SRE and data 
 
 Iter8 simplifies a variety of traffic engineering and metrics-driven validation use cases. To support such use cases, Iter8 provides support for the key challenges enabling simpler implementation and quicker adoption of testing in the CD process.
 
-**Progressive release with automated traffic management** Iter8 supports blue-green and canary releases of new applications and ML models. When new models are deployed, Iter8 automatically reconfigures the routing to desired traffic pattern. Deployment of new versions and their promotion is done by describing the desired state.
+**Progressive release with automated traffic management** Iter8 supports blue-green, canary and mirrored releases of new applications and ML models. When new models are deployed, Iter8 automatically reconfigures the routing to desired traffic pattern. Deployment of new versions and their promotion is done by describing the desired state.
 
 **A/B/n testing with client SDK and business metrics** Iter8 addresses the challenge of doing A/B/n testing of backend application components/ML models. It provides a simple client SDK allowing a user-facing component to easily and reliably associate business metrics with the backend components that were used. This SDK provides sticky lookup based on user request headers.
 
