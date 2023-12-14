@@ -4,7 +4,7 @@ template: main.html
 
 # A/B Testing with the Iter8 SDK
 
-This tutorial describes how to do A/B testing of a backend component using the [Iter8 SDK](../user-guide/topics/ab_testing.md). 
+This tutorial describes how to do A/B testing of a backend component using the [Iter8 SDK](../user-guide/abn/about.md). 
 
 ![A/B/n testing](../tutorials/images/abn.png)
 

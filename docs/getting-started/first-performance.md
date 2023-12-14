@@ -53,11 +53,11 @@ Run your first performance test by load testing a Kubernetes HTTP service and vi
     ```
 
 ??? note "About this performance test"
-    This performance test consists of two [tasks](concepts.md#design), namely, [ready](../user-guide/tasks/ready.md) and [http](../user-guide/tasks/http.md). 
+    This performance test consists of two [tasks](concepts.md#design), namely, [ready](../user-guide/performance/tasks/ready.md) and [http](../user-guide/performance/tasks/http.md). 
     
-    The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
+    The [ready](../user-guide/performance/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
-    The [http](../user-guide/tasks/http.md) task sends requests to the cluster-local HTTP service using the specified `url`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). This tasks supports both GET and POST requests, and for POST requests, a payload can be provided by using either `payloadStr` or `payloadURL`.
+    The [http](../user-guide/performance/tasks/http.md) task sends requests to the cluster-local HTTP service using the specified `url`, and collects [Iter8's built-in HTTP load test metrics](../user-guide/performance/tasks/http.md#metrics). This tasks supports both GET and POST requests, and for POST requests, a payload can be provided by using either `payloadStr` or `payloadURL`.
 
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
@@ -77,7 +77,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 The Iter8 dashboard will look like the following:
 
-![`http` Iter8 dashboard](../user-guide/tasks/images/httpdashboard.png)
+![`http` Iter8 dashboard](../user-guide/performance/tasks/images/httpdashboard.png)
 
 ## View logs
 Logs are useful for debugging. To see the test logs:
@@ -115,5 +115,5 @@ Congratulations! :tada: You completed your first performance test with Iter8.
 ***
 
 ??? note "Some variations and extensions of this performance test"
-    1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
-    2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
+    1. The [http task](../user-guide/performance/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+    2. The [http task](../user-guide/performance/tasks/http.md) can be configured to send various types of content as payload.

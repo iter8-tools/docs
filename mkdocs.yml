@@ -121,48 +121,61 @@ nav:
   - Advantages: getting-started/advantages.md
   - Get help: getting-started/help.md
 - Tutorials:
-  - Progressive (blue-green) release:  tutorials/blue-green.md
+  - Progressive release:
+    - Blue-green: tutorials/blue-green.md
+    - Canary: tutorials/canary.md
+    - Mirrored: tutorials/mirror.md
   - A/B testing with Iter8 SDK: tutorials/abn.md
-  - Performance test HTTP:  tutorials/load-test-http.md
-  - Performance test multiple HTTP endpoints: tutorials/load-test-http-multiple.md
-  - Performance test gRPC: tutorials/load-test-grpc.md
-  - Performance test multiple gRPC methods: tutorials/load-test-grpc-multiple.md
+  - Performace testing:
+    - Single HTTP endpoint: tutorials/performance/load-test-http.md
+    - Multiple HTTP endpoints: tutorials/performance/load-test-http-multiple.md
+    - Single gRPC method: tutorials/performance/load-test-grpc.md
+    - Multiple gRPC methods: tutorials/performance/load-test-grpc-multiple.md
   - Integrations:
     - Kubernetes Gateway API:
-      - Blue-green: tutorials/integrations/kubernetes-gateway-api/blue-green.md
-      - Canary: tutorials/integrations/kubernetes-gateway-api/canary.md
+      - Progressive blue-green release: tutorials/integrations/kubernetes-gateway-api/blue-green.md
+      - Progressive canary release: tutorials/integrations/kubernetes-gateway-api/canary.md
     - Kserve:
-      - Releasing models:
+      - Progressive release:
         - Blue-green: tutorials/integrations/kserve/blue-green.md
         - Canary: tutorials/integrations/kserve/canary.md
       - A/B testing: 
-        - HTTP: tutorials/integrations/kserve/abn-http.md
-        - gRPC: tutorials/integrations/kserve/abn-grpc.md
+        - Inference request by HTTP: tutorials/integrations/kserve/abn-http.md
+        - Inference request by gRPC: tutorials/integrations/kserve/abn-grpc.md
       - Performance testing:
-        - HTTP: tutorials/integrations/kserve/http.md
-        - gRPC: tutorials/integrations/kserve/grpc.md
+        - Inference request by HTTP: tutorials/integrations/kserve/http.md
+        - Inference request by gRPC: tutorials/integrations/kserve/grpc.md
     - Kserve (modelmesh):
-      - Releasing models:
+      - Progressive release:
         - Blue-green: tutorials/integrations/kserve-mm/blue-green.md
         - Canary: tutorials/integrations/kserve-mm/canary.md
       - A/B testing: tutorials/integrations/kserve-mm/abn.md
+      - Performance testing: tutorials/integrations/kserve-mm/performance.md
     - GitHub Actions: tutorials/integrations/ghactions.md
     - Slack:  tutorials/integrations/slack.md
 - User guide:
-  - Tasks:
-    - http: user-guide/tasks/http.md
-    - grpc: user-guide/tasks/grpc.md
-    - ready: user-guide/tasks/ready.md
-    - github: user-guide/tasks/github.md
-    - slack: user-guide/tasks/slack.md
   - Topics:
-    - Test parameters: user-guide/topics/parameters.md
-    - A/B/n testing: user-guide/topics/ab_testing.md
-    - Controller extensions: user-guide/topics/extensions.md
-    - Routemaps: user-guide/topics/routemap.md
-    - Install options: user-guide/topics/install.md
-    - Uninstall options: user-guide/topics/uninstall.md
-    - Metrics store options: user-guide/topics/metrics_store.md
+    - Iter8 Controller:
+      - Install options: user-guide/controller/install.md
+      - Uninstall options: user-guide/controller/uninstall.md
+      - Watching new resource types: user-guide/controller/extensions.md
+    - Progressive release: 
+      - About: user-guide/progressive-release/about.md
+      - Using new resource types: user-guide/progressive-release/extending.md
+    - A/B/n testing:
+      - About: user-guide/abn/about.md
+      - Configuration: user-guide/abn/configuration.md
+      - Using the SDK: user-guide/abn/using-sdk.md
+    - Performance testing: 
+      - Parameters: user-guide/performance/parameters.md
+      - Test Tasks:
+        - http: user-guide/performance/tasks/http.md
+        - grpc: user-guide/performance/tasks/grpc.md
+        - ready: user-guide/performance/tasks/ready.md
+        - github: user-guide/performance/tasks/github.md
+        - slack: user-guide/performance/tasks/slack.md
+    - Routemaps: user-guide/routemap.md
+    - Metrics store options: user-guide/metrics_store.md
 - Contributing: contributing.md
 - Roadmap: roadmap.md
 - Community: 

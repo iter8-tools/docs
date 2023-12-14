@@ -4,12 +4,12 @@ template: main.html
 
 # Load test multiple HTTP endpoints
 
-[Your first performance test](../getting-started/first-performance.md) describes how to load test a HTTP service. This tutorial expands on the previous tutorial and describes how to load test multiple HTTP endpoints.
+[Your first performance test](../../getting-started/first-performance.md) describes how to load test a single HTTP service. This tutorial expands on the previous tutorial and describes how to load test multiple HTTP endpoints.
 
-![load-test-http](../getting-started/images/kubernetesusage.png)
+![load-test-http](../../getting-started/images/kubernetesusage.png)
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance test](../getting-started/first-performance.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8.
+    1. Try [Your first performance test](../../getting-started/first-performance.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8.
     2. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
     3. Deploy the sample HTTP service in the Kubernetes cluster.
     ```shell
@@ -44,11 +44,11 @@ helm upgrade --install \
 ```
 
 ??? note "About this performance test"
-    This performance test consists of two [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md) and [http](../user-guide/tasks/http.md).
+    This performance test consists of two [tasks](../../getting-started/concepts.md#design), namely, [ready](../../user-guide/performance/tasks/ready.md) and [http](../../user-guide/performance/tasks/http.md).
     
-    The [ready](../user-guide/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
+    The [ready](../../user-guide/performance/tasks/ready.md) task checks if the `httpbin` deployment exists and is available, and the `httpbin` service exists. 
     
-    The [http](../user-guide/tasks/http.md) task sends requests to three endpoints from the cluster-local HTTP service, and collects [Iter8's built-in HTTP load test metrics](../user-guide/tasks/http.md#metrics). The three endpoints are `http://httpbin.default/get`, `http://httpbin.default/anything`, and `http://httpbin.default/post`. The last endpoint also has a payload string `hello`.
+    The [http](../../user-guide/performance/tasks/http.md) task sends requests to three endpoints from the cluster-local HTTP service, and collects [Iter8's built-in HTTP load test metrics](../../user-guide/performance/tasks/http.md#metrics). The three endpoints are `http://httpbin.default/get`, `http://httpbin.default/anything`, and `http://httpbin.default/post`. The last endpoint also has a payload string `hello`.
 
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
@@ -68,7 +68,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 The Iter8 dashboard will look like the following:
 
-![`http` Iter8 dashboard with multiple endpoints](../user-guide/tasks/images/httpmultipledashboard.png)
+![`http` Iter8 dashboard with multiple endpoints](../../user-guide/performance/tasks/images/httpmultipledashboard.png)
 
 ## View logs
 Logs are useful for debugging.
@@ -97,5 +97,5 @@ kubectl delete svc/grafana deploy/grafana
 ```
 
 ??? note "Some variations and extensions of this performance test"
-    1. The [http task](../user-guide/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
-    2. The [http task](../user-guide/tasks/http.md) can be configured to send various types of content as payload.
+    1. The [http task](../../user-guide/performance/tasks/http.md) can be configured with load related parameters such as the number of requests, queries per second, or number of parallel connections.
+    2. The [http task](../../user-guide/performance/tasks/http.md) can be configured to send various types of content as payload.

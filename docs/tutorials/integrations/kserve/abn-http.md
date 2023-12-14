@@ -4,7 +4,7 @@ template: main.html
 
 # A/B Testing a backend ML model
 
-This tutorial describes how to do A/B testing as part of the release of a backend ML model hosted on [KServe](https://github.com/kserve/kserve) when using the [Iter8 SDK](../../../user-guide/topics/ab_testing.md). In this tutorial, communication from the frontend to the backend model is via HTTP calls.
+This tutorial describes how to do A/B testing as part of the release of a backend ML model hosted on [KServe](https://github.com/kserve/kserve) when using the [Iter8 SDK](../../../user-guide/abn/about.md). In this tutorial, communication from the frontend to the backend model is via HTTP calls.
 
 ![A/B/n testing](../../images/abn.png)
 

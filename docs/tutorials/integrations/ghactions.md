@@ -4,7 +4,7 @@ template: main.html
 
 # Trigger a GitHub Actions workflow during a performance test
 
-Iter8 provides a [`github` task](../../user-guide/tasks/github.md) that sends a [`repository_dispatch`](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
+Iter8 provides a [`github` task](../../user-guide/performance/tasks/github.md) that sends a [`repository_dispatch`](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
 
 ## Example
 
@@ -14,7 +14,7 @@ In this simple example, the workflow will simply print out a test summary that i
 
 To summarize what will happen, you will create a new GitHub repository, add a workflow that will respond to the `github` task, set up and run a performance test, and check if the workflow was triggered.
 
-The `github` task requires the name of a repository, the name of the owner, as well as an authentication token in order to send the `repository_dispatch`. To see a full list of the `github` task parameters, see [here](../../user-guide/tasks/github.md#parameters).
+The `github` task requires the name of a repository, the name of the owner, as well as an authentication token in order to send the `repository_dispatch`. To see a full list of the `github` task parameters, see [here](../../user-guide/performance/tasks/github.md#parameters).
 
 1. Create a new repository on GitHub.
 2. Add the following workflow.

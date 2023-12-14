@@ -2,16 +2,15 @@
 template: main.html
 ---
 
-# Your first progressive release
+# Canary release
 
-This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green release strategy. 
-In a blue-green release, a percentage of requests are directed to a candidate version of the model. 
-This percentage can be changed over time. 
+This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a canary release strategy. 
+In a canary release, requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary, or initial, version of the model.
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
-The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the blue-green release strategy.
+The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the canary release strategy.
 
-![Blue-green release](../tutorials/images/blue-green.png)
+![Canary release](images/canary.png)
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. If using a local cluster (for example, [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/)), we recommend providing the cluster with at least 16GB of memory.
@@ -37,7 +36,7 @@ application:
       labels:
         app.kubernetes.io/version: v0
     image: kennethreitz/httpbin
-  strategy: blue-green
+  strategy: canary
 EOF
 ```
 
@@ -47,7 +46,7 @@ EOF
         - The name `httpbin-0` is derived from the Helm release name since it is not specified in the version or in `application.metadata`. The name is derived by appending the index of the version in the list of versions; `-0` in this case.
         - Alternatively, a `deploymentSpecification` and/or a `serviceSpecification` could have been specified.
 
-    To support routing, a `Service` (of type `ExternalName`) named `default/httpbin` pointing at the Istio gateway, `istio-ingressgateway.istio-system`, is deployed. The name is the Helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../user-guide/routemap.md) is created. Finally, to support the blue-green release, a `ConfigMap` (`httpbin-0-weight-config`) is created to be used to manage the proportion of traffic sent to this version.
+    To support routing, a `Service` (of type `ExternalName`) named `default/httpbin` pointing at the Istio gateway, `istio-ingressgateway.istio-system`, is deployed. The name is the Helm release name since it not specified in `application.metadata`. Further, an Iter8 [routemap](../user-guide/routemap.md) is created.
 
 Once the application components are ready, the Iter8 controller automatically configures the routing by creating an Istio `VirtualService`. It is configured to route all traffic to the only deployed version, `httpbin-0`.
 
@@ -112,55 +111,30 @@ application:
       labels:
         app.kubernetes.io/version: v1
     image: kennethreitz/httpbin
-  strategy: blue-green
+  strategy: canary
 EOF
 ```
 
 ??? note "About the candidate version"
     In this tutorial, the candidate image is the same as the one for the primary version. In a real world example, it would be different. The version label (`app.kubernetes.io/version`) can be used to distinguish between versions.
 
-When the second version is deployed and ready, the Iter8 controller automatically reconfigures the routing; the `VirtualService` is updated to distribute traffic between versions based on the weights.
-
-### Verify routing
-
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Requests will now be handled equally by both versions. Output will be something like:
+When the candidate version is ready, the Iter8 controller will Iter8 will automatically reconfigure the routing so that requests with the header `traffic` set to `test` will be sent to the candidate model:
 
 ```
-HTTP/1.1 200 OK
-app-version: httpbin-0
-...
 HTTP/1.1 200 OK
 app-version: httpbin-1
 ```
 
-## Modify weights (optional)
+All other requests will be sent to the primary model (`httpbin-0`):
 
-To modify the request distribution between the versions, add a `weight` to each version. The weights are relative to each other.
-
-```shell
-cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
-environment: deployment-istio
-application: 
-  versions:
-  - metadata:
-      labels:
-        app.kubernetes.io/version: v0
-    image: kennethreitz/httpbin
-    weight: 30
-  - metadata:
-      labels:
-        app.kubernetes.io/version: v1
-    image: kennethreitz/httpbin
-    weight: 70
-  strategy: blue-green
-EOF
 ```
-
-Iter8 automatically reconfigures the routing to distribute traffic between the versions based on the new weights.
+HTTP/1.1 200 OK
+app-version: httpbin-0
+```
 
 ### Verify routing
 
-You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. 70 percent of requests will now be handled by the candidate version; the remaining 30 percent by the primary version.
+You can verify the routing configuration by inspecting the `VirtualService` and/or by sending requests as described above. Those with header `traffic` set to `test` will be handled by the candidate model (`httpbin-1`) while all others will be handled by the primary version.
 
 ## Promote candidate
 
@@ -175,7 +149,7 @@ application:
       labels:
         app.kubernetes.io/version: v1
     image: kennethreitz/httpbin
-  strategy: blue-green
+  strategy: canary
 EOF
 ```
 ??? note "What is different?"
@@ -209,9 +183,3 @@ kubectl delete deploy sleep
 Uninstall Iter8 controller:
 
 --8<-- "docs/getting-started/uninstall.md"
-
-***
-
-Congratulations! :tada: You completed your first blue-green release with Iter8.
-
-***

@@ -2,14 +2,14 @@
 template: main.html
 ---
 
-# Load test multiple gRPC endpoints
+# Load test multiple gRPC methods
 
-[Load Test gRPC](./load-test-grpc.md) describes how to load test a single method from a gRPC service inside Kubernetes. This tutorial expands on the previous tutorial and describes how to load test multiple endpoints from an HTTP service.
+This tutorial expands on the tutorial [Single gRPC method](./load-test-grpc.md) by describing how to load test multiple gRPC methods.
 
-![load-test-grpc](images/grpc.png)
+![load-test-grpc](../images/grpc.png)
 
 ???+ warning "Before you begin"
-    1. Try [Your first performance test](../getting-started/first-performance.md). Understand the main [concepts](../getting-started/concepts.md) behind Iter8.
+    1. Try [Your first performance test](../../getting-started/first-performance.md). Understand the main [concepts](../../getting-started/concepts.md) behind Iter8.
     2. Deploy the sample gRPC service in the Kubernetes cluster.
     ```shell
     kubectl create deployment routeguide --image=golang --port=50051 \
@@ -46,11 +46,11 @@ helm upgrade --install \
 ```
 
 ??? note "About this performance test"
-    This performance test consists of two [tasks](../getting-started/concepts.md#design), namely, [ready](../user-guide/tasks/ready.md), and [grpc](../user-guide/tasks/grpc.md).
+    This performance test consists of two [tasks](../../getting-started/concepts.md#design), namely, [ready](../../user-guide/performance/tasks/ready.md), and [grpc](../../user-guide/performance/tasks/grpc.md).
     
-    The [ready](../user-guide/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
+    The [ready](../../user-guide/performance/tasks/ready.md) task checks if the `routeguide` deployment exists and is available, and the `routeguide` service exists. 
 
-    The [grpc](../user-guide/tasks/grpc.md) task sends call requests to two methods of the cluster-local gRPC service, and collects [Iter8's built-in gRPC load test metrics](../user-guide/tasks/grpc.md#metrics). The two methods are `routeguide.RouteGuide.GetFeature` and `routeguide.RouteGuide.ListFeatures`. Note that each method also has its own `dataURL` for the request payload.
+    The [grpc](../../user-guide/performance/tasks/grpc.md) task sends call requests to two methods of the cluster-local gRPC service, and collects [Iter8's built-in gRPC load test metrics](../../user-guide/performance/tasks/grpc.md#metrics). The two methods are `routeguide.RouteGuide.GetFeature` and `routeguide.RouteGuide.ListFeatures`. Note that each method also has its own `dataURL` for the request payload.
 
 ## View results using Grafana
 Inspect the metrics using Grafana. If Grafana is deployed to your cluster, port-forward requests as follows:
@@ -70,7 +70,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 
 The Iter8 dashboard will look like the following:
 
-![`grpc` Iter8 dashboard with multiple endpoints](../user-guide/tasks/images/grpcmultipledashboard.png)
+![`grpc` Iter8 dashboard with multiple endpoints](../../user-guide/performance/tasks/images/grpcmultipledashboard.png)
 
 ## View logs
 Logs are useful for debugging.
@@ -99,4 +99,4 @@ kubectl delete svc/grafana deploy/grafana
 ```
 
 ??? note "Some variations and extensions of this performance test"
-    1. The [grpc task](../user-guide/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.
+    1. The [grpc task](../../user-guide/performance/tasks/grpc.md) can be configured with load related parameters such as the total number of requests, requests per second, or number of concurrent connections.

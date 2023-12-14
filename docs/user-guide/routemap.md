@@ -28,7 +28,7 @@ versions:
     namespace: default
 ```
 
-Note that the resources types are specified using a short name. In this example, `svc` and `deploy`. A short name is used to simplify the specification of the resources in a version. A mapping of short name to Kubernetes group, version, resource is captured in the configuration of the Iter8 controller. This set can be [extended](extensions.md) to include any types including custom resources; that is, those defined by a CRD.
+Note that the resources types are specified using a short name. In this example, `svc` and `deploy`. A short name is used to simplify the specification of the resources in a version. A mapping of short name to Kubernetes group, version, resource is captured in the configuration of the Iter8 controller. This set can be [extended](controller/extensions.md) to include any types including custom resources; that is, those defined by a CRD.
 
 A version may optionally specify an integer `weight` indicating the proportion of traffic that should be sent to it relative to other versions.
 
@@ -36,7 +36,7 @@ A version may optionally specify an integer `weight` indicating the proportion o
 
 A routing template is a Go template that is applied each time a new version becomes available or an old one goes away. Multiple templates can be defined/applied.
 
-THe application of the templates allows Iter8 to automatically reconfigure the routing when versions come and go. For example, the template created in the [blue-green release tutorial](../../getting-started/first-release.md) contains an Istio `VirtualService`. Applying the template to the available versions yields the necessary `VirtualSerivce` definition. In this tutorial, the template definition is:
+THe application of the templates allows Iter8 to automatically reconfigure the routing when versions come and go. For example, the template created in the [blue-green release tutorial](../getting-started/first-release.md) contains an Istio `VirtualService`. Applying the template to the available versions yields the necessary `VirtualSerivce` definition. In this tutorial, the template definition is:
 
 ```yaml
 blue-green:
@@ -80,7 +80,7 @@ blue-green:
 
 ## Implementation
 
-A routemap is implemented as an immutable `ConfigMap` with the following labels:
+A routemap is implemented as a `ConfigMap` with the following labels:
 - `iter8.tools/kind` with value `routemap`
 - `iter8.tools/version` with value corresponding the version of the controller being used
 

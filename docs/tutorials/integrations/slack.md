@@ -4,7 +4,7 @@ template: main.html
 
 # Use Iter8 to send a message to a Slack channel
 
-Iter8 provides a [`slack` task](../../user-guide/tasks/slack.md)  that sends a message to a Slack channel using a [webhook](https://api.slack.com/messaging/webhooks).
+Iter8 provides a [`slack` task](../../user-guide/performance/tasks/slack.md)  that sends a message to a Slack channel using a [webhook](https://api.slack.com/messaging/webhooks).
 
 ## Example
 
@@ -16,7 +16,7 @@ This task could provide important updates on a performance test over Slack, for 
 
 To summarize what will happen, you will create a new channel on Slack and configure a webhook, set up and run a performance test, and check if a message was sent to the channel.
 
-The `slack` task requires the URL of the Slack webhook. To see a full list of the `github` task parameters, see [here](../../user-guide/tasks/slack.md#parameters).
+The `slack` task requires the URL of the Slack webhook. To see a full list of the `github` task parameters, see [here](../../user-guide/performance/tasks/slack.md#parameters).
 
 1. Create a new channel in your Slack organization.
 2. Create a Slack app, enable incoming webhooks, and create a new incoming webhook. See [here](https://api.slack.com/messaging/webhooks).
