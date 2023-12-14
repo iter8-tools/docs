@@ -4,11 +4,11 @@ template: main.html
 
 # Using the SDK
 
-The basic steps to author a frontend application component using the Iter8 SDK are outlined below for *Node.js* and *Go*. Similar steps would be required for any gRPC supported language.
+The basic steps to author a frontend application component using the Iter8 SDK are outlined below for *Node.js* and *Go*. Similar steps would be required for any gRPC-supported language.
 
 ## Use/import language specific libraries
 
-The gRPC protocol buffer definition is used to generate language specific implementation. These files can be used directly or packaged and imported as a library. As examples, the [Node.js sample](https://github.com/iter8-tools/docs/tree/main/samples/abn-sample/frontend/node) uses manually generated files directly. On the other hand, the [Go sample](https://github.com/iter8-tools/docs/tree/main/samples/abn-sample/frontend/go) imports the library provided by the core Iter8 service implementation. In addition to the API specific methods, some general gRPC libraries are required.
+The gRPC protocol buffer definition is used to generate a language-specific implementation. These files can be used directly or packaged and imported as a library. As examples, the [Node.js sample](https://github.com/iter8-tools/docs/tree/main/samples/abn-sample/frontend/node) uses manually generated files directly. On the other hand, the [Go sample](https://github.com/iter8-tools/docs/tree/main/samples/abn-sample/frontend/go) imports the library provided by the core Iter8 service implementation. In addition to the API specific methods, some general gRPC libraries are required.
 
 === "Node.js"
     The manually generated node files [`abn_pd.js`](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/frontend/node/abn_pb.js) and [`abn_grpc_pb.js`](https://raw.githubusercontent.com/iter8-tools/docs/main/samples/abn-sample/frontend/node/abn_grpc_pb.js) used in the sample application can be copied and used without modification.

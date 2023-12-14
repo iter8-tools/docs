@@ -6,7 +6,7 @@ template: main.html
 
 This tutorial shows how Iter8 can be used to release a new version of an application using mirroring.
 When an application is mirrored, all requests are sent to the primary version of the application. 
-A percentage of requests are replicated and sent to the candidate version of the model. 
+A percentage of requests is replicated and sent to the candidate version of the model. 
 This percentage can be changed over time. Only the responses from the primary version are returned to the user.
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
@@ -85,7 +85,7 @@ app-version: httpbin-0
 ```
 
 ??? note "To send requests from outside the cluster"
-    To configure the release for traffic from outside the cluster, a suitable Istio `Gateway` is required. For example, this [sample gateway](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
+    To configure the release for traffic from outside the cluster, a suitable Istio `Gateway` is required ([for example](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml)). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
 
     (a) In a separate terminal, port-forward the ingress gateway:
     ```shell
