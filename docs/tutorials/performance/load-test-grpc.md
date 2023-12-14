@@ -4,9 +4,7 @@ template: main.html
 
 # Load test gRPC method
 
-Load test a Kubernetes gRPC service and visualizing the performance metrics with an Iter8 Grafana dashboard.
-
-See [Multiple gRPC methods](./load-test-http-multiple.md) for a tutorial that describes how to load test multiple methods from an gRPC service.
+Load test a Kubernetes gRPC service and visualize the performance metrics with an Iter8 Grafana dashboard.
 
 ![load-test-grpc](../images/grpc.png)
 

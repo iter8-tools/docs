@@ -8,12 +8,12 @@ The `release` chart can be easily extended to include other deployment environme
 
 ## Approach
 
-Modify the release chart after forking the [Iter8 project](https://github.com/iter8-tools/iter8). The chart to be extended is in the `charts/release` sub-folder. The file `release.yaml` is the starting point. For each valid environment, the chart contains a set of files defining the resources that should be created.  These may include:
+The progressive release chart can be found in the `charts/release` sub-folder of the [Iter8 GitHub repository](https://github.com/iter8-tools/iter8). The file `release.yaml` is the starting point. For each valid environment, the chart contains a set of files defining the resources that should be created.  These may include:
 
-- the application object(s)
+- application object(s)
 - [routemaps](../routemap.md) for different traffic patterns
-- configmaps used to specify request distribution (blue-green pattern only)
-- a service defining a common entry for requests (if needed)
+- configmaps used to specify request percentages
+- service defining a common entry for requests (if needed)
 
 Note that the file naming helps identify related template files.
 
@@ -21,12 +21,12 @@ Note that the file naming helps identify related template files.
 
 For example, to implement a blue-green release for Knative services, the following files could be added.
 
-- `_knative-istio.tpl` - describing the application objects should be deployed
-- `_knative-istio.version.ksvc.tpl` - describe the Knative service object that should be deployed for a version
-- `_knative-istio.blue-green.tpl` - identifies any objects that should be deployed to support the blue-green traffic pattern
+- `_knative-istio.tpl` - wrapper for all objects that should be deployed
+- `_knative-istio.version.ksvc.tpl` - the Knative service object that should be deployed for a version
+- `_knative-istio.blue-green.tpl` - wrapper for all objects that should be deployed to support the blue-green traffic pattern
 - `_knative-istio.blue-green.routemap.tpl` - the routemap definition
 - `_knative-istio.service.tpl` - a supporting external service
-- `_knative.helpers.tpl` - some supporting functions
+- `_knative.helpers.tpl` - supporting functions
 
 An implementation of these is [here](https://github.com/iter8-tools/docs/tree/v0.18.11/samples/knative-bg-extension).
 
@@ -50,7 +50,7 @@ The Iter8 controller will need to be extended to give permission to Iter8 to wat
 
 ## Using the modified chart
 
-Reference the location of the local copy of the chart instead of using the `--repo` and `--version` options. For example assuming the location is `$CHART`, a deployment of 2 versions of the Knative `hello` service with a 30-70 traffic split would be:
+Reference the location of the local copy of the chart instead of using the `--repo` and `--version` options. For example assuming the location is `$CHART`, a deployment of two versions of the Knative `hello` service with a 30-70 traffic split would be:
 
 ```shell
 cat <<EOF | helm upgrade --install hello $CHART -f -

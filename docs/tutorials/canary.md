@@ -83,7 +83,7 @@ app-version: httpbin-0
 ```
 
 ??? note "To send requests from outside the cluster"
-    To configure the release for traffic from outside the cluster, a suitable Istio `Gateway` is required. For example, this [sample gateway](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
+    To configure the release for traffic from outside the cluster, a suitable Istio `Gateway` is required ([for example](https://raw.githubusercontent.com/kalantar/docs/release/samples/iter8-sample-gateway.yaml)). When using the Iter8 `release` chart, set the `gateway` field to the name of your `Gateway`. Finally, to send traffic:
 
     (a) In a separate terminal, port-forward the ingress gateway:
     ```shell
