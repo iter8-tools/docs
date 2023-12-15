@@ -4,14 +4,14 @@ template: main.html
 
 # Metrics store
 
-Iter8 provides a metrics store for A/B/n and peformance metrics. This simplifies the set up and execution test scenarios. Iter8 currently supports the following databases:
+Iter8 provides a metrics store for A/B/n and performance metrics. This simplifies the set up and execution test scenarios. Iter8 currently supports the following databases:
 
 - [BadgerDB](https://dgraph.io/docs/badger/)
 - [Redis](https://redis.com/)
 
 By default, Iter8 uses BadgerDB. Note, however, that BadgerDB is not suitable for production use and is only suitable for a single instance of Iter8. Support for other databases is in the works. See [below](#contribute-a-new-metrics-store-implementation) for details on how you can contribute additional implementations.
 
-## BadgerDB configuation options
+## BadgerDB configuration options
 
 BadgerDB is a file system based database. When installing Iter8, the following options can be configured:
 

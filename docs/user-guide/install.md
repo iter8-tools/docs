@@ -4,7 +4,7 @@ template: main.html
 
 # Install options
 
-By default, Iter8 uses [BadgerDB]() to store metrics from A/B/n and performanc tests. BadgerDB is not suitable for production use. To install for production, use another database. Database options are listed [here](metrics_store.md).
+By default, Iter8 uses [BadgerDB]() to store metrics from A/B/n and performance tests. BadgerDB is not suitable for production use. To install for production, use another database. Database options are listed [here](metrics_store.md).
 
 ## Install with `helm`
 

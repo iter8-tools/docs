@@ -22,7 +22,7 @@ Currently available tasks are:
 - [`http`](tasks/http.md) - generate synthetic load and capture performance metrics for HTTP endpoints
 - [`grpc`](tasks/grpc.md) - generate synthetic load and capture performance metrics for gRPC methods
 - [`ready`](tasks/ready.md) - test readiness of an object
-- [`github`](tasks/github.md) - send a github notifcation
+- [`github`](tasks/github.md) - send a github notification
 - [`slack`](tasks/slack.md) - send a slack notification
 
 ## Global parameters
