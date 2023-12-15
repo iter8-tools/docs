@@ -16,7 +16,7 @@ For example, to extend the chart to support A/B/n testing for Knative services, 
 - `_knative-istio.none.routemap.tpl` - the routemap definition
 - `_knative.helpers.tpl` - supporting functions
 
-An implementation of these is [here](https://github.com/iter8-tools/docs/tree/v0.18.11/samples/knative-abn-extension).
+An implementation of these is [here](https://github.com/iter8-tools/docs/tree/v0.18.13/samples/knative-abn-extension).
 
 Note that many of these additions are the same as in the example for progressive release. Of the above files, only `_knative-istio.tpl` is different. 
 

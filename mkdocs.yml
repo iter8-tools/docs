@@ -117,7 +117,7 @@ nav:
   - Your first progressive release: getting-started/first-release.md
   - Your first A/B test: getting-started/first-abn.md
   - Your first performance test: getting-started/first-performance.md
-  - Installation and Configuration: getting-started/install.md
+  - Installation: getting-started/install.md
   - Concepts: getting-started/concepts.md
   - Advantages: getting-started/advantages.md
   - Get help: getting-started/help.md
@@ -157,10 +157,8 @@ nav:
     - Slack:  tutorials/integrations/slack.md
 - User guide:
   - Topics:
-    - Running Iter8:
-      - Install options: user-guide/controller/install.md
-      - Uninstall options: user-guide/controller/uninstall.md
-      - Watching new resource types: user-guide/controller/extensions.md
+    - Install options: user-guide/install.md
+    - Uninstall options: user-guide/uninstall.md
     - Progressive release: 
       - About: user-guide/progressive-release/about.md
       - Using new resource types: user-guide/progressive-release/extension.md

@@ -6,7 +6,7 @@ template: main.html
 
 ## Use any resources
 
-Iter8 allows an application to be composed of resources of any types, including custom resources; that is, those defined by custom resource definitions (CRDs). In Iter8, the set of resources that make up an application version is declarative making it easy to [extend](../user-guide/controller/extensions.md) for new resource types. The same extension mechanism also allows Iter8 to be used with any service mesh or ingress.
+Iter8 allows an application to be composed of resources of any types, including custom resources; that is, those defined by custom resource definitions (CRDs). In Iter8, the set of resources that make up an application version is declarative making it easy to extend for new resource types. The same extension mechanism also allows Iter8 to be used with any service mesh or ingress.
 
 ## A/B/n testing of backend components
 
