@@ -4,16 +4,16 @@ template: main.html
 
 # Extending progressive release to other deployment environments
 
-The `release` chart can be easily extended to include other deployment environments. Please consider contributing any extensions to Iter8. We briefly describe how to extend the chart for an [Knative](https://knative.dev/docs/) application. 
+The Iter8 `release` chart can be easily extended for applications/ML models composed of new types. We briefly describe how to extend the chart for an [Knative](https://knative.dev/docs/) application. 
 
 ## Approach
 
-The progressive release chart can be found in the `charts/release` sub-folder of the [Iter8 GitHub repository](https://github.com/iter8-tools/iter8). The file `release.yaml` is the starting point. For each valid environment, the chart contains a set of files defining the resources that should be created.  These may include:
+The `release` chart can be found in the `charts/release` sub-folder of the [Iter8 GitHub repository](https://github.com/iter8-tools/iter8). The file `release.yaml` is the starting point. For each valid environment, the chart contains a set of files defining the resources that should be created.  These may include:
 
 - application object(s)
 - [routemaps](../routemap.md) for different traffic patterns
 - configmaps used to specify request percentages
-- service defining a common entry for requests (if needed)
+- a service defining a common entry for requests (if needed)
 
 Note that the file naming helps identify related template files.
 
@@ -30,6 +30,8 @@ For example, to implement a blue-green release for Knative services, the followi
 
 An implementation of these is [here](https://github.com/iter8-tools/docs/tree/v0.18.11/samples/knative-bg-extension).
 
+Note that this sample only implements the blue-green traffic pattern. A more complete implementation would include canary and mirroring traffic patterns.
+
 Finally, update `release.yaml` to include `knative-istio` as a valid option:
 
 ```tpl
@@ -39,7 +41,7 @@ Finally, update `release.yaml` to include `knative-istio` as a valid option:
 
 ## Extend the controller
 
-The Iter8 controller will need to be extended to give permission to Iter8 to watch Knative service objects. Configure the deployment of the controller to enable this, (re-)install the controller using the following additional options:
+The Iter8 controller will need to be restarted with permission to watch Knative service objects. Re-install the controller using the following additional options:
 
 ```shell
 --set resourceTypes.ksvc.Group=serving.knative.dev \
@@ -84,6 +86,10 @@ application:
   strategy: blue-green
 EOF
 ```
+
+## Contribute your extensions
+
+Please consider [contributing](../../contributing.md) any extensions to Iter8 by submitting a pull request.
 
 <!-- 
 At the time of writing, this was tested locally as follows. These may not be minimal requirements.
