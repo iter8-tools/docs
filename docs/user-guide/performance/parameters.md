@@ -15,7 +15,7 @@ helm upgrade --install \
 --set http.url=https://httpbin.org/get
 ```
 
-All the parameters of the performance test (including of all included tasks) are optional unless otherwise documented. The task0specific parameters are documented in the task documentation.
+All the parameters of the performance test (including of all included tasks) are optional unless otherwise documented. The task-specific parameters are documented in the task documentation.
 
 Currently available tasks are:
 
