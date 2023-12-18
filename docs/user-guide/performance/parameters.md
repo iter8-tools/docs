@@ -4,9 +4,9 @@ template: main.html
 
 # Performance test parameters
 
-Iter8 is built on [Helm](https://helm.sh). Performance tests can be configured with parameters using the same mechanisms provided by Helm for [setting chart values](https://helm.sh/docs/chart_template_guide/values_files/#helm). 
+Iter8 performance tests are run using [Helm](https://helm.sh). Tests can be configured with parameters in the same manner as any other Helm command -- using [chart values](https://helm.sh/docs/chart_template_guide/values_files/#helm) and the `--set` option.
 
-The set of configurable parameters for a performance test includes the parameters of the tasks involved in the test. Iter8 uses the convention that the parameters of a task are nested under the name of that task. In the following example, the `url` parameter of the `http` task is nested under the `http` object.
+The `tasks` parameter is used to identify the sequence of tasks that should be executed. Each task has its own parameters. Iter8 uses the convention that the parameters of a task are nested under the name of that task. In the following example, the `url` parameter of the `http` task is nested under the `http` object.
 
 ```shell
 helm upgrade --install \
@@ -15,11 +15,19 @@ helm upgrade --install \
 --set http.url=https://httpbin.org/get
 ```
 
-All the parameters of the performance test (including of all included tasks) are optional unless otherwise documented.
+All the parameters of the performance test (including of all included tasks) are optional unless otherwise documented. The task-specific parameters are documented in the task documentation.
 
-## Parameters
+Currently available tasks are:
 
-Global performance test parameters are described here. Task specific parameters are documented in each task description.
+- [`http`](tasks/http.md) - generate synthetic load and capture performance metrics for HTTP endpoints
+- [`grpc`](tasks/grpc.md) - generate synthetic load and capture performance metrics for gRPC methods
+- [`ready`](tasks/ready.md) - check readiness of an object
+- [`github`](tasks/github.md) - send a GitHub notification
+- [`slack`](tasks/slack.md) - send a Slack notification
+
+## Global parameters
+
+In addition to task-specific parameters, the following global parameters are available:
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |

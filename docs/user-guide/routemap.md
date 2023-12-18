@@ -28,7 +28,7 @@ versions:
     namespace: default
 ```
 
-Note that the resources types are specified using a short name. In this example, `svc` and `deploy`. A short name is used to simplify the specification of the resources in a version. A mapping of short name to Kubernetes group, version, resource is captured in the configuration of the Iter8 controller. This set can be [extended](controller/extensions.md) to include any types including custom resources; that is, those defined by a CRD.
+Note that the resources types are specified using a short name. In this example, `svc` and `deploy`. A short name is used to simplify the specification of the resources in a version. A mapping of short name to Kubernetes group, version, resource is captured in the configuration of the Iter8 controller. This set can be [extended](progressive-release/extension.md) to include any types including custom resources; that is, those defined by a CRD.
 
 A version may optionally specify an integer `weight` indicating the proportion of traffic that should be sent to it relative to other versions.
 

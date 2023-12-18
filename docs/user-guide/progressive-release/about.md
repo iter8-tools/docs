@@ -23,5 +23,5 @@ The chart provided by Iter8 supports many common deployment scenarios including:
 
 ## Other deployment environments
 
-The `release` chart can be easily [extended](extending.md) to include other deployment environments. Please consider contributing any extensions to Iter8.
+The `release` chart can be easily [extended](extension.md) to include other deployment environments. Please consider contributing any extensions to Iter8.
 

@@ -117,6 +117,7 @@ nav:
   - Your first progressive release: getting-started/first-release.md
   - Your first A/B test: getting-started/first-abn.md
   - Your first performance test: getting-started/first-performance.md
+  - Installation: getting-started/install.md
   - Concepts: getting-started/concepts.md
   - Advantages: getting-started/advantages.md
   - Get help: getting-started/help.md
@@ -133,8 +134,9 @@ nav:
     - Multiple gRPC methods: tutorials/performance/load-test-grpc-multiple.md
   - Integrations:
     - Kubernetes Gateway API:
-      - Progressive blue-green release: tutorials/integrations/kubernetes-gateway-api/blue-green.md
-      - Progressive canary release: tutorials/integrations/kubernetes-gateway-api/canary.md
+      - Progressive release:
+        - Blue-green: tutorials/integrations/kubernetes-gateway-api/blue-green.md
+        - Canary: tutorials/integrations/kubernetes-gateway-api/canary.md
     - Kserve:
       - Progressive release:
         - Blue-green: tutorials/integrations/kserve/blue-green.md
@@ -155,17 +157,15 @@ nav:
     - Slack:  tutorials/integrations/slack.md
 - User guide:
   - Topics:
-    - Iter8 Controller:
-      - Install options: user-guide/controller/install.md
-      - Uninstall options: user-guide/controller/uninstall.md
-      - Watching new resource types: user-guide/controller/extensions.md
+    - Install options: user-guide/install.md
+    - Uninstall options: user-guide/uninstall.md
     - Progressive release: 
       - About: user-guide/progressive-release/about.md
-      - Using new resource types: user-guide/progressive-release/extending.md
+      - Using new resource types: user-guide/progressive-release/extension.md
     - A/B/n testing:
       - About: user-guide/abn/about.md
-      - Configuration: user-guide/abn/configuration.md
       - Using the SDK: user-guide/abn/using-sdk.md
+      - Using new resource types: user-guide/abn/extension.md
     - Performance testing: 
       - Parameters: user-guide/performance/parameters.md
       - Test Tasks:
@@ -174,6 +174,7 @@ nav:
         - ready: user-guide/performance/tasks/ready.md
         - github: user-guide/performance/tasks/github.md
         - slack: user-guide/performance/tasks/slack.md
+      - Using new resource types: user-guide/performance/extension.md
     - Routemaps: user-guide/routemap.md
     - Metrics store options: user-guide/metrics_store.md
 - Contributing: contributing.md
