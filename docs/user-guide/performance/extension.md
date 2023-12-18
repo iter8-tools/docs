@@ -4,7 +4,7 @@ template: main.html
 
 # Using new resource types
 
-The Iter8 performance test task [`ready`](tasks/ready.md) tests that an object exists and is ready. To use this task with new resource types, including CRDs, add the new resource type to the list of known types defined in the default [`values.yaml` file](https://github.com/iter8-tools/iter8/blob/v0.18.3/charts/iter8/values.yaml) for the chart.  Alternatively, the new type can be specified at run time with the `--set` option.
+The Iter8 performance test task [`ready`](tasks/ready.md) ensures that an object exists and is ready. To use this task with new resource types, including CRDs, add the new resource type to the list of known types defined in the default [`values.yaml` file](https://github.com/iter8-tools/iter8/blob/v0.18.3/charts/iter8/values.yaml) for the chart.  Alternatively, the new type can be specified at run time with the `--set` option.
 
 ### Example
 

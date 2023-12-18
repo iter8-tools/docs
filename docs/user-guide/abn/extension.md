@@ -4,7 +4,7 @@ template: main.html
 
 # Using new resource types
 
-Like progressive release, A/B/n tests use the Iter8 `release` chart. Extending this chart for a new resource type is similar to [extending it for progressive release](../progressive-release/extension.md). The key difference in in the definition of the [routemap](../routemap.md). We briefly describe how to extend the chart for an [Knative](https://knative.dev/docs/) application.
+Like progressive release, A/B/n tests use the Iter8 `release` chart. Extending this chart for a new resource type is similar to [extending it for progressive release](../progressive-release/extension.md). The key difference is in the definition of the [routemap](../routemap.md). We briefly describe how to extend the chart for an [Knative](https://knative.dev/docs/) application.
 
 ## Example (Knative Service)
 
