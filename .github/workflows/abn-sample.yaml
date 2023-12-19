@@ -11,7 +11,7 @@ jobs:
   build-and-push-backend:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Get version
@@ -28,12 +28,12 @@ jobs:
           owner=iter8
         fi
         echo "OWNER=$owner" >> $GITHUB_ENV
-    - uses: docker/setup-buildx-action@v2
-    - uses: docker/login-action@v2
+    - uses: docker/setup-buildx-action@v3
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SECRET }}
-    - uses: docker/build-push-action@v4
+    - uses: docker/build-push-action@v5
       with:
         platforms: linux/amd64,linux/arm64
         tags: ${{ env.OWNER }}/abn-sample-backend:${{ env.VERSION }}-v1,${{ env.OWNER }}/abn-sample-backend:${{ env.VERSION }}-v2,${{ env.OWNER }}/abn-sample-backend:${{ env.MAJOR_MINOR_VERSION }}-v1,${{ env.OWNER }}/abn-sample-backend:${{ env.MAJOR_MINOR_VERSION }}-v2,${{ env.OWNER }}/abn-sample-backend:latest
@@ -48,7 +48,7 @@ jobs:
       matrix:
         lang: [go, node]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Get version
@@ -65,12 +65,12 @@ jobs:
           owner=iter8
         fi
         echo "OWNER=$owner" >> $GITHUB_ENV
-    - uses: docker/setup-buildx-action@v2
-    - uses: docker/login-action@v2
+    - uses: docker/setup-buildx-action@v3
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SECRET }}
-    - uses: docker/build-push-action@v4
+    - uses: docker/build-push-action@v5
       with:
         platforms: linux/amd64,linux/arm64
         tags: ${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:${{ env.VERSION }},${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:${{ env.MAJOR_MINOR_VERSION }},${{ env.OWNER }}/abn-sample-frontend-${{ matrix.lang }}:latest
@@ -88,7 +88,7 @@ jobs:
       matrix:
         lang: [go]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Get version
@@ -105,12 +105,12 @@ jobs:
           owner=iter8
         fi
         echo "OWNER=$owner" >> $GITHUB_ENV
-    - uses: docker/setup-buildx-action@v2
-    - uses: docker/login-action@v2
+    - uses: docker/setup-buildx-action@v3
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SECRET }}
-    - uses: docker/build-push-action@v4
+    - uses: docker/build-push-action@v5
       with:
         platforms: linux/amd64,linux/arm64
         tags: ${{ env.OWNER }}/abn-sample-mm-frontend-${{ matrix.lang }}:${{ env.VERSION }},${{ env.OWNER }}/abn-sample-mm-frontend-${{ matrix.lang }}:${{ env.MAJOR_MINOR_VERSION }},${{ env.OWNER }}/abn-sample-mm-frontend-${{ matrix.lang }}:latest
@@ -127,7 +127,7 @@ jobs:
       matrix:
         lang: [go]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Get version
@@ -144,12 +144,12 @@ jobs:
           owner=iter8
         fi
         echo "OWNER=$owner" >> $GITHUB_ENV
-    - uses: docker/setup-buildx-action@v2
-    - uses: docker/login-action@v2
+    - uses: docker/setup-buildx-action@v3
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SECRET }}
-    - uses: docker/build-push-action@v4
+    - uses: docker/build-push-action@v5
       with:
         platforms: linux/amd64,linux/arm64
         tags: ${{ env.OWNER }}/abn-sample-kserve-http-frontend-${{ matrix.lang }}:${{ env.VERSION }},${{ env.OWNER }}/abn-sample-kserve-http-frontend-${{ matrix.lang }}:${{ env.MAJOR_MINOR_VERSION }},${{ env.OWNER }}/abn-sample-kserve-http-frontend-${{ matrix.lang }}:latest
@@ -166,7 +166,7 @@ jobs:
       matrix:
         lang: [go]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Get version
@@ -183,12 +183,12 @@ jobs:
           owner=iter8
         fi
         echo "OWNER=$owner" >> $GITHUB_ENV
-    - uses: docker/setup-buildx-action@v2
-    - uses: docker/login-action@v2
+    - uses: docker/setup-buildx-action@v3
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SECRET }}
-    - uses: docker/build-push-action@v4
+    - uses: docker/build-push-action@v5
       with:
         platforms: linux/amd64,linux/arm64
         tags: ${{ env.OWNER }}/abn-sample-kserve-grpc-frontend-${{ matrix.lang }}:${{ env.VERSION }},${{ env.OWNER }}/abn-sample-kserve-grpc-frontend-${{ matrix.lang }}:${{ env.MAJOR_MINOR_VERSION }},${{ env.OWNER }}/abn-sample-kserve-grpc-frontend-${{ matrix.lang }}:latest
