@@ -5,6 +5,7 @@ apis
 ArgoCD
 AutoX
 backend
+backends
 BadgerDB
 benchmarking
 Cha
