@@ -47,7 +47,7 @@ A simple sample two-tier application using the Iter8 SDK is provided. Note that 
     Release an initial version of the backend named `backend`:
 
     ```shell
-    cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+    cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
     environment: deployment
     application: 
       port: 8091
@@ -80,7 +80,7 @@ Recommendation: {"Id":19,"Name":"sample","Source":"backend-74ff88c76d-nb87j"}
 A candidate version of the *backend* component can be deployed simply by adding a second version to the list of versions:
 
 ```shell
-cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment
 application: 
   port: 8091
@@ -118,7 +118,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 * URL: `http://iter8.default:8080/abnDashboard`
 * Query string: `namespace=default&application=backend`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Copy and paste the contents of the [`abn` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/abn.json) into the text box and *load* it. Associate it with the JSON API data source above.
 
 The Iter8 dashboard allows you to compare the behavior of the two versions of the backend component against each other and select a winner. Since user requests are being sent by the load generation script, the values in the report may change over time. The Iter8 dashboard will look like the following:
 
@@ -131,7 +131,7 @@ Once you identify a winner, it can be promoted, and the candidate version delete
 To promote the candidate version (`backend-candidate-1`), re-release the application, updating the image of the primary (the first) version to use the image of the candidate version and remove the candidate version:
 
 ```shell
-cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install backend --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment
 application: 
   port: 8091

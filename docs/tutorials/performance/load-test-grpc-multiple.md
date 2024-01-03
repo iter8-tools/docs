@@ -32,7 +32,7 @@ This tutorial expands on the tutorial [Single gRPC method](./load-test-grpc.md) 
 
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 routeguide-test iter8 \
 --set "tasks={ready,grpc}" \
 --set ready.deploy=routeguide \
 --set ready.service=routeguide \
@@ -66,7 +66,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 * URL: `http://iter8.default:8080/grpcDashboard` 
 * Query string: `namespace=default&test=routeguide-test`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`grpc` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/grpc.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
 The Iter8 dashboard will look like the following:
 

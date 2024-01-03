@@ -115,7 +115,7 @@ docker push $IMG
 
 To install a development build of the controller, set the `image` property to the name of the Docker image $IMG:
 
-```helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18 contoller \
+```helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 1.1 contoller \
 --set image=$IMG```
 
 ### iter8-tools/docs

@@ -34,7 +34,7 @@ Deploy the initial version of the application ([httpbin](https://httpbin.org/)) 
     ```
 
 ```shell
-cat <<EOF | helm -n test upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm -n test upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment-gtw
 application: 
   versions:
@@ -94,7 +94,7 @@ app-version: httpbin-0
 A candidate can deployed by simply adding a second version to the list of versions comprising the application:
 
 ```shell
-cat <<EOF | helm -n test upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm -n test upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment-gtw
 application: 
   versions:
@@ -132,7 +132,7 @@ app-version: httpbin-1
 To modify the request distribution between the versions, add a `weight` to each version. The weights are relative to each other.
 
 ```shell
-cat <<EOF | helm -n test upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm -n test upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment-gtw
 application: 
   versions:
@@ -161,7 +161,7 @@ You can verify the routing configuration by inspecting the `HTTPRoute` and/or by
 The candidate can be promoted by redefining the primary version and removing the candidate:
 
 ```shell
-cat <<EOF | helm -n test upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm -n test upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment-gtw
 application: 
   versions:

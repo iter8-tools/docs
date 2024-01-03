@@ -12,7 +12,7 @@ There are different strategies for distributing traffic between the primary and 
 - **canary** - Requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. The remaining requests go to the primary version.
 - **mirrored** - All requests are sent to the primary version. A percentage of requests is replicated and sent to a candidate version of the model. This percentage can be changed over time. Only responses from the primary version are returned to the user.
 
-Progressive release uses the Iter8 `release` Helm chart. Options are described in the default [values.yaml](https://github.com/iter8-tools/iter8/blob/v0.18.6/charts/release/values.yaml) file. The progressive release tutorials show how it can be used to progressively release versions of an application or ML model.
+Progressive release uses the Iter8 `release` Helm chart. Options are described in the default [values.yaml](https://github.com/iter8-tools/iter8/blob/v1.1.1/charts/release/values.yaml) file. The progressive release tutorials show how it can be used to progressively release versions of an application or ML model.
 
 The chart provided by Iter8 supports many common deployment scenarios including:
 

@@ -30,7 +30,7 @@ The chart provides the configuration needed for Iter8 to automatically deploy ap
 Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the release strategy to be used:
 
 ```shell
-cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment-istio
 application: 
   versions:
@@ -101,7 +101,7 @@ app-version: httpbin-0
 A candidate can deployed by simply adding a second version to the list of versions comprising the application:
 
 ```shell
-cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment-istio
 application: 
   versions:
@@ -139,7 +139,7 @@ app-version: httpbin-0
 To modify the percentage of traffic mirrored, set the weight in the candidate version:
 
 ```shell
-cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment-istio
 application: 
   versions:
@@ -167,7 +167,7 @@ You can verify the routing configuration by inspecting the `VirtualService` and/
 The candidate can be promoted by redefining the primary version and removing the candidate:
 
 ```shell
-cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install httpbin --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: deployment-istio
 application: 
   versions:

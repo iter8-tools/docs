@@ -31,7 +31,7 @@ The chart provides the configuration needed for Iter8 to automatically deploy ap
 Deploy the initial version of the model using the Iter8 `release` chart by identifying the environment into which it should be deployed, a list of the versions to be deployed (only one here), and the release strategy to be used:
 
 ```shell
-cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: kserve
 application: 
   metadata:
@@ -121,7 +121,7 @@ app-version: wisdom-0
 A candidate version of the model can be deployed simply by adding a second version to the list of versions comprising the application:
 
 ```shell
-cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: kserve
 application: 
   metadata:
@@ -164,7 +164,7 @@ app-version: wisdom-1
 To modify the request distribution between versions, add a `weight` to each version. The weights are relative to each other.
 
 ```shell
-cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: kserve
 application: 
   metadata:
@@ -198,7 +198,7 @@ You can verify the routing configuration by inspecting the `VirtualService` and/
 The candidate model can be promoted by redefining the primary version and removing the candidate:
 
 ```shell
-cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 0.18 -f -
+cat <<EOF | helm upgrade --install wisdom --repo https://iter8-tools.github.io/iter8 release --version 1.1 -f -
 environment: kserve
 application: 
   metadata:

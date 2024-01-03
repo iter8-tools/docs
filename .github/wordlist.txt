@@ -5,6 +5,7 @@ apis
 ArgoCD
 AutoX
 backend
+backends
 BadgerDB
 benchmarking
 Cha
@@ -70,6 +71,7 @@ png
 PRs
 protobuf
 protoc
+provisioner
 quickstart
 roadmap
 routemap
