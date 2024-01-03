@@ -10,7 +10,7 @@ The `tasks` parameter is used to identify the sequence of tasks that should be e
 
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.url=https://httpbin.org/get
 ```

@@ -13,7 +13,7 @@ In this performance test, the `grpc` task generates call requests for a gRPC ser
 Single method:
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -24,7 +24,7 @@ helm upgrade --install \
 Multiple methods:
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -62,7 +62,7 @@ In the following example, all three endpoints will use the default `timeout` of 
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -78,7 +78,7 @@ In the following example, the `getFeature` and `listFeatures` endpoints will use
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -94,7 +94,7 @@ In the following example, all three endpoints will use a `qps` of `40s`.
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -111,7 +111,7 @@ In the following example, the `getFeature` and `listFeatures` endpoints will use
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -132,7 +132,7 @@ Further more, set parameters will trickle down to the endpoints.
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 routeguide-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 routeguide-test iter8 \
 --set "tasks={grpc}" \
 --set grpc.host=routeguide.default:50051 \
 --set grpc.protoURL=https://raw.githubusercontent.com/grpc/grpc-go/v1.52.0/examples/route_guide/routeguide/route_guide.proto \
@@ -150,7 +150,7 @@ In this example, all three endpoints will have a `skipFirst` of 5.
 
 ## Grafana Dashboard
 
-The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/grpc.json).
+The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/grpc.json).
 
 Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the dashboard as follows:
 
@@ -159,7 +159,7 @@ Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the d
     * URL: `$GRAFANA_URL/grpcDashboard`
     * Query string: `namespace=<namespace>&test=<test name>`
 3. Import the `grpc` Iter8 Grafana dashboard
-    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/grpc.json) into the text box
+    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/grpc.json) into the text box
 
 You will see a visualization of the performance test like the following:
 

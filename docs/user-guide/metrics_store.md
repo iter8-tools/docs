@@ -30,7 +30,7 @@ kubectl expose deploy redis --port=6379
 Run Iter8 with the metrics store implementation set to `redis` and specify its endpoint:
 
 ```shell
-helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18 iter8 controller  \
+helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 1.1 iter8 controller  \
 --set clusterScoped=true \
 --set metrics.implementation=redis \
 --set metrics.redis.addresss=redis:6379

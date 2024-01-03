@@ -113,7 +113,7 @@ EOF
 kind create cluster --name knative --config clusterconfig.yaml
 (4) Install Knative Serving (https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml) inclusing Istio as the networking layer
 (5) Run Iter8
-helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 0.18 iter8 controller \
+helm upgrade --install --repo https://iter8-tools.github.io/iter8 --version 1.1 iter8 controller \
 --set clusterScoped=true --set resourceTypes.ksvc.Group=serving.knative.dev \
 --set resourceTypes.ksvc.Version=v1 \
 --set resourceTypes.ksvc.Resource=services \

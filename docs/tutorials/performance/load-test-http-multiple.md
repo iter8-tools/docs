@@ -32,7 +32,7 @@ template: main.html
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={ready,http}" \
 --set ready.deploy=httpbin \
 --set ready.service=httpbin \
@@ -64,7 +64,7 @@ Open Grafana in a browser by going to [http://localhost:3000](http://localhost:3
 * URL: `http://iter8.default:8080/httpDashboard` 
 * Query string: `namespace=default&test=httpbin-test`
 
-[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`http` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/http.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
+[Create a new dashboard](http://localhost:3000/dashboards) by *import*. Paste the contents of the [`http` Grafana dashboard](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/http.json) into the text box and *load* it. Associate it with the JSON API data source defined above.
 
 The Iter8 dashboard will look like the following:
 

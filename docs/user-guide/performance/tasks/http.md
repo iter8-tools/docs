@@ -13,7 +13,7 @@ In this performance test, the `http` task generates requests for `https://httpbi
 Single endpoint:
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.url=https://httpbin.org/get
 ```
@@ -21,7 +21,7 @@ helm upgrade --install \
 Multiple endpoints:
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
@@ -54,7 +54,7 @@ In the following example, all three endpoints will use the default `qps` (querie
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
@@ -66,7 +66,7 @@ In the following example, the `get` and `getAnything` endpoints will use the def
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.endpoints.get.url=http://httpbin.default/get \
 --set http.endpoints.getAnything.url=http://httpbin.default/anything \
@@ -79,7 +79,7 @@ In the following example, all three endpoints will use a `qps` (queries-per-seco
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.qps=10 \
 --set http.endpoints.get.url=http://httpbin.default/get \
@@ -92,7 +92,7 @@ In the following example, the `get` and `getAnything` endpoints will use a `qps`
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.qps=10 \
 --set http.endpoints.get.url=http://httpbin.default/get \
@@ -108,7 +108,7 @@ Further more, set parameters will trickle down to the endpoints.
 
 ```bash
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http}" \
 --set http.numRequests=50 \
 --set http.endpoints.get.url=http://httpbin.default/get \
@@ -121,7 +121,7 @@ In this example, all three endpoints will have a `numRequests` of 50.
 
 ## Grafana Dashboard
 
-The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/http.json).
+The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/http.json).
 
 Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the dashboard as follows:
 
@@ -130,7 +130,7 @@ Assuming the URL to the Grafana service is `$GRAFANA_URL`, you can install the d
     * URL: `$GRAFANA_URL/httpDashboard`
     * Query string: `namespace=<namespace>&test=<test name>`
 3. Import the `http` Iter8 Grafana dashboard
-    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/grafana/http.json) into the text box
+    * Copy and paste the contents of this [link](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/http.json) into the text box
 
 You will see a visualization of the performance test like the following:
 

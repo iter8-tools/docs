@@ -31,9 +31,9 @@ jobs:
       - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
 ```
 
-Note that this workflow has one job that will print out the `client_payload`. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/templates/notify/_payload-github.tpl) is configured with `client_payload` set to `.Report`, a summary of the performance test.
+Note that this workflow has one job that will print out the `client_payload`. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/templates/notify/_payload-github.tpl) is configured with `client_payload` set to `.Report`, a summary of the performance test.
 
-Also note that the `on.repository_dispatch.types` is set to `iter8`. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/templates/notify/_payload-github.tpl) is configured with `event_type` set to `iter8`. This indicates that once the `repository_dispatch` has been sent, only workflows on the default branch with `on.repository_dispatch.types` set to `iter8` will be triggered.
+Also note that the `on.repository_dispatch.types` is set to `iter8`. The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/templates/notify/_payload-github.tpl) is configured with `event_type` set to `iter8`. This indicates that once the `repository_dispatch` has been sent, only workflows on the default branch with `on.repository_dispatch.types` set to `iter8` will be triggered.
 
 3. Create a GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for the `token` parameter.
 4. Ensure that you have a Kubernetes cluster and the [`kubectl` CLI](https://kubernetes.io/docs/reference/kubectl/). You can create a local Kubernetes cluster using tools like [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/).
@@ -49,7 +49,7 @@ kubectl expose deploy httpbin --port=80
 7. Launch the performance test using the `github` task with the appropriate values.
 ```shell
 helm upgrade --install \
---repo https://iter8-tools.github.io/iter8 --version 0.18 httpbin-test iter8 \
+--repo https://iter8-tools.github.io/iter8 --version 1.1 httpbin-test iter8 \
 --set "tasks={http,github}" \
 --set http.url=http://httpbin.default/get \
 --set github.owner=<GitHub owner> \
@@ -59,8 +59,8 @@ helm upgrade --install \
 8. Verify that the workflow has been triggered after the performance test has completed.
 
 ??? note "Some variations and extensions of the `github` task"
-    The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/templates/notify/_payload-github.tpl) sends a summary of the performance test. 
+    The default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/templates/notify/_payload-github.tpl) sends a summary of the performance test. 
     
     In your workflow, you can read from the report and use that data for control flow or use snippets of that data in different actions. For example, you can check to see if there have been any task failures and take alternative actions.
 
-    You do not need to use the default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v0.18.3/templates/notify/_payload-github.tpl). You can provide your own payload by overriding the default of the `payloadTemplateURL`.
+    You do not need to use the default `github` task [payload](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/templates/notify/_payload-github.tpl). You can provide your own payload by overriding the default of the `payloadTemplateURL`.
