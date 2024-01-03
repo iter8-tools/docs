@@ -50,7 +50,7 @@ kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisione
 And set `metrics.badgerdb.storageClassName` when starting the Iter8 controller:
 
 ```shell
----set metrics.badgerdb.storageClassName=local-path
+--set metrics.badgerdb.storageClassName=local-path
 ```
 
 ## Install on OpenDataHub
