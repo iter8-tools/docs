@@ -11,4 +11,4 @@ Iter8 can be installed and configured to watch resources either in a single name
     --set clusterScoped=true
     ```
 
-For additional install options, see [Iter8 Installation](https://iter8.tools/1.1.0/user-guide/install/).
+For additional install options, see [Iter8 Installation](https://iter8.tools/1.1/user-guide/install/).
