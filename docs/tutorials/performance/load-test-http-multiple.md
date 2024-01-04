@@ -4,7 +4,7 @@ template: main.html
 
 # Load test multiple HTTP endpoints
 
-[Your first performance test](../../getting-started/first-performance.md) describes how to load test a single HTTP service. This tutorial expands on the previous tutorial and describes how to load test multiple HTTP endpoints.
+This tutorial expands on the [Your first performance test](../../getting-started/first-performance.md) tutorial by describing how to load test multiple HTTP endpoints.
 
 ![load-test-http](../../getting-started/images/kubernetesusage.png)
 

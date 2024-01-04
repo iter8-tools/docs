@@ -2,9 +2,9 @@
 template: main.html
 ---
 
-# Use Iter8 to send a message to a Slack channel
+# Use Iter8 to send a Slack message
 
-Iter8 provides a [`slack` task](../../user-guide/performance/tasks/slack.md)  that sends a message to a Slack channel using a [webhook](https://api.slack.com/messaging/webhooks).
+Iter8 provides a [`slack` task](../../user-guide/performance/tasks/slack.md) that can be used in a performance test to send a message to a Slack channel using a [webhook](https://api.slack.com/messaging/webhooks).
 
 ## Example
 

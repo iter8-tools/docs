@@ -119,7 +119,7 @@ Given a user session identifier, `Lookup()` returns a version number that can be
     ...
     ```
 
-## Using *WriteMetric()*
+## Using `WriteMetric()`
 
 As an example, a single metric named *sample_metric* is assigned a random value between 0 and 100 and written.
 

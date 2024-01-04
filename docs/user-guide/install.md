@@ -4,9 +4,7 @@ template: main.html
 
 # Install options
 
-By default, Iter8 uses [BadgerDB](https://dgraph.io/docs/badger/) to store metrics from A/B/n and performance tests. BadgerDB is not suitable for production use. To install for production, use [Redis](metrics_store.md).
-
-## Install with `helm`
+## With `helm`
 
 Iter8 can be installed and configured to watch resources either in a single namespace (namespace-scoped) or in the whole cluster (cluster-scoped). 
 
@@ -23,7 +21,7 @@ Iter8 can be installed and configured to watch resources either in a single name
 
 To install Iter8 in a non-default namespace, use the `-n` option.
 
-## Install with `kustomize`
+## With `kustomize`
 
 Iter8 can be installed and configured to watch resources either in a single namespace (namespace-scoped) or in the whole cluster (cluster-scoped). 
 
@@ -38,6 +36,10 @@ Iter8 can be installed and configured to watch resources either in a single name
     ```
 
 To install Iter8 in a non-default namespace, download the `kustomize` folder and modify the `namespace` field in the `kustomization.yaml` file.
+
+## Install for production use
+
+By default, Iter8 uses [BadgerDB](https://dgraph.io/docs/badger/) to store metrics from A/B/n and performance tests. BadgerDB is not suitable for production use. To install for production, use [Redis](metrics_store.md).
 
 ## Install using Rancher Desktop
 
@@ -55,4 +57,4 @@ And set `metrics.badgerdb.storageClassName` when starting the Iter8 controller:
 
 ## Install on OpenDataHub
 
-See [https://github.com/opendatahub-io-contrib/odh-contrib-manifests/tree/main/iter8](https://github.com/opendatahub-io-contrib/odh-contrib-manifests/tree/main/iter8)
+See [here](https://github.com/opendatahub-io-contrib/odh-contrib-manifests/tree/main/iter8).

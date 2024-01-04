@@ -2,9 +2,9 @@
 template: main.html
 ---
 
-# Trigger a GitHub Actions workflow during a performance test
+# Trigger a GitHub Actions workflow
 
-Iter8 provides a [`github` task](../../user-guide/performance/tasks/github.md) that sends a [`repository_dispatch`](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) which can trigger the workflows in the default branch of a GitHub repository.
+Iter8 provides a [`github` task](../../user-guide/performance/tasks/github.md) that can be used in a performance test to send a [`repository_dispatch`](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch) event to trigger workflows in the default branch of a GitHub repository.
 
 ## Example
 

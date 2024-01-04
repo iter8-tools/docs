@@ -119,7 +119,7 @@ helm upgrade --install \
 
 In this example, all three endpoints will have a `numRequests` of 50.
 
-## Grafana Dashboard
+## Grafana dashboard
 
 The results of the `http` task is visualized using the `http` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/http.json).
 

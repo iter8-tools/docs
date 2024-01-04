@@ -5,14 +5,18 @@ template: main.html
 # Mirrored release
 
 This tutorial shows how Iter8 can be used to release a new version of an application using mirroring.
+
 When an application is mirrored, all requests are sent to the primary version of the application. 
 A percentage of requests is replicated and sent to the candidate version of the model. 
 This percentage can be changed over time. Only the responses from the primary version are returned to the user.
+
+![Mirrored release](images/mirror.png)
+
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
 The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the mirrored release strategy.
 
-![Mirrored release](images/mirror.png)
+***
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. If using a local cluster (for example, [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/)), we recommend providing the cluster with at least 16GB of memory.

@@ -4,14 +4,18 @@ template: main.html
 
 # Your first progressive release
 
-This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green release strategy. 
+This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a blue-green release strategy.
+
 In a blue-green release, a percentage of requests are directed to a candidate version of the model. 
-This percentage can be changed over time. 
+This percentage can be changed over time.
+
+![Blue-green release](../tutorials/images/blue-green.png)
+
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
 The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the blue-green release strategy.
 
-![Blue-green release](../tutorials/images/blue-green.png)
+***
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. If using a local cluster (for example, [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/)), we recommend providing the cluster with at least 16GB of memory.
