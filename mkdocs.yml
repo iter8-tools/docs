@@ -168,7 +168,7 @@ nav:
       - Using new resource types: user-guide/abn/extension.md
     - Performance testing: 
       - Parameters: user-guide/performance/parameters.md
-      - Test Tasks:
+      - Tasks:
         - http: user-guide/performance/tasks/http.md
         - grpc: user-guide/performance/tasks/grpc.md
         - ready: user-guide/performance/tasks/ready.md

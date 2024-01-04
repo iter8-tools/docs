@@ -4,14 +4,18 @@ template: main.html
 
 # Canary release of a KServe ML model
 
-This tutorial shows how Iter8 can be used to release ML models hosted in a KServe environment using a canary release strategy. 
+This tutorial shows how Iter8 can be used to release ML models hosted in a KServe environment using a canary release strategy.
+
 In a canary release, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
 The remaining requests go to the primary, or initial, version of the model.
+
+![Canary release](../../images/canary.png)
+
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
 The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the canary release strategy.
 
-![Canary release](../../images/canary.png)
+***
 
 ???+ warning "Before you begin"
     1. Ensure that you have the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs installed.

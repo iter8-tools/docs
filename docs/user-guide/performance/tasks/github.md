@@ -8,7 +8,7 @@ Trigger GitHub workflows via a [repository_dispatch](https://docs.github.com/en/
 
 A `repository_dispatch` will trigger workflows in the default branch of the GitHub repository. By default, an summary of the performance test will also be sent.
 
-## Usage Example
+## Usage example
 
 ```shell
 helm upgrade --install \

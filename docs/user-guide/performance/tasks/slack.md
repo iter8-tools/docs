@@ -6,7 +6,7 @@ template: main.html
 
 Send an performance test summary in a message to a Slack channel using a [incoming webhook](https://api.slack.com/messaging/webhooks). 
 
-## Usage Example
+## Usage example
 
 ```shell
 helm upgrade --install \

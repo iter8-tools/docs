@@ -2,17 +2,15 @@
 template: main.html
 ---
 
-## Uninstall with `helm`
-
-If installed with `helm`, uninstall with:
+## With `helm`
 
 ```shell
 helm delete iter8
 ```
 
-## Uninstall with `kustomize`
+## With `kustomize`
 
-If installed with `kustomize`, uninstall with one of the following:
+Uninstall with one of the following, depending on whether Iter8 was installed and configured for a single namespace (namespace-scoped) or for the whole cluster (cluster-scoped).
 
 === "Namespace-scoped"
     ```shell

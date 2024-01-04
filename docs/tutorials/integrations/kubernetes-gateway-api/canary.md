@@ -4,16 +4,20 @@ template: main.html
 
 # Canary release
 
-This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a canary release strategy. 
+This tutorial shows how Iter8 can be used to release a basic Kubernetes application using a canary release strategy.
+
 In a canary release, inference requests that match a particular pattern, for example those that have a particular header, are directed to the candidate version of the model. 
 The remaining requests go to the primary, or initial, version of the model.
+
+![Canary release](../../images/canary.png)
+
 The user declaratively describes the desired application state at any given moment. 
 An Iter8 `release` chart assists users who describe the application state at any given moment. 
 The chart provides the configuration needed for Iter8 to automatically deploy application versions and configure the routing to implement the canary release strategy.
 
-![Canary release](../../images/canary.png)
-
 This tutorial uses the Kubernetes Gateway API to allow the use any service mesh that supports this API. In this case, we use demonstrate with [Linkerd](https://linkerd.io/).
+
+***
 
 ???+ warning "Before you begin"
     1. Ensure that you have a Kubernetes cluster and the [`kubectl`](https://kubernetes.io/docs/reference/kubectl/) and [`helm`](https://helm.sh/) CLIs. If using a local cluster (for example, [Kind](https://kind.sigs.k8s.io/) or [Minikube](https://minikube.sigs.k8s.io/docs/)), we recommend providing the cluster with at least 16GB of memory.

@@ -148,7 +148,7 @@ helm upgrade --install \
 
 In this example, all three endpoints will have a `skipFirst` of 5.
 
-## Grafana Dashboard
+## Grafana dashboard
 
 The results of the `grpc` task is visualized using the `grpc` Iter8 Grafana dashboard. The dashboard can be found [here](https://raw.githubusercontent.com/iter8-tools/iter8/v1.1.1/grafana/grpc.json).
 
