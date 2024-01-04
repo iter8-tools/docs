@@ -15,7 +15,7 @@ Iter8 simplifies a variety of traffic engineering and metrics-driven validation 
 
 **Performance testing for HTTP and gRPC endpoints:** To enable rapid testing, Iter8 provides synthetic load generation and notification support. A set of reusable tasks can be used to implement the desired test and notification behavior.
 
-## Design Principles
+## Design principles
 
 **Support all applications:** Iter8 does not limit what types of resources an application is composed of. It supports applications that are composed of any Kubernetes resources including those defined by custom resource definitions (CRDs). Adding support for a new resource type is both straightforward and declarative.
 

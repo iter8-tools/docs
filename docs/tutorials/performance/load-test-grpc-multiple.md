@@ -4,7 +4,7 @@ template: main.html
 
 # Load test multiple gRPC methods
 
-This tutorial expands on the [Single gRPC method](./load-test-grpc.md)tutorial by describing how to load test multiple gRPC methods.
+This tutorial expands on the [Single gRPC method](./load-test-grpc.md) tutorial by describing how to load test multiple gRPC methods.
 
 ![load-test-grpc](../images/grpc.png)
 
